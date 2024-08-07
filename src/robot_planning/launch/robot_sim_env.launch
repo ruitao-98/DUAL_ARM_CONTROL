@@ -1,0 +1,3 @@
+<launch>
+  <node pkg="robot_planning" type="robot_sim_env.py" name="robot_sim_env" output="screen"/>
+</launch>

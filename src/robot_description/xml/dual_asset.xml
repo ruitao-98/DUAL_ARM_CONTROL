@@ -1,0 +1,33 @@
+<mujoco>
+<!--    left_arm-->
+    <mesh name="left_base" file="left_base.STL"/>
+    <mesh name="left_link1" file="left_link1.STL"/>
+    <mesh name="left_link2" file="left_link2.STL"/>
+    <mesh name="left_link3" file="left_link3.STL"/>
+    <mesh name="left_link4" file="left_link4.STL"/>
+    <mesh name="left_link5" file="left_link5.STL"/>
+    <mesh name="left_link6" file="left_link6.STL"/>
+    <mesh name="left_force_sensor" file="left_force_sensor.STL"/>
+    <mesh name="gripper_body" file="gripper_body.STL"/>
+    <mesh name="left_gripper" file="left_gripper.STL"/>
+    <mesh name="right_gripper" file="right_gripper.STL"/>
+<!--    right_arm-->
+    <mesh name="table_base" file="table_base.STL"/>
+    <mesh name="right_link0" file="right_link0.STL"/>
+    <mesh name="right_link1" file="right_link1.STL"/>
+    <mesh name="right_link2" file="right_link2.STL"/>
+    <mesh name="right_link3" file="right_link3.STL"/>
+    <mesh name="right_link4" file="right_link4.STL"/>
+    <mesh name="right_link5" file="right_link5.STL"/>
+    <mesh name="right_link6" file="right_link6.STL"/>
+    <mesh name="force_sensor_link" file="force_sensor_link.STL"/>
+    <mesh name="tool_body" file="tool_body.STL"/>
+    <mesh name="screw_gear" file="screw_gear.STL"/>
+    <mesh name="side_left" file="side_left.STL"/>
+    <mesh name="right_side" file="right_side.STL"/>
+    <mesh name="left_arm_site" file="left_arm_site.STL"/>
+<!--    env-->
+<!--    <texture type="skybox" builtin="gradient" rgb1="0.3 0.5 0.7" rgb2="0 0 0" width="512" height="512" />-->
+    <texture name="texplane" type="2d" builtin="checker" rgb1=".2 .3 .4" rgb2=".1 0.15 0.2" width="512" height="512" mark="cross" markrgb=".8 .8 .8" />
+    <material name="matplane" reflectance="0.3" texture="texplane" texrepeat="1 1" texuniform="true" />
+</mujoco>

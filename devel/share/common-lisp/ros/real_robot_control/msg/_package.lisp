@@ -1,0 +1,27 @@
+(cl:defpackage real_robot_control-msg
+  (:use )
+  (:export
+   "<CURRENT_PUB>"
+   "CURRENT_PUB"
+   "<FORCE_PUB>"
+   "FORCE_PUB"
+   "<GRIPPER>"
+   "GRIPPER"
+   "<POSE>"
+   "POSE"
+   "<SCREWACTION>"
+   "SCREWACTION"
+   "<SCREWACTIONFEEDBACK>"
+   "SCREWACTIONFEEDBACK"
+   "<SCREWACTIONGOAL>"
+   "SCREWACTIONGOAL"
+   "<SCREWACTIONRESULT>"
+   "SCREWACTIONRESULT"
+   "<SCREWFEEDBACK>"
+   "SCREWFEEDBACK"
+   "<SCREWGOAL>"
+   "SCREWGOAL"
+   "<SCREWRESULT>"
+   "SCREWRESULT"
+  ))
+

@@ -1,0 +1,66 @@
+<mujoco model="dual_arm">
+
+  <compiler angle="radian" meshdir="../meshes/"/>
+  <option gravity="0 0 0" />
+  <option timestep="0.001"
+        tolerance="1e-10"
+        impratio="20"
+        noslip_iterations="200" iterations="20" integrator="implicitfast"/>
+
+  <option solver="Newton"/>
+  <size njmax="600" nconmax="150" nstack="300000"/>
+  <option cone="elliptic"/>
+  <option noslip_iterations="5"/>
+
+<!--  <default>-->
+<!--      <default class="dual_arm">-->
+<!--        <geom contype='1' conaffinity='1' condim='4'  margin="0" solref=".02 1" solimp=".8 .9 .001" />-->
+<!--        <material specular="0.5" shininess="0.25"/>-->
+<!--        <joint armature="0.1" damping="1" axis="0 0 1" range="-2.8973 2.8973" limited="true"/>-->
+<!--&lt;!&ndash;        <general dyntype="none" biastype="affine" ctrlrange="-2.8973 2.8973" forcerange="-87 87"/>&ndash;&gt;-->
+<!--        <default class="damp65">-->
+<!--&lt;!&ndash;            <joint damping="65" armature="0.04" damping="1" />&ndash;&gt;-->
+<!--            <joint damping="65"  />-->
+<!--        </default>-->
+<!--        <default class="damp45">-->
+<!--            <joint damping='45'/>-->
+<!--        </default>-->
+<!--        <default class="GRIPPER">-->
+<!--            <joint damping='1'/>-->
+<!--        </default>-->
+<!--      </default>-->
+<!--  </default>-->
+<default>
+    <geom contype='1' conaffinity='1' condim='4'  margin="0.0" solref=".02 1" solimp=".8 .9 .001" friction="0.4 0.005 0.0001" />
+    <joint armature="0.04" damping="1" limited="true" />
+    <!-- <geom friction="1 .005 .0001" conaffinity="1" condim="4" contype="1" margin="0" solref=".02 1" solimp=".8 .9 .001"/> -->
+
+</default>
+
+
+  <asset>
+    <include file="dual_asset.xml"/>
+<!--    <texture type="skybox" builtin="gradient" rgb1="1 1 1" rgb2=".6 .8 1" width="256" height="256"/>-->
+  </asset>
+
+  <include file="dual_right_arm.xml"/>
+  <worldbody>
+    <light directional="true" diffuse=".4 .4 .4" specular="0.1 0.1 0.1" pos="0 0 5.0" dir="0 0 -1" castshadow="false" />
+    <light directional="true" diffuse=".6 .6 .6" specular="0.2 0.2 0.2" pos="0 0 4" dir="0 0 -1" />
+<!--    <geom name="floor" pos="0 0 0" size="15 15 1" type="plane" material="matplane" margin="0.001" condim="3" friction="1 0.005 0.0001" />-->
+    <geom name="floor" pos="0 0 0" size="3 3 1" type="plane" material="matplane" margin="0.001" condim="3" friction="1 0.005 0.0001" />
+  </worldbody>
+
+  <actuator>
+    <include file="actuators.xml"/>
+
+  </actuator>
+
+  <sensor>
+    <include file="sensors.xml"/>
+  </sensor>
+
+
+
+
+</mujoco>

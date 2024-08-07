@@ -1,0 +1,114 @@
+arm:
+  type: position_controllers/JointTrajectoryController
+  joints:
+    - l_j1
+    - l_j2
+    - l_j3
+    - l_j4
+    - l_j5
+    - l_j6
+    - r_j1
+    - r_j2
+    - r_j3
+    - r_j4
+    - r_j5
+    - r_j6
+  gains:
+    l_j1:
+      p: 100
+      d: 1
+      i: 1
+      i_clamp: 1
+    l_j2:
+      p: 100
+      d: 1
+      i: 1
+      i_clamp: 1
+    l_j3:
+      p: 100
+      d: 1
+      i: 1
+      i_clamp: 1
+    l_j4:
+      p: 100
+      d: 1
+      i: 1
+      i_clamp: 1
+    l_j5:
+      p: 100
+      d: 1
+      i: 1
+      i_clamp: 1
+    l_j6:
+      p: 100
+      d: 1
+      i: 1
+      i_clamp: 1
+    r_j1:
+      p: 100
+      d: 1
+      i: 1
+      i_clamp: 1
+    r_j2:
+      p: 100
+      d: 1
+      i: 1
+      i_clamp: 1
+    r_j3:
+      p: 100
+      d: 1
+      i: 1
+      i_clamp: 1
+    r_j4:
+      p: 100
+      d: 1
+      i: 1
+      i_clamp: 1
+    r_j5:
+      p: 100
+      d: 1
+      i: 1
+      i_clamp: 1
+    r_j6:
+      p: 100
+      d: 1
+      i: 1
+      i_clamp: 1
+gripper:
+  type: position_controllers/JointTrajectoryController
+  joints:
+    - l_p1
+    - l_p2
+  gains:
+    l_p1:
+      p: 100
+      d: 1
+      i: 1
+      i_clamp: 1
+    l_p2:
+      p: 100
+      d: 1
+      i: 1
+      i_clamp: 1
+screw_tool:
+  type: position_controllers/JointTrajectoryController
+  joints:
+    - r_c1
+    - r_p1
+    - r_p2
+  gains:
+    r_c1:
+      p: 100
+      d: 1
+      i: 1
+      i_clamp: 1
+    r_p1:
+      p: 100
+      d: 1
+      i: 1
+      i_clamp: 1
+    r_p2:
+      p: 100
+      d: 1
+      i: 1
+      i_clamp: 1

@@ -1,0 +1,8 @@
+prefix=/home/yanji/dual_arm_control/devel
+
+Name: robot_planning
+Description: Description of robot_planning
+Version: 0.0.0
+Cflags: -I/home/yanji/dual_arm_control/devel/include
+Libs: -L${prefix}/lib 
+Requires: actionlib control_msgs roscpp rospy std_msgs std_srvs tf message_runtime

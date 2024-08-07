@@ -1,0 +1,8 @@
+prefix=/home/yanji/dual_arm_control/devel
+
+Name: robot_moveit_config_ver2
+Description: Description of robot_moveit_config_ver2
+Version: 0.3.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 

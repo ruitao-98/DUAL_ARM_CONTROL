@@ -1,0 +1,11 @@
+moveit_setup_assistant_config:
+  URDF:
+    package: robot_description
+    relative_path: urdf/dual_robot.urdf
+    xacro_args: ""
+  SRDF:
+    relative_path: config/dual_robot.srdf
+  CONFIG:
+    author_name: rui
+    author_email: taorui2020@ia.ac.cn
+    generated_timestamp: 1721744314

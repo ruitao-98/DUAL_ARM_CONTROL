@@ -1,0 +1,38 @@
+<mujoco>
+<!--    left_motors-->
+    <motor name='l_motor1' ctrllimited="true" ctrlrange="-1000 1000" joint='l_j1' gear="1"/>
+    <motor name='l_motor2' ctrllimited="true" ctrlrange="-1000 1000" joint='l_j2' gear="1"/>
+    <motor name='l_motor3' ctrllimited="true" ctrlrange="-1000 1000" joint='l_j3' gear="1"/>
+    <motor name='l_motor4' ctrllimited="true" ctrlrange="-1000 1000" joint='l_j4' gear="1"/>
+    <motor name='l_motor5' ctrllimited="true" ctrlrange="-1000 1000" joint='l_j5' gear="1"/>
+    <motor name='l_motor6' ctrllimited="true" ctrlrange="-1000 1000" joint='l_j6' gear="1"/>
+
+<!--    <position name='l_position1' ctrllimited="true" ctrlrange="-6.2832 6.2832" joint='l_j1' gear="1" kp="1000"/>-->
+<!--    <position name='l_position2' ctrllimited="true" ctrlrange="-1.4835 4.6251" joint='l_j2' gear="1" kp="1000"/>-->
+<!--    <position name='l_position3' ctrllimited="true" ctrlrange="-3.0543 3.0543" joint='l_j3' gear="1" kp="1000"/>-->
+<!--    <position name='l_position4' ctrllimited="true" ctrlrange="-1.4835 4.6251" joint='l_j4' gear="1" kp="1000"/>-->
+<!--    <position name='l_position5' ctrllimited="true" ctrlrange="-6.2832 6.2832" joint='l_j5' gear="1" kp="1000"/>-->
+<!--    <position name='l_position6' ctrllimited="true" ctrlrange="-6.2832 6.2832" joint='l_j6' gear="1" kp="1000"/>-->
+
+
+<!--    right_motors-->
+    <motor name='r_motor1' ctrllimited="true" ctrlrange="-1000 1000" joint='r_j1' gear="1"/>
+    <motor name='r_motor2' ctrllimited="true" ctrlrange="-1000 1000" joint='r_j2' gear="1"/>
+    <motor name='r_motor3' ctrllimited="true" ctrlrange="-1000 1000" joint='r_j3' gear="1"/>
+    <motor name='r_motor4' ctrllimited="true" ctrlrange="-1000 1000" joint='r_j4' gear="1"/>
+    <motor name='r_motor5' ctrllimited="true" ctrlrange="-1000 1000" joint='r_j5' gear="1"/>
+    <motor name='r_motor6' ctrllimited="true" ctrlrange="-1000 1000" joint='r_j6' gear="1"/>
+
+<!--    <position name='r_position1' ctrllimited="true" ctrlrange="-6.2832 6.2832" joint='r_j1' gear="1" kp="500"/>-->
+<!--    <position name='r_position2' ctrllimited="true" ctrlrange="-1.4835 4.6251" joint='r_j2' gear="1" kp="500"/>-->
+<!--    <position name='r_position3' ctrllimited="true" ctrlrange="-3.0543 3.0543" joint='r_j3' gear="1" kp="500"/>-->
+<!--    <position name='r_position4' ctrllimited="true" ctrlrange="-1.4835 4.6251" joint='r_j4' gear="1" kp="500"/>-->
+<!--    <position name='r_position5' ctrllimited="true" ctrlrange="-6.2832 6.2832" joint='r_j5' gear="1" kp="500"/>-->
+<!--    <position name='r_position6' ctrllimited="true" ctrlrange="-6.2832 6.2832" joint='r_j6' gear="1" kp="500"/>-->
+
+    <position ctrllimited="true" name = "l_p_gripper1" joint="l_p1" kp="100" ctrlrange="0.0 0.025"/>
+    <position ctrllimited="true" name = "l_p_gripper2" joint="l_p2" kp="100" ctrlrange="0.0 0.025 "/>
+    <position name = "r_p_screw" joint="r_c1" kp="30"/>
+<!--    <position ctrllimited="true" name = "r_p_mouth1" joint="r_p1" kp="30" ctrlrange="0.0 0.02"/>-->
+<!--    <position ctrllimited="true" name = "r_p_mouth2" joint="r_p2" kp="30" ctrlrange="0.0 0.02"/>-->
+</mujoco>

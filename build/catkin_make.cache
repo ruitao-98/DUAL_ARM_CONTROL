@@ -1,0 +1,2 @@
+real_robot_control:robot_description:robot_moveit_config_ver2:robot_planning
+-DCATKIN_DEVEL_PREFIX=/home/yanji/dual_arm_control/devel -DCMAKE_INSTALL_PREFIX=/home/yanji/dual_arm_control/install -G Unix Makefiles

@@ -1,0 +1,38 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/yanji/dual_arm_control/src/real_robot_control/include/real_robot_control/JAKAZuRobot.h
+stdio.h
+-
+string
+-
+jkerr.h
+/home/yanji/dual_arm_control/src/real_robot_control/include/real_robot_control/jkerr.h
+jktypes.h
+/home/yanji/dual_arm_control/src/real_robot_control/include/real_robot_control/jktypes.h
+
+/home/yanji/dual_arm_control/src/real_robot_control/include/real_robot_control/jkerr.h
+
+/home/yanji/dual_arm_control/src/real_robot_control/include/real_robot_control/jktypes.h
+stdio.h
+-
+
+/home/yanji/dual_arm_control/src/real_robot_control/src/move_out.cpp
+iostream
+-
+string
+-
+real_robot_control/JAKAZuRobot.h
+/home/yanji/dual_arm_control/src/real_robot_control/src/real_robot_control/JAKAZuRobot.h
+real_robot_control/jkerr.h
+/home/yanji/dual_arm_control/src/real_robot_control/src/real_robot_control/jkerr.h
+real_robot_control/jktypes.h
+/home/yanji/dual_arm_control/src/real_robot_control/src/real_robot_control/jktypes.h
+unistd.h
+-
+

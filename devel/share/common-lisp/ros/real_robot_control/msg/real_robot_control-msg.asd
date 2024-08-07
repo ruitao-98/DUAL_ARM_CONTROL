@@ -1,0 +1,31 @@
+
+(cl:in-package :asdf)
+
+(defsystem "real_robot_control-msg"
+  :depends-on (:roslisp-msg-protocol :roslisp-utils :actionlib_msgs-msg
+               :std_msgs-msg
+)
+  :components ((:file "_package")
+    (:file "current_pub" :depends-on ("_package_current_pub"))
+    (:file "_package_current_pub" :depends-on ("_package"))
+    (:file "force_pub" :depends-on ("_package_force_pub"))
+    (:file "_package_force_pub" :depends-on ("_package"))
+    (:file "gripper" :depends-on ("_package_gripper"))
+    (:file "_package_gripper" :depends-on ("_package"))
+    (:file "pose" :depends-on ("_package_pose"))
+    (:file "_package_pose" :depends-on ("_package"))
+    (:file "screwAction" :depends-on ("_package_screwAction"))
+    (:file "_package_screwAction" :depends-on ("_package"))
+    (:file "screwActionFeedback" :depends-on ("_package_screwActionFeedback"))
+    (:file "_package_screwActionFeedback" :depends-on ("_package"))
+    (:file "screwActionGoal" :depends-on ("_package_screwActionGoal"))
+    (:file "_package_screwActionGoal" :depends-on ("_package"))
+    (:file "screwActionResult" :depends-on ("_package_screwActionResult"))
+    (:file "_package_screwActionResult" :depends-on ("_package"))
+    (:file "screwFeedback" :depends-on ("_package_screwFeedback"))
+    (:file "_package_screwFeedback" :depends-on ("_package"))
+    (:file "screwGoal" :depends-on ("_package_screwGoal"))
+    (:file "_package_screwGoal" :depends-on ("_package"))
+    (:file "screwResult" :depends-on ("_package_screwResult"))
+    (:file "_package_screwResult" :depends-on ("_package"))
+  ))

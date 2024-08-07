@@ -1,0 +1,8 @@
+prefix=/home/yanji/dual_arm_control/install
+
+Name: real_robot_control
+Description: Description of real_robot_control
+Version: 0.0.0
+Cflags: -I${prefix}/include
+Libs: -L${prefix}/lib 
+Requires: actionlib actionlib_msgs control_msgs roscpp rospy std_msgs std_srvs tf message_runtime
