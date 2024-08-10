@@ -9,6 +9,9 @@ real_robot_control/CMakeFiles/code_test.dir/src/code_test.cpp.o: /home/yanji/dua
 real_robot_control/CMakeFiles/code_test.dir/src/code_test.cpp.o: /home/yanji/dual_arm_control/devel/include/real_robot_control/screwFeedback.h
 real_robot_control/CMakeFiles/code_test.dir/src/code_test.cpp.o: /home/yanji/dual_arm_control/devel/include/real_robot_control/screwGoal.h
 real_robot_control/CMakeFiles/code_test.dir/src/code_test.cpp.o: /home/yanji/dual_arm_control/devel/include/real_robot_control/screwResult.h
+real_robot_control/CMakeFiles/code_test.dir/src/code_test.cpp.o: /home/yanji/dual_arm_control/devel/include/real_robot_control/screwsrv.h
+real_robot_control/CMakeFiles/code_test.dir/src/code_test.cpp.o: /home/yanji/dual_arm_control/devel/include/real_robot_control/screwsrvRequest.h
+real_robot_control/CMakeFiles/code_test.dir/src/code_test.cpp.o: /home/yanji/dual_arm_control/devel/include/real_robot_control/screwsrvResponse.h
 real_robot_control/CMakeFiles/code_test.dir/src/code_test.cpp.o: /home/yanji/dual_arm_control/src/real_robot_control/include/real_robot_control/JAKAZuRobot.h
 real_robot_control/CMakeFiles/code_test.dir/src/code_test.cpp.o: /home/yanji/dual_arm_control/src/real_robot_control/include/real_robot_control/jkerr.h
 real_robot_control/CMakeFiles/code_test.dir/src/code_test.cpp.o: /home/yanji/dual_arm_control/src/real_robot_control/include/real_robot_control/jktypes.h

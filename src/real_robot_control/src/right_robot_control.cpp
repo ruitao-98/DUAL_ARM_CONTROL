@@ -331,7 +331,7 @@ void RobotAdmittanceControl::tcp_admittance_run(){
 
     int item = 0;
 
-        // ruled-based rotation
+    // ruled-based rotation
     int N = 6;
     double theta = 0 * PI / 180;
     std::vector<Eigen::Matrix3d> rotationMatrices = calculateRotationMatrices(N, theta);
@@ -540,8 +540,8 @@ void RobotAdmittanceControl::screw_assembly_search(){
         cout << "spiral search item" << item << " excution time is"<< duration.count()<<"ms" << endl;
     }
 
-    //直线插入***********************************************************************************
-        cout << "-----------pose search------------" << endl;
+    //姿态搜索***********************************************************************************
+    cout << "-----------pose search------------" << endl;
     update_robot_state();
     get_tcp_force();
     get_eef_pose();
@@ -549,6 +549,20 @@ void RobotAdmittanceControl::screw_assembly_search(){
     selection_vector<<1, 1, 1, 0, 0, 0; //选择向量，表示只控制y轴
     eef_pos_d = eef_pos;
     eef_rotm_d = eef_rotm;
+
+     // ruled-based rotation
+    int N = 6;
+    double theta = 0 * PI / 180;
+    std::vector<Eigen::Matrix3d> rotationMatrices = calculateRotationMatrices(N, theta);
+    eef_rotm_d =  eef_rotm * rotationMatrices[0]; //期望的位置是当前位置，期望的位姿是经过旋转变换以后的位姿
+
+    get_new_link6_pose(eef_pos_d, eef_rotm_d); // 转化期望的位姿到link6
+    new_rotm.x.x = new_angular(0,0); new_rotm.y.x = new_angular(1,0); new_rotm.z.x = new_angular(2,0);
+    new_rotm.x.y = new_angular(0,1); new_rotm.y.y = new_angular(1,1); new_rotm.z.y = new_angular(2,1);
+    new_rotm.x.z = new_angular(0,2); new_rotm.y.z = new_angular(1,2); new_rotm.z.z = new_angular(2,2);
+    robot.rot_matrix_to_rpy(&new_rotm, &new_rpy); //转欧拉角
+
+    cout <<"rot_rpy" << (new_rpy.rx / PI) * 180 << "  " << (new_rpy.ry / PI) * 180<< "  " << (new_rpy.rz / PI) * 180 <<endl;
 
     while (item < 5000)
     {   auto start_time = std::chrono::high_resolution_clock::now();
@@ -561,11 +575,7 @@ void RobotAdmittanceControl::screw_assembly_search(){
         update_robot_state();
         get_tcp_force();
         get_eef_pose();
-        // if (tcp_force[1] < -8){
-        //     cout << tcp_force[1] << endl;
-        //     cout << "insert stoped" <<endl;
-        //     break;
-        // }
+  
         cout << "force" <<  tcp_force[2] << endl;
         tcp_admittance_control();
         

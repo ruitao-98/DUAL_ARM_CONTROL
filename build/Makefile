@@ -298,6 +298,19 @@ _catkin_empty_exported_target/fast:
 .PHONY : _catkin_empty_exported_target/fast
 
 #=============================================================================
+# Target rules for targets named left_or_right_disassembly
+
+# Build rule for target.
+left_or_right_disassembly: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 left_or_right_disassembly
+.PHONY : left_or_right_disassembly
+
+# fast build rule for target.
+left_or_right_disassembly/fast:
+	$(MAKE) -f real_robot_control/CMakeFiles/left_or_right_disassembly.dir/build.make real_robot_control/CMakeFiles/left_or_right_disassembly.dir/build
+.PHONY : left_or_right_disassembly/fast
+
+#=============================================================================
 # Target rules for targets named control_msgs_generate_messages_lisp
 
 # Build rule for target.
@@ -530,6 +543,19 @@ geometry_msgs_generate_messages_cpp: cmake_check_build_system
 geometry_msgs_generate_messages_cpp/fast:
 	$(MAKE) -f real_robot_control/CMakeFiles/geometry_msgs_generate_messages_cpp.dir/build.make real_robot_control/CMakeFiles/geometry_msgs_generate_messages_cpp.dir/build
 .PHONY : geometry_msgs_generate_messages_cpp/fast
+
+#=============================================================================
+# Target rules for targets named _real_robot_control_generate_messages_check_deps_screwsrv
+
+# Build rule for target.
+_real_robot_control_generate_messages_check_deps_screwsrv: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 _real_robot_control_generate_messages_check_deps_screwsrv
+.PHONY : _real_robot_control_generate_messages_check_deps_screwsrv
+
+# fast build rule for target.
+_real_robot_control_generate_messages_check_deps_screwsrv/fast:
+	$(MAKE) -f real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_screwsrv.dir/build.make real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_screwsrv.dir/build
+.PHONY : _real_robot_control_generate_messages_check_deps_screwsrv/fast
 
 #=============================================================================
 # Target rules for targets named _real_robot_control_generate_messages_check_deps_pose
@@ -1546,19 +1572,6 @@ visualization_msgs_generate_messages_eus/fast:
 .PHONY : visualization_msgs_generate_messages_eus/fast
 
 #=============================================================================
-# Target rules for targets named left_or_right_disassembly
-
-# Build rule for target.
-left_or_right_disassembly: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 left_or_right_disassembly
-.PHONY : left_or_right_disassembly
-
-# fast build rule for target.
-left_or_right_disassembly/fast:
-	$(MAKE) -f real_robot_control/CMakeFiles/left_or_right_disassembly.dir/build.make real_robot_control/CMakeFiles/left_or_right_disassembly.dir/build
-.PHONY : left_or_right_disassembly/fast
-
-#=============================================================================
 # Target rules for targets named visualization_msgs_generate_messages_lisp
 
 # Build rule for target.
@@ -2140,6 +2153,7 @@ help:
 	@echo "... gtest_main"
 	@echo "... gtest"
 	@echo "... _catkin_empty_exported_target"
+	@echo "... left_or_right_disassembly"
 	@echo "... control_msgs_generate_messages_lisp"
 	@echo "... sensor_msgs_generate_messages_cpp"
 	@echo "... _real_robot_control_generate_messages_check_deps_screwGoal"
@@ -2158,6 +2172,7 @@ help:
 	@echo "... tf_generate_messages_cpp"
 	@echo "... control_msgs_generate_messages_eus"
 	@echo "... geometry_msgs_generate_messages_cpp"
+	@echo "... _real_robot_control_generate_messages_check_deps_screwsrv"
 	@echo "... _real_robot_control_generate_messages_check_deps_pose"
 	@echo "... actionlib_msgs_generate_messages_lisp"
 	@echo "... actionlib_msgs_generate_messages_nodejs"
@@ -2236,7 +2251,6 @@ help:
 	@echo "... dynamic_reconfigure_gencfg"
 	@echo "... octomap_msgs_generate_messages_eus"
 	@echo "... visualization_msgs_generate_messages_eus"
-	@echo "... left_or_right_disassembly"
 	@echo "... visualization_msgs_generate_messages_lisp"
 	@echo "... visualization_msgs_generate_messages_py"
 	@echo "... object_recognition_msgs_generate_messages_eus"

@@ -9,6 +9,9 @@ real_robot_control/CMakeFiles/task_control_screw.dir/src/task_control_screw.cpp.
 real_robot_control/CMakeFiles/task_control_screw.dir/src/task_control_screw.cpp.o: /home/yanji/dual_arm_control/devel/include/real_robot_control/screwFeedback.h
 real_robot_control/CMakeFiles/task_control_screw.dir/src/task_control_screw.cpp.o: /home/yanji/dual_arm_control/devel/include/real_robot_control/screwGoal.h
 real_robot_control/CMakeFiles/task_control_screw.dir/src/task_control_screw.cpp.o: /home/yanji/dual_arm_control/devel/include/real_robot_control/screwResult.h
+real_robot_control/CMakeFiles/task_control_screw.dir/src/task_control_screw.cpp.o: /home/yanji/dual_arm_control/devel/include/real_robot_control/screwsrv.h
+real_robot_control/CMakeFiles/task_control_screw.dir/src/task_control_screw.cpp.o: /home/yanji/dual_arm_control/devel/include/real_robot_control/screwsrvRequest.h
+real_robot_control/CMakeFiles/task_control_screw.dir/src/task_control_screw.cpp.o: /home/yanji/dual_arm_control/devel/include/real_robot_control/screwsrvResponse.h
 real_robot_control/CMakeFiles/task_control_screw.dir/src/task_control_screw.cpp.o: /home/yanji/dual_arm_control/src/real_robot_control/include/dynamixel/dynamixel_sdk.h
 real_robot_control/CMakeFiles/task_control_screw.dir/src/task_control_screw.cpp.o: /home/yanji/dual_arm_control/src/real_robot_control/include/dynamixel/group_bulk_read.h
 real_robot_control/CMakeFiles/task_control_screw.dir/src/task_control_screw.cpp.o: /home/yanji/dual_arm_control/src/real_robot_control/include/dynamixel/group_bulk_write.h

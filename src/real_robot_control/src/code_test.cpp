@@ -229,6 +229,7 @@
 #include "real_robot_control/right_robot_control.h"
 #include "actionlib/client/simple_action_client.h"
 #include "real_robot_control/screwAction.h"
+#include "real_robot_control/screwsrv.h"
 
 Eigen::VectorXd selection_vector;
 typedef actionlib::SimpleActionClient<real_robot_control::screwAction> Client;
@@ -236,19 +237,19 @@ typedef actionlib::SimpleActionClient<real_robot_control::screwAction> Client;
 void done_cb(const actionlib::SimpleClientGoalState &state, const real_robot_control::screwResultConstPtr &result){
     if (state.state_ == state.SUCCEEDED)
     {
-        ROS_INFO("最终结果:%d",result->result);
+        ROS_INFO("final:%d",result->result);
     } else {
-        ROS_INFO("任务失败！");
+        ROS_INFO("failed！");
     }
 
 }
 //服务已经激活
 void active_cb(){
-    ROS_INFO("服务已经被激活....");
+    ROS_INFO("activated....");
 }
 //处理连续反馈
 void  feedback_cb(const real_robot_control::screwFeedbackConstPtr &feedback){
-    ROS_INFO("洗涤进度为:%d%s", feedback->progress_bar, "%");
+    // ROS_INFO("洗涤进度为:%d%s", feedback->progress_bar, "%");
 }
 // #include "ros/ros.h"
 
@@ -263,19 +264,44 @@ int main(int argc, char *argv[]){
     selection_vector.resize(6);
     selection_vector<<2, 0, 1, 0, 0, 0;
     _vector << 2 , 3, 8;
+
         // 4.创建action客户端对象;
     // SimpleActionClient(ros::NodeHandle & n, const std::string & name, bool spin_thread = true)
     // actionlib::SimpleActionClient<demo01_action::AddIntsAction> client(nh,"addInts");
-    Client client(nh,"screwactions",true);
-    //等待服务启动
-    client.waitForServer();
+    // Client client(nh,"screwactions",true);
+    // //等待服务启动
+    // client.waitForServer();
 
-    real_robot_control::screwGoal goal;
-    goal.num = 0;
+    // real_robot_control::screwGoal goal;
+    // goal.num = 0;
 
-    client.sendGoal(goal,&done_cb,&active_cb,&feedback_cb);
-    // 6.spin().
-    ros::spin();
+    // client.sendGoal(goal,&done_cb,&active_cb,&feedback_cb);
+    // // 6.spin().
+    // ros::spin();
+    // ROS_INFO("finished");
+
+    ros::ServiceClient client = nh.serviceClient<real_robot_control::screwsrv>("screwservice");
+    //等待服务启动成功
+    //方式1
+    ros::service::waitForService("screwservice");
+    //方式2
+    // client.waitForExistence();
+    // 5.组织请求数据
+    real_robot_control::screwsrv scr;
+    scr.request.num = 0;
+    // 6.发送请求,返回 bool 值，标记是否成功
+    bool flag = client.call(scr);
+    // 7.处理响应
+    if (flag)
+    {
+        ROS_INFO("请求正常处理,响应结果:%d",scr.response.result);
+    }
+    else
+    {
+        ROS_ERROR("请求处理失败....");
+        return 1;
+    }
+
 
 
     // std::cout << selection_vector.head<3>().cwiseProduct(_vector) << std::endl;

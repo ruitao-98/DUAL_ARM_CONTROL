@@ -54,7 +54,7 @@ CMAKE_BINARY_DIR = /home/yanji/dual_arm_control/build
 include real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_screwAction.dir/progress.make
 
 real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_screwAction:
-	cd /home/yanji/dual_arm_control/build/real_robot_control && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/genmsg/cmake/../../../lib/genmsg/genmsg_check_deps.py real_robot_control /home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwAction.msg real_robot_control/screwActionFeedback:real_robot_control/screwFeedback:real_robot_control/screwResult:actionlib_msgs/GoalID:std_msgs/Header:real_robot_control/screwGoal:real_robot_control/screwActionResult:real_robot_control/screwActionGoal:actionlib_msgs/GoalStatus
+	cd /home/yanji/dual_arm_control/build/real_robot_control && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/genmsg/cmake/../../../lib/genmsg/genmsg_check_deps.py real_robot_control /home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwAction.msg real_robot_control/screwGoal:real_robot_control/screwActionResult:std_msgs/Header:real_robot_control/screwActionGoal:actionlib_msgs/GoalID:actionlib_msgs/GoalStatus:real_robot_control/screwFeedback:real_robot_control/screwResult:real_robot_control/screwActionFeedback
 
 _real_robot_control_generate_messages_check_deps_screwAction: real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_screwAction
 _real_robot_control_generate_messages_check_deps_screwAction: real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_screwAction.dir/build.make

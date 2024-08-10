@@ -10,6 +10,7 @@ file(REMOVE_RECURSE
   "/home/yanji/dual_arm_control/devel/include/real_robot_control/screwFeedback.h"
   "/home/yanji/dual_arm_control/devel/include/real_robot_control/screwGoal.h"
   "/home/yanji/dual_arm_control/devel/include/real_robot_control/screwResult.h"
+  "/home/yanji/dual_arm_control/devel/include/real_robot_control/screwsrv.h"
   "CMakeFiles/real_robot_control_generate_messages_cpp"
 )
 

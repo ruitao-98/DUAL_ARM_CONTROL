@@ -70,11 +70,10 @@ find_package(Eigen3 REQUIRED)
 # )
 
 ## Generate services in the 'srv' folder
-# add_service_files(
-#   FILES
-#   Service1.srv
-#   Service2.srv
-# )
+add_service_files(
+  FILES
+  screwsrv.srv
+)
 
 ## Generate actions in the 'action' folder
 add_action_files(

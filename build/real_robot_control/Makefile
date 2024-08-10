@@ -168,6 +168,21 @@ depend:
 .PHONY : depend
 
 # Convenience name for target.
+real_robot_control/CMakeFiles/left_or_right_disassembly.dir/rule:
+	cd /home/yanji/dual_arm_control/build && $(MAKE) -f CMakeFiles/Makefile2 real_robot_control/CMakeFiles/left_or_right_disassembly.dir/rule
+.PHONY : real_robot_control/CMakeFiles/left_or_right_disassembly.dir/rule
+
+# Convenience name for target.
+left_or_right_disassembly: real_robot_control/CMakeFiles/left_or_right_disassembly.dir/rule
+
+.PHONY : left_or_right_disassembly
+
+# fast build rule for target.
+left_or_right_disassembly/fast:
+	cd /home/yanji/dual_arm_control/build && $(MAKE) -f real_robot_control/CMakeFiles/left_or_right_disassembly.dir/build.make real_robot_control/CMakeFiles/left_or_right_disassembly.dir/build
+.PHONY : left_or_right_disassembly/fast
+
+# Convenience name for target.
 real_robot_control/CMakeFiles/control_msgs_generate_messages_lisp.dir/rule:
 	cd /home/yanji/dual_arm_control/build && $(MAKE) -f CMakeFiles/Makefile2 real_robot_control/CMakeFiles/control_msgs_generate_messages_lisp.dir/rule
 .PHONY : real_robot_control/CMakeFiles/control_msgs_generate_messages_lisp.dir/rule
@@ -436,6 +451,21 @@ geometry_msgs_generate_messages_cpp: real_robot_control/CMakeFiles/geometry_msgs
 geometry_msgs_generate_messages_cpp/fast:
 	cd /home/yanji/dual_arm_control/build && $(MAKE) -f real_robot_control/CMakeFiles/geometry_msgs_generate_messages_cpp.dir/build.make real_robot_control/CMakeFiles/geometry_msgs_generate_messages_cpp.dir/build
 .PHONY : geometry_msgs_generate_messages_cpp/fast
+
+# Convenience name for target.
+real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_screwsrv.dir/rule:
+	cd /home/yanji/dual_arm_control/build && $(MAKE) -f CMakeFiles/Makefile2 real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_screwsrv.dir/rule
+.PHONY : real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_screwsrv.dir/rule
+
+# Convenience name for target.
+_real_robot_control_generate_messages_check_deps_screwsrv: real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_screwsrv.dir/rule
+
+.PHONY : _real_robot_control_generate_messages_check_deps_screwsrv
+
+# fast build rule for target.
+_real_robot_control_generate_messages_check_deps_screwsrv/fast:
+	cd /home/yanji/dual_arm_control/build && $(MAKE) -f real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_screwsrv.dir/build.make real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_screwsrv.dir/build
+.PHONY : _real_robot_control_generate_messages_check_deps_screwsrv/fast
 
 # Convenience name for target.
 real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_pose.dir/rule:
@@ -1608,21 +1638,6 @@ visualization_msgs_generate_messages_eus/fast:
 .PHONY : visualization_msgs_generate_messages_eus/fast
 
 # Convenience name for target.
-real_robot_control/CMakeFiles/left_or_right_disassembly.dir/rule:
-	cd /home/yanji/dual_arm_control/build && $(MAKE) -f CMakeFiles/Makefile2 real_robot_control/CMakeFiles/left_or_right_disassembly.dir/rule
-.PHONY : real_robot_control/CMakeFiles/left_or_right_disassembly.dir/rule
-
-# Convenience name for target.
-left_or_right_disassembly: real_robot_control/CMakeFiles/left_or_right_disassembly.dir/rule
-
-.PHONY : left_or_right_disassembly
-
-# fast build rule for target.
-left_or_right_disassembly/fast:
-	cd /home/yanji/dual_arm_control/build && $(MAKE) -f real_robot_control/CMakeFiles/left_or_right_disassembly.dir/build.make real_robot_control/CMakeFiles/left_or_right_disassembly.dir/build
-.PHONY : left_or_right_disassembly/fast
-
-# Convenience name for target.
 real_robot_control/CMakeFiles/visualization_msgs_generate_messages_lisp.dir/rule:
 	cd /home/yanji/dual_arm_control/build && $(MAKE) -f CMakeFiles/Makefile2 real_robot_control/CMakeFiles/visualization_msgs_generate_messages_lisp.dir/rule
 .PHONY : real_robot_control/CMakeFiles/visualization_msgs_generate_messages_lisp.dir/rule
@@ -2382,6 +2397,7 @@ help:
 	@echo "... list_install_components"
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
+	@echo "... left_or_right_disassembly"
 	@echo "... control_msgs_generate_messages_lisp"
 	@echo "... sensor_msgs_generate_messages_cpp"
 	@echo "... _real_robot_control_generate_messages_check_deps_screwGoal"
@@ -2401,6 +2417,7 @@ help:
 	@echo "... tf_generate_messages_cpp"
 	@echo "... control_msgs_generate_messages_eus"
 	@echo "... geometry_msgs_generate_messages_cpp"
+	@echo "... _real_robot_control_generate_messages_check_deps_screwsrv"
 	@echo "... _real_robot_control_generate_messages_check_deps_pose"
 	@echo "... actionlib_msgs_generate_messages_lisp"
 	@echo "... actionlib_msgs_generate_messages_nodejs"
@@ -2481,7 +2498,6 @@ help:
 	@echo "... dynamic_reconfigure_gencfg"
 	@echo "... octomap_msgs_generate_messages_eus"
 	@echo "... visualization_msgs_generate_messages_eus"
-	@echo "... left_or_right_disassembly"
 	@echo "... visualization_msgs_generate_messages_lisp"
 	@echo "... visualization_msgs_generate_messages_py"
 	@echo "... object_recognition_msgs_generate_messages_eus"
