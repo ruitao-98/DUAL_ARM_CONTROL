@@ -72,7 +72,7 @@ public:
 	/* xm mx */
 	void setbaundrate();
 	
-	void torque_on(int m_ID);
+	bool torque_on(int m_ID);
 	void torque_off(int m_ID);
 
 	void setdelaytime(int m_ID,int time);

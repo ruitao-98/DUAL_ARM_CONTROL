@@ -49,6 +49,10 @@ void endeffector::width_reduce(int distance, ros::Publisher &pub, real_robot_con
 
     this->open_port();
 	this->setbaundrate();
+		// 检测 夹持装置的电机 是否打开
+	while (!(this->torque_on(1))) {
+		cout << "\r" <<"******请打开夹持装置的电源，以执行功能*********" << flush; 
+	}
 	this->setdelaytime(1, 0);
 	if (distance < 0)
 	{
@@ -131,6 +135,10 @@ void endeffector::width_increase(int distance, ros::Publisher &pub, real_robot_c
 
     this->open_port();
 	this->setbaundrate();
+			// 检测 夹持装置的电机 是否打开
+	while (!(this->torque_on(1))) {
+		cout << "\r" <<"******请打开夹持装置的电源，以执行功能*********" << flush; 
+	}
 	this->setdelaytime(1, 0);
 	if (distance < 0)
 	{
@@ -201,6 +209,10 @@ void endeffector::width_increase(int distance, ros::Publisher &pub, real_robot_c
 int endeffector::width_reduce_or_increase_full(int judge){
     this->open_port();
 	this->setbaundrate();
+			// 检测 夹持装置的电机 是否打开
+	while (!(this->torque_on(1))) {
+		cout << "\r" <<"******请打开夹持装置的电源，以执行功能*********" << flush; 
+	}
 	this->setdelaytime(1, 0);
 	this->torque_off(1);
 	this->set_velocitymode(1);
@@ -263,6 +275,10 @@ int endeffector::width_reduce_or_increase_full(int judge){
 int endeffector::width_recovery(){
     this->open_port();
 	this->setbaundrate();
+			// 检测 夹持装置的电机 是否打开
+	while (!(this->torque_on(1))) {
+		cout << "\r" <<"******请打开夹持装置的电源，以执行功能*********" << flush; 
+	}
 	this->setdelaytime(1, 0);
     this->setbaundrate();
 	this->torque_off(1);
@@ -295,7 +311,7 @@ int endeffector::width_recovery(){
 		}
 	}
   this->close_port();
-  return 1;
+  return 3;
 }
 
 
@@ -315,20 +331,29 @@ int endeffector::screwing_s1(int speed, float circle, ros::Publisher &pub, real_
 	{
 		circle = -circle;
 	}
+
 	 // Assuming 'current_position' is a field in your custom message
-	
+	fstream ofs;
     this->open_port();
 	this->setbaundrate();
+	// 检测 夹持装置的电机 是否关闭
+	while (this->torque_on(1)) {
+		cout << "\r" <<"******请关闭夹持装置的电源，以保护电机*********" << flush; 
+	}
 	this->setdelaytime(0, 0);
 	this->torque_off(0);
 	this->set_expositionmode(0);
 	this->set_goalprofile(0, speed);
 	this->torque_on(0);
-	// sleep(10);
 	int goal_position;
 	int present_position;
 	present_position = this->get_presentposition(0);
-	goal_position = int(present_position + 6.238 * 4095 * circle);
+
+	ofs.open("standard.txt", ios::out);
+	ofs << present_position;
+	ofs.close();
+
+	goal_position = int(present_position + 6.238 * 4095 * circle); 
 	this->set_goalposition(0, goal_position);
 	int base_current[15] = { 0 };
 
@@ -352,40 +377,57 @@ int endeffector::screwing_s1(int speed, float circle, ros::Publisher &pub, real_
 		present_cu[j] = this->get_presentcurrent(0);
 		int realtime_position = this->get_presentposition(0);
 		if (i<=10){
-		ave_current = start_current;
+			ave_current = start_current;
 		}
 		if (i > 10){
-		ave_current = average_function(present_cu, 10);
-		msg.current = ave_current;
-		// cout << msg.current << endl;
+			ave_current = average_function(present_cu, 10);
+			msg.current = ave_current;
+			// cout << msg.current << endl;
 		}
 		printf("ֹͣthe present current %.3f\n", ave_current);
 		int pre_velo = this->get_presentvelocity(0);
-		printf("ֹͣthe present velocity %.3f\n", pre_velo);
+		printf("ֹͣthe present velocity %d\n", pre_velo);
 		pub.publish(msg);
 		if ((fabs(ave_current - start_current) > yuzhi) && (i > 10))
 		{
 			printf("ֹͣthe ended current %.3f\n", ave_current);
 			printf("ͣwith jamming! \n");
 			this->set_goalvelocity(0, 0);
+			sleep(1);
+
+			fin_position = this->get_presentposition(0);
 			this->torque_off(0);
       		this->close_port();
-			return 0;
+
+			// 存储位置
+			int delta_position = fin_position - present_position;
+			ofs.open("delta_circle.txt", ios::out);
+			ofs << delta_position;
+			ofs.close();
+
+			return 1;
 			break;
 		}
 		else if (realtime_position<=goal_position+2)
 		{
 			fin_position = this->get_presentposition(0);
+			// 存储位置
+			int delta_position = fin_position - present_position;
 			printf("ֹthe end position %.3f\n", (float(fin_position - present_position) / 4095));
+			ofs.open("delta_circle.txt", ios::out);
+			ofs << delta_position;
+			ofs.close();
 			this->torque_off(0);
+			this->close_port();
+
+			return 0;
 			break;
 		}
 	}
-  	this->close_port();
-	return present_position;
+
 }
 
-int endeffector::screwing_s2(int speed)
+int endeffector::screwing_s2(int speed, ros::Publisher &pub, real_robot_control::current_pub &msg)
 {
 	if (speed < 0) {
 		speed = speed;
@@ -393,7 +435,12 @@ int endeffector::screwing_s2(int speed)
 	else {
 		speed = -speed;
 	}
+	this->open_port();
 	this->setbaundrate();
+	// 检测 夹持装置的电机 是否关闭
+	while (this->torque_on(1)) {
+		cout << "\r" <<"******请关闭夹持装置的电源，以保护电机*********" << flush; 
+	}
 	this->setdelaytime(0, 0);
 	this->torque_off(0);
 	this->set_velocitymode(0);
@@ -402,7 +449,7 @@ int endeffector::screwing_s2(int speed)
 	int start_position = this->get_presentposition(0);
 
 	int base_current[15] = { 0 };
-	sleep(1);
+	std::this_thread::sleep_for(std::chrono::milliseconds(100)); 
 	for (int i = 0; i < 15; i = i + 1) {
 		base_current[i] = this->get_presentcurrent(0);
 	}
@@ -411,12 +458,12 @@ int endeffector::screwing_s2(int speed)
 	for (int m = 0; m < 15; m++) {
 		std::cout << base_current[m] << std::endl;
 	}
-	int yuzhi = 25;
+	int yuzhi = 35;
 	int goal_position = int(start_position - 4095 * 6.238 * 2);
 	int present_cu[5] = { 0 };
 	int i = 0;
-  double ave_current;
-	while (true)
+  	double ave_current;
+	while (true)	
 	{
 		int j;
 		j = i % 5;
@@ -424,24 +471,23 @@ int endeffector::screwing_s2(int speed)
 		present_cu[j] = this->get_presentcurrent(0);
 		int present_position = this->get_presentposition(0);
 
-    if (i <= 5) {
-    ave_current = average_function(present_cu, 5);
-    }
-		if (i > 5) {
-      ave_current = average_function(present_cu, 5);
-			printf("the present current %.3f \n", ave_current);
+		if (i <= 5) {
+			ave_current = start_current;
+			msg.current = ave_current;
 		}
-
+		if (i > 5) {
+     		ave_current = average_function(present_cu, 5);
+			printf("the present current %.3f \n", ave_current);
+			msg.current = ave_current;
+		}
+		pub.publish(msg);
 		if ((fabs(ave_current - start_current) > yuzhi) && (i > 5))
 		{
 			printf("\n");
 			printf("ֹͣthe final current%.3f\n", ave_current);
 			this->set_goalvelocity(0, 0);
-			this->set_goalvelocity(0, 200);
-			sleep(3);
-			this->set_goalvelocity(0, 0);
 			this->torque_off(0);
-			return 0;
+			return 2; // 表示所有任务都结束了
 			break;
 		}
 		else if (present_position <= goal_position)
@@ -449,7 +495,7 @@ int endeffector::screwing_s2(int speed)
 			printf("final contact\n");
 			this->set_goalvelocity(0, 0);
 			this->torque_off(0);
-			return 1;
+			return 0;
 			break;
 		}
 	}
@@ -463,7 +509,12 @@ int endeffector::screwing_s3(int speed, int yuzhi) {
 	else {
 		speed = -speed;
 	}
+	this->open_port();
 	this->setbaundrate();
+		// 检测 夹持装置的电机 是否关闭
+	while (this->torque_on(1)) {
+		cout << "\r" <<"******请关闭夹持装置的电源，以保护电机*********" << flush; 
+	}
 	this->setdelaytime(0, 0);
 	this->torque_off(0);
 	this->set_velocitymode(0);
@@ -512,6 +563,46 @@ int endeffector::screwing_s3(int speed, int yuzhi) {
 	return end_position;
 }
 
+int endeffector::unscrew_to_zero(int speed) {
+	if (speed < 0) {
+		speed = -speed;
+	}
+	else {
+		speed = speed;
+	}
+
+	ifstream in("delta_circle.txt");
+	string content;
+	while (getline(in, content))
+	{
+		cout << content << endl;
+	}
+	in.close();
+	int delta_position = atoi(content.c_str());
+
+	this->open_port();
+	this->setbaundrate();
+		// 检测 夹持装置的电机 是否关闭
+	while (this->torque_on(1)) {
+		cout << "\r" <<"******请关闭夹持装置的电源，以保护电机*********" << flush; 
+	}
+	this->setdelaytime(0, 0);
+	this->torque_off(0);
+	this->set_expositionmode(0);
+	this->set_goalprofile(0, speed);
+	this->torque_on(0);
+	int start_position_1 = this->get_presentposition(0);
+	int goal_position_1 = int(start_position_1 + abs(delta_position)); // 加上delta_position，正转，拧出
+	this->set_goalposition(0, goal_position_1);
+	sleep(1);
+	while (true) {
+		if (this->get_presentvelocity(0) == 0) {
+			this->torque_off(0);
+			break;
+		}
+	}
+	return 0;
+}
 
 int endeffector::unscrewing_s1(int speed_1, int speed_2) {
 	if (speed_1 < 0) {
@@ -526,7 +617,12 @@ int endeffector::unscrewing_s1(int speed_1, int speed_2) {
 	else {
 		speed_2 = speed_2;
 	}
+	this->open_port();
 	this->setbaundrate();
+		// 检测 夹持装置的电机 是否关闭
+	while (this->torque_on(1)) {
+		cout << "\r" <<"******请关闭夹持装置的电源，以保护电机*********" << flush; 
+	}
 	this->setdelaytime(0, 0);
 	this->torque_off(0);
 	this->set_expositionmode(0);
@@ -552,7 +648,11 @@ void endeffector::unscrewing_sx(int speed) {
 		speed = speed;
 	}
 	using namespace std;
-
+	this->open_port();
+		// 检测 夹持装置的电机 是否关闭
+	while (this->torque_on(1)) {
+		cout << "\r" <<"******请关闭夹持装置的电源，以保护电机*********" << flush; 
+	}
 	this->setbaundrate();
 	this->setdelaytime(0, 0);
 	this->torque_off(0);
@@ -585,6 +685,10 @@ void endeffector::unscrewing_final(int speed, float circle) {
 		circle = circle;
 	}
 	this->setbaundrate();
+		// 检测 夹持装置的电机 是否关闭
+	while (this->torque_on(1)) {
+		cout << "\r" <<"******请关闭夹持装置的电源，以保护电机*********" << flush; 
+	}
 	this->setdelaytime(0, 0);
 	this->torque_off(0);
 	this->set_expositionmode(0);
@@ -605,6 +709,10 @@ void endeffector::unscrewing_final(int speed, float circle) {
 void endeffector::rotate_to(float angle) {
 
 	this->setbaundrate();
+		// 检测 夹持装置的电机 是否关闭
+	while (this->torque_on(1)) {
+		cout << "\r" <<"******请关闭夹持装置的电源，以保护电机*********" << flush; 
+	}
 	this->setdelaytime(0, 0);
 	this->torque_off(0);
 	this->set_expositionmode(0);
@@ -628,6 +736,10 @@ void endeffector::rotate_to(float angle) {
 
 int endeffector::measure_angle(int standard) {
 	this->setbaundrate();
+		// 检测 夹持装置的电机 是否关闭
+	while (this->torque_on(1)) {
+		cout << "\r" <<"******请关闭夹持装置的电源，以保护电机*********" << flush; 
+	}
 	this->setdelaytime(0, 0);
 	this->torque_off(0);
 	this->set_expositionmode(0);
@@ -654,8 +766,21 @@ int endeffector::measure_angle(int standard) {
 	return angle;
 }
 
-void endeffector::screw_to_zero(int standard) {
+void endeffector::screw_to_zero() {
+	ifstream in("standard.txt");
+	string content;
+	while (getline(in, content))
+	{
+		cout << content << endl;
+	}
+	in.close();
+	int standard = atoi(content.c_str());
+	this->open_port();
 	this->setbaundrate();
+		// 检测 夹持装置的电机 是否关闭
+	while (this->torque_on(1)) {
+		cout << "\r" <<"******请关闭夹持装置的电源，以保护电机*********" << flush; 
+	}
 	this->setdelaytime(0, 0);
 	this->torque_off(0);
 	this->set_expositionmode(0);
@@ -684,7 +809,7 @@ void endeffector::screw_to_zero(int standard) {
 		}
 	}
 	this->set_goalposition(0, goal_position);
-	sleep(0.5);
+	std::this_thread::sleep_for(std::chrono::milliseconds(100)); 
 	while (true) {
 		if (this->get_presentvelocity(0) == 0) {
 			this->torque_off(0);

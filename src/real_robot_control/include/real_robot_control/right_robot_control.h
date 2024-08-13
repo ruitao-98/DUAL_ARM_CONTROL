@@ -10,6 +10,10 @@
 #include "Eigen/StdVector"
 #include <mutex>
 #include "real_robot_control/jktypes.h"
+#include "real_robot_control/screwsrv.h"
+#include "actionlib/client/simple_action_client.h"
+#include "real_robot_control/screwAction.h"
+
 namespace jaka {
     using Quaternion = ::Quaternion; // 创建别名
 }
@@ -31,7 +35,7 @@ public:
     
     void updata_rotation(const Eigen::Matrix3d& current_rotm, const Eigen::Vector3d& angluar_disp, Eigen::Matrix3d& new_orientation);
     void get_new_link6_pose(const Eigen::Vector3d& new_linear_eef, const Eigen::Matrix3d& new_angular_eef);
-    void ros_init(int argc, char** argv);
+    // void ros_init(int argc, char** argv);
     
     void get_robot_pose();
     void get_world_force();
@@ -43,6 +47,10 @@ public:
     void start();
     void screw_assembly_search();
     void tcp_admittance_run();
+    void done_cb(const actionlib::SimpleClientGoalState &state, const real_robot_control::screwResultConstPtr &result);
+    void active_cb();
+    void feedback_cb(const real_robot_control::screwFeedbackConstPtr &feedback);
+
     std::vector<Eigen::Matrix3d> calculateRotationMatrices(int N, double theta);
 
 
@@ -84,6 +92,9 @@ private:
     std::shared_ptr<ros::NodeHandle> nh;
     ros::Publisher for_pub;
     real_robot_control::force_pub f;
+    // ros::ServiceClient client;
+    real_robot_control::screwsrv scr;
+    actionlib::SimpleActionClient<real_robot_control::screwAction> client;
     
     const double PI = 3.1415926;
 
@@ -126,6 +137,17 @@ private:
     Eigen::Vector3d angluer_disp_clipped;
     Eigen::Vector3d new_linear_eef;
     Eigen::Matrix3d new_rotm_eef;
+
+    int screw_execute_result; //末端执行器运行结果 
+    // 0：未卡
+    // 1：卡住了
+    // 2：全部运行结束
+    
+    int screw_execute_status; //末端执行器运行结果 
+    // 0：运行后
+    // 1：正在运行
+    // 2: 运行前
+
 
 
 };

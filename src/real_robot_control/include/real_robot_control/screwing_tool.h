@@ -23,9 +23,9 @@ public:
 	*/
 
 	int screwing_s1(int speed, float circle, ros::Publisher &pub, real_robot_control::current_pub &msg);
-	int screwing_s2(int speed); 
+	int screwing_s2(int speed, ros::Publisher &pub, real_robot_control::current_pub &msg); 
 	int screwing_s3(int speed,int yuzhi);
-	void screwing_s4(int speed, float circle);
+
 
 	//
 	int unscrewing_s1(int speed_1, int speed_2);
@@ -36,7 +36,9 @@ public:
 
 	void rotate_to(float angle);
 
-	void screw_to_zero(int standard);
+	int unscrew_to_zero(int speed);
+
+	void screw_to_zero();
 
 	int measure_angle(int standard);
 };

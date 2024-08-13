@@ -28,13 +28,19 @@ void motors::setbaundrate()
 }
 
 
-void motors::torque_on(int m_ID)
+bool motors::torque_on(int m_ID)
 {
 	dxl_comm_result = packetHandler->write1ByteTxRx(portHandler, m_ID, Torque_Enable, 1, &dxl_error);
-	if ((dxl_error == 0) && (dxl_comm_result == 0))
-		printf("Motor %d: Torque Enabled!\n", m_ID);
-	else
-		printf("Motor %d: Failed to Enable Torque!\n", m_ID);
+	if ((dxl_error == 0) && (dxl_comm_result == 0)){
+		;
+	}
+		// printf("Motor %d: Torque Enabled!\n", m_ID);
+	else{
+		;
+	}
+		// printf("Motor %d: Failed to Enable Torque!\n", m_ID);
+	bool result = (dxl_error == 0) && (dxl_comm_result == 0);
+	return result;
 }
 void motors::torque_off(int m_ID)
 {
