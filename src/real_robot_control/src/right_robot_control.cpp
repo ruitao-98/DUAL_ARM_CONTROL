@@ -27,9 +27,9 @@ RobotAdmittanceControl::RobotAdmittanceControl()
     wish_force << 0 ,0, -5, 0, 0, 0;
 
     adm_m << 3, 3, 4, 2, 2, 2;
-    adm_k << 500.0, 500.0, 1400.0, 10.0, 10.0, 10.0;
+    adm_k << 500.0, 500.0, 1300.0, 10.0, 10.0, 10.0;
     for (Eigen::Index i = 0; i < adm_m.size(); ++i) {
-        adm_d[i] = 5 * sqrt(adm_m[i] * adm_k[i]);
+        adm_d[i] = 4 * sqrt(adm_m[i] * adm_k[i]);
     }
     adm_d[0] = 3 * sqrt(adm_m[0] * adm_k[0]);
     adm_d[1] = 3 * sqrt(adm_m[1] * adm_k[1]);
@@ -45,7 +45,7 @@ RobotAdmittanceControl::RobotAdmittanceControl()
     robot.set_tool_id(0);
     // reset();
     // go_to_pose();
-    robot.servo_move_use_carte_NLF(20, 50, 400, 20, 20, 40);
+    robot.servo_move_use_carte_NLF(50, 200, 800, 30, 60, 100);
     // robot.servo_speed_foresight(15, 0.03);
     robot.servo_move_enable(TRUE);
     robot.set_torque_sensor_mode(1);
@@ -438,6 +438,9 @@ void RobotAdmittanceControl::tcp_admittance_run(){
 }
 
 void RobotAdmittanceControl::screw_assembly_search(){
+    int input;
+    std::cout << "Enter 1 for continue" << std::endl;
+    std::cin >> input;
 
     robot.servo_move_enable(true);
     //直线搜索***********************************************************************************
@@ -452,8 +455,9 @@ void RobotAdmittanceControl::screw_assembly_search(){
 
     int item = 0;
 
-    while (item < 1000)
-    {   auto start_time = std::chrono::high_resolution_clock::now();
+    while (item < 5000)
+    {   
+        auto start_time = std::chrono::high_resolution_clock::now();
         // 导纳控制的范畴
         update_robot_state();
         get_tcp_force();
@@ -464,7 +468,7 @@ void RobotAdmittanceControl::screw_assembly_search(){
         eef_pos_d = eef_pos; //期望的位置不断更新，始终保持是当前状态，期望的位姿保持不变
         eef_rotm_d = eef_rotm;
 
-        if (tcp_force[2] > 2){
+        if (tcp_force[2] > 3){
             cout << "-----------linear search stopped------------" << endl;
             sleep(1);
             break;
@@ -500,24 +504,37 @@ void RobotAdmittanceControl::screw_assembly_search(){
         auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end_time-start_time);
         cout << "linear search item" << item << " excution time is"<< duration.count()<<"ms" << endl;
     }
-
+    std::cout << "Enter 1 for continue" << std::endl;
+    std::cin >> input;
     //**********************************曲线搜索*************************************************
     cout << "-----------spiral search started------------" << endl;
     update_robot_state();
     get_tcp_force();
     get_eef_pose();
-    wish_force << 0, 0, 0, 0, 0, 0;  //期望力
+
+    std::vector<double> x_vec;
+    std::vector<double> y_vec;
+
+    std::vector<double> x_true_vec;
+    std::vector<double> y_true_vec;
+
+    std::vector<double> x_robot_vec;
+    std::vector<double> y_robot_vec;
+
+
+    wish_force << 0, 0, -5, 0, 0, 0;  //期望力
     selection_vector<<0, 0, 1, 0, 0, 0; //选择向量，表示只控制y轴
-    eef_pos_d = eef_pos;
-    eef_rotm_d = eef_rotm;
+
+    Eigen::Matrix3d init_eef_rotm = eef_rotm;
+    Eigen::Vector3d init_eef_pos = eef_pos;
 
     Eigen::Vector3d traj; //轨迹的向量表示
     item = 0;
     double a = 0;
-    double b = 0.3/(2*PI); //毫米单位
+    double b = 0.2/(2*PI); //毫米单位
     double theta = 0;
 
-    while (item < 1200)
+    while (item < 3000)
     {   auto start_time = std::chrono::high_resolution_clock::now();
         eef_pos_d = eef_pos;
         eef_rotm_d = eef_rotm;
@@ -529,6 +546,8 @@ void RobotAdmittanceControl::screw_assembly_search(){
         double y = radius * sin(theta) * 0.001; // 此处缩放到米为单位，以便于与导纳控制输出对其
         double z = 0;
         traj << x, y, z;
+        x_true_vec.push_back(traj[0]);
+        y_true_vec.push_back(traj[1]);
 
         item = item + 1;
 
@@ -536,8 +555,17 @@ void RobotAdmittanceControl::screw_assembly_search(){
         update_robot_state();
         get_tcp_force();
         get_eef_pose();
-        if (tcp_force[2] < 0.5){
+        cout << eef_pos[0] << ", " << eef_pos[1] << endl;
+        x_vec.push_back(eef_pos[0]);
+        y_vec.push_back(eef_pos[1]);
+
+        if (tcp_force[2] < 0.3){
             cout << "force" <<  tcp_force[2] << endl;
+            cout << "spiral search stoped" <<endl;
+            break;
+        }
+        if ((tcp_force[0] > 4) || (tcp_force[1] > 4)){
+            cout << "x_force" <<  tcp_force[0] << ", y_force" <<  tcp_force[1]<< endl;
             cout << "spiral search stoped" <<endl;
             break;
         }
@@ -548,8 +576,10 @@ void RobotAdmittanceControl::screw_assembly_search(){
         angluer_disp_clipped = angular_disp.cwiseMin(0.01).cwiseMax(-0.01); //此处获取了在tcp坐标系下机器人末端的位移偏量
         //我们需要在此处对其进行修改，上述偏量经过选择向量的修改只剩z方向的偏移了，我们再加上x,y方向的偏移。
         linear_disp_clipped = linear_disp_clipped + traj;
-        new_linear_eef = eef_pos + eef_rotm * linear_disp_clipped; //最后将总偏移量再加到原始的tcp坐标上面去。
-
+        new_linear_eef = init_eef_pos + init_eef_rotm * linear_disp_clipped; //最后将总偏移量再加到原始的tcp坐标上面去。
+        
+        x_robot_vec.push_back(new_linear_eef[0]);
+        y_robot_vec.push_back(new_linear_eef[1]);
         //fixed rotation
         new_rotm_eef = eef_rotm;
 
@@ -563,14 +593,68 @@ void RobotAdmittanceControl::screw_assembly_search(){
         cout<<"new_trans" << new_pos.tran.x << " " << new_pos.tran.y << " "<< new_pos.tran.z << " "<< endl;
         cout <<"new_rpy" << (new_pos.rpy.rx / PI) * 180 << "  " << (new_pos.rpy.ry / PI) * 180<< "  " << (new_pos.rpy.rz / PI) * 180<<"  " << endl;
 
-        robot.servo_p(&new_pos, ABS, loop_rate);
-        // std::this_thread::sleep_for(std::chrono::milliseconds(50)); 
+        robot.servo_p(&new_pos, ABS, 2);
+        // std::this_thread::sleep_for(std::chrono::milliseconds(16)); 
 
         auto end_time = std::chrono::high_resolution_clock::now();
         auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end_time-start_time);
         cout << "spiral search item" << item << " excution time is"<< duration.count()<<"ms" << endl;
     }
 
+
+    time_t now;
+    struct tm time_info;
+    // Get the current time
+    time(&now);
+    // Convert the `time_t` value to local time in a thread-safe way
+    localtime_r(&now, &time_info);
+	// 创建一个时间格式化的字符串流
+	std::ostringstream oss;
+	oss << std::put_time(&time_info, "%Y-%m-%d_%H-%M-%S"); // 格式化时间 YYYY-MM-DD_HH-MM-SS
+	std::string time_str = oss.str();
+	// 创建文件名，包含当前时间
+	std::string file_name1 = "x_" + time_str + ".txt";
+    std::string file_name2 = "y_" + time_str + ".txt";
+    std::string file_name3 = "x_true_" + time_str + ".txt";
+    std::string file_name4 = "y_true_" + time_str + ".txt";
+    std::string file_name5 = "x_robot_" + time_str + ".txt";
+    std::string file_name6 = "y_robot_" + time_str + ".txt";
+	// 打开文件流
+	std::ofstream file1(file_name1);
+    std::ofstream file2(file_name2);
+    std::ofstream file3(file_name3);
+    std::ofstream file4(file_name4);
+    std::ofstream file5(file_name5);
+    std::ofstream file6(file_name6);
+	// 将列表的元素写入文件
+	for (double elem1 : x_vec) {
+		file1 << elem1 << std::endl;
+	}
+    for (double elem2 : y_vec) {
+		file2 << elem2 << std::endl;
+	}
+    for (double elem2 : x_true_vec) {
+		file3 << elem2 << std::endl;
+	}
+    for (double elem2 : y_true_vec) {
+		file4 << elem2 << std::endl;
+	}
+    for (double elem2 : x_robot_vec) {
+		file5 << elem2 << std::endl;
+	}
+    for (double elem2 : y_robot_vec) {
+		file6 << elem2 << std::endl;
+	}
+	// 关闭文件流
+	file1.close();
+    file2.close();
+    file3.close();
+    file4.close();
+    file5.close();
+    file6.close();
+
+    std::cout << "Enter 1 for continue" << std::endl;
+    std::cin >> input;
     //姿态搜索***********************************************************************************
     cout << "-----------pose search------------" << endl;
     update_robot_state();
@@ -592,6 +676,7 @@ void RobotAdmittanceControl::screw_assembly_search(){
     int N = 6;
     int phi_index = 0;
     int theta_index = 1;
+    double distance_threhold = 0.8;  // 单位 mm 
     while (true){
         // cout << "init_height - end_height = " << init_height - end_height << endl;
         // cout << "init_height - end_height. transpose = " << eef_rotm.transpose() * (init_height - end_height)  << endl;
@@ -604,12 +689,12 @@ void RobotAdmittanceControl::screw_assembly_search(){
             break;
         }
 
-        else if ((screw_execute_result == 0) && (abs(delta_height[2])>0.8/1000)){
+        else if ((screw_execute_result == 0) && (abs(delta_height[2])>(distance_threhold /1000))){
             cout << "flag = 0, 对准成功，进入下一步装配" << endl;
             flag = 0;
             // 对准成功，进入下一步装配，完全旋拧
         }
-        else if ((screw_execute_result == 0) && (abs(delta_height[2])<0.8/1000)){
+        else if ((screw_execute_result == 0) && (abs(delta_height[2])<(distance_threhold /1000))){
             cout << "flag = 1, 对准失败，但是也没有卡住，进入下一个搜索点" << endl;
             flag = 1;
 
@@ -618,14 +703,14 @@ void RobotAdmittanceControl::screw_assembly_search(){
 
             if (theta_index<3){
                 if (phi_index==N){
-                    phi_index = 0;
-                    theta_index++;
+                    phi_index = 0; //phi 循环了一轮以后，重新重置phi
+                    theta_index++; //更新theta
                 }
             }
             else if (theta_index == 3){
                 break;
             }
-
+            
             // 对准失败，但是也没有卡住，进入下一个搜索点
             // ruled-based rotation 更新期望姿态
             double theta_2 = theta_index * 2 * PI / 180;
@@ -639,6 +724,7 @@ void RobotAdmittanceControl::screw_assembly_search(){
             robot.rot_matrix_to_rpy(&new_rotm, &new_rpy); //转欧拉角
             cout <<"rot_rpy" << (new_rpy.rx / PI) * 180 << "  " << (new_rpy.ry / PI) * 180<< "  " << (new_rpy.rz / PI) * 180 <<endl;
             //*********************
+            phi_index++;
         }
         else if (screw_execute_result == 1){
             cout << "flag = 2, 卡住了，回退，进入下一个搜索" << endl;
@@ -653,13 +739,11 @@ void RobotAdmittanceControl::screw_assembly_search(){
             if ((abs(new_rpy.rx - current_rpy.rx)<0.001) && (abs(new_rpy.ry - current_rpy.ry)<0.001) && (screw_execute_status == 2))
             {   // 判断是否达到了期望位姿，如果达到了，并且此时执行器不是在运行的状态，就发布信息让执行器转动，一次循环只发送一次
                 // item_flag = 1; //表示已经开始执行了
-                cout << " start to send message " << endl;
+                cout << "\r" <<" start to send message " << flush;
 
                 update_robot_state();
                 get_eef_pose(); 
                 init_height = eef_pos; //记录一下一开始的位置
-                cout << eef_pos[2] << endl;
-                cout << init_height[2] << endl;
 
                 if (flag == 0){
                     goal.num = 0; // 直接运行后续装配过程
@@ -721,8 +805,9 @@ void RobotAdmittanceControl::screw_assembly_search(){
             }
             ros::spinOnce();
         }
+        
 
-        phi_index++;
+        
     }
     
 
@@ -757,7 +842,7 @@ void RobotAdmittanceControl::screw_assembly_search(){
         new_pos.rpy.rx = new_rpy.rx; new_pos.rpy.ry = new_rpy.ry; new_pos.rpy.rz = new_rpy.rz;
         // new_pos.rpy.rx = current_rpy.rx; new_pos.rpy.ry = current_rpy.ry; new_pos.rpy.rz = current_rpy.rz;
         robot.servo_p(&new_pos, ABS, loop_rate);
-        cout << "\r" << "final item = " << item << endl;
+        cout << "\r" << "final item = " << item << flush;
     }
     sleep(10);
 }
@@ -807,7 +892,7 @@ void RobotAdmittanceControl::start(){
 void RobotAdmittanceControl::go_to_pose(){
     CartesianPose goal_pose;
     goal_pose.tran.x = -58.14; goal_pose.tran.y = 509.42; goal_pose.tran.z = 195;
-    goal_pose.rpy.rx = (180 * PI) / 180; goal_pose.rpy.ry = (0* PI) / 180; goal_pose.rpy.rz = (-60 * PI) / 180;
+    goal_pose.rpy.rx = (178 * PI) / 180; goal_pose.rpy.ry = (0* PI) / 180; goal_pose.rpy.rz = (-60 * PI) / 180;
     robot.servo_move_enable(false);
     robot.linear_move(&goal_pose, ABS, TRUE, 12);
 
@@ -829,13 +914,13 @@ void RobotAdmittanceControl::go_to_pose(){
     // new_rotm.x.z = new_angular(2,0); new_rotm.y.z = new_angular(2,1); new_rotm.z.z = new_angular(2,2);
     // robot.rot_matrix_to_rpy(&new_rotm, &new_rpy); //转欧拉角
 
-    cout << "new_linear" << new_linear << endl;
-    cout << new_rpy.rx << " "<<new_rpy.ry << " "<<new_rpy.rz << " "<<endl;
-    goal_pose.tran.x = new_linear[0] * 1000; goal_pose.tran.y = new_linear[1]* 1000; goal_pose.tran.z = new_linear[2]* 1000;
-    goal_pose.rpy.rx = eigen_rpy[2]; goal_pose.rpy.ry = eigen_rpy[1]; goal_pose.rpy.rz = eigen_rpy[0];
-    // cout << goal_pose << endl;
-    robot.linear_move(&goal_pose, ABS, TRUE, 12);
-    sleep(3);
+    // cout << "new_linear" << new_linear << endl;
+    // cout << new_rpy.rx << " "<<new_rpy.ry << " "<<new_rpy.rz << " "<<endl;
+    // goal_pose.tran.x = new_linear[0] * 1000; goal_pose.tran.y = new_linear[1]* 1000; goal_pose.tran.z = new_linear[2]* 1000;
+    // goal_pose.rpy.rx = eigen_rpy[2]; goal_pose.rpy.ry = eigen_rpy[1]; goal_pose.rpy.rz = eigen_rpy[0];
+    // // cout << goal_pose << endl;
+    // robot.linear_move(&goal_pose, ABS, TRUE, 12);
+    // sleep(3);
     cout << "the robot is at the goal pose" << endl;
 
 }
@@ -878,20 +963,26 @@ int main(int argc, char** argv){
         switch(input) {
             case '1':
 
-                std::cout << "screwing" << std::endl;
+                std::cout << "screwing with initialize" << std::endl;
                 robot_control.go_to_pose();
                 robot_control.tcp_admittance_run();
                 break;
 
             case '2':
 
-                std::cout << "insertion for the right tip" << std::endl;
+                std::cout << "screwing without initialize" << std::endl;
                 robot_control.tcp_admittance_run();
                 break;
-            
+
             case '3':
 
-                std::cout << "insertion for the right tip" << std::endl;
+                std::cout << "initialize" << std::endl;
+                robot_control.go_to_pose();
+                break;
+            
+            case '4':
+
+                std::cout << "screw search without initialize" << std::endl;
                 robot_control.screw_assembly_search();
                 break;
 

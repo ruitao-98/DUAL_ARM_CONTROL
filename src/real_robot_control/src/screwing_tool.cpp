@@ -119,7 +119,10 @@ void endeffector::width_reduce(int distance, ros::Publisher &pub, real_robot_con
 	// 关闭文件流
 	file1.close();
 
-    this->close_port();
+	while ((this->torque_on(1))) {
+		cout << "\r" <<"******养成好习惯，请关闭夹持装置的电源*********" << flush; 
+	}
+	this->close_port();
 }
 
 void endeffector::width_increase(int distance, ros::Publisher &pub, real_robot_control::current_pub &msg) {
@@ -203,7 +206,12 @@ void endeffector::width_increase(int distance, ros::Publisher &pub, real_robot_c
 	}
 	// 关闭文件流
 	file1.close();
-    this->close_port();
+    
+
+	while ((this->torque_on(1))) {
+		cout << "\r" <<"******养成好习惯，请关闭夹持装置的电源*********" << flush; 
+	}
+	this->close_port();
 }
 
 int endeffector::width_reduce_or_increase_full(int judge){
@@ -245,7 +253,7 @@ int endeffector::width_reduce_or_increase_full(int judge){
 		j = i % 5;
 		i = i + 1;
 		present_cu[j] = this->get_presentcurrent(1);
-    if (i<=5){
+    if (i <= 5){
       ave_current = start_current;
     }
     if (i > 5){
@@ -264,12 +272,20 @@ int endeffector::width_reduce_or_increase_full(int judge){
 			ofs.close();
 
 			this->torque_off(0);
+
+			while ((this->torque_on(1))) {
+				cout << "\r" <<"******养成好习惯，请关闭夹持装置的电源*********" << flush; 
+			}
 			return 0;
 			break;
 		}
 	}
-  this->close_port();
-  return 1;
+	
+	while ((this->torque_on(1))) {
+		cout << "\r" <<"******养成好习惯，请关闭夹持装置的电源*********" << flush; 
+	}
+	this->close_port();
+	return 1;
 }
 
 int endeffector::width_recovery(){
@@ -310,8 +326,15 @@ int endeffector::width_recovery(){
 			break;
 		}
 	}
-  this->close_port();
-  return 3;
+
+	while ((this->torque_on(1))) {
+		cout << "\r" <<"******养成好习惯，请关闭夹持装置的电源*********" << flush; 
+	}
+
+  	this->close_port();
+
+
+  	return 3;	
 }
 
 

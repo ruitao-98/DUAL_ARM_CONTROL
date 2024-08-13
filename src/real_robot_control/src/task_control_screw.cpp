@@ -83,7 +83,7 @@ void cb(const real_robot_control::screwGoalConstPtr &goal, Server* server){
         feedback.screw_status = 1; //执行器开始运行
         server->publishFeedback(feedback);
 
-        result = ef.screwing_s1(200, 1, current_pub, msg); //0表示没有卡住， 1表示卡住了
+        result = ef.screwing_s1(150, 1, current_pub, msg); //0表示没有卡住， 1表示卡住了
         // sleep(10);
         // result = 0;
 
@@ -152,13 +152,7 @@ int main(int argc, char *argv[]){
     // ros::ServiceServer server = nh.advertiseService("screwservice",doReq);
     // ROS_INFO("服务已经启动....");
     // ros::spin();
-
-    // 启动action server，阻塞后续代码
-    // Server server(nh,"screwactions",boost::bind(&cb,_1,&server),false);
-    // server.start();
-    // ros::spin();
-
-    bool running = true;
+        bool running = true;
     char input;
     while (running) {
         std::cout << "Enter 1 for screwing, 2 for unscrewing, or any other key to exit:" << std::endl;
@@ -195,6 +189,13 @@ int main(int argc, char *argv[]){
                 break;
         }
     }
+
+    // 启动action server，阻塞后续代码
+    Server server(nh,"screwactions",boost::bind(&cb,_1,&server),false);
+    server.start();
+    ros::spin();
+
+
     return 0;
 }
 

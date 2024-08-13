@@ -270,13 +270,13 @@ int main(int argc, char *argv[]){
     //     std::cout << "\r" << "倒计时: " << 10 - timesec << " 秒" << std::flush; 
     //     sleep(1);
     // }
+    int input;
+    std::cout << "Enter 1" << std::endl;
+    std::cin >> input;
     int N = 6;
     int phi_index = 0;
     int theta_index = 1;
     while (true) {
-        
-
-        
         if (theta_index<3){
             if (phi_index==N){
                 phi_index = 0;
