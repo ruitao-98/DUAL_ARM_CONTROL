@@ -11,10 +11,10 @@ def read_txt_file(file_path):
 # 定义文件路径
 # file_path_x = 'x_true_2024-08-13_23-46-46.txt'
 # file_path_y = 'y_true_2024-08-13_23-46-46.txt'
-# file_path_x = 'x_2024-08-13_23-46-46.txt'
-# file_path_y = 'y_2024-08-13_23-46-46.txt'
-file_path_x = 'x_robot_2024-08-13_23-46-46.txt'
-file_path_y = 'y_robot_2024-08-13_23-46-46.txt'
+file_path_x = 'x_2024-08-14_16-40-51.txt'
+file_path_y = 'y_2024-08-14_16-40-51.txt'
+# file_path_x = 'x_robot_2024-08-14_16-40-51.txt'
+# file_path_y = 'y_robot_2024-08-14_16-40-51.txt'
 # file_path_x = 'x_2024-08-13_23-51-45.txt'
 # file_path_y = 'y_2024-08-13_23-51-45.txt'
 # file_path_x = 'x_robot_2024-08-13_23-51-45.txt'
@@ -30,8 +30,8 @@ if len(x_data) != len(y_data):
 
 # 绘制散点图
 plt.figure(figsize=(10, 10))
-# plt.scatter(x_data, y_data, s=1)  # s=1 设置点的大小
-plt.plot(x_data[:3000], y_data[:3000], linewidth=1)  # linewidth=1 设置线的宽度
+plt.scatter(x_data, y_data, s=1)  # s=1 设置点的大小
+# plt.plot(x_data[:3000], y_data[:3000], linewidth=1)  # linewidth=1 设置线的宽度
 plt.xlabel('X-axis Data')
 plt.ylabel('Y-axis Data')
 plt.title('Scatter Plot of X vs Y')

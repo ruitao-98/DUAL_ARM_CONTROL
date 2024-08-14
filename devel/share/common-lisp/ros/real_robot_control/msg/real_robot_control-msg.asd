@@ -14,6 +14,8 @@
     (:file "_package_gripper" :depends-on ("_package"))
     (:file "pose" :depends-on ("_package_pose"))
     (:file "_package_pose" :depends-on ("_package"))
+    (:file "robot_pos_pub" :depends-on ("_package_robot_pos_pub"))
+    (:file "_package_robot_pos_pub" :depends-on ("_package"))
     (:file "screwAction" :depends-on ("_package_screwAction"))
     (:file "_package_screwAction" :depends-on ("_package"))
     (:file "screwActionFeedback" :depends-on ("_package_screwActionFeedback"))

@@ -1403,6 +1403,19 @@ object_recognition_msgs_generate_messages_nodejs/fast:
 .PHONY : object_recognition_msgs_generate_messages_nodejs/fast
 
 #=============================================================================
+# Target rules for targets named _real_robot_control_generate_messages_check_deps_robot_pos_pub
+
+# Build rule for target.
+_real_robot_control_generate_messages_check_deps_robot_pos_pub: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 _real_robot_control_generate_messages_check_deps_robot_pos_pub
+.PHONY : _real_robot_control_generate_messages_check_deps_robot_pos_pub
+
+# fast build rule for target.
+_real_robot_control_generate_messages_check_deps_robot_pos_pub/fast:
+	$(MAKE) -f real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_robot_pos_pub.dir/build.make real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_robot_pos_pub.dir/build
+.PHONY : _real_robot_control_generate_messages_check_deps_robot_pos_pub/fast
+
+#=============================================================================
 # Target rules for targets named std_msgs_generate_messages_lisp
 
 # Build rule for target.
@@ -2238,6 +2251,7 @@ help:
 	@echo "... object_recognition_msgs_generate_messages_lisp"
 	@echo "... actionlib_msgs_generate_messages_eus"
 	@echo "... object_recognition_msgs_generate_messages_nodejs"
+	@echo "... _real_robot_control_generate_messages_check_deps_robot_pos_pub"
 	@echo "... std_msgs_generate_messages_lisp"
 	@echo "... octomap_msgs_generate_messages_cpp"
 	@echo "... octomap_msgs_generate_messages_lisp"

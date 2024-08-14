@@ -64,18 +64,19 @@ real_robot_control/CMakeFiles/real_robot_control_generate_messages_lisp: /home/y
 real_robot_control/CMakeFiles/real_robot_control_generate_messages_lisp: /home/yanji/dual_arm_control/devel/share/common-lisp/ros/real_robot_control/msg/gripper.lisp
 real_robot_control/CMakeFiles/real_robot_control_generate_messages_lisp: /home/yanji/dual_arm_control/devel/share/common-lisp/ros/real_robot_control/msg/current_pub.lisp
 real_robot_control/CMakeFiles/real_robot_control_generate_messages_lisp: /home/yanji/dual_arm_control/devel/share/common-lisp/ros/real_robot_control/msg/pose.lisp
+real_robot_control/CMakeFiles/real_robot_control_generate_messages_lisp: /home/yanji/dual_arm_control/devel/share/common-lisp/ros/real_robot_control/msg/robot_pos_pub.lisp
 real_robot_control/CMakeFiles/real_robot_control_generate_messages_lisp: /home/yanji/dual_arm_control/devel/share/common-lisp/ros/real_robot_control/srv/screwsrv.lisp
 
 
 /home/yanji/dual_arm_control/devel/share/common-lisp/ros/real_robot_control/msg/screwAction.lisp: /opt/ros/noetic/lib/genlisp/gen_lisp.py
 /home/yanji/dual_arm_control/devel/share/common-lisp/ros/real_robot_control/msg/screwAction.lisp: /home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwAction.msg
-/home/yanji/dual_arm_control/devel/share/common-lisp/ros/real_robot_control/msg/screwAction.lisp: /home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwResult.msg
-/home/yanji/dual_arm_control/devel/share/common-lisp/ros/real_robot_control/msg/screwAction.lisp: /home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwFeedback.msg
-/home/yanji/dual_arm_control/devel/share/common-lisp/ros/real_robot_control/msg/screwAction.lisp: /home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwActionGoal.msg
-/home/yanji/dual_arm_control/devel/share/common-lisp/ros/real_robot_control/msg/screwAction.lisp: /home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwGoal.msg
-/home/yanji/dual_arm_control/devel/share/common-lisp/ros/real_robot_control/msg/screwAction.lisp: /opt/ros/noetic/share/actionlib_msgs/msg/GoalID.msg
 /home/yanji/dual_arm_control/devel/share/common-lisp/ros/real_robot_control/msg/screwAction.lisp: /opt/ros/noetic/share/actionlib_msgs/msg/GoalStatus.msg
+/home/yanji/dual_arm_control/devel/share/common-lisp/ros/real_robot_control/msg/screwAction.lisp: /home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwFeedback.msg
 /home/yanji/dual_arm_control/devel/share/common-lisp/ros/real_robot_control/msg/screwAction.lisp: /opt/ros/noetic/share/std_msgs/msg/Header.msg
+/home/yanji/dual_arm_control/devel/share/common-lisp/ros/real_robot_control/msg/screwAction.lisp: /opt/ros/noetic/share/actionlib_msgs/msg/GoalID.msg
+/home/yanji/dual_arm_control/devel/share/common-lisp/ros/real_robot_control/msg/screwAction.lisp: /home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwResult.msg
+/home/yanji/dual_arm_control/devel/share/common-lisp/ros/real_robot_control/msg/screwAction.lisp: /home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwGoal.msg
+/home/yanji/dual_arm_control/devel/share/common-lisp/ros/real_robot_control/msg/screwAction.lisp: /home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwActionGoal.msg
 /home/yanji/dual_arm_control/devel/share/common-lisp/ros/real_robot_control/msg/screwAction.lisp: /home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwActionFeedback.msg
 /home/yanji/dual_arm_control/devel/share/common-lisp/ros/real_robot_control/msg/screwAction.lisp: /home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwActionResult.msg
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/yanji/dual_arm_control/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Generating Lisp code from real_robot_control/screwAction.msg"
@@ -91,8 +92,8 @@ real_robot_control/CMakeFiles/real_robot_control_generate_messages_lisp: /home/y
 
 /home/yanji/dual_arm_control/devel/share/common-lisp/ros/real_robot_control/msg/screwActionResult.lisp: /opt/ros/noetic/lib/genlisp/gen_lisp.py
 /home/yanji/dual_arm_control/devel/share/common-lisp/ros/real_robot_control/msg/screwActionResult.lisp: /home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwActionResult.msg
-/home/yanji/dual_arm_control/devel/share/common-lisp/ros/real_robot_control/msg/screwActionResult.lisp: /opt/ros/noetic/share/std_msgs/msg/Header.msg
 /home/yanji/dual_arm_control/devel/share/common-lisp/ros/real_robot_control/msg/screwActionResult.lisp: /home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwResult.msg
+/home/yanji/dual_arm_control/devel/share/common-lisp/ros/real_robot_control/msg/screwActionResult.lisp: /opt/ros/noetic/share/std_msgs/msg/Header.msg
 /home/yanji/dual_arm_control/devel/share/common-lisp/ros/real_robot_control/msg/screwActionResult.lisp: /opt/ros/noetic/share/actionlib_msgs/msg/GoalID.msg
 /home/yanji/dual_arm_control/devel/share/common-lisp/ros/real_robot_control/msg/screwActionResult.lisp: /opt/ros/noetic/share/actionlib_msgs/msg/GoalStatus.msg
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/yanji/dual_arm_control/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Generating Lisp code from real_robot_control/screwActionResult.msg"
@@ -100,8 +101,8 @@ real_robot_control/CMakeFiles/real_robot_control_generate_messages_lisp: /home/y
 
 /home/yanji/dual_arm_control/devel/share/common-lisp/ros/real_robot_control/msg/screwActionFeedback.lisp: /opt/ros/noetic/lib/genlisp/gen_lisp.py
 /home/yanji/dual_arm_control/devel/share/common-lisp/ros/real_robot_control/msg/screwActionFeedback.lisp: /home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwActionFeedback.msg
-/home/yanji/dual_arm_control/devel/share/common-lisp/ros/real_robot_control/msg/screwActionFeedback.lisp: /opt/ros/noetic/share/std_msgs/msg/Header.msg
 /home/yanji/dual_arm_control/devel/share/common-lisp/ros/real_robot_control/msg/screwActionFeedback.lisp: /home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwFeedback.msg
+/home/yanji/dual_arm_control/devel/share/common-lisp/ros/real_robot_control/msg/screwActionFeedback.lisp: /opt/ros/noetic/share/std_msgs/msg/Header.msg
 /home/yanji/dual_arm_control/devel/share/common-lisp/ros/real_robot_control/msg/screwActionFeedback.lisp: /opt/ros/noetic/share/actionlib_msgs/msg/GoalID.msg
 /home/yanji/dual_arm_control/devel/share/common-lisp/ros/real_robot_control/msg/screwActionFeedback.lisp: /opt/ros/noetic/share/actionlib_msgs/msg/GoalStatus.msg
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/yanji/dual_arm_control/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Generating Lisp code from real_robot_control/screwActionFeedback.msg"
@@ -140,14 +141,19 @@ real_robot_control/CMakeFiles/real_robot_control_generate_messages_lisp: /home/y
 /home/yanji/dual_arm_control/devel/share/common-lisp/ros/real_robot_control/msg/pose.lisp: /opt/ros/noetic/lib/genlisp/gen_lisp.py
 /home/yanji/dual_arm_control/devel/share/common-lisp/ros/real_robot_control/msg/pose.lisp: /home/yanji/dual_arm_control/src/real_robot_control/msg/pose.msg
 /home/yanji/dual_arm_control/devel/share/common-lisp/ros/real_robot_control/msg/pose.lisp: /opt/ros/noetic/share/std_msgs/msg/MultiArrayDimension.msg
-/home/yanji/dual_arm_control/devel/share/common-lisp/ros/real_robot_control/msg/pose.lisp: /opt/ros/noetic/share/std_msgs/msg/MultiArrayLayout.msg
 /home/yanji/dual_arm_control/devel/share/common-lisp/ros/real_robot_control/msg/pose.lisp: /opt/ros/noetic/share/std_msgs/msg/Float32MultiArray.msg
+/home/yanji/dual_arm_control/devel/share/common-lisp/ros/real_robot_control/msg/pose.lisp: /opt/ros/noetic/share/std_msgs/msg/MultiArrayLayout.msg
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/yanji/dual_arm_control/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Generating Lisp code from real_robot_control/pose.msg"
 	cd /home/yanji/dual_arm_control/build/real_robot_control && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/genlisp/cmake/../../../lib/genlisp/gen_lisp.py /home/yanji/dual_arm_control/src/real_robot_control/msg/pose.msg -Ireal_robot_control:/home/yanji/dual_arm_control/devel/share/real_robot_control/msg -Ireal_robot_control:/home/yanji/dual_arm_control/src/real_robot_control/msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -Iactionlib_msgs:/opt/ros/noetic/share/actionlib_msgs/cmake/../msg -p real_robot_control -o /home/yanji/dual_arm_control/devel/share/common-lisp/ros/real_robot_control/msg
 
+/home/yanji/dual_arm_control/devel/share/common-lisp/ros/real_robot_control/msg/robot_pos_pub.lisp: /opt/ros/noetic/lib/genlisp/gen_lisp.py
+/home/yanji/dual_arm_control/devel/share/common-lisp/ros/real_robot_control/msg/robot_pos_pub.lisp: /home/yanji/dual_arm_control/src/real_robot_control/msg/robot_pos_pub.msg
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/yanji/dual_arm_control/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Generating Lisp code from real_robot_control/robot_pos_pub.msg"
+	cd /home/yanji/dual_arm_control/build/real_robot_control && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/genlisp/cmake/../../../lib/genlisp/gen_lisp.py /home/yanji/dual_arm_control/src/real_robot_control/msg/robot_pos_pub.msg -Ireal_robot_control:/home/yanji/dual_arm_control/devel/share/real_robot_control/msg -Ireal_robot_control:/home/yanji/dual_arm_control/src/real_robot_control/msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -Iactionlib_msgs:/opt/ros/noetic/share/actionlib_msgs/cmake/../msg -p real_robot_control -o /home/yanji/dual_arm_control/devel/share/common-lisp/ros/real_robot_control/msg
+
 /home/yanji/dual_arm_control/devel/share/common-lisp/ros/real_robot_control/srv/screwsrv.lisp: /opt/ros/noetic/lib/genlisp/gen_lisp.py
 /home/yanji/dual_arm_control/devel/share/common-lisp/ros/real_robot_control/srv/screwsrv.lisp: /home/yanji/dual_arm_control/src/real_robot_control/srv/screwsrv.srv
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/yanji/dual_arm_control/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Generating Lisp code from real_robot_control/screwsrv.srv"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/yanji/dual_arm_control/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Generating Lisp code from real_robot_control/screwsrv.srv"
 	cd /home/yanji/dual_arm_control/build/real_robot_control && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/genlisp/cmake/../../../lib/genlisp/gen_lisp.py /home/yanji/dual_arm_control/src/real_robot_control/srv/screwsrv.srv -Ireal_robot_control:/home/yanji/dual_arm_control/devel/share/real_robot_control/msg -Ireal_robot_control:/home/yanji/dual_arm_control/src/real_robot_control/msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -Iactionlib_msgs:/opt/ros/noetic/share/actionlib_msgs/cmake/../msg -p real_robot_control -o /home/yanji/dual_arm_control/devel/share/common-lisp/ros/real_robot_control/srv
 
 real_robot_control_generate_messages_lisp: real_robot_control/CMakeFiles/real_robot_control_generate_messages_lisp
@@ -162,6 +168,7 @@ real_robot_control_generate_messages_lisp: /home/yanji/dual_arm_control/devel/sh
 real_robot_control_generate_messages_lisp: /home/yanji/dual_arm_control/devel/share/common-lisp/ros/real_robot_control/msg/gripper.lisp
 real_robot_control_generate_messages_lisp: /home/yanji/dual_arm_control/devel/share/common-lisp/ros/real_robot_control/msg/current_pub.lisp
 real_robot_control_generate_messages_lisp: /home/yanji/dual_arm_control/devel/share/common-lisp/ros/real_robot_control/msg/pose.lisp
+real_robot_control_generate_messages_lisp: /home/yanji/dual_arm_control/devel/share/common-lisp/ros/real_robot_control/msg/robot_pos_pub.lisp
 real_robot_control_generate_messages_lisp: /home/yanji/dual_arm_control/devel/share/common-lisp/ros/real_robot_control/srv/screwsrv.lisp
 real_robot_control_generate_messages_lisp: real_robot_control/CMakeFiles/real_robot_control_generate_messages_lisp.dir/build.make
 

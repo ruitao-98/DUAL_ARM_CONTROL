@@ -1443,6 +1443,21 @@ object_recognition_msgs_generate_messages_nodejs/fast:
 .PHONY : object_recognition_msgs_generate_messages_nodejs/fast
 
 # Convenience name for target.
+real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_robot_pos_pub.dir/rule:
+	cd /home/yanji/dual_arm_control/build && $(MAKE) -f CMakeFiles/Makefile2 real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_robot_pos_pub.dir/rule
+.PHONY : real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_robot_pos_pub.dir/rule
+
+# Convenience name for target.
+_real_robot_control_generate_messages_check_deps_robot_pos_pub: real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_robot_pos_pub.dir/rule
+
+.PHONY : _real_robot_control_generate_messages_check_deps_robot_pos_pub
+
+# fast build rule for target.
+_real_robot_control_generate_messages_check_deps_robot_pos_pub/fast:
+	cd /home/yanji/dual_arm_control/build && $(MAKE) -f real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_robot_pos_pub.dir/build.make real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_robot_pos_pub.dir/build
+.PHONY : _real_robot_control_generate_messages_check_deps_robot_pos_pub/fast
+
+# Convenience name for target.
 real_robot_control/CMakeFiles/std_msgs_generate_messages_lisp.dir/rule:
 	cd /home/yanji/dual_arm_control/build && $(MAKE) -f CMakeFiles/Makefile2 real_robot_control/CMakeFiles/std_msgs_generate_messages_lisp.dir/rule
 .PHONY : real_robot_control/CMakeFiles/std_msgs_generate_messages_lisp.dir/rule
@@ -2485,6 +2500,7 @@ help:
 	@echo "... object_recognition_msgs_generate_messages_lisp"
 	@echo "... actionlib_msgs_generate_messages_eus"
 	@echo "... object_recognition_msgs_generate_messages_nodejs"
+	@echo "... _real_robot_control_generate_messages_check_deps_robot_pos_pub"
 	@echo "... std_msgs_generate_messages_lisp"
 	@echo "... octomap_msgs_generate_messages_cpp"
 	@echo "... octomap_msgs_generate_messages_lisp"

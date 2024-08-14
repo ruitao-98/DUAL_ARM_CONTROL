@@ -93,6 +93,7 @@ add_message_files(
   gripper.msg
   current_pub.msg
   pose.msg
+  robot_pos_pub.msg
 )
 
 

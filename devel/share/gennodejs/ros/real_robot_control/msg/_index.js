@@ -11,6 +11,7 @@ let screwGoal = require('./screwGoal.js');
 let force_pub = require('./force_pub.js');
 let current_pub = require('./current_pub.js');
 let pose = require('./pose.js');
+let robot_pos_pub = require('./robot_pos_pub.js');
 let gripper = require('./gripper.js');
 
 module.exports = {
@@ -24,5 +25,6 @@ module.exports = {
   force_pub: force_pub,
   current_pub: current_pub,
   pose: pose,
+  robot_pos_pub: robot_pos_pub,
   gripper: gripper,
 };

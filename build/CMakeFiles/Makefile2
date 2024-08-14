@@ -252,6 +252,7 @@ real_robot_control/clean: real_robot_control/CMakeFiles/right_robot_control.dir/
 real_robot_control/clean: real_robot_control/CMakeFiles/object_recognition_msgs_generate_messages_lisp.dir/clean
 real_robot_control/clean: real_robot_control/CMakeFiles/actionlib_msgs_generate_messages_eus.dir/clean
 real_robot_control/clean: real_robot_control/CMakeFiles/object_recognition_msgs_generate_messages_nodejs.dir/clean
+real_robot_control/clean: real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_robot_pos_pub.dir/clean
 real_robot_control/clean: real_robot_control/CMakeFiles/std_msgs_generate_messages_lisp.dir/clean
 real_robot_control/clean: real_robot_control/CMakeFiles/octomap_msgs_generate_messages_cpp.dir/clean
 real_robot_control/clean: real_robot_control/CMakeFiles/octomap_msgs_generate_messages_lisp.dir/clean
@@ -511,7 +512,7 @@ gtest/googlemock/CMakeFiles/gmock_main.dir/all: gtest/googletest/CMakeFiles/gtes
 
 # Build rule for subdir invocation for target.
 gtest/googlemock/CMakeFiles/gmock_main.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yanji/dual_arm_control/build/CMakeFiles 6
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/yanji/dual_arm_control/build/CMakeFiles 5
 	$(MAKE) -f CMakeFiles/Makefile2 gtest/googlemock/CMakeFiles/gmock_main.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/yanji/dual_arm_control/build/CMakeFiles 0
 .PHONY : gtest/googlemock/CMakeFiles/gmock_main.dir/rule
@@ -538,7 +539,7 @@ gtest/googlemock/CMakeFiles/gmock.dir/all: gtest/googletest/CMakeFiles/gtest.dir
 
 # Build rule for subdir invocation for target.
 gtest/googlemock/CMakeFiles/gmock.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yanji/dual_arm_control/build/CMakeFiles 4
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/yanji/dual_arm_control/build/CMakeFiles 3
 	$(MAKE) -f CMakeFiles/Makefile2 gtest/googlemock/CMakeFiles/gmock.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/yanji/dual_arm_control/build/CMakeFiles 0
 .PHONY : gtest/googlemock/CMakeFiles/gmock.dir/rule
@@ -560,12 +561,12 @@ gtest/googlemock/CMakeFiles/gmock.dir/clean:
 gtest/googletest/CMakeFiles/gtest_main.dir/all: gtest/googletest/CMakeFiles/gtest.dir/all
 	$(MAKE) -f gtest/googletest/CMakeFiles/gtest_main.dir/build.make gtest/googletest/CMakeFiles/gtest_main.dir/depend
 	$(MAKE) -f gtest/googletest/CMakeFiles/gtest_main.dir/build.make gtest/googletest/CMakeFiles/gtest_main.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/yanji/dual_arm_control/build/CMakeFiles --progress-num=16,17 "Built target gtest_main"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/yanji/dual_arm_control/build/CMakeFiles --progress-num=15,16 "Built target gtest_main"
 .PHONY : gtest/googletest/CMakeFiles/gtest_main.dir/all
 
 # Build rule for subdir invocation for target.
 gtest/googletest/CMakeFiles/gtest_main.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yanji/dual_arm_control/build/CMakeFiles 4
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/yanji/dual_arm_control/build/CMakeFiles 3
 	$(MAKE) -f CMakeFiles/Makefile2 gtest/googletest/CMakeFiles/gtest_main.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/yanji/dual_arm_control/build/CMakeFiles 0
 .PHONY : gtest/googletest/CMakeFiles/gtest_main.dir/rule
@@ -587,12 +588,12 @@ gtest/googletest/CMakeFiles/gtest_main.dir/clean:
 gtest/googletest/CMakeFiles/gtest.dir/all:
 	$(MAKE) -f gtest/googletest/CMakeFiles/gtest.dir/build.make gtest/googletest/CMakeFiles/gtest.dir/depend
 	$(MAKE) -f gtest/googletest/CMakeFiles/gtest.dir/build.make gtest/googletest/CMakeFiles/gtest.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/yanji/dual_arm_control/build/CMakeFiles --progress-num=14,15 "Built target gtest"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/yanji/dual_arm_control/build/CMakeFiles --progress-num=14 "Built target gtest"
 .PHONY : gtest/googletest/CMakeFiles/gtest.dir/all
 
 # Build rule for subdir invocation for target.
 gtest/googletest/CMakeFiles/gtest.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yanji/dual_arm_control/build/CMakeFiles 2
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/yanji/dual_arm_control/build/CMakeFiles 1
 	$(MAKE) -f CMakeFiles/Makefile2 gtest/googletest/CMakeFiles/gtest.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/yanji/dual_arm_control/build/CMakeFiles 0
 .PHONY : gtest/googletest/CMakeFiles/gtest.dir/rule
@@ -740,12 +741,12 @@ real_robot_control/CMakeFiles/left_or_right_disassembly.dir/all: real_robot_cont
 real_robot_control/CMakeFiles/left_or_right_disassembly.dir/all: real_robot_control/CMakeFiles/control_msgs_generate_messages_nodejs.dir/all
 	$(MAKE) -f real_robot_control/CMakeFiles/left_or_right_disassembly.dir/build.make real_robot_control/CMakeFiles/left_or_right_disassembly.dir/depend
 	$(MAKE) -f real_robot_control/CMakeFiles/left_or_right_disassembly.dir/build.make real_robot_control/CMakeFiles/left_or_right_disassembly.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/yanji/dual_arm_control/build/CMakeFiles --progress-num=20,21 "Built target left_or_right_disassembly"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/yanji/dual_arm_control/build/CMakeFiles --progress-num=19,20 "Built target left_or_right_disassembly"
 .PHONY : real_robot_control/CMakeFiles/left_or_right_disassembly.dir/all
 
 # Build rule for subdir invocation for target.
 real_robot_control/CMakeFiles/left_or_right_disassembly.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yanji/dual_arm_control/build/CMakeFiles 65
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/yanji/dual_arm_control/build/CMakeFiles 66
 	$(MAKE) -f CMakeFiles/Makefile2 real_robot_control/CMakeFiles/left_or_right_disassembly.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/yanji/dual_arm_control/build/CMakeFiles 0
 .PHONY : real_robot_control/CMakeFiles/left_or_right_disassembly.dir/rule
@@ -1109,12 +1110,12 @@ real_robot_control/CMakeFiles/left_or_right_assembly.dir/all: real_robot_control
 real_robot_control/CMakeFiles/left_or_right_assembly.dir/all: real_robot_control/CMakeFiles/control_msgs_generate_messages_nodejs.dir/all
 	$(MAKE) -f real_robot_control/CMakeFiles/left_or_right_assembly.dir/build.make real_robot_control/CMakeFiles/left_or_right_assembly.dir/depend
 	$(MAKE) -f real_robot_control/CMakeFiles/left_or_right_assembly.dir/build.make real_robot_control/CMakeFiles/left_or_right_assembly.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/yanji/dual_arm_control/build/CMakeFiles --progress-num=18,19 "Built target left_or_right_assembly"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/yanji/dual_arm_control/build/CMakeFiles --progress-num=17,18 "Built target left_or_right_assembly"
 .PHONY : real_robot_control/CMakeFiles/left_or_right_assembly.dir/all
 
 # Build rule for subdir invocation for target.
 real_robot_control/CMakeFiles/left_or_right_assembly.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yanji/dual_arm_control/build/CMakeFiles 65
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/yanji/dual_arm_control/build/CMakeFiles 66
 	$(MAKE) -f CMakeFiles/Makefile2 real_robot_control/CMakeFiles/left_or_right_assembly.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/yanji/dual_arm_control/build/CMakeFiles 0
 .PHONY : real_robot_control/CMakeFiles/left_or_right_assembly.dir/rule
@@ -1253,7 +1254,7 @@ real_robot_control/CMakeFiles/real_robot_control_generate_messages.dir/all: real
 
 # Build rule for subdir invocation for target.
 real_robot_control/CMakeFiles/real_robot_control_generate_messages.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yanji/dual_arm_control/build/CMakeFiles 62
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/yanji/dual_arm_control/build/CMakeFiles 63
 	$(MAKE) -f CMakeFiles/Makefile2 real_robot_control/CMakeFiles/real_robot_control_generate_messages.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/yanji/dual_arm_control/build/CMakeFiles 0
 .PHONY : real_robot_control/CMakeFiles/real_robot_control_generate_messages.dir/rule
@@ -2433,7 +2434,7 @@ real_robot_control/CMakeFiles/code_test.dir/all: real_robot_control/CMakeFiles/c
 
 # Build rule for subdir invocation for target.
 real_robot_control/CMakeFiles/code_test.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yanji/dual_arm_control/build/CMakeFiles 68
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/yanji/dual_arm_control/build/CMakeFiles 69
 	$(MAKE) -f CMakeFiles/Makefile2 real_robot_control/CMakeFiles/code_test.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/yanji/dual_arm_control/build/CMakeFiles 0
 .PHONY : real_robot_control/CMakeFiles/code_test.dir/rule
@@ -3235,7 +3236,7 @@ real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CM
 
 # Build rule for subdir invocation for target.
 real_robot_control/CMakeFiles/right_robot_control.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yanji/dual_arm_control/build/CMakeFiles 68
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/yanji/dual_arm_control/build/CMakeFiles 69
 	$(MAKE) -f CMakeFiles/Makefile2 real_robot_control/CMakeFiles/right_robot_control.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/yanji/dual_arm_control/build/CMakeFiles 0
 .PHONY : real_robot_control/CMakeFiles/right_robot_control.dir/rule
@@ -3330,6 +3331,33 @@ object_recognition_msgs_generate_messages_nodejs: real_robot_control/CMakeFiles/
 real_robot_control/CMakeFiles/object_recognition_msgs_generate_messages_nodejs.dir/clean:
 	$(MAKE) -f real_robot_control/CMakeFiles/object_recognition_msgs_generate_messages_nodejs.dir/build.make real_robot_control/CMakeFiles/object_recognition_msgs_generate_messages_nodejs.dir/clean
 .PHONY : real_robot_control/CMakeFiles/object_recognition_msgs_generate_messages_nodejs.dir/clean
+
+#=============================================================================
+# Target rules for target real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_robot_pos_pub.dir
+
+# All Build rule for target.
+real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_robot_pos_pub.dir/all:
+	$(MAKE) -f real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_robot_pos_pub.dir/build.make real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_robot_pos_pub.dir/depend
+	$(MAKE) -f real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_robot_pos_pub.dir/build.make real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_robot_pos_pub.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/yanji/dual_arm_control/build/CMakeFiles --progress-num= "Built target _real_robot_control_generate_messages_check_deps_robot_pos_pub"
+.PHONY : real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_robot_pos_pub.dir/all
+
+# Build rule for subdir invocation for target.
+real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_robot_pos_pub.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/yanji/dual_arm_control/build/CMakeFiles 0
+	$(MAKE) -f CMakeFiles/Makefile2 real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_robot_pos_pub.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/yanji/dual_arm_control/build/CMakeFiles 0
+.PHONY : real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_robot_pos_pub.dir/rule
+
+# Convenience name for target.
+_real_robot_control_generate_messages_check_deps_robot_pos_pub: real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_robot_pos_pub.dir/rule
+
+.PHONY : _real_robot_control_generate_messages_check_deps_robot_pos_pub
+
+# clean rule for target.
+real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_robot_pos_pub.dir/clean:
+	$(MAKE) -f real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_robot_pos_pub.dir/build.make real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_robot_pos_pub.dir/clean
+.PHONY : real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_robot_pos_pub.dir/clean
 
 #=============================================================================
 # Target rules for target real_robot_control/CMakeFiles/std_msgs_generate_messages_lisp.dir
@@ -3544,12 +3572,12 @@ real_robot_control/CMakeFiles/motion_planning.dir/all: real_robot_control/CMakeF
 real_robot_control/CMakeFiles/motion_planning.dir/all: real_robot_control/CMakeFiles/control_msgs_generate_messages_nodejs.dir/all
 	$(MAKE) -f real_robot_control/CMakeFiles/motion_planning.dir/build.make real_robot_control/CMakeFiles/motion_planning.dir/depend
 	$(MAKE) -f real_robot_control/CMakeFiles/motion_planning.dir/build.make real_robot_control/CMakeFiles/motion_planning.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/yanji/dual_arm_control/build/CMakeFiles --progress-num=22,23 "Built target motion_planning"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/yanji/dual_arm_control/build/CMakeFiles --progress-num=21,22 "Built target motion_planning"
 .PHONY : real_robot_control/CMakeFiles/motion_planning.dir/all
 
 # Build rule for subdir invocation for target.
 real_robot_control/CMakeFiles/motion_planning.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yanji/dual_arm_control/build/CMakeFiles 64
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/yanji/dual_arm_control/build/CMakeFiles 65
 	$(MAKE) -f CMakeFiles/Makefile2 real_robot_control/CMakeFiles/motion_planning.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/yanji/dual_arm_control/build/CMakeFiles 0
 .PHONY : real_robot_control/CMakeFiles/motion_planning.dir/rule
@@ -3602,6 +3630,7 @@ real_robot_control/CMakeFiles/real_robot_control_generate_messages_cpp.dir/all: 
 real_robot_control/CMakeFiles/real_robot_control_generate_messages_cpp.dir/all: real_robot_control/CMakeFiles/std_msgs_generate_messages_cpp.dir/all
 real_robot_control/CMakeFiles/real_robot_control_generate_messages_cpp.dir/all: real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_screwActionGoal.dir/all
 real_robot_control/CMakeFiles/real_robot_control_generate_messages_cpp.dir/all: real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_current_pub.dir/all
+real_robot_control/CMakeFiles/real_robot_control_generate_messages_cpp.dir/all: real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_robot_pos_pub.dir/all
 real_robot_control/CMakeFiles/real_robot_control_generate_messages_cpp.dir/all: real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_screwAction.dir/all
 real_robot_control/CMakeFiles/real_robot_control_generate_messages_cpp.dir/all: real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_force_pub.dir/all
 real_robot_control/CMakeFiles/real_robot_control_generate_messages_cpp.dir/all: real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_screwActionResult.dir/all
@@ -3611,7 +3640,7 @@ real_robot_control/CMakeFiles/real_robot_control_generate_messages_cpp.dir/all: 
 real_robot_control/CMakeFiles/real_robot_control_generate_messages_cpp.dir/all: real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_screwFeedback.dir/all
 	$(MAKE) -f real_robot_control/CMakeFiles/real_robot_control_generate_messages_cpp.dir/build.make real_robot_control/CMakeFiles/real_robot_control_generate_messages_cpp.dir/depend
 	$(MAKE) -f real_robot_control/CMakeFiles/real_robot_control_generate_messages_cpp.dir/build.make real_robot_control/CMakeFiles/real_robot_control_generate_messages_cpp.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/yanji/dual_arm_control/build/CMakeFiles --progress-num=26,27,28,29,30,31,32,33,34,35,36,37 "Built target real_robot_control_generate_messages_cpp"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/yanji/dual_arm_control/build/CMakeFiles --progress-num=25,26,27,28,29,30,31,32,33,34,35,36 "Built target real_robot_control_generate_messages_cpp"
 .PHONY : real_robot_control/CMakeFiles/real_robot_control_generate_messages_cpp.dir/all
 
 # Build rule for subdir invocation for target.
@@ -4263,6 +4292,7 @@ real_robot_control/CMakeFiles/real_robot_control_generate_messages_eus.dir/all: 
 real_robot_control/CMakeFiles/real_robot_control_generate_messages_eus.dir/all: real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_screwActionGoal.dir/all
 real_robot_control/CMakeFiles/real_robot_control_generate_messages_eus.dir/all: real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_current_pub.dir/all
 real_robot_control/CMakeFiles/real_robot_control_generate_messages_eus.dir/all: real_robot_control/CMakeFiles/actionlib_msgs_generate_messages_eus.dir/all
+real_robot_control/CMakeFiles/real_robot_control_generate_messages_eus.dir/all: real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_robot_pos_pub.dir/all
 real_robot_control/CMakeFiles/real_robot_control_generate_messages_eus.dir/all: real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_screwAction.dir/all
 real_robot_control/CMakeFiles/real_robot_control_generate_messages_eus.dir/all: real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_force_pub.dir/all
 real_robot_control/CMakeFiles/real_robot_control_generate_messages_eus.dir/all: real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_screwActionResult.dir/all
@@ -4272,7 +4302,7 @@ real_robot_control/CMakeFiles/real_robot_control_generate_messages_eus.dir/all: 
 real_robot_control/CMakeFiles/real_robot_control_generate_messages_eus.dir/all: real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_screwFeedback.dir/all
 	$(MAKE) -f real_robot_control/CMakeFiles/real_robot_control_generate_messages_eus.dir/build.make real_robot_control/CMakeFiles/real_robot_control_generate_messages_eus.dir/depend
 	$(MAKE) -f real_robot_control/CMakeFiles/real_robot_control_generate_messages_eus.dir/build.make real_robot_control/CMakeFiles/real_robot_control_generate_messages_eus.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/yanji/dual_arm_control/build/CMakeFiles --progress-num=38,39,40,41,42,43,44,45,46,47,48,49,50 "Built target real_robot_control_generate_messages_eus"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/yanji/dual_arm_control/build/CMakeFiles --progress-num=37,38,39,40,41,42,43,44,45,46,47,48,49 "Built target real_robot_control_generate_messages_eus"
 .PHONY : real_robot_control/CMakeFiles/real_robot_control_generate_messages_eus.dir/all
 
 # Build rule for subdir invocation for target.
@@ -4302,6 +4332,7 @@ real_robot_control/CMakeFiles/real_robot_control_generate_messages_lisp.dir/all:
 real_robot_control/CMakeFiles/real_robot_control_generate_messages_lisp.dir/all: real_robot_control/CMakeFiles/actionlib_msgs_generate_messages_lisp.dir/all
 real_robot_control/CMakeFiles/real_robot_control_generate_messages_lisp.dir/all: real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_screwActionGoal.dir/all
 real_robot_control/CMakeFiles/real_robot_control_generate_messages_lisp.dir/all: real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_current_pub.dir/all
+real_robot_control/CMakeFiles/real_robot_control_generate_messages_lisp.dir/all: real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_robot_pos_pub.dir/all
 real_robot_control/CMakeFiles/real_robot_control_generate_messages_lisp.dir/all: real_robot_control/CMakeFiles/std_msgs_generate_messages_lisp.dir/all
 real_robot_control/CMakeFiles/real_robot_control_generate_messages_lisp.dir/all: real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_screwAction.dir/all
 real_robot_control/CMakeFiles/real_robot_control_generate_messages_lisp.dir/all: real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_force_pub.dir/all
@@ -4312,12 +4343,12 @@ real_robot_control/CMakeFiles/real_robot_control_generate_messages_lisp.dir/all:
 real_robot_control/CMakeFiles/real_robot_control_generate_messages_lisp.dir/all: real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_screwFeedback.dir/all
 	$(MAKE) -f real_robot_control/CMakeFiles/real_robot_control_generate_messages_lisp.dir/build.make real_robot_control/CMakeFiles/real_robot_control_generate_messages_lisp.dir/depend
 	$(MAKE) -f real_robot_control/CMakeFiles/real_robot_control_generate_messages_lisp.dir/build.make real_robot_control/CMakeFiles/real_robot_control_generate_messages_lisp.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/yanji/dual_arm_control/build/CMakeFiles --progress-num=51,52,53,54,55,56,57,58,59,60,61 "Built target real_robot_control_generate_messages_lisp"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/yanji/dual_arm_control/build/CMakeFiles --progress-num=50,51,52,53,54,55,56,57,58,59,60,61 "Built target real_robot_control_generate_messages_lisp"
 .PHONY : real_robot_control/CMakeFiles/real_robot_control_generate_messages_lisp.dir/all
 
 # Build rule for subdir invocation for target.
 real_robot_control/CMakeFiles/real_robot_control_generate_messages_lisp.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yanji/dual_arm_control/build/CMakeFiles 11
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/yanji/dual_arm_control/build/CMakeFiles 12
 	$(MAKE) -f CMakeFiles/Makefile2 real_robot_control/CMakeFiles/real_robot_control_generate_messages_lisp.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/yanji/dual_arm_control/build/CMakeFiles 0
 .PHONY : real_robot_control/CMakeFiles/real_robot_control_generate_messages_lisp.dir/rule
@@ -4344,7 +4375,7 @@ real_robot_control/CMakeFiles/real_robot_control_genlisp.dir/all: real_robot_con
 
 # Build rule for subdir invocation for target.
 real_robot_control/CMakeFiles/real_robot_control_genlisp.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yanji/dual_arm_control/build/CMakeFiles 11
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/yanji/dual_arm_control/build/CMakeFiles 12
 	$(MAKE) -f CMakeFiles/Makefile2 real_robot_control/CMakeFiles/real_robot_control_genlisp.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/yanji/dual_arm_control/build/CMakeFiles 0
 .PHONY : real_robot_control/CMakeFiles/real_robot_control_genlisp.dir/rule
@@ -4370,6 +4401,7 @@ real_robot_control/CMakeFiles/real_robot_control_generate_messages_nodejs.dir/al
 real_robot_control/CMakeFiles/real_robot_control_generate_messages_nodejs.dir/all: real_robot_control/CMakeFiles/std_msgs_generate_messages_nodejs.dir/all
 real_robot_control/CMakeFiles/real_robot_control_generate_messages_nodejs.dir/all: real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_screwActionGoal.dir/all
 real_robot_control/CMakeFiles/real_robot_control_generate_messages_nodejs.dir/all: real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_current_pub.dir/all
+real_robot_control/CMakeFiles/real_robot_control_generate_messages_nodejs.dir/all: real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_robot_pos_pub.dir/all
 real_robot_control/CMakeFiles/real_robot_control_generate_messages_nodejs.dir/all: real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_screwAction.dir/all
 real_robot_control/CMakeFiles/real_robot_control_generate_messages_nodejs.dir/all: real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_force_pub.dir/all
 real_robot_control/CMakeFiles/real_robot_control_generate_messages_nodejs.dir/all: real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_screwActionResult.dir/all
@@ -4464,6 +4496,7 @@ real_robot_control/CMakeFiles/real_robot_control_generate_messages_py.dir/all: r
 real_robot_control/CMakeFiles/real_robot_control_generate_messages_py.dir/all: real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_screwActionGoal.dir/all
 real_robot_control/CMakeFiles/real_robot_control_generate_messages_py.dir/all: real_robot_control/CMakeFiles/std_msgs_generate_messages_py.dir/all
 real_robot_control/CMakeFiles/real_robot_control_generate_messages_py.dir/all: real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_current_pub.dir/all
+real_robot_control/CMakeFiles/real_robot_control_generate_messages_py.dir/all: real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_robot_pos_pub.dir/all
 real_robot_control/CMakeFiles/real_robot_control_generate_messages_py.dir/all: real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_screwAction.dir/all
 real_robot_control/CMakeFiles/real_robot_control_generate_messages_py.dir/all: real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_force_pub.dir/all
 real_robot_control/CMakeFiles/real_robot_control_generate_messages_py.dir/all: real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_screwActionResult.dir/all
@@ -4712,7 +4745,7 @@ real_robot_control/CMakeFiles/robot_connet_test.dir/all: real_robot_control/CMak
 
 # Build rule for subdir invocation for target.
 real_robot_control/CMakeFiles/robot_connet_test.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yanji/dual_arm_control/build/CMakeFiles 64
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/yanji/dual_arm_control/build/CMakeFiles 65
 	$(MAKE) -f CMakeFiles/Makefile2 real_robot_control/CMakeFiles/robot_connet_test.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/yanji/dual_arm_control/build/CMakeFiles 0
 .PHONY : real_robot_control/CMakeFiles/robot_connet_test.dir/rule
@@ -4833,12 +4866,12 @@ real_robot_control/CMakeFiles/move_out.dir/all: real_robot_control/CMakeFiles/re
 real_robot_control/CMakeFiles/move_out.dir/all: real_robot_control/CMakeFiles/control_msgs_generate_messages_nodejs.dir/all
 	$(MAKE) -f real_robot_control/CMakeFiles/move_out.dir/build.make real_robot_control/CMakeFiles/move_out.dir/depend
 	$(MAKE) -f real_robot_control/CMakeFiles/move_out.dir/build.make real_robot_control/CMakeFiles/move_out.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/yanji/dual_arm_control/build/CMakeFiles --progress-num=24,25 "Built target move_out"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/yanji/dual_arm_control/build/CMakeFiles --progress-num=23,24 "Built target move_out"
 .PHONY : real_robot_control/CMakeFiles/move_out.dir/all
 
 # Build rule for subdir invocation for target.
 real_robot_control/CMakeFiles/move_out.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yanji/dual_arm_control/build/CMakeFiles 65
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/yanji/dual_arm_control/build/CMakeFiles 66
 	$(MAKE) -f CMakeFiles/Makefile2 real_robot_control/CMakeFiles/move_out.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/yanji/dual_arm_control/build/CMakeFiles 0
 .PHONY : real_robot_control/CMakeFiles/move_out.dir/rule

@@ -3,6 +3,7 @@
 
 real_robot_control/CMakeFiles/robot_connet_test.dir/src/robot_connet_test.cpp.o
  /home/yanji/dual_arm_control/devel/include/real_robot_control/force_pub.h
+ /home/yanji/dual_arm_control/devel/include/real_robot_control/robot_pos_pub.h
  /home/yanji/dual_arm_control/devel/include/real_robot_control/screwAction.h
  /home/yanji/dual_arm_control/devel/include/real_robot_control/screwActionFeedback.h
  /home/yanji/dual_arm_control/devel/include/real_robot_control/screwActionGoal.h

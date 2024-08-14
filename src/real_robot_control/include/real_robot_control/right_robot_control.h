@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <thread>
 #include "real_robot_control/force_pub.h"
+#include "real_robot_control/robot_pos_pub.h"
 #include "Eigen/Dense"
 #include "Eigen/Core"
 #include "Eigen/Geometry"
@@ -91,7 +92,9 @@ private:
     // ROS相关成员变量
     std::shared_ptr<ros::NodeHandle> nh;
     ros::Publisher for_pub;
+    ros::Publisher pos_pub;
     real_robot_control::force_pub f;
+    real_robot_control::robot_pos_pub p;
     // ros::ServiceClient client;
     real_robot_control::screwsrv scr;
     actionlib::SimpleActionClient<real_robot_control::screwAction> client;

@@ -80,9 +80,11 @@ void cb(const real_robot_control::screwGoalConstPtr &goal, Server* server){
     {
         // "对准失败，但没有卡住，换一个点搜索"
         std::cout << "执行第一阶段的螺纹搜索" << std::endl;
+        // 
         feedback.screw_status = 1; //执行器开始运行
         server->publishFeedback(feedback);
 
+        sleep(1); //等机器人稳定了
         result = ef.screwing_s1(150, 1, current_pub, msg); //0表示没有卡住， 1表示卡住了
         // sleep(10);
         // result = 0;
@@ -111,15 +113,15 @@ void cb(const real_robot_control::screwGoalConstPtr &goal, Server* server){
     else if (num == 3)
     {
         // 一切任务成功了，执行旋拧口张开
-        std::cout << "执行旋拧口张开" << std::endl;
-        cout << "******* 有 10s 的时间，请打开夹持装置的开关 *****" << endl;
-        for (int timesec = 0;  timesec<10; timesec++){
-            std::cout << "\r" << "倒计时: " << 10 - timesec << " 秒" << std::flush; 
-            sleep(1);
-            if (timesec == 9){
-                std::cout << "结束" << std::flush; 
-            }
-        }
+        // std::cout << "执行旋拧口张开" << std::endl;
+        // cout << "******* 有 10s 的时间，请打开夹持装置的开关 *****" << endl;
+        // for (int timesec = 0;  timesec<10; timesec++){
+        //     std::cout << "\r" << "倒计时: " << 10 - timesec << " 秒" << std::flush; 
+        //     sleep(1);
+        //     if (timesec == 9){
+        //         std::cout << "结束" << std::flush; 
+        //     }
+        // }
         
         feedback.screw_status = 1; //执行器开始运行
 
@@ -127,7 +129,7 @@ void cb(const real_robot_control::screwGoalConstPtr &goal, Server* server){
 
         result = ef.width_recovery(); // return 3， 张开
         usleep(100); //0.1s
-        ef.screw_to_zero();  // 旋拧口复位，才能退出
+        // ef.screw_to_zero();  // 旋拧口复位，才能退出
 
         // sleep(5);
         // result = 0;
@@ -135,6 +137,24 @@ void cb(const real_robot_control::screwGoalConstPtr &goal, Server* server){
         feedback.screw_status = 0;  //执行器运行结束
         server->publishFeedback(feedback);
     }
+
+    else if (num == 4)
+    {
+        // 一切任务成功了，执行旋拧口张开
+
+        feedback.screw_status = 1; //执行器开始运行
+
+        server->publishFeedback(feedback);
+
+        ef.screw_to_zero();  // 旋拧口复位，才能退出
+
+        // sleep(5);
+        result = 4;
+
+        feedback.screw_status = 0;  //执行器运行结束
+        server->publishFeedback(feedback);
+    }
+
 
     //设置最终结果
     real_robot_control::screwResult r;
@@ -161,6 +181,7 @@ int main(int argc, char *argv[]){
             case '1':
                 // 执行插入左tip的程序
                 std::cout << "screwing" << std::endl;
+                
                 ef.screwing_s1(200, 1, current_pub, msg);
                 break;
 

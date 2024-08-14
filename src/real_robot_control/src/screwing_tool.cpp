@@ -295,6 +295,7 @@ int endeffector::width_recovery(){
 	while (!(this->torque_on(1))) {
 		cout << "\r" <<"******请打开夹持装置的电源，以执行功能*********" << flush; 
 	}
+	cout << " " << endl;
 	this->setdelaytime(1, 0);
     this->setbaundrate();
 	this->torque_off(1);
@@ -483,28 +484,28 @@ int endeffector::screwing_s2(int speed, ros::Publisher &pub, real_robot_control:
 	}
 	int yuzhi = 35;
 	int goal_position = int(start_position - 4095 * 6.238 * 2);
-	int present_cu[5] = { 0 };
+	int present_cu[10] = { 0 };
 	int i = 0;
   	double ave_current;
 	while (true)	
 	{
 		int j;
-		j = i % 5;
+		j = i % 10;
 		i = i + 1;
 		present_cu[j] = this->get_presentcurrent(0);
 		int present_position = this->get_presentposition(0);
 
-		if (i <= 5) {
+		if (i <= 10) {
 			ave_current = start_current;
 			msg.current = ave_current;
 		}
-		if (i > 5) {
-     		ave_current = average_function(present_cu, 5);
+		if (i > 10) {
+     		ave_current = average_function(present_cu, 10);
 			printf("the present current %.3f \n", ave_current);
 			msg.current = ave_current;
 		}
 		pub.publish(msg);
-		if ((fabs(ave_current - start_current) > yuzhi) && (i > 5))
+		if ((fabs(ave_current - start_current) > yuzhi) && (i > 10))
 		{
 			printf("\n");
 			printf("ֹͣthe final current%.3f\n", ave_current);

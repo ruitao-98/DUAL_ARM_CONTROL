@@ -63,6 +63,7 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
     "/home/yanji/dual_arm_control/src/real_robot_control/msg/gripper.msg"
     "/home/yanji/dual_arm_control/src/real_robot_control/msg/current_pub.msg"
     "/home/yanji/dual_arm_control/src/real_robot_control/msg/pose.msg"
+    "/home/yanji/dual_arm_control/src/real_robot_control/msg/robot_pos_pub.msg"
     )
 endif()
 
