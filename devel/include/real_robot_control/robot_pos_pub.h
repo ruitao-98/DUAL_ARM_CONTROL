@@ -26,12 +26,14 @@ struct robot_pos_pub_
   robot_pos_pub_()
     : X(0.0)
     , Y(0.0)
-    , Z(0.0)  {
+    , Z(0.0)
+    , theta(0.0)  {
     }
   robot_pos_pub_(const ContainerAllocator& _alloc)
     : X(0.0)
     , Y(0.0)
-    , Z(0.0)  {
+    , Z(0.0)
+    , theta(0.0)  {
   (void)_alloc;
     }
 
@@ -45,6 +47,9 @@ struct robot_pos_pub_
 
    typedef double _Z_type;
   _Z_type Z;
+
+   typedef double _theta_type;
+  _theta_type theta;
 
 
 
@@ -77,7 +82,8 @@ bool operator==(const ::real_robot_control::robot_pos_pub_<ContainerAllocator1> 
 {
   return lhs.X == rhs.X &&
     lhs.Y == rhs.Y &&
-    lhs.Z == rhs.Z;
+    lhs.Z == rhs.Z &&
+    lhs.theta == rhs.theta;
 }
 
 template<typename ContainerAllocator1, typename ContainerAllocator2>
@@ -134,12 +140,12 @@ struct MD5Sum< ::real_robot_control::robot_pos_pub_<ContainerAllocator> >
 {
   static const char* value()
   {
-    return "8219583d7802cc50be3e9ab911877ba5";
+    return "fc586ac2eab572d076866b0e5f6a4e8e";
   }
 
   static const char* value(const ::real_robot_control::robot_pos_pub_<ContainerAllocator>&) { return value(); }
-  static const uint64_t static_value1 = 0x8219583d7802cc50ULL;
-  static const uint64_t static_value2 = 0xbe3e9ab911877ba5ULL;
+  static const uint64_t static_value1 = 0xfc586ac2eab572d0ULL;
+  static const uint64_t static_value2 = 0x76866b0e5f6a4e8eULL;
 };
 
 template<class ContainerAllocator>
@@ -161,6 +167,7 @@ struct Definition< ::real_robot_control::robot_pos_pub_<ContainerAllocator> >
     return "float64 X\n"
 "float64 Y\n"
 "float64 Z\n"
+"float64 theta\n"
 ;
   }
 
@@ -182,6 +189,7 @@ namespace serialization
       stream.next(m.X);
       stream.next(m.Y);
       stream.next(m.Z);
+      stream.next(m.theta);
     }
 
     ROS_DECLARE_ALLINONE_SERIALIZER
@@ -206,6 +214,8 @@ struct Printer< ::real_robot_control::robot_pos_pub_<ContainerAllocator> >
     Printer<double>::stream(s, indent + "  ", v.Y);
     s << indent << "Z: ";
     Printer<double>::stream(s, indent + "  ", v.Z);
+    s << indent << "theta: ";
+    Printer<double>::stream(s, indent + "  ", v.theta);
   }
 };
 

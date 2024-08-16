@@ -21,6 +21,7 @@ class robot_pos_pub {
       this.X = null;
       this.Y = null;
       this.Z = null;
+      this.theta = null;
     }
     else {
       if (initObj.hasOwnProperty('X')) {
@@ -41,6 +42,12 @@ class robot_pos_pub {
       else {
         this.Z = 0.0;
       }
+      if (initObj.hasOwnProperty('theta')) {
+        this.theta = initObj.theta
+      }
+      else {
+        this.theta = 0.0;
+      }
     }
   }
 
@@ -52,6 +59,8 @@ class robot_pos_pub {
     bufferOffset = _serializer.float64(obj.Y, buffer, bufferOffset);
     // Serialize message field [Z]
     bufferOffset = _serializer.float64(obj.Z, buffer, bufferOffset);
+    // Serialize message field [theta]
+    bufferOffset = _serializer.float64(obj.theta, buffer, bufferOffset);
     return bufferOffset;
   }
 
@@ -65,11 +74,13 @@ class robot_pos_pub {
     data.Y = _deserializer.float64(buffer, bufferOffset);
     // Deserialize message field [Z]
     data.Z = _deserializer.float64(buffer, bufferOffset);
+    // Deserialize message field [theta]
+    data.theta = _deserializer.float64(buffer, bufferOffset);
     return data;
   }
 
   static getMessageSize(object) {
-    return 24;
+    return 32;
   }
 
   static datatype() {
@@ -79,7 +90,7 @@ class robot_pos_pub {
 
   static md5sum() {
     //Returns md5sum for a message object
-    return '8219583d7802cc50be3e9ab911877ba5';
+    return 'fc586ac2eab572d076866b0e5f6a4e8e';
   }
 
   static messageDefinition() {
@@ -88,6 +99,7 @@ class robot_pos_pub {
     float64 X
     float64 Y
     float64 Z
+    float64 theta
     `;
   }
 
@@ -116,6 +128,13 @@ class robot_pos_pub {
     }
     else {
       resolved.Z = 0.0
+    }
+
+    if (msg.theta !== undefined) {
+      resolved.theta = msg.theta;
+    }
+    else {
+      resolved.theta = 0.0
     }
 
     return resolved;

@@ -1,7 +1,9 @@
 file(REMOVE_RECURSE
   "/home/yanji/dual_arm_control/devel/share/gennodejs/ros/real_robot_control/msg/current_pub.js"
+  "/home/yanji/dual_arm_control/devel/share/gennodejs/ros/real_robot_control/msg/force_pos_pub.js"
   "/home/yanji/dual_arm_control/devel/share/gennodejs/ros/real_robot_control/msg/force_pub.js"
   "/home/yanji/dual_arm_control/devel/share/gennodejs/ros/real_robot_control/msg/gripper.js"
+  "/home/yanji/dual_arm_control/devel/share/gennodejs/ros/real_robot_control/msg/orientation_pub.js"
   "/home/yanji/dual_arm_control/devel/share/gennodejs/ros/real_robot_control/msg/pose.js"
   "/home/yanji/dual_arm_control/devel/share/gennodejs/ros/real_robot_control/msg/robot_pos_pub.js"
   "/home/yanji/dual_arm_control/devel/share/gennodejs/ros/real_robot_control/msg/screwAction.js"

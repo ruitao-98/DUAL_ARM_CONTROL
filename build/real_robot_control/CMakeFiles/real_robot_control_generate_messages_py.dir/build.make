@@ -65,6 +65,8 @@ real_robot_control/CMakeFiles/real_robot_control_generate_messages_py: /home/yan
 real_robot_control/CMakeFiles/real_robot_control_generate_messages_py: /home/yanji/dual_arm_control/devel/lib/python3/dist-packages/real_robot_control/msg/_current_pub.py
 real_robot_control/CMakeFiles/real_robot_control_generate_messages_py: /home/yanji/dual_arm_control/devel/lib/python3/dist-packages/real_robot_control/msg/_pose.py
 real_robot_control/CMakeFiles/real_robot_control_generate_messages_py: /home/yanji/dual_arm_control/devel/lib/python3/dist-packages/real_robot_control/msg/_robot_pos_pub.py
+real_robot_control/CMakeFiles/real_robot_control_generate_messages_py: /home/yanji/dual_arm_control/devel/lib/python3/dist-packages/real_robot_control/msg/_orientation_pub.py
+real_robot_control/CMakeFiles/real_robot_control_generate_messages_py: /home/yanji/dual_arm_control/devel/lib/python3/dist-packages/real_robot_control/msg/_force_pos_pub.py
 real_robot_control/CMakeFiles/real_robot_control_generate_messages_py: /home/yanji/dual_arm_control/devel/lib/python3/dist-packages/real_robot_control/srv/_screwsrv.py
 real_robot_control/CMakeFiles/real_robot_control_generate_messages_py: /home/yanji/dual_arm_control/devel/lib/python3/dist-packages/real_robot_control/msg/__init__.py
 real_robot_control/CMakeFiles/real_robot_control_generate_messages_py: /home/yanji/dual_arm_control/devel/lib/python3/dist-packages/real_robot_control/srv/__init__.py
@@ -72,41 +74,41 @@ real_robot_control/CMakeFiles/real_robot_control_generate_messages_py: /home/yan
 
 /home/yanji/dual_arm_control/devel/lib/python3/dist-packages/real_robot_control/msg/_screwAction.py: /opt/ros/noetic/lib/genpy/genmsg_py.py
 /home/yanji/dual_arm_control/devel/lib/python3/dist-packages/real_robot_control/msg/_screwAction.py: /home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwAction.msg
-/home/yanji/dual_arm_control/devel/lib/python3/dist-packages/real_robot_control/msg/_screwAction.py: /opt/ros/noetic/share/actionlib_msgs/msg/GoalStatus.msg
-/home/yanji/dual_arm_control/devel/lib/python3/dist-packages/real_robot_control/msg/_screwAction.py: /home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwFeedback.msg
 /home/yanji/dual_arm_control/devel/lib/python3/dist-packages/real_robot_control/msg/_screwAction.py: /opt/ros/noetic/share/std_msgs/msg/Header.msg
-/home/yanji/dual_arm_control/devel/lib/python3/dist-packages/real_robot_control/msg/_screwAction.py: /opt/ros/noetic/share/actionlib_msgs/msg/GoalID.msg
-/home/yanji/dual_arm_control/devel/lib/python3/dist-packages/real_robot_control/msg/_screwAction.py: /home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwResult.msg
 /home/yanji/dual_arm_control/devel/lib/python3/dist-packages/real_robot_control/msg/_screwAction.py: /home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwGoal.msg
-/home/yanji/dual_arm_control/devel/lib/python3/dist-packages/real_robot_control/msg/_screwAction.py: /home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwActionGoal.msg
 /home/yanji/dual_arm_control/devel/lib/python3/dist-packages/real_robot_control/msg/_screwAction.py: /home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwActionFeedback.msg
+/home/yanji/dual_arm_control/devel/lib/python3/dist-packages/real_robot_control/msg/_screwAction.py: /home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwActionGoal.msg
+/home/yanji/dual_arm_control/devel/lib/python3/dist-packages/real_robot_control/msg/_screwAction.py: /opt/ros/noetic/share/actionlib_msgs/msg/GoalStatus.msg
 /home/yanji/dual_arm_control/devel/lib/python3/dist-packages/real_robot_control/msg/_screwAction.py: /home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwActionResult.msg
+/home/yanji/dual_arm_control/devel/lib/python3/dist-packages/real_robot_control/msg/_screwAction.py: /home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwResult.msg
+/home/yanji/dual_arm_control/devel/lib/python3/dist-packages/real_robot_control/msg/_screwAction.py: /opt/ros/noetic/share/actionlib_msgs/msg/GoalID.msg
+/home/yanji/dual_arm_control/devel/lib/python3/dist-packages/real_robot_control/msg/_screwAction.py: /home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwFeedback.msg
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/yanji/dual_arm_control/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Generating Python from MSG real_robot_control/screwAction"
 	cd /home/yanji/dual_arm_control/build/real_robot_control && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/genpy/cmake/../../../lib/genpy/genmsg_py.py /home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwAction.msg -Ireal_robot_control:/home/yanji/dual_arm_control/devel/share/real_robot_control/msg -Ireal_robot_control:/home/yanji/dual_arm_control/src/real_robot_control/msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -Iactionlib_msgs:/opt/ros/noetic/share/actionlib_msgs/cmake/../msg -p real_robot_control -o /home/yanji/dual_arm_control/devel/lib/python3/dist-packages/real_robot_control/msg
 
 /home/yanji/dual_arm_control/devel/lib/python3/dist-packages/real_robot_control/msg/_screwActionGoal.py: /opt/ros/noetic/lib/genpy/genmsg_py.py
 /home/yanji/dual_arm_control/devel/lib/python3/dist-packages/real_robot_control/msg/_screwActionGoal.py: /home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwActionGoal.msg
-/home/yanji/dual_arm_control/devel/lib/python3/dist-packages/real_robot_control/msg/_screwActionGoal.py: /opt/ros/noetic/share/std_msgs/msg/Header.msg
 /home/yanji/dual_arm_control/devel/lib/python3/dist-packages/real_robot_control/msg/_screwActionGoal.py: /opt/ros/noetic/share/actionlib_msgs/msg/GoalID.msg
+/home/yanji/dual_arm_control/devel/lib/python3/dist-packages/real_robot_control/msg/_screwActionGoal.py: /opt/ros/noetic/share/std_msgs/msg/Header.msg
 /home/yanji/dual_arm_control/devel/lib/python3/dist-packages/real_robot_control/msg/_screwActionGoal.py: /home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwGoal.msg
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/yanji/dual_arm_control/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Generating Python from MSG real_robot_control/screwActionGoal"
 	cd /home/yanji/dual_arm_control/build/real_robot_control && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/genpy/cmake/../../../lib/genpy/genmsg_py.py /home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwActionGoal.msg -Ireal_robot_control:/home/yanji/dual_arm_control/devel/share/real_robot_control/msg -Ireal_robot_control:/home/yanji/dual_arm_control/src/real_robot_control/msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -Iactionlib_msgs:/opt/ros/noetic/share/actionlib_msgs/cmake/../msg -p real_robot_control -o /home/yanji/dual_arm_control/devel/lib/python3/dist-packages/real_robot_control/msg
 
 /home/yanji/dual_arm_control/devel/lib/python3/dist-packages/real_robot_control/msg/_screwActionResult.py: /opt/ros/noetic/lib/genpy/genmsg_py.py
 /home/yanji/dual_arm_control/devel/lib/python3/dist-packages/real_robot_control/msg/_screwActionResult.py: /home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwActionResult.msg
-/home/yanji/dual_arm_control/devel/lib/python3/dist-packages/real_robot_control/msg/_screwActionResult.py: /home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwResult.msg
-/home/yanji/dual_arm_control/devel/lib/python3/dist-packages/real_robot_control/msg/_screwActionResult.py: /opt/ros/noetic/share/std_msgs/msg/Header.msg
 /home/yanji/dual_arm_control/devel/lib/python3/dist-packages/real_robot_control/msg/_screwActionResult.py: /opt/ros/noetic/share/actionlib_msgs/msg/GoalID.msg
+/home/yanji/dual_arm_control/devel/lib/python3/dist-packages/real_robot_control/msg/_screwActionResult.py: /opt/ros/noetic/share/std_msgs/msg/Header.msg
 /home/yanji/dual_arm_control/devel/lib/python3/dist-packages/real_robot_control/msg/_screwActionResult.py: /opt/ros/noetic/share/actionlib_msgs/msg/GoalStatus.msg
+/home/yanji/dual_arm_control/devel/lib/python3/dist-packages/real_robot_control/msg/_screwActionResult.py: /home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwResult.msg
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/yanji/dual_arm_control/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Generating Python from MSG real_robot_control/screwActionResult"
 	cd /home/yanji/dual_arm_control/build/real_robot_control && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/genpy/cmake/../../../lib/genpy/genmsg_py.py /home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwActionResult.msg -Ireal_robot_control:/home/yanji/dual_arm_control/devel/share/real_robot_control/msg -Ireal_robot_control:/home/yanji/dual_arm_control/src/real_robot_control/msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -Iactionlib_msgs:/opt/ros/noetic/share/actionlib_msgs/cmake/../msg -p real_robot_control -o /home/yanji/dual_arm_control/devel/lib/python3/dist-packages/real_robot_control/msg
 
 /home/yanji/dual_arm_control/devel/lib/python3/dist-packages/real_robot_control/msg/_screwActionFeedback.py: /opt/ros/noetic/lib/genpy/genmsg_py.py
 /home/yanji/dual_arm_control/devel/lib/python3/dist-packages/real_robot_control/msg/_screwActionFeedback.py: /home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwActionFeedback.msg
-/home/yanji/dual_arm_control/devel/lib/python3/dist-packages/real_robot_control/msg/_screwActionFeedback.py: /home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwFeedback.msg
-/home/yanji/dual_arm_control/devel/lib/python3/dist-packages/real_robot_control/msg/_screwActionFeedback.py: /opt/ros/noetic/share/std_msgs/msg/Header.msg
 /home/yanji/dual_arm_control/devel/lib/python3/dist-packages/real_robot_control/msg/_screwActionFeedback.py: /opt/ros/noetic/share/actionlib_msgs/msg/GoalID.msg
+/home/yanji/dual_arm_control/devel/lib/python3/dist-packages/real_robot_control/msg/_screwActionFeedback.py: /opt/ros/noetic/share/std_msgs/msg/Header.msg
 /home/yanji/dual_arm_control/devel/lib/python3/dist-packages/real_robot_control/msg/_screwActionFeedback.py: /opt/ros/noetic/share/actionlib_msgs/msg/GoalStatus.msg
+/home/yanji/dual_arm_control/devel/lib/python3/dist-packages/real_robot_control/msg/_screwActionFeedback.py: /home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwFeedback.msg
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/yanji/dual_arm_control/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Generating Python from MSG real_robot_control/screwActionFeedback"
 	cd /home/yanji/dual_arm_control/build/real_robot_control && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/genpy/cmake/../../../lib/genpy/genmsg_py.py /home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwActionFeedback.msg -Ireal_robot_control:/home/yanji/dual_arm_control/devel/share/real_robot_control/msg -Ireal_robot_control:/home/yanji/dual_arm_control/src/real_robot_control/msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -Iactionlib_msgs:/opt/ros/noetic/share/actionlib_msgs/cmake/../msg -p real_robot_control -o /home/yanji/dual_arm_control/devel/lib/python3/dist-packages/real_robot_control/msg
 
@@ -153,9 +155,19 @@ real_robot_control/CMakeFiles/real_robot_control_generate_messages_py: /home/yan
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/yanji/dual_arm_control/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Generating Python from MSG real_robot_control/robot_pos_pub"
 	cd /home/yanji/dual_arm_control/build/real_robot_control && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/genpy/cmake/../../../lib/genpy/genmsg_py.py /home/yanji/dual_arm_control/src/real_robot_control/msg/robot_pos_pub.msg -Ireal_robot_control:/home/yanji/dual_arm_control/devel/share/real_robot_control/msg -Ireal_robot_control:/home/yanji/dual_arm_control/src/real_robot_control/msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -Iactionlib_msgs:/opt/ros/noetic/share/actionlib_msgs/cmake/../msg -p real_robot_control -o /home/yanji/dual_arm_control/devel/lib/python3/dist-packages/real_robot_control/msg
 
+/home/yanji/dual_arm_control/devel/lib/python3/dist-packages/real_robot_control/msg/_orientation_pub.py: /opt/ros/noetic/lib/genpy/genmsg_py.py
+/home/yanji/dual_arm_control/devel/lib/python3/dist-packages/real_robot_control/msg/_orientation_pub.py: /home/yanji/dual_arm_control/src/real_robot_control/msg/orientation_pub.msg
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/yanji/dual_arm_control/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Generating Python from MSG real_robot_control/orientation_pub"
+	cd /home/yanji/dual_arm_control/build/real_robot_control && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/genpy/cmake/../../../lib/genpy/genmsg_py.py /home/yanji/dual_arm_control/src/real_robot_control/msg/orientation_pub.msg -Ireal_robot_control:/home/yanji/dual_arm_control/devel/share/real_robot_control/msg -Ireal_robot_control:/home/yanji/dual_arm_control/src/real_robot_control/msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -Iactionlib_msgs:/opt/ros/noetic/share/actionlib_msgs/cmake/../msg -p real_robot_control -o /home/yanji/dual_arm_control/devel/lib/python3/dist-packages/real_robot_control/msg
+
+/home/yanji/dual_arm_control/devel/lib/python3/dist-packages/real_robot_control/msg/_force_pos_pub.py: /opt/ros/noetic/lib/genpy/genmsg_py.py
+/home/yanji/dual_arm_control/devel/lib/python3/dist-packages/real_robot_control/msg/_force_pos_pub.py: /home/yanji/dual_arm_control/src/real_robot_control/msg/force_pos_pub.msg
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/yanji/dual_arm_control/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Generating Python from MSG real_robot_control/force_pos_pub"
+	cd /home/yanji/dual_arm_control/build/real_robot_control && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/genpy/cmake/../../../lib/genpy/genmsg_py.py /home/yanji/dual_arm_control/src/real_robot_control/msg/force_pos_pub.msg -Ireal_robot_control:/home/yanji/dual_arm_control/devel/share/real_robot_control/msg -Ireal_robot_control:/home/yanji/dual_arm_control/src/real_robot_control/msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -Iactionlib_msgs:/opt/ros/noetic/share/actionlib_msgs/cmake/../msg -p real_robot_control -o /home/yanji/dual_arm_control/devel/lib/python3/dist-packages/real_robot_control/msg
+
 /home/yanji/dual_arm_control/devel/lib/python3/dist-packages/real_robot_control/srv/_screwsrv.py: /opt/ros/noetic/lib/genpy/gensrv_py.py
 /home/yanji/dual_arm_control/devel/lib/python3/dist-packages/real_robot_control/srv/_screwsrv.py: /home/yanji/dual_arm_control/src/real_robot_control/srv/screwsrv.srv
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/yanji/dual_arm_control/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Generating Python code from SRV real_robot_control/screwsrv"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/yanji/dual_arm_control/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Generating Python code from SRV real_robot_control/screwsrv"
 	cd /home/yanji/dual_arm_control/build/real_robot_control && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/genpy/cmake/../../../lib/genpy/gensrv_py.py /home/yanji/dual_arm_control/src/real_robot_control/srv/screwsrv.srv -Ireal_robot_control:/home/yanji/dual_arm_control/devel/share/real_robot_control/msg -Ireal_robot_control:/home/yanji/dual_arm_control/src/real_robot_control/msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -Iactionlib_msgs:/opt/ros/noetic/share/actionlib_msgs/cmake/../msg -p real_robot_control -o /home/yanji/dual_arm_control/devel/lib/python3/dist-packages/real_robot_control/srv
 
 /home/yanji/dual_arm_control/devel/lib/python3/dist-packages/real_robot_control/msg/__init__.py: /opt/ros/noetic/lib/genpy/genmsg_py.py
@@ -171,8 +183,10 @@ real_robot_control/CMakeFiles/real_robot_control_generate_messages_py: /home/yan
 /home/yanji/dual_arm_control/devel/lib/python3/dist-packages/real_robot_control/msg/__init__.py: /home/yanji/dual_arm_control/devel/lib/python3/dist-packages/real_robot_control/msg/_current_pub.py
 /home/yanji/dual_arm_control/devel/lib/python3/dist-packages/real_robot_control/msg/__init__.py: /home/yanji/dual_arm_control/devel/lib/python3/dist-packages/real_robot_control/msg/_pose.py
 /home/yanji/dual_arm_control/devel/lib/python3/dist-packages/real_robot_control/msg/__init__.py: /home/yanji/dual_arm_control/devel/lib/python3/dist-packages/real_robot_control/msg/_robot_pos_pub.py
+/home/yanji/dual_arm_control/devel/lib/python3/dist-packages/real_robot_control/msg/__init__.py: /home/yanji/dual_arm_control/devel/lib/python3/dist-packages/real_robot_control/msg/_orientation_pub.py
+/home/yanji/dual_arm_control/devel/lib/python3/dist-packages/real_robot_control/msg/__init__.py: /home/yanji/dual_arm_control/devel/lib/python3/dist-packages/real_robot_control/msg/_force_pos_pub.py
 /home/yanji/dual_arm_control/devel/lib/python3/dist-packages/real_robot_control/msg/__init__.py: /home/yanji/dual_arm_control/devel/lib/python3/dist-packages/real_robot_control/srv/_screwsrv.py
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/yanji/dual_arm_control/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Generating Python msg __init__.py for real_robot_control"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/yanji/dual_arm_control/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Generating Python msg __init__.py for real_robot_control"
 	cd /home/yanji/dual_arm_control/build/real_robot_control && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/genpy/cmake/../../../lib/genpy/genmsg_py.py -o /home/yanji/dual_arm_control/devel/lib/python3/dist-packages/real_robot_control/msg --initpy
 
 /home/yanji/dual_arm_control/devel/lib/python3/dist-packages/real_robot_control/srv/__init__.py: /opt/ros/noetic/lib/genpy/genmsg_py.py
@@ -188,8 +202,10 @@ real_robot_control/CMakeFiles/real_robot_control_generate_messages_py: /home/yan
 /home/yanji/dual_arm_control/devel/lib/python3/dist-packages/real_robot_control/srv/__init__.py: /home/yanji/dual_arm_control/devel/lib/python3/dist-packages/real_robot_control/msg/_current_pub.py
 /home/yanji/dual_arm_control/devel/lib/python3/dist-packages/real_robot_control/srv/__init__.py: /home/yanji/dual_arm_control/devel/lib/python3/dist-packages/real_robot_control/msg/_pose.py
 /home/yanji/dual_arm_control/devel/lib/python3/dist-packages/real_robot_control/srv/__init__.py: /home/yanji/dual_arm_control/devel/lib/python3/dist-packages/real_robot_control/msg/_robot_pos_pub.py
+/home/yanji/dual_arm_control/devel/lib/python3/dist-packages/real_robot_control/srv/__init__.py: /home/yanji/dual_arm_control/devel/lib/python3/dist-packages/real_robot_control/msg/_orientation_pub.py
+/home/yanji/dual_arm_control/devel/lib/python3/dist-packages/real_robot_control/srv/__init__.py: /home/yanji/dual_arm_control/devel/lib/python3/dist-packages/real_robot_control/msg/_force_pos_pub.py
 /home/yanji/dual_arm_control/devel/lib/python3/dist-packages/real_robot_control/srv/__init__.py: /home/yanji/dual_arm_control/devel/lib/python3/dist-packages/real_robot_control/srv/_screwsrv.py
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/yanji/dual_arm_control/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Generating Python srv __init__.py for real_robot_control"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/yanji/dual_arm_control/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_17) "Generating Python srv __init__.py for real_robot_control"
 	cd /home/yanji/dual_arm_control/build/real_robot_control && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/genpy/cmake/../../../lib/genpy/genmsg_py.py -o /home/yanji/dual_arm_control/devel/lib/python3/dist-packages/real_robot_control/srv --initpy
 
 real_robot_control_generate_messages_py: real_robot_control/CMakeFiles/real_robot_control_generate_messages_py
@@ -205,6 +221,8 @@ real_robot_control_generate_messages_py: /home/yanji/dual_arm_control/devel/lib/
 real_robot_control_generate_messages_py: /home/yanji/dual_arm_control/devel/lib/python3/dist-packages/real_robot_control/msg/_current_pub.py
 real_robot_control_generate_messages_py: /home/yanji/dual_arm_control/devel/lib/python3/dist-packages/real_robot_control/msg/_pose.py
 real_robot_control_generate_messages_py: /home/yanji/dual_arm_control/devel/lib/python3/dist-packages/real_robot_control/msg/_robot_pos_pub.py
+real_robot_control_generate_messages_py: /home/yanji/dual_arm_control/devel/lib/python3/dist-packages/real_robot_control/msg/_orientation_pub.py
+real_robot_control_generate_messages_py: /home/yanji/dual_arm_control/devel/lib/python3/dist-packages/real_robot_control/msg/_force_pos_pub.py
 real_robot_control_generate_messages_py: /home/yanji/dual_arm_control/devel/lib/python3/dist-packages/real_robot_control/srv/_screwsrv.py
 real_robot_control_generate_messages_py: /home/yanji/dual_arm_control/devel/lib/python3/dist-packages/real_robot_control/msg/__init__.py
 real_robot_control_generate_messages_py: /home/yanji/dual_arm_control/devel/lib/python3/dist-packages/real_robot_control/srv/__init__.py

@@ -5,4 +5,6 @@
           Y
           Z-VAL
           Z
+          THETA-VAL
+          THETA
 ))

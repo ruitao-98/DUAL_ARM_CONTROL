@@ -94,6 +94,8 @@ add_message_files(
   current_pub.msg
   pose.msg
   robot_pos_pub.msg
+  orientation_pub.msg
+  force_pos_pub.msg
 )
 
 

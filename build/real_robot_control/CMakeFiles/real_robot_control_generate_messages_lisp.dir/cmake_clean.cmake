@@ -1,7 +1,9 @@
 file(REMOVE_RECURSE
   "/home/yanji/dual_arm_control/devel/share/common-lisp/ros/real_robot_control/msg/current_pub.lisp"
+  "/home/yanji/dual_arm_control/devel/share/common-lisp/ros/real_robot_control/msg/force_pos_pub.lisp"
   "/home/yanji/dual_arm_control/devel/share/common-lisp/ros/real_robot_control/msg/force_pub.lisp"
   "/home/yanji/dual_arm_control/devel/share/common-lisp/ros/real_robot_control/msg/gripper.lisp"
+  "/home/yanji/dual_arm_control/devel/share/common-lisp/ros/real_robot_control/msg/orientation_pub.lisp"
   "/home/yanji/dual_arm_control/devel/share/common-lisp/ros/real_robot_control/msg/pose.lisp"
   "/home/yanji/dual_arm_control/devel/share/common-lisp/ros/real_robot_control/msg/robot_pos_pub.lisp"
   "/home/yanji/dual_arm_control/devel/share/common-lisp/ros/real_robot_control/msg/screwAction.lisp"

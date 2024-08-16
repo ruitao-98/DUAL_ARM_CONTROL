@@ -14,6 +14,9 @@ RobotAdmittanceControl::RobotAdmittanceControl()
     // Initialize the client member variable
     for_pub = nh->advertise<real_robot_control::force_pub>("robot_force", 10);
     pos_pub = nh->advertise<real_robot_control::robot_pos_pub>("robot_pos", 10);
+    for_pos_pub = nh->advertise<real_robot_control::force_pos_pub>("for_pos", 10);
+    listener_sub = nh->subscribe("orientation_phi", 10, &RobotAdmittanceControl::do_orien, this);
+    
     // Wait for the action server to start
     client.waitForServer();
 
@@ -33,7 +36,7 @@ RobotAdmittanceControl::RobotAdmittanceControl()
     }
     adm_d[0] = 3.5 * sqrt(adm_m[0] * adm_k[0]);
     adm_d[1] = 3.5 * sqrt(adm_m[1] * adm_k[1]);
-    adm_d[2] = 3.5 * sqrt(adm_m[2] * adm_k[2]);
+    adm_d[2] = 2.8 * sqrt(adm_m[2] * adm_k[2]);
     adm_d[5] = 2 * sqrt(adm_m[1] * adm_k[1]);
     // adm_d[2] = 300;
     cout << "k" << adm_k[0] <<endl;
@@ -54,7 +57,9 @@ RobotAdmittanceControl::RobotAdmittanceControl()
     sleep(1);
     robot.set_compliant_type(0,0);
 
-    object_length << 0, 0, 0.021;
+    // object_length << 0, 0, 0.021;  //三通，3分
+    // object_length << 0, 0, 0.020;   //M12 六角头螺丝
+    object_length << 0, 0, 0.014;   //3分螺柱
     eef_offset << -0.0785, 0, 0.1169;
     eef_offset_to_sensor << -0.0785, 0, 0.0774;
     eef_offset = eef_offset + object_length;
@@ -75,6 +80,10 @@ RobotAdmittanceControl::~RobotAdmittanceControl(){
     // if (sensor_thread.joinable()) {
     //     sensor_thread.join();
     // }
+}
+void RobotAdmittanceControl::do_orien(const real_robot_control::orientation_pub::ConstPtr& orien_p){
+    adjust_phi = orien_p->phi;
+    phi_changed = 1;
 }
 
 void RobotAdmittanceControl::done_cb(const actionlib::SimpleClientGoalState &state, const real_robot_control::screwResultConstPtr &result){
@@ -451,7 +460,7 @@ void RobotAdmittanceControl::screw_assembly_search(){
 
     int item = 0;
 
-    while (item < 5000)
+    while (item < 7000)
     {   
         auto start_time = std::chrono::high_resolution_clock::now();
         // 导纳控制的范畴
@@ -507,6 +516,7 @@ void RobotAdmittanceControl::screw_assembly_search(){
         p.X = eef_pos[0];
         p.Y = eef_pos[1];
         p.Z = eef_pos[2];
+        p.theta = 0;
         pos_pub.publish(p);
 
         auto end_time = std::chrono::high_resolution_clock::now();
@@ -519,22 +529,23 @@ void RobotAdmittanceControl::screw_assembly_search(){
     std::cin >> input;
     //**********************************曲线搜索*************************************************
     cout << "-----------spiral search started------------" << endl;
+    
     update_robot_state();
     get_tcp_force();
     get_eef_pose();
 
-    std::vector<double> x_vec;
-    std::vector<double> y_vec;
+    // std::vector<double> x_vec;
+    // std::vector<double> y_vec;
 
-    std::vector<double> x_true_vec;
-    std::vector<double> y_true_vec;
+    // std::vector<double> x_true_vec;
+    // std::vector<double> y_true_vec;
 
-    std::vector<double> x_robot_vec;
-    std::vector<double> y_robot_vec;
+    // std::vector<double> x_robot_vec;
+    // std::vector<double> y_robot_vec;
 
 
-    wish_force << 0, 0, -4, 0, 0, 0;  //期望力
-    selection_vector<<0, 0, 1, 0, 0, 0; //选择向量，表示只控制y轴
+    wish_force << 0, 0, -4.5, 0, 0, 0;  //期望力
+    selection_vector<<0, 0, 1, 0, 0, 0; //选择向量，表示只控制z轴
 
     Eigen::Matrix3d init_eef_rotm = eef_rotm;
     Eigen::Vector3d init_eef_pos = eef_pos;
@@ -542,23 +553,47 @@ void RobotAdmittanceControl::screw_assembly_search(){
     Eigen::Vector3d traj; //轨迹的向量表示
     item = 0;
     double a = 0;
-    double b = 0.2/(2*PI); //毫米单位
+    double b = 0.4/(2*PI); //毫米单位
     double theta = 0;
-
-    while (item < 5000)
-    {   auto start_time = std::chrono::high_resolution_clock::now();
+    phi_changed = 0; //初始化
+    int point_num = 260;
+    int temp_item = 0;
+    int record_item;
+    while (item < 7000)
+    {   
+        if (phi_changed){
+            double theta_2 = 0.5 * PI / 180;
+            std::vector<Eigen::Matrix3d> rotationMatrices = calculateRotationMatrices(point_num, theta_2);
+            if (adjust_phi>(point_num/2)){  //calculateRotationMatrices从-x处出发，逆时针，而机器人运动是从+x出发，所以要进行变换
+                adjust_phi = adjust_phi - (point_num/2);
+            }
+            else{
+                adjust_phi = adjust_phi + (point_num/2);
+            }
+            eef_rotm_d =  eef_rotm * rotationMatrices[adjust_phi]; //期望的位置是当前位置，期望的位姿是经过旋转变换以后的位姿，
+            eef_rotm_d_modified = eef_rotm_d;
+            get_new_link6_pose(eef_pos_d, eef_rotm_d); // 转化期望的位姿到link6
+            new_rotm.x.x = new_angular(0,0); new_rotm.y.x = new_angular(1,0); new_rotm.z.x = new_angular(2,0);
+            new_rotm.x.y = new_angular(0,1); new_rotm.y.y = new_angular(1,1); new_rotm.z.y = new_angular(2,1);
+            new_rotm.x.z = new_angular(0,2); new_rotm.y.z = new_angular(1,2); new_rotm.z.z = new_angular(2,2);
+            robot.rot_matrix_to_rpy(&new_rotm, &new_rpy); //转欧拉角
+            cout << "---------------phi_changed---------------------" << endl;
+            cout <<"rot_rpy" << (new_rpy.rx / PI) * 180 << "  " << (new_rpy.ry / PI) * 180<< "  " << (new_rpy.rz / PI) * 180 <<endl;
+            phi_changed = 0;
+        }
+        auto start_time = std::chrono::high_resolution_clock::now();
         eef_pos_d = eef_pos;
         eef_rotm_d = eef_rotm;
 
         // 生成平面螺旋曲线
-        theta = (2 * PI / 260) + theta; //螺旋线的角度
-        double radius = a + b * theta;
-        double x = radius * cos(theta) * 0.001;
-        double y = radius * sin(theta) * 0.001; // 此处缩放到米为单位，以便于与导纳控制输出对其
-        double z = 0;
-        traj << x, y, z;
-        x_true_vec.push_back(traj[0]);
-        y_true_vec.push_back(traj[1]);
+        // theta = (2 * PI / point_num) + theta; //螺旋线的角度
+        // double radius = a + b * theta;
+        // double x = radius * cos(theta) * 0.001;
+        // double y = radius * sin(theta) * 0.001; // 此处缩放到米为单位，以便于与导纳控制输出对其
+        // double z = 0;
+        // traj << x, y, z;
+        // x_true_vec.push_back(traj[0]);
+        // y_true_vec.push_back(traj[1]);
 
         item = item + 1;
 
@@ -566,38 +601,96 @@ void RobotAdmittanceControl::screw_assembly_search(){
         update_robot_state();
         get_tcp_force();
         get_eef_pose();
-        cout << eef_pos[0] << ", " << eef_pos[1] << endl;
-        x_vec.push_back(eef_pos[0]);
-        y_vec.push_back(eef_pos[1]);
+        // cout << eef_pos[0] << ", " << eef_pos[1] << endl;
+        // x_vec.push_back(eef_pos[0]);
+        // y_vec.push_back(eef_pos[1]);
 
-        f.X = tcp_force[0];
-        f.Y = tcp_force[1];
-        f.Z = tcp_force[2];
-        f.MX = tcp_force[3];
-        f.MY = tcp_force[4];
-        f.MZ = tcp_force[5];
-        for_pub.publish(f);
 
         // p.X = eef_pos[0];
         // p.Y = eef_pos[1];
         // p.Z = eef_pos[2];
-        p.X = x * 1000;
-        p.Y = y * 1000;
-        p.Z = 0;
-        pos_pub.publish(p);
+        // p.X = x * 1000;
+        // p.Y = y * 1000;
+        // p.Z = 0;
+        // p.theta = theta;
+        // pos_pub.publish(p);
 
-        if (tcp_force[2] < 1){
-            cout << "force" <<  tcp_force[2] << endl;
-            cout << "spiral search stoped" <<endl;
-            break;
-        }
-        if ((abs(tcp_force[0]) > 4) || (abs(tcp_force[1]) > 4)){
-            cout << "x_force" <<  tcp_force[0] << ", y_force" <<  tcp_force[1]<< endl;
-            cout << "spiral search stoped" <<endl;
-            break;
+        if ((abs(new_rpy.rx - current_rpy.rx)>0.003) || (abs(new_rpy.ry - current_rpy.ry)>0.003)) {
+            int local_item = 0;
+            while (true){
+                local_item = local_item + 1;
+                update_robot_state();
+                get_tcp_force();
+                get_eef_pose();
+
+                eef_pos_d = eef_pos;
+                eef_rotm_d = eef_rotm;
+                tcp_admittance_control();
+                linear_disp_clipped = linear_disp.cwiseMin(0.01).cwiseMax(-0.01);
+                angluer_disp_clipped = angular_disp.cwiseMin(0.01).cwiseMax(-0.01); //此处获取了在tcp坐标系下机器人末端的位移偏量
+                //我们需要在此处对其进行修改，上述偏量经过选择向量的修改只剩z方向的偏移了，我们再加上x,y方向的偏移。
+                linear_disp_clipped = linear_disp_clipped + traj;
+                new_linear_eef = init_eef_pos + init_eef_rotm * linear_disp_clipped; //最后将总偏移量再加到原始的tcp坐标上面去。
+                //fixed rotation
+                new_rotm_eef = eef_rotm;
+                //no-fixed rotation
+                get_new_link6_pose(new_linear_eef, new_rotm_eef);
+                new_pos.tran.x = new_linear[0] * 1000; new_pos.tran.y = new_linear[1] * 1000; new_pos.tran.z = new_linear[2] * 1000;
+                new_pos.rpy.rx = new_rpy.rx; new_pos.rpy.ry = new_rpy.ry; new_pos.rpy.rz = new_rpy.rz;
+                if (local_item == 1){
+                    linear_disp_clipped << 0, 0, 0.001;
+                    new_linear_eef = eef_pos + eef_rotm_d_modified * linear_disp_clipped; //最后将总偏移量再加到原始的tcp坐标上面去。
+                    get_new_link6_pose(new_linear_eef, new_rotm_eef);
+                    new_pos.tran.x = new_linear[0] * 1000; new_pos.tran.y = new_linear[1] * 1000; new_pos.tran.z = new_linear[2] * 1000;
+                    robot.servo_p(&new_pos, ABS, 1);
+                    cout << tcp_force[2] <<" sleep "<< endl;
+                    sleep(1);
+                    cout << "jumped" << endl;
+                    // new_pos.tran.z = new_linear[2] * 1000 + 0.1;
+                    // robot.servo_p(&new_pos, ABS, 1);
+                }
+                else{
+                    robot.servo_p(&new_pos, ABS, 1);
+                }
+                // 
+                if ((tcp_force[2] > 2) && (local_item>220)){
+                    // sleep(1);
+                    break;
+                }
+            }
         }
 
-        cout << "force" <<  tcp_force[2] << endl;
+        else{
+            // 生成平面螺旋曲线
+            
+            theta = (2 * PI / point_num) + theta; //螺旋线的角度
+            double radius = a + b * theta;
+            double x = radius * cos(theta) * 0.001;
+            double y = radius * sin(theta) * 0.001; // 此处缩放到米为单位，以便于与导纳控制输出对其
+            double z = 0;
+            traj << x, y, z;
+
+            if (tcp_force[2] < 1){
+                cout << "force" <<  tcp_force[2] << endl;
+                cout << "spiral search stoped" <<endl;  //实际实验时进行调试
+                break;
+            }
+            if ((abs(tcp_force[0]) > 4) || (abs(tcp_force[1]) > 4)){
+                cout << "x_force" <<  tcp_force[0] << ", y_force" <<  tcp_force[1]<< endl;
+                cout << "spiral search stoped" <<endl;  //实际实验时进行调试
+                break;
+            }
+            fp.FX =  tcp_force[0];
+            fp.FY =  tcp_force[1];
+            fp.FZ =  tcp_force[2];
+            fp.X = x*1000;  //发布毫米
+            fp.Y = y*1000;
+            fp.Z = z*1000;
+            fp.theta = theta;
+            for_pos_pub.publish(fp);
+        }
+
+        // cout << "force" <<  tcp_force[2] << endl;
         tcp_admittance_control();
         
         linear_disp_clipped = linear_disp.cwiseMin(0.01).cwiseMax(-0.01);
@@ -606,8 +699,8 @@ void RobotAdmittanceControl::screw_assembly_search(){
         linear_disp_clipped = linear_disp_clipped + traj;
         new_linear_eef = init_eef_pos + init_eef_rotm * linear_disp_clipped; //最后将总偏移量再加到原始的tcp坐标上面去。
         
-        x_robot_vec.push_back(new_linear_eef[0]);
-        y_robot_vec.push_back(new_linear_eef[1]);
+        // x_robot_vec.push_back(new_linear_eef[0]);
+        // y_robot_vec.push_back(new_linear_eef[1]);
         //fixed rotation
         new_rotm_eef = eef_rotm;
 
@@ -615,72 +708,74 @@ void RobotAdmittanceControl::screw_assembly_search(){
         // updata_rotation(eef_rotm, angluer_disp_clipped, new_rotm_eef);
         get_new_link6_pose(new_linear_eef, new_rotm_eef);
         new_pos.tran.x = new_linear[0] * 1000; new_pos.tran.y = new_linear[1] * 1000; new_pos.tran.z = new_linear[2] * 1000;
-        // new_pos.rpy.rx = new_rpy.rx; new_pos.rpy.ry = new_rpy.ry; new_pos.rpy.rz = new_rpy.rz;
-        new_pos.rpy.rx = current_rpy.rx; new_pos.rpy.ry = current_rpy.ry; new_pos.rpy.rz = current_rpy.rz;
+        new_pos.rpy.rx = new_rpy.rx; new_pos.rpy.ry = new_rpy.ry; new_pos.rpy.rz = new_rpy.rz;
+        // new_pos.rpy.rx = current_rpy.rx; new_pos.rpy.ry = current_rpy.ry; new_pos.rpy.rz = current_rpy.rz;
 
-        cout<<"new_trans" << new_pos.tran.x << " " << new_pos.tran.y << " "<< new_pos.tran.z << " "<< endl;
-        cout <<"new_rpy" << (new_pos.rpy.rx / PI) * 180 << "  " << (new_pos.rpy.ry / PI) * 180<< "  " << (new_pos.rpy.rz / PI) * 180<<"  " << endl;
+        // cout<<"new_trans" << new_pos.tran.x << " " << new_pos.tran.y << " "<< new_pos.tran.z << " "<< endl;
+        // cout <<"new_rpy" << (new_pos.rpy.rx / PI) * 180 << "  " << (new_pos.rpy.ry / PI) * 180<< "  " << (new_pos.rpy.rz / PI) * 180<<"  " << endl;
 
         robot.servo_p(&new_pos, ABS, 1);
-        std::this_thread::sleep_for(std::chrono::milliseconds(8)); 
-
+        std::this_thread::sleep_for(std::chrono::milliseconds(16)); 
 
         auto end_time = std::chrono::high_resolution_clock::now();
         auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end_time-start_time);
-        cout << "spiral search item" << item << " excution time is"<< duration.count()<<"ms" << endl;
+        if (item % 130 == 0){
+            cout << "spiral search item" << item << " excution time is"<< duration.count()<<"ms" << endl;
+        }
+        ros::spinOnce();
     }
 
 
-    time_t now;
-    struct tm time_info;
-    // Get the current time
-    time(&now);
-    // Convert the `time_t` value to local time in a thread-safe way
-    localtime_r(&now, &time_info);
-	// 创建一个时间格式化的字符串流
-	std::ostringstream oss;
-	oss << std::put_time(&time_info, "%Y-%m-%d_%H-%M-%S"); // 格式化时间 YYYY-MM-DD_HH-MM-SS
-	std::string time_str = oss.str();
-	// 创建文件名，包含当前时间
-	std::string file_name1 = "x_" + time_str + ".txt";
-    std::string file_name2 = "y_" + time_str + ".txt";
-    std::string file_name3 = "x_true_" + time_str + ".txt";
-    std::string file_name4 = "y_true_" + time_str + ".txt";
-    std::string file_name5 = "x_robot_" + time_str + ".txt";
-    std::string file_name6 = "y_robot_" + time_str + ".txt";
-	// 打开文件流
-	std::ofstream file1(file_name1);
-    std::ofstream file2(file_name2);
-    std::ofstream file3(file_name3);
-    std::ofstream file4(file_name4);
-    std::ofstream file5(file_name5);
-    std::ofstream file6(file_name6);
-	// 将列表的元素写入文件
-	for (double elem1 : x_vec) {
-		file1 << elem1 << std::endl;
-	}
-    for (double elem2 : y_vec) {
-		file2 << elem2 << std::endl;
-	}
-    for (double elem2 : x_true_vec) {
-		file3 << elem2 << std::endl;
-	}
-    for (double elem2 : y_true_vec) {
-		file4 << elem2 << std::endl;
-	}
-    for (double elem2 : x_robot_vec) {
-		file5 << elem2 << std::endl;
-	}
-    for (double elem2 : y_robot_vec) {
-		file6 << elem2 << std::endl;
-	}
-	// 关闭文件流
-	file1.close();
-    file2.close();
-    file3.close();
-    file4.close();
-    file5.close();
-    file6.close();
+    // time_t now;
+    // struct tm time_info;
+    // // Get the current time
+    // time(&now);
+    // // Convert the `time_t` value to local time in a thread-safe way
+    // localtime_r(&now, &time_info);
+	// // 创建一个时间格式化的字符串流
+	// std::ostringstream oss;
+	// oss << std::put_time(&time_info, "%Y-%m-%d_%H-%M-%S"); // 格式化时间 YYYY-MM-DD_HH-MM-SS
+	// std::string time_str = oss.str();
+	// // 创建文件名，包含当前时间
+	// std::string file_name1 = "x_" + time_str + ".txt";
+    // std::string file_name2 = "y_" + time_str + ".txt";
+    // std::string file_name3 = "x_true_" + time_str + ".txt";
+    // std::string file_name4 = "y_true_" + time_str + ".txt";
+    // std::string file_name5 = "x_robot_" + time_str + ".txt";
+    // std::string file_name6 = "y_robot_" + time_str + ".txt";
+	// // 打开文件流
+	// std::ofstream file1(file_name1);
+    // std::ofstream file2(file_name2);
+    // std::ofstream file3(file_name3);
+    // std::ofstream file4(file_name4);
+    // std::ofstream file5(file_name5);
+    // std::ofstream file6(file_name6);
+	// // 将列表的元素写入文件
+	// for (double elem1 : x_vec) {
+	// 	file1 << elem1 << std::endl;
+	// }
+    // for (double elem2 : y_vec) {
+	// 	file2 << elem2 << std::endl;
+	// }
+    // for (double elem2 : x_true_vec) {
+	// 	file3 << elem2 << std::endl;
+	// }
+    // for (double elem2 : y_true_vec) {
+	// 	file4 << elem2 << std::endl;
+	// }
+    // for (double elem2 : x_robot_vec) {
+	// 	file5 << elem2 << std::endl;
+	// }
+    // for (double elem2 : y_robot_vec) {
+	// 	file6 << elem2 << std::endl;
+	// }
+	// // 关闭文件流
+	// file1.close();
+    // file2.close();
+    // file3.close();
+    // file4.close();
+    // file5.close();
+    // file6.close();
 
     std::cout << "Enter 1 for continue" << std::endl;
     std::cin >> input;
@@ -691,6 +786,13 @@ void RobotAdmittanceControl::screw_assembly_search(){
     get_eef_pose();
     wish_force << 0, 0, -4, 0, 0, 0;  //期望力
     selection_vector<<1, 1, 1, 0, 0, 0; //选择向量，表示只控制y轴
+    adm_k << 700.0, 700.0, 1300.0, 10.0, 10.0, 10.0;
+    for (Eigen::Index i = 0; i < adm_m.size(); ++i) {
+        adm_d[i] = 4 * sqrt(adm_m[i] * adm_k[i]);
+    }
+    adm_d[0] = 3.5 * sqrt(adm_m[0] * adm_k[0]);
+    adm_d[1] = 3.5 * sqrt(adm_m[1] * adm_k[1]);
+    adm_d[2] = 3.5 * sqrt(adm_m[2] * adm_k[2]);
     eef_pos_d = eef_pos;
     eef_rotm_d = eef_rotm;
     Eigen::Vector3d init_height = {0.0, 0.0, 0.0};
@@ -849,6 +951,7 @@ void RobotAdmittanceControl::screw_assembly_search(){
             p.X = eef_pos[0];
             p.Y = eef_pos[1];
             p.Z = eef_pos[2];
+            p.theta = 0;
             pos_pub.publish(p);
 
             auto end_time = std::chrono::high_resolution_clock::now();
@@ -959,8 +1062,8 @@ void RobotAdmittanceControl::start(){
 
 void RobotAdmittanceControl::go_to_pose(){
     CartesianPose goal_pose;
-    goal_pose.tran.x = -59; goal_pose.tran.y = 512.00; goal_pose.tran.z = 198;
-    goal_pose.rpy.rx = (176 * PI) / 180; goal_pose.rpy.ry = (0 * PI) / 180; goal_pose.rpy.rz = (-60 * PI) / 180;
+    goal_pose.tran.x = -50; goal_pose.tran.y = 510.00; goal_pose.tran.z = 198;
+    goal_pose.rpy.rx = (174 * PI) / 180; goal_pose.rpy.ry = (0 * PI) / 180; goal_pose.rpy.rz = (-60 * PI) / 180;
     robot.servo_move_enable(false);
     robot.linear_move(&goal_pose, ABS, TRUE, 12);
 
@@ -980,8 +1083,8 @@ void RobotAdmittanceControl::go_to_pose(){
     eef_pos_d = eef_pos;
 
     double theta_2 =  2 * PI / 180;
-    std::vector<Eigen::Matrix3d> rotationMatrices = calculateRotationMatrices(6, theta_2);
-    eef_rotm_d =  eef_rotm * rotationMatrices[3]; //期望的位置是当前位置，期望的位姿是经过旋转变换以后的位姿
+    std::vector<Eigen::Matrix3d> rotationMatrices = calculateRotationMatrices(4, theta_2);
+    eef_rotm_d =  eef_rotm * rotationMatrices[2]; //期望的位置是当前位置，期望的位姿是经过旋转变换以后的位姿
 
     get_new_link6_pose(eef_pos_d, eef_rotm_d); // 转化期望的位姿到link6
     new_rotm.x.x = new_angular(0,0); new_rotm.y.x = new_angular(1,0); new_rotm.z.x = new_angular(2,0);

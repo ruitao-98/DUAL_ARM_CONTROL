@@ -14,6 +14,8 @@
 #include "real_robot_control/screwsrv.h"
 #include "actionlib/client/simple_action_client.h"
 #include "real_robot_control/screwAction.h"
+#include "real_robot_control/force_pos_pub.h"
+#include "real_robot_control/orientation_pub.h"
 
 namespace jaka {
     using Quaternion = ::Quaternion; // 创建别名
@@ -51,6 +53,7 @@ public:
     void done_cb(const actionlib::SimpleClientGoalState &state, const real_robot_control::screwResultConstPtr &result);
     void active_cb();
     void feedback_cb(const real_robot_control::screwFeedbackConstPtr &feedback);
+    void do_orien(const real_robot_control::orientation_pub::ConstPtr& orien_p);
 
     std::vector<Eigen::Matrix3d> calculateRotationMatrices(int N, double theta);
 
@@ -93,8 +96,11 @@ private:
     std::shared_ptr<ros::NodeHandle> nh;
     ros::Publisher for_pub;
     ros::Publisher pos_pub;
+    ros::Publisher for_pos_pub;
     real_robot_control::force_pub f;
     real_robot_control::robot_pos_pub p;
+    real_robot_control::force_pos_pub fp;
+    ros::Subscriber listener_sub;
     // ros::ServiceClient client;
     real_robot_control::screwsrv scr;
     actionlib::SimpleActionClient<real_robot_control::screwAction> client;
@@ -130,6 +136,7 @@ private:
 
     Eigen::Vector3d eef_pos_d;
     Eigen::Matrix3d eef_rotm_d;
+    Eigen::Matrix3d eef_rotm_d_modified;
     Eigen::VectorXd eef_vel = Eigen::VectorXd::Zero(6);
     Eigen::VectorXd e = Eigen::VectorXd::Zero(6);
     Eigen::VectorXd e_dot = Eigen::VectorXd::Zero(6);
@@ -150,6 +157,14 @@ private:
     // 0：运行后
     // 1：正在运行
     // 2: 运行前
+
+    int adjust_phi;  
+    //phi 传递过来的数值
+    
+    int phi_changed; 
+    // 1：改变了
+    // 0：改变后，用完了，重置
+
 
 
 

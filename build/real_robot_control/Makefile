@@ -183,6 +183,21 @@ left_or_right_disassembly/fast:
 .PHONY : left_or_right_disassembly/fast
 
 # Convenience name for target.
+real_robot_control/CMakeFiles/move_out.dir/rule:
+	cd /home/yanji/dual_arm_control/build && $(MAKE) -f CMakeFiles/Makefile2 real_robot_control/CMakeFiles/move_out.dir/rule
+.PHONY : real_robot_control/CMakeFiles/move_out.dir/rule
+
+# Convenience name for target.
+move_out: real_robot_control/CMakeFiles/move_out.dir/rule
+
+.PHONY : move_out
+
+# fast build rule for target.
+move_out/fast:
+	cd /home/yanji/dual_arm_control/build && $(MAKE) -f real_robot_control/CMakeFiles/move_out.dir/build.make real_robot_control/CMakeFiles/move_out.dir/build
+.PHONY : move_out/fast
+
+# Convenience name for target.
 real_robot_control/CMakeFiles/control_msgs_generate_messages_lisp.dir/rule:
 	cd /home/yanji/dual_arm_control/build && $(MAKE) -f CMakeFiles/Makefile2 real_robot_control/CMakeFiles/control_msgs_generate_messages_lisp.dir/rule
 .PHONY : real_robot_control/CMakeFiles/control_msgs_generate_messages_lisp.dir/rule
@@ -226,6 +241,21 @@ _real_robot_control_generate_messages_check_deps_screwGoal: real_robot_control/C
 _real_robot_control_generate_messages_check_deps_screwGoal/fast:
 	cd /home/yanji/dual_arm_control/build && $(MAKE) -f real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_screwGoal.dir/build.make real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_screwGoal.dir/build
 .PHONY : _real_robot_control_generate_messages_check_deps_screwGoal/fast
+
+# Convenience name for target.
+real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_force_pos_pub.dir/rule:
+	cd /home/yanji/dual_arm_control/build && $(MAKE) -f CMakeFiles/Makefile2 real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_force_pos_pub.dir/rule
+.PHONY : real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_force_pos_pub.dir/rule
+
+# Convenience name for target.
+_real_robot_control_generate_messages_check_deps_force_pos_pub: real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_force_pos_pub.dir/rule
+
+.PHONY : _real_robot_control_generate_messages_check_deps_force_pos_pub
+
+# fast build rule for target.
+_real_robot_control_generate_messages_check_deps_force_pos_pub/fast:
+	cd /home/yanji/dual_arm_control/build && $(MAKE) -f real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_force_pos_pub.dir/build.make real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_force_pos_pub.dir/build
+.PHONY : _real_robot_control_generate_messages_check_deps_force_pos_pub/fast
 
 # Convenience name for target.
 real_robot_control/CMakeFiles/tf_generate_messages_lisp.dir/rule:
@@ -406,21 +436,6 @@ real_robot_control_generate_messages: real_robot_control/CMakeFiles/real_robot_c
 real_robot_control_generate_messages/fast:
 	cd /home/yanji/dual_arm_control/build && $(MAKE) -f real_robot_control/CMakeFiles/real_robot_control_generate_messages.dir/build.make real_robot_control/CMakeFiles/real_robot_control_generate_messages.dir/build
 .PHONY : real_robot_control_generate_messages/fast
-
-# Convenience name for target.
-real_robot_control/CMakeFiles/tf_generate_messages_cpp.dir/rule:
-	cd /home/yanji/dual_arm_control/build && $(MAKE) -f CMakeFiles/Makefile2 real_robot_control/CMakeFiles/tf_generate_messages_cpp.dir/rule
-.PHONY : real_robot_control/CMakeFiles/tf_generate_messages_cpp.dir/rule
-
-# Convenience name for target.
-tf_generate_messages_cpp: real_robot_control/CMakeFiles/tf_generate_messages_cpp.dir/rule
-
-.PHONY : tf_generate_messages_cpp
-
-# fast build rule for target.
-tf_generate_messages_cpp/fast:
-	cd /home/yanji/dual_arm_control/build && $(MAKE) -f real_robot_control/CMakeFiles/tf_generate_messages_cpp.dir/build.make real_robot_control/CMakeFiles/tf_generate_messages_cpp.dir/build
-.PHONY : tf_generate_messages_cpp/fast
 
 # Convenience name for target.
 real_robot_control/CMakeFiles/control_msgs_generate_messages_eus.dir/rule:
@@ -1863,6 +1878,81 @@ _real_robot_control_generate_messages_check_deps_gripper/fast:
 .PHONY : _real_robot_control_generate_messages_check_deps_gripper/fast
 
 # Convenience name for target.
+real_robot_control/CMakeFiles/tf_generate_messages_cpp.dir/rule:
+	cd /home/yanji/dual_arm_control/build && $(MAKE) -f CMakeFiles/Makefile2 real_robot_control/CMakeFiles/tf_generate_messages_cpp.dir/rule
+.PHONY : real_robot_control/CMakeFiles/tf_generate_messages_cpp.dir/rule
+
+# Convenience name for target.
+tf_generate_messages_cpp: real_robot_control/CMakeFiles/tf_generate_messages_cpp.dir/rule
+
+.PHONY : tf_generate_messages_cpp
+
+# fast build rule for target.
+tf_generate_messages_cpp/fast:
+	cd /home/yanji/dual_arm_control/build && $(MAKE) -f real_robot_control/CMakeFiles/tf_generate_messages_cpp.dir/build.make real_robot_control/CMakeFiles/tf_generate_messages_cpp.dir/build
+.PHONY : tf_generate_messages_cpp/fast
+
+# Convenience name for target.
+real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_orientation_pub.dir/rule:
+	cd /home/yanji/dual_arm_control/build && $(MAKE) -f CMakeFiles/Makefile2 real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_orientation_pub.dir/rule
+.PHONY : real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_orientation_pub.dir/rule
+
+# Convenience name for target.
+_real_robot_control_generate_messages_check_deps_orientation_pub: real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_orientation_pub.dir/rule
+
+.PHONY : _real_robot_control_generate_messages_check_deps_orientation_pub
+
+# fast build rule for target.
+_real_robot_control_generate_messages_check_deps_orientation_pub/fast:
+	cd /home/yanji/dual_arm_control/build && $(MAKE) -f real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_orientation_pub.dir/build.make real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_orientation_pub.dir/build
+.PHONY : _real_robot_control_generate_messages_check_deps_orientation_pub/fast
+
+# Convenience name for target.
+real_robot_control/CMakeFiles/task_control_screw.dir/rule:
+	cd /home/yanji/dual_arm_control/build && $(MAKE) -f CMakeFiles/Makefile2 real_robot_control/CMakeFiles/task_control_screw.dir/rule
+.PHONY : real_robot_control/CMakeFiles/task_control_screw.dir/rule
+
+# Convenience name for target.
+task_control_screw: real_robot_control/CMakeFiles/task_control_screw.dir/rule
+
+.PHONY : task_control_screw
+
+# fast build rule for target.
+task_control_screw/fast:
+	cd /home/yanji/dual_arm_control/build && $(MAKE) -f real_robot_control/CMakeFiles/task_control_screw.dir/build.make real_robot_control/CMakeFiles/task_control_screw.dir/build
+.PHONY : task_control_screw/fast
+
+# Convenience name for target.
+real_robot_control/CMakeFiles/control_msgs_generate_messages_nodejs.dir/rule:
+	cd /home/yanji/dual_arm_control/build && $(MAKE) -f CMakeFiles/Makefile2 real_robot_control/CMakeFiles/control_msgs_generate_messages_nodejs.dir/rule
+.PHONY : real_robot_control/CMakeFiles/control_msgs_generate_messages_nodejs.dir/rule
+
+# Convenience name for target.
+control_msgs_generate_messages_nodejs: real_robot_control/CMakeFiles/control_msgs_generate_messages_nodejs.dir/rule
+
+.PHONY : control_msgs_generate_messages_nodejs
+
+# fast build rule for target.
+control_msgs_generate_messages_nodejs/fast:
+	cd /home/yanji/dual_arm_control/build && $(MAKE) -f real_robot_control/CMakeFiles/control_msgs_generate_messages_nodejs.dir/build.make real_robot_control/CMakeFiles/control_msgs_generate_messages_nodejs.dir/build
+.PHONY : control_msgs_generate_messages_nodejs/fast
+
+# Convenience name for target.
+real_robot_control/CMakeFiles/robot_connet_test.dir/rule:
+	cd /home/yanji/dual_arm_control/build && $(MAKE) -f CMakeFiles/Makefile2 real_robot_control/CMakeFiles/robot_connet_test.dir/rule
+.PHONY : real_robot_control/CMakeFiles/robot_connet_test.dir/rule
+
+# Convenience name for target.
+robot_connet_test: real_robot_control/CMakeFiles/robot_connet_test.dir/rule
+
+.PHONY : robot_connet_test
+
+# fast build rule for target.
+robot_connet_test/fast:
+	cd /home/yanji/dual_arm_control/build && $(MAKE) -f real_robot_control/CMakeFiles/robot_connet_test.dir/build.make real_robot_control/CMakeFiles/robot_connet_test.dir/build
+.PHONY : robot_connet_test/fast
+
+# Convenience name for target.
 real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_screwFeedback.dir/rule:
 	cd /home/yanji/dual_arm_control/build && $(MAKE) -f CMakeFiles/Makefile2 real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_screwFeedback.dir/rule
 .PHONY : real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_screwFeedback.dir/rule
@@ -2041,66 +2131,6 @@ SERVO_MOTOR: real_robot_control/CMakeFiles/SERVO_MOTOR.dir/rule
 SERVO_MOTOR/fast:
 	cd /home/yanji/dual_arm_control/build && $(MAKE) -f real_robot_control/CMakeFiles/SERVO_MOTOR.dir/build.make real_robot_control/CMakeFiles/SERVO_MOTOR.dir/build
 .PHONY : SERVO_MOTOR/fast
-
-# Convenience name for target.
-real_robot_control/CMakeFiles/task_control_screw.dir/rule:
-	cd /home/yanji/dual_arm_control/build && $(MAKE) -f CMakeFiles/Makefile2 real_robot_control/CMakeFiles/task_control_screw.dir/rule
-.PHONY : real_robot_control/CMakeFiles/task_control_screw.dir/rule
-
-# Convenience name for target.
-task_control_screw: real_robot_control/CMakeFiles/task_control_screw.dir/rule
-
-.PHONY : task_control_screw
-
-# fast build rule for target.
-task_control_screw/fast:
-	cd /home/yanji/dual_arm_control/build && $(MAKE) -f real_robot_control/CMakeFiles/task_control_screw.dir/build.make real_robot_control/CMakeFiles/task_control_screw.dir/build
-.PHONY : task_control_screw/fast
-
-# Convenience name for target.
-real_robot_control/CMakeFiles/control_msgs_generate_messages_nodejs.dir/rule:
-	cd /home/yanji/dual_arm_control/build && $(MAKE) -f CMakeFiles/Makefile2 real_robot_control/CMakeFiles/control_msgs_generate_messages_nodejs.dir/rule
-.PHONY : real_robot_control/CMakeFiles/control_msgs_generate_messages_nodejs.dir/rule
-
-# Convenience name for target.
-control_msgs_generate_messages_nodejs: real_robot_control/CMakeFiles/control_msgs_generate_messages_nodejs.dir/rule
-
-.PHONY : control_msgs_generate_messages_nodejs
-
-# fast build rule for target.
-control_msgs_generate_messages_nodejs/fast:
-	cd /home/yanji/dual_arm_control/build && $(MAKE) -f real_robot_control/CMakeFiles/control_msgs_generate_messages_nodejs.dir/build.make real_robot_control/CMakeFiles/control_msgs_generate_messages_nodejs.dir/build
-.PHONY : control_msgs_generate_messages_nodejs/fast
-
-# Convenience name for target.
-real_robot_control/CMakeFiles/robot_connet_test.dir/rule:
-	cd /home/yanji/dual_arm_control/build && $(MAKE) -f CMakeFiles/Makefile2 real_robot_control/CMakeFiles/robot_connet_test.dir/rule
-.PHONY : real_robot_control/CMakeFiles/robot_connet_test.dir/rule
-
-# Convenience name for target.
-robot_connet_test: real_robot_control/CMakeFiles/robot_connet_test.dir/rule
-
-.PHONY : robot_connet_test
-
-# fast build rule for target.
-robot_connet_test/fast:
-	cd /home/yanji/dual_arm_control/build && $(MAKE) -f real_robot_control/CMakeFiles/robot_connet_test.dir/build.make real_robot_control/CMakeFiles/robot_connet_test.dir/build
-.PHONY : robot_connet_test/fast
-
-# Convenience name for target.
-real_robot_control/CMakeFiles/move_out.dir/rule:
-	cd /home/yanji/dual_arm_control/build && $(MAKE) -f CMakeFiles/Makefile2 real_robot_control/CMakeFiles/move_out.dir/rule
-.PHONY : real_robot_control/CMakeFiles/move_out.dir/rule
-
-# Convenience name for target.
-move_out: real_robot_control/CMakeFiles/move_out.dir/rule
-
-.PHONY : move_out
-
-# fast build rule for target.
-move_out/fast:
-	cd /home/yanji/dual_arm_control/build && $(MAKE) -f real_robot_control/CMakeFiles/move_out.dir/build.make real_robot_control/CMakeFiles/move_out.dir/build
-.PHONY : move_out/fast
 
 src/code_test.o: src/code_test.cpp.o
 
@@ -2413,9 +2443,11 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
 	@echo "... left_or_right_disassembly"
+	@echo "... move_out"
 	@echo "... control_msgs_generate_messages_lisp"
 	@echo "... sensor_msgs_generate_messages_cpp"
 	@echo "... _real_robot_control_generate_messages_check_deps_screwGoal"
+	@echo "... _real_robot_control_generate_messages_check_deps_force_pos_pub"
 	@echo "... tf_generate_messages_lisp"
 	@echo "... std_srvs_generate_messages_nodejs"
 	@echo "... std_srvs_generate_messages_eus"
@@ -2429,7 +2461,6 @@ help:
 	@echo "... dynamic_reconfigure_generate_messages_eus"
 	@echo "... tf2_msgs_generate_messages_eus"
 	@echo "... real_robot_control_generate_messages"
-	@echo "... tf_generate_messages_cpp"
 	@echo "... control_msgs_generate_messages_eus"
 	@echo "... geometry_msgs_generate_messages_cpp"
 	@echo "... _real_robot_control_generate_messages_check_deps_screwsrv"
@@ -2528,6 +2559,11 @@ help:
 	@echo "... visualization_msgs_generate_messages_nodejs"
 	@echo "... _real_robot_control_generate_messages_check_deps_screwActionFeedback"
 	@echo "... _real_robot_control_generate_messages_check_deps_gripper"
+	@echo "... tf_generate_messages_cpp"
+	@echo "... _real_robot_control_generate_messages_check_deps_orientation_pub"
+	@echo "... task_control_screw"
+	@echo "... control_msgs_generate_messages_nodejs"
+	@echo "... robot_connet_test"
 	@echo "... _real_robot_control_generate_messages_check_deps_screwFeedback"
 	@echo "... real_robot_control_gencpp"
 	@echo "... moveit_msgs_generate_messages_py"
@@ -2540,10 +2576,6 @@ help:
 	@echo "... real_robot_control_generate_messages_py"
 	@echo "... real_robot_control_genpy"
 	@echo "... SERVO_MOTOR"
-	@echo "... task_control_screw"
-	@echo "... control_msgs_generate_messages_nodejs"
-	@echo "... robot_connet_test"
-	@echo "... move_out"
 	@echo "... src/code_test.o"
 	@echo "... src/code_test.i"
 	@echo "... src/code_test.s"

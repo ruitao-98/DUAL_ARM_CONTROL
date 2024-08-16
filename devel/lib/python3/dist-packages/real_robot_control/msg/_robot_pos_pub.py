@@ -8,14 +8,15 @@ import struct
 
 
 class robot_pos_pub(genpy.Message):
-  _md5sum = "8219583d7802cc50be3e9ab911877ba5"
+  _md5sum = "fc586ac2eab572d076866b0e5f6a4e8e"
   _type = "real_robot_control/robot_pos_pub"
   _has_header = False  # flag to mark the presence of a Header object
   _full_text = """float64 X
 float64 Y
-float64 Z"""
-  __slots__ = ['X','Y','Z']
-  _slot_types = ['float64','float64','float64']
+float64 Z
+float64 theta"""
+  __slots__ = ['X','Y','Z','theta']
+  _slot_types = ['float64','float64','float64','float64']
 
   def __init__(self, *args, **kwds):
     """
@@ -25,7 +26,7 @@ float64 Z"""
     changes.  You cannot mix in-order arguments and keyword arguments.
 
     The available fields are:
-       X,Y,Z
+       X,Y,Z,theta
 
     :param args: complete set of field values, in .msg order
     :param kwds: use keyword arguments corresponding to message field names
@@ -40,10 +41,13 @@ float64 Z"""
         self.Y = 0.
       if self.Z is None:
         self.Z = 0.
+      if self.theta is None:
+        self.theta = 0.
     else:
       self.X = 0.
       self.Y = 0.
       self.Z = 0.
+      self.theta = 0.
 
   def _get_types(self):
     """
@@ -58,7 +62,7 @@ float64 Z"""
     """
     try:
       _x = self
-      buff.write(_get_struct_3d().pack(_x.X, _x.Y, _x.Z))
+      buff.write(_get_struct_4d().pack(_x.X, _x.Y, _x.Z, _x.theta))
     except struct.error as se: self._check_types(struct.error("%s: '%s' when writing '%s'" % (type(se), str(se), str(locals().get('_x', self)))))
     except TypeError as te: self._check_types(ValueError("%s: '%s' when writing '%s'" % (type(te), str(te), str(locals().get('_x', self)))))
 
@@ -73,8 +77,8 @@ float64 Z"""
       end = 0
       _x = self
       start = end
-      end += 24
-      (_x.X, _x.Y, _x.Z,) = _get_struct_3d().unpack(str[start:end])
+      end += 32
+      (_x.X, _x.Y, _x.Z, _x.theta,) = _get_struct_4d().unpack(str[start:end])
       return self
     except struct.error as e:
       raise genpy.DeserializationError(e)  # most likely buffer underfill
@@ -88,7 +92,7 @@ float64 Z"""
     """
     try:
       _x = self
-      buff.write(_get_struct_3d().pack(_x.X, _x.Y, _x.Z))
+      buff.write(_get_struct_4d().pack(_x.X, _x.Y, _x.Z, _x.theta))
     except struct.error as se: self._check_types(struct.error("%s: '%s' when writing '%s'" % (type(se), str(se), str(locals().get('_x', self)))))
     except TypeError as te: self._check_types(ValueError("%s: '%s' when writing '%s'" % (type(te), str(te), str(locals().get('_x', self)))))
 
@@ -104,8 +108,8 @@ float64 Z"""
       end = 0
       _x = self
       start = end
-      end += 24
-      (_x.X, _x.Y, _x.Z,) = _get_struct_3d().unpack(str[start:end])
+      end += 32
+      (_x.X, _x.Y, _x.Z, _x.theta,) = _get_struct_4d().unpack(str[start:end])
       return self
     except struct.error as e:
       raise genpy.DeserializationError(e)  # most likely buffer underfill
@@ -114,9 +118,9 @@ _struct_I = genpy.struct_I
 def _get_struct_I():
     global _struct_I
     return _struct_I
-_struct_3d = None
-def _get_struct_3d():
-    global _struct_3d
-    if _struct_3d is None:
-        _struct_3d = struct.Struct("<3d")
-    return _struct_3d
+_struct_4d = None
+def _get_struct_4d():
+    global _struct_4d
+    if _struct_4d is None:
+        _struct_4d = struct.Struct("<4d")
+    return _struct_4d

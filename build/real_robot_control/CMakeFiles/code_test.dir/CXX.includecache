@@ -6,7 +6,39 @@
 
 #IncludeRegexTransform: 
 
+/home/yanji/dual_arm_control/devel/include/real_robot_control/force_pos_pub.h
+string
+-
+vector
+-
+memory
+-
+ros/types.h
+-
+ros/serialization.h
+-
+ros/builtin_message_traits.h
+-
+ros/message_operations.h
+-
+
 /home/yanji/dual_arm_control/devel/include/real_robot_control/force_pub.h
+string
+-
+vector
+-
+memory
+-
+ros/types.h
+-
+ros/serialization.h
+-
+ros/builtin_message_traits.h
+-
+ros/message_operations.h
+-
+
+/home/yanji/dual_arm_control/devel/include/real_robot_control/orientation_pub.h
 string
 -
 vector
@@ -263,6 +295,10 @@ actionlib/client/simple_action_client.h
 /home/yanji/dual_arm_control/src/real_robot_control/include/real_robot_control/actionlib/client/simple_action_client.h
 real_robot_control/screwAction.h
 /home/yanji/dual_arm_control/src/real_robot_control/include/real_robot_control/real_robot_control/screwAction.h
+real_robot_control/force_pos_pub.h
+/home/yanji/dual_arm_control/src/real_robot_control/include/real_robot_control/real_robot_control/force_pos_pub.h
+real_robot_control/orientation_pub.h
+/home/yanji/dual_arm_control/src/real_robot_control/include/real_robot_control/real_robot_control/orientation_pub.h
 
 /home/yanji/dual_arm_control/src/real_robot_control/src/code_test.cpp
 real_robot_control/right_robot_control.h

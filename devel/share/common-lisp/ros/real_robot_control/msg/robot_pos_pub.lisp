@@ -21,6 +21,11 @@
     :reader Z
     :initarg :Z
     :type cl:float
+    :initform 0.0)
+   (theta
+    :reader theta
+    :initarg :theta
+    :type cl:float
     :initform 0.0))
 )
 
@@ -46,6 +51,11 @@
 (cl:defmethod Z-val ((m <robot_pos_pub>))
   (roslisp-msg-protocol:msg-deprecation-warning "Using old-style slot reader real_robot_control-msg:Z-val is deprecated.  Use real_robot_control-msg:Z instead.")
   (Z m))
+
+(cl:ensure-generic-function 'theta-val :lambda-list '(m))
+(cl:defmethod theta-val ((m <robot_pos_pub>))
+  (roslisp-msg-protocol:msg-deprecation-warning "Using old-style slot reader real_robot_control-msg:theta-val is deprecated.  Use real_robot_control-msg:theta instead.")
+  (theta m))
 (cl:defmethod roslisp-msg-protocol:serialize ((msg <robot_pos_pub>) ostream)
   "Serializes a message object of type '<robot_pos_pub>"
   (cl:let ((bits (roslisp-utils:encode-double-float-bits (cl:slot-value msg 'X))))
@@ -67,6 +77,15 @@
     (cl:write-byte (cl:ldb (cl:byte 8 48) bits) ostream)
     (cl:write-byte (cl:ldb (cl:byte 8 56) bits) ostream))
   (cl:let ((bits (roslisp-utils:encode-double-float-bits (cl:slot-value msg 'Z))))
+    (cl:write-byte (cl:ldb (cl:byte 8 0) bits) ostream)
+    (cl:write-byte (cl:ldb (cl:byte 8 8) bits) ostream)
+    (cl:write-byte (cl:ldb (cl:byte 8 16) bits) ostream)
+    (cl:write-byte (cl:ldb (cl:byte 8 24) bits) ostream)
+    (cl:write-byte (cl:ldb (cl:byte 8 32) bits) ostream)
+    (cl:write-byte (cl:ldb (cl:byte 8 40) bits) ostream)
+    (cl:write-byte (cl:ldb (cl:byte 8 48) bits) ostream)
+    (cl:write-byte (cl:ldb (cl:byte 8 56) bits) ostream))
+  (cl:let ((bits (roslisp-utils:encode-double-float-bits (cl:slot-value msg 'theta))))
     (cl:write-byte (cl:ldb (cl:byte 8 0) bits) ostream)
     (cl:write-byte (cl:ldb (cl:byte 8 8) bits) ostream)
     (cl:write-byte (cl:ldb (cl:byte 8 16) bits) ostream)
@@ -108,6 +127,16 @@
       (cl:setf (cl:ldb (cl:byte 8 48) bits) (cl:read-byte istream))
       (cl:setf (cl:ldb (cl:byte 8 56) bits) (cl:read-byte istream))
     (cl:setf (cl:slot-value msg 'Z) (roslisp-utils:decode-double-float-bits bits)))
+    (cl:let ((bits 0))
+      (cl:setf (cl:ldb (cl:byte 8 0) bits) (cl:read-byte istream))
+      (cl:setf (cl:ldb (cl:byte 8 8) bits) (cl:read-byte istream))
+      (cl:setf (cl:ldb (cl:byte 8 16) bits) (cl:read-byte istream))
+      (cl:setf (cl:ldb (cl:byte 8 24) bits) (cl:read-byte istream))
+      (cl:setf (cl:ldb (cl:byte 8 32) bits) (cl:read-byte istream))
+      (cl:setf (cl:ldb (cl:byte 8 40) bits) (cl:read-byte istream))
+      (cl:setf (cl:ldb (cl:byte 8 48) bits) (cl:read-byte istream))
+      (cl:setf (cl:ldb (cl:byte 8 56) bits) (cl:read-byte istream))
+    (cl:setf (cl:slot-value msg 'theta) (roslisp-utils:decode-double-float-bits bits)))
   msg
 )
 (cl:defmethod roslisp-msg-protocol:ros-datatype ((msg (cl:eql '<robot_pos_pub>)))
@@ -118,18 +147,19 @@
   "real_robot_control/robot_pos_pub")
 (cl:defmethod roslisp-msg-protocol:md5sum ((type (cl:eql '<robot_pos_pub>)))
   "Returns md5sum for a message object of type '<robot_pos_pub>"
-  "8219583d7802cc50be3e9ab911877ba5")
+  "fc586ac2eab572d076866b0e5f6a4e8e")
 (cl:defmethod roslisp-msg-protocol:md5sum ((type (cl:eql 'robot_pos_pub)))
   "Returns md5sum for a message object of type 'robot_pos_pub"
-  "8219583d7802cc50be3e9ab911877ba5")
+  "fc586ac2eab572d076866b0e5f6a4e8e")
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql '<robot_pos_pub>)))
   "Returns full string definition for message of type '<robot_pos_pub>"
-  (cl:format cl:nil "float64 X~%float64 Y~%float64 Z~%~%"))
+  (cl:format cl:nil "float64 X~%float64 Y~%float64 Z~%float64 theta~%~%"))
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql 'robot_pos_pub)))
   "Returns full string definition for message of type 'robot_pos_pub"
-  (cl:format cl:nil "float64 X~%float64 Y~%float64 Z~%~%"))
+  (cl:format cl:nil "float64 X~%float64 Y~%float64 Z~%float64 theta~%~%"))
 (cl:defmethod roslisp-msg-protocol:serialization-length ((msg <robot_pos_pub>))
   (cl:+ 0
+     8
      8
      8
      8
@@ -140,4 +170,5 @@
     (cl:cons ':X (X msg))
     (cl:cons ':Y (Y msg))
     (cl:cons ':Z (Z msg))
+    (cl:cons ':theta (theta msg))
 ))

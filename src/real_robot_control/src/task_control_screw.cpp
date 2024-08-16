@@ -172,11 +172,17 @@ int main(int argc, char *argv[]){
     // ros::ServiceServer server = nh.advertiseService("screwservice",doReq);
     // ROS_INFO("服务已经启动....");
     // ros::spin();
-        bool running = true;
+    bool running = true;
     char input;
     while (running) {
         std::cout << "Enter 1 for screwing, 2 for unscrewing, or any other key to exit:" << std::endl;
         std::cin >> input;
+
+        // std::string action_str;
+        // nh.getParam("robot_action", action_str) && !action_str.empty()
+        // char action = action_str[0];  // 获取字符串的第一个字符作为 action
+        // switch(action){
+
         switch(input) {
             case '1':
                 // 执行插入左tip的程序
