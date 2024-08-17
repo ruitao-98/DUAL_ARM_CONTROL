@@ -1,10 +1,10 @@
+#! /home/yanji/anaconda3/envs/mujo/bin/python3
+# -*- coding: utf-8 -*-
+
 # from modbus_test import RobotiqGripper
 import rospy
 from real_robot_control.msg import gripper
 from pyRobotiqGripper import RobotiqGripper
-
-
-
 
 def dogripper(p):
     print(p.open)

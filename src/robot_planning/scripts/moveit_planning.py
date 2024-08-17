@@ -356,7 +356,7 @@ def planning_to_left_side():
     R_left_side_temp = rotation_y * rotation_z 
     R_left_side = R_left_side_temp.as_matrix()
     eef_wait_mat_in_right = eef_wait_mat_in_right @ R_left_side
-
+    
     # 定义右边更换点的变换姿态
     # rotation_y = R.from_euler('y', -np.pi/2, degrees=False)
     # # rotation_x = R.from_euler('x', -np.pi/2, degrees=False)

@@ -3,6 +3,7 @@ file(REMOVE_RECURSE
   "/home/yanji/dual_arm_control/devel/include/real_robot_control/force_pos_pub.h"
   "/home/yanji/dual_arm_control/devel/include/real_robot_control/force_pub.h"
   "/home/yanji/dual_arm_control/devel/include/real_robot_control/gripper.h"
+  "/home/yanji/dual_arm_control/devel/include/real_robot_control/leftrobotsrv.h"
   "/home/yanji/dual_arm_control/devel/include/real_robot_control/orientation_pub.h"
   "/home/yanji/dual_arm_control/devel/include/real_robot_control/pose.h"
   "/home/yanji/dual_arm_control/devel/include/real_robot_control/robot_pos_pub.h"

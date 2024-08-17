@@ -1,6 +1,11 @@
 (cl:defpackage real_robot_control-srv
   (:use )
   (:export
+   "LEFTROBOTSRV"
+   "<LEFTROBOTSRV-REQUEST>"
+   "LEFTROBOTSRV-REQUEST"
+   "<LEFTROBOTSRV-RESPONSE>"
+   "LEFTROBOTSRV-RESPONSE"
    "SCREWSRV"
    "<SCREWSRV-REQUEST>"
    "SCREWSRV-REQUEST"

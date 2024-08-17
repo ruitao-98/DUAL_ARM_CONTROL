@@ -13,6 +13,7 @@ file(REMOVE_RECURSE
   "/home/yanji/dual_arm_control/devel/share/gennodejs/ros/real_robot_control/msg/screwFeedback.js"
   "/home/yanji/dual_arm_control/devel/share/gennodejs/ros/real_robot_control/msg/screwGoal.js"
   "/home/yanji/dual_arm_control/devel/share/gennodejs/ros/real_robot_control/msg/screwResult.js"
+  "/home/yanji/dual_arm_control/devel/share/gennodejs/ros/real_robot_control/srv/leftrobotsrv.js"
   "/home/yanji/dual_arm_control/devel/share/gennodejs/ros/real_robot_control/srv/screwsrv.js"
   "CMakeFiles/real_robot_control_generate_messages_nodejs"
 )

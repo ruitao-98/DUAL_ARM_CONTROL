@@ -32,8 +32,7 @@ public:
     
     void updata_rotation(const Eigen::Matrix3d& current_rotm, const Eigen::Vector3d& angluar_disp, Eigen::Matrix3d& new_orientation);
     void get_new_link6_pose(const Eigen::Vector3d& new_linear_eef, const Eigen::Matrix3d& new_angular_eef);
-    void ros_init(int argc, char** argv);
-    
+
     void get_robot_pose();
     void get_world_force();
     void get_tcp_force();
@@ -64,6 +63,7 @@ public:
     std::shared_ptr<ros::NodeHandle> nh;
     ros::Publisher for_pub;
     real_robot_control::force_pub f;
+    JAKAZuRobot robot;
 
 
 private:
@@ -91,8 +91,6 @@ private:
     Rpy current_rpy;
     RotMatrix current_rotm;
 
-    
-    JAKAZuRobot robot;
     RobotStatus status;
     CartesianPose cart;
     CartesianPose new_pos;

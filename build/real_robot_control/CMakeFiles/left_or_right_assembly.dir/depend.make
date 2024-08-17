@@ -3,6 +3,9 @@
 
 real_robot_control/CMakeFiles/left_or_right_assembly.dir/src/left_or_right_assembly.cpp.o: /home/yanji/dual_arm_control/devel/include/real_robot_control/force_pub.h
 real_robot_control/CMakeFiles/left_or_right_assembly.dir/src/left_or_right_assembly.cpp.o: /home/yanji/dual_arm_control/devel/include/real_robot_control/gripper.h
+real_robot_control/CMakeFiles/left_or_right_assembly.dir/src/left_or_right_assembly.cpp.o: /home/yanji/dual_arm_control/devel/include/real_robot_control/leftrobotsrv.h
+real_robot_control/CMakeFiles/left_or_right_assembly.dir/src/left_or_right_assembly.cpp.o: /home/yanji/dual_arm_control/devel/include/real_robot_control/leftrobotsrvRequest.h
+real_robot_control/CMakeFiles/left_or_right_assembly.dir/src/left_or_right_assembly.cpp.o: /home/yanji/dual_arm_control/devel/include/real_robot_control/leftrobotsrvResponse.h
 real_robot_control/CMakeFiles/left_or_right_assembly.dir/src/left_or_right_assembly.cpp.o: /home/yanji/dual_arm_control/src/real_robot_control/include/real_robot_control/JAKAZuRobot.h
 real_robot_control/CMakeFiles/left_or_right_assembly.dir/src/left_or_right_assembly.cpp.o: /home/yanji/dual_arm_control/src/real_robot_control/include/real_robot_control/jkerr.h
 real_robot_control/CMakeFiles/left_or_right_assembly.dir/src/left_or_right_assembly.cpp.o: /home/yanji/dual_arm_control/src/real_robot_control/include/real_robot_control/jktypes.h

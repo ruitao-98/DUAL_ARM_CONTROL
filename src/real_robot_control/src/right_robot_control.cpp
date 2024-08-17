@@ -57,9 +57,9 @@ RobotAdmittanceControl::RobotAdmittanceControl()
     sleep(1);
     robot.set_compliant_type(0,0);
 
-    // object_length << 0, 0, 0.021;  //三通，3分
+    object_length << 0, 0, 0.021;  //三通，3分
     // object_length << 0, 0, 0.020;   //M12 六角头螺丝
-    object_length << 0, 0, 0.014;   //3分螺柱
+    // object_length << 0, 0, 0.014;   //3分螺柱
     eef_offset << -0.0785, 0, 0.1169;
     eef_offset_to_sensor << -0.0785, 0, 0.0774;
     eef_offset = eef_offset + object_length;

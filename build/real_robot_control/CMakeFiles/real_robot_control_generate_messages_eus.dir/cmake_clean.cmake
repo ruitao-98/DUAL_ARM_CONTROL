@@ -14,6 +14,7 @@ file(REMOVE_RECURSE
   "/home/yanji/dual_arm_control/devel/share/roseus/ros/real_robot_control/msg/screwFeedback.l"
   "/home/yanji/dual_arm_control/devel/share/roseus/ros/real_robot_control/msg/screwGoal.l"
   "/home/yanji/dual_arm_control/devel/share/roseus/ros/real_robot_control/msg/screwResult.l"
+  "/home/yanji/dual_arm_control/devel/share/roseus/ros/real_robot_control/srv/leftrobotsrv.l"
   "/home/yanji/dual_arm_control/devel/share/roseus/ros/real_robot_control/srv/screwsrv.l"
   "CMakeFiles/real_robot_control_generate_messages_eus"
 )

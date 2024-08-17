@@ -68,18 +68,19 @@ real_robot_control/CMakeFiles/real_robot_control_generate_messages_nodejs: /home
 real_robot_control/CMakeFiles/real_robot_control_generate_messages_nodejs: /home/yanji/dual_arm_control/devel/share/gennodejs/ros/real_robot_control/msg/orientation_pub.js
 real_robot_control/CMakeFiles/real_robot_control_generate_messages_nodejs: /home/yanji/dual_arm_control/devel/share/gennodejs/ros/real_robot_control/msg/force_pos_pub.js
 real_robot_control/CMakeFiles/real_robot_control_generate_messages_nodejs: /home/yanji/dual_arm_control/devel/share/gennodejs/ros/real_robot_control/srv/screwsrv.js
+real_robot_control/CMakeFiles/real_robot_control_generate_messages_nodejs: /home/yanji/dual_arm_control/devel/share/gennodejs/ros/real_robot_control/srv/leftrobotsrv.js
 
 
 /home/yanji/dual_arm_control/devel/share/gennodejs/ros/real_robot_control/msg/screwAction.js: /opt/ros/noetic/lib/gennodejs/gen_nodejs.py
 /home/yanji/dual_arm_control/devel/share/gennodejs/ros/real_robot_control/msg/screwAction.js: /home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwAction.msg
-/home/yanji/dual_arm_control/devel/share/gennodejs/ros/real_robot_control/msg/screwAction.js: /opt/ros/noetic/share/std_msgs/msg/Header.msg
-/home/yanji/dual_arm_control/devel/share/gennodejs/ros/real_robot_control/msg/screwAction.js: /home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwGoal.msg
+/home/yanji/dual_arm_control/devel/share/gennodejs/ros/real_robot_control/msg/screwAction.js: /opt/ros/noetic/share/actionlib_msgs/msg/GoalID.msg
 /home/yanji/dual_arm_control/devel/share/gennodejs/ros/real_robot_control/msg/screwAction.js: /home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwActionFeedback.msg
 /home/yanji/dual_arm_control/devel/share/gennodejs/ros/real_robot_control/msg/screwAction.js: /home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwActionGoal.msg
-/home/yanji/dual_arm_control/devel/share/gennodejs/ros/real_robot_control/msg/screwAction.js: /opt/ros/noetic/share/actionlib_msgs/msg/GoalStatus.msg
 /home/yanji/dual_arm_control/devel/share/gennodejs/ros/real_robot_control/msg/screwAction.js: /home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwActionResult.msg
 /home/yanji/dual_arm_control/devel/share/gennodejs/ros/real_robot_control/msg/screwAction.js: /home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwResult.msg
-/home/yanji/dual_arm_control/devel/share/gennodejs/ros/real_robot_control/msg/screwAction.js: /opt/ros/noetic/share/actionlib_msgs/msg/GoalID.msg
+/home/yanji/dual_arm_control/devel/share/gennodejs/ros/real_robot_control/msg/screwAction.js: /opt/ros/noetic/share/std_msgs/msg/Header.msg
+/home/yanji/dual_arm_control/devel/share/gennodejs/ros/real_robot_control/msg/screwAction.js: /opt/ros/noetic/share/actionlib_msgs/msg/GoalStatus.msg
+/home/yanji/dual_arm_control/devel/share/gennodejs/ros/real_robot_control/msg/screwAction.js: /home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwGoal.msg
 /home/yanji/dual_arm_control/devel/share/gennodejs/ros/real_robot_control/msg/screwAction.js: /home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwFeedback.msg
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/yanji/dual_arm_control/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Generating Javascript code from real_robot_control/screwAction.msg"
 	cd /home/yanji/dual_arm_control/build/real_robot_control && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/gennodejs/cmake/../../../lib/gennodejs/gen_nodejs.py /home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwAction.msg -Ireal_robot_control:/home/yanji/dual_arm_control/devel/share/real_robot_control/msg -Ireal_robot_control:/home/yanji/dual_arm_control/src/real_robot_control/msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -Iactionlib_msgs:/opt/ros/noetic/share/actionlib_msgs/cmake/../msg -p real_robot_control -o /home/yanji/dual_arm_control/devel/share/gennodejs/ros/real_robot_control/msg
@@ -142,8 +143,8 @@ real_robot_control/CMakeFiles/real_robot_control_generate_messages_nodejs: /home
 
 /home/yanji/dual_arm_control/devel/share/gennodejs/ros/real_robot_control/msg/pose.js: /opt/ros/noetic/lib/gennodejs/gen_nodejs.py
 /home/yanji/dual_arm_control/devel/share/gennodejs/ros/real_robot_control/msg/pose.js: /home/yanji/dual_arm_control/src/real_robot_control/msg/pose.msg
-/home/yanji/dual_arm_control/devel/share/gennodejs/ros/real_robot_control/msg/pose.js: /opt/ros/noetic/share/std_msgs/msg/MultiArrayDimension.msg
 /home/yanji/dual_arm_control/devel/share/gennodejs/ros/real_robot_control/msg/pose.js: /opt/ros/noetic/share/std_msgs/msg/Float32MultiArray.msg
+/home/yanji/dual_arm_control/devel/share/gennodejs/ros/real_robot_control/msg/pose.js: /opt/ros/noetic/share/std_msgs/msg/MultiArrayDimension.msg
 /home/yanji/dual_arm_control/devel/share/gennodejs/ros/real_robot_control/msg/pose.js: /opt/ros/noetic/share/std_msgs/msg/MultiArrayLayout.msg
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/yanji/dual_arm_control/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Generating Javascript code from real_robot_control/pose.msg"
 	cd /home/yanji/dual_arm_control/build/real_robot_control && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/gennodejs/cmake/../../../lib/gennodejs/gen_nodejs.py /home/yanji/dual_arm_control/src/real_robot_control/msg/pose.msg -Ireal_robot_control:/home/yanji/dual_arm_control/devel/share/real_robot_control/msg -Ireal_robot_control:/home/yanji/dual_arm_control/src/real_robot_control/msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -Iactionlib_msgs:/opt/ros/noetic/share/actionlib_msgs/cmake/../msg -p real_robot_control -o /home/yanji/dual_arm_control/devel/share/gennodejs/ros/real_robot_control/msg
@@ -168,6 +169,11 @@ real_robot_control/CMakeFiles/real_robot_control_generate_messages_nodejs: /home
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/yanji/dual_arm_control/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Generating Javascript code from real_robot_control/screwsrv.srv"
 	cd /home/yanji/dual_arm_control/build/real_robot_control && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/gennodejs/cmake/../../../lib/gennodejs/gen_nodejs.py /home/yanji/dual_arm_control/src/real_robot_control/srv/screwsrv.srv -Ireal_robot_control:/home/yanji/dual_arm_control/devel/share/real_robot_control/msg -Ireal_robot_control:/home/yanji/dual_arm_control/src/real_robot_control/msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -Iactionlib_msgs:/opt/ros/noetic/share/actionlib_msgs/cmake/../msg -p real_robot_control -o /home/yanji/dual_arm_control/devel/share/gennodejs/ros/real_robot_control/srv
 
+/home/yanji/dual_arm_control/devel/share/gennodejs/ros/real_robot_control/srv/leftrobotsrv.js: /opt/ros/noetic/lib/gennodejs/gen_nodejs.py
+/home/yanji/dual_arm_control/devel/share/gennodejs/ros/real_robot_control/srv/leftrobotsrv.js: /home/yanji/dual_arm_control/src/real_robot_control/srv/leftrobotsrv.srv
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/yanji/dual_arm_control/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Generating Javascript code from real_robot_control/leftrobotsrv.srv"
+	cd /home/yanji/dual_arm_control/build/real_robot_control && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/gennodejs/cmake/../../../lib/gennodejs/gen_nodejs.py /home/yanji/dual_arm_control/src/real_robot_control/srv/leftrobotsrv.srv -Ireal_robot_control:/home/yanji/dual_arm_control/devel/share/real_robot_control/msg -Ireal_robot_control:/home/yanji/dual_arm_control/src/real_robot_control/msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -Iactionlib_msgs:/opt/ros/noetic/share/actionlib_msgs/cmake/../msg -p real_robot_control -o /home/yanji/dual_arm_control/devel/share/gennodejs/ros/real_robot_control/srv
+
 real_robot_control_generate_messages_nodejs: real_robot_control/CMakeFiles/real_robot_control_generate_messages_nodejs
 real_robot_control_generate_messages_nodejs: /home/yanji/dual_arm_control/devel/share/gennodejs/ros/real_robot_control/msg/screwAction.js
 real_robot_control_generate_messages_nodejs: /home/yanji/dual_arm_control/devel/share/gennodejs/ros/real_robot_control/msg/screwActionGoal.js
@@ -184,6 +190,7 @@ real_robot_control_generate_messages_nodejs: /home/yanji/dual_arm_control/devel/
 real_robot_control_generate_messages_nodejs: /home/yanji/dual_arm_control/devel/share/gennodejs/ros/real_robot_control/msg/orientation_pub.js
 real_robot_control_generate_messages_nodejs: /home/yanji/dual_arm_control/devel/share/gennodejs/ros/real_robot_control/msg/force_pos_pub.js
 real_robot_control_generate_messages_nodejs: /home/yanji/dual_arm_control/devel/share/gennodejs/ros/real_robot_control/srv/screwsrv.js
+real_robot_control_generate_messages_nodejs: /home/yanji/dual_arm_control/devel/share/gennodejs/ros/real_robot_control/srv/leftrobotsrv.js
 real_robot_control_generate_messages_nodejs: real_robot_control/CMakeFiles/real_robot_control_generate_messages_nodejs.dir/build.make
 
 .PHONY : real_robot_control_generate_messages_nodejs

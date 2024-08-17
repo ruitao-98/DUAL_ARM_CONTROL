@@ -187,6 +187,7 @@ int main(int argc, char *argv[])
     right_robot.enable_robot();
     reset();
     left_robot.login_out();
+    right_robot.login_out();
     //Create topic "/joint_states"
     ros::Publisher joint_states_pub = nh.advertise<sensor_msgs::JointState>("/joint_states", 10);
     //Create action server object

@@ -15,6 +15,7 @@ file(REMOVE_RECURSE
   "/home/yanji/dual_arm_control/devel/lib/python3/dist-packages/real_robot_control/msg/_screwGoal.py"
   "/home/yanji/dual_arm_control/devel/lib/python3/dist-packages/real_robot_control/msg/_screwResult.py"
   "/home/yanji/dual_arm_control/devel/lib/python3/dist-packages/real_robot_control/srv/__init__.py"
+  "/home/yanji/dual_arm_control/devel/lib/python3/dist-packages/real_robot_control/srv/_leftrobotsrv.py"
   "/home/yanji/dual_arm_control/devel/lib/python3/dist-packages/real_robot_control/srv/_screwsrv.py"
   "CMakeFiles/real_robot_control_generate_messages_py"
 )

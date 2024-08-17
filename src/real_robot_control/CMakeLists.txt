@@ -73,6 +73,7 @@ find_package(Eigen3 REQUIRED)
 add_service_files(
   FILES
   screwsrv.srv
+  leftrobotsrv.srv
 )
 
 ## Generate actions in the 'action' folder
@@ -222,7 +223,7 @@ target_link_libraries(RIGHT_ADM_CONTROL
 ## Declare a C++ executable
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
-  add_executable(robot_connet_test src/robot_connet_test.cpp)
+
   add_executable(right_robot_control src/right_robot_control.cpp)
   # add_executable(left_robot_control src/left_robot_control.cpp)
   add_executable(code_test src/code_test.cpp)
@@ -230,7 +231,7 @@ target_link_libraries(RIGHT_ADM_CONTROL
   add_executable(task_control_screw src/task_control_screw.cpp)
   add_executable(move_out src/move_out.cpp)
   add_executable(left_or_right_assembly src/left_or_right_assembly.cpp)
-  add_executable(left_or_right_disassembly src/left_or_right_disassembly.cpp)
+
   # add_executable(screwing_tool src/screwing_tool.cpp)
   # add_executable(servo_motor_function src/servo_motor_function.cpp)
 ## Rename C++ executable without prefix
@@ -244,11 +245,7 @@ target_link_libraries(RIGHT_ADM_CONTROL
   
   # add_dependencies(servo_motor_function ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 ## Specify libraries to link a library or executable target against
-  target_link_libraries(robot_connet_test
-  ${catkin_LIBRARIES}
-  jakaAPI
-  ${PROJECT_SOURCE_DIR}/lib/libdxl_x64_cpp.so
-  )
+
   target_link_libraries(right_robot_control
   ${catkin_LIBRARIES}
   jakaAPI
@@ -296,12 +293,6 @@ target_link_libraries(RIGHT_ADM_CONTROL
   LEFT_ADM_CONTROL
   )
 
-  target_link_libraries(left_or_right_disassembly
-  ${catkin_LIBRARIES}
-  jakaAPI
-  LEFT_ADM_CONTROL
-  )
-
 
 
   # target_link_libraries(screwing_tool
@@ -310,12 +301,11 @@ target_link_libraries(RIGHT_ADM_CONTROL
   # SERVO_MOTOR
   # )
 
-  add_dependencies(robot_connet_test ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+
   add_dependencies(right_robot_control ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
   # add_dependencies(left_robot_control ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
   add_dependencies(code_test ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
   add_dependencies(motion_planning ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-  add_dependencies(left_or_right_disassembly ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
   add_dependencies(move_out ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
   add_dependencies(left_or_right_assembly ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
   # add_dependencies(screwing_tool ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})

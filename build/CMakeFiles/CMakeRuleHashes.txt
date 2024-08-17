@@ -3,6 +3,8 @@
 a94c1045c2c8cfa61f099c351f0a6f4b /home/yanji/dual_arm_control/devel/include/real_robot_control/force_pos_pub.h
 144f0d0f40a23d1c7becb9b2b156f43b /home/yanji/dual_arm_control/devel/include/real_robot_control/force_pub.h
 30aac9633d9d9d47dc5e62c625d1c44b /home/yanji/dual_arm_control/devel/include/real_robot_control/gripper.h
+43144d306a15f4d555a1a34e4d66fc9e /home/yanji/dual_arm_control/devel/include/real_robot_control/leftrobot.h
+a9c5c29688f066f94cf1ec1b85f9d5b5 /home/yanji/dual_arm_control/devel/include/real_robot_control/leftrobotsrv.h
 4e0f7d89a2e6a384e24094a3f012cb03 /home/yanji/dual_arm_control/devel/include/real_robot_control/orientation_pub.h
 4c0bcbd75334c3c1ef48dcbc7990be20 /home/yanji/dual_arm_control/devel/include/real_robot_control/pose.h
 5f7054a37fed51c6236eba2c6a43562f /home/yanji/dual_arm_control/devel/include/real_robot_control/robot_pos_pub.h
@@ -31,6 +33,8 @@ a521cae02d5dfaf9c962c15785092035 /home/yanji/dual_arm_control/devel/lib/python3/
 cf3b50b29731b6d9492593dcd2b880af /home/yanji/dual_arm_control/devel/lib/python3/dist-packages/real_robot_control/msg/_screwGoal.py
 63ff72f04f11ae1fb05f5fd2634e0bc0 /home/yanji/dual_arm_control/devel/lib/python3/dist-packages/real_robot_control/msg/_screwResult.py
 ac685b693ebad106c27dc4ba63eaafdb /home/yanji/dual_arm_control/devel/lib/python3/dist-packages/real_robot_control/srv/__init__.py
+6d384d2fc96783cd9f25bffd00fae759 /home/yanji/dual_arm_control/devel/lib/python3/dist-packages/real_robot_control/srv/_leftrobot.py
+ad5e0d49123e90e5322a7f6c393cb8fa /home/yanji/dual_arm_control/devel/lib/python3/dist-packages/real_robot_control/srv/_leftrobotsrv.py
 a94857915eeeeb55fdd227f27b5ddc8d /home/yanji/dual_arm_control/devel/lib/python3/dist-packages/real_robot_control/srv/_screwsrv.py
 474b4e847d71fe2701475e700f08f2a5 /home/yanji/dual_arm_control/devel/lib/python3/dist-packages/robot_planning/msg/__init__.py
 b9c497f90a67896944df4b1c278101f1 /home/yanji/dual_arm_control/devel/lib/python3/dist-packages/robot_planning/msg/_force_pub.py
@@ -48,6 +52,8 @@ a98ceffb7603068c47b5f0e26483c7a5 /home/yanji/dual_arm_control/devel/share/common
 f99c2cccd5aeb6625c7af73fcd31bd88 /home/yanji/dual_arm_control/devel/share/common-lisp/ros/real_robot_control/msg/screwFeedback.lisp
 c71652a7ba48ec69f0ecef2ffbff48db /home/yanji/dual_arm_control/devel/share/common-lisp/ros/real_robot_control/msg/screwGoal.lisp
 7b8b01d941a9d0120f31869793edf19a /home/yanji/dual_arm_control/devel/share/common-lisp/ros/real_robot_control/msg/screwResult.lisp
+279e78c9b271004bf4fd9b6e4653f0c5 /home/yanji/dual_arm_control/devel/share/common-lisp/ros/real_robot_control/srv/leftrobot.lisp
+d500e276f924f21710875d94a7b19450 /home/yanji/dual_arm_control/devel/share/common-lisp/ros/real_robot_control/srv/leftrobotsrv.lisp
 96a6bfc2f3df22d691c96f107521d224 /home/yanji/dual_arm_control/devel/share/common-lisp/ros/real_robot_control/srv/screwsrv.lisp
 d742adaa21eb2fa83a063beeca3a3362 /home/yanji/dual_arm_control/devel/share/common-lisp/ros/robot_planning/msg/force_pub.lisp
 a9caed5620489853767afa259d0282df /home/yanji/dual_arm_control/devel/share/gennodejs/ros/real_robot_control/msg/current_pub.js
@@ -64,6 +70,8 @@ a9aebe2b7f34fe25409835ab6a635be5 /home/yanji/dual_arm_control/devel/share/gennod
 16304f1e2ec0c3e910d0155aef84a458 /home/yanji/dual_arm_control/devel/share/gennodejs/ros/real_robot_control/msg/screwFeedback.js
 46ef6fc33a8801033edd5cbd49ea1c9a /home/yanji/dual_arm_control/devel/share/gennodejs/ros/real_robot_control/msg/screwGoal.js
 5cee3ad74421e345c597a49495cc3018 /home/yanji/dual_arm_control/devel/share/gennodejs/ros/real_robot_control/msg/screwResult.js
+e0193db05e34685e5c60a0e980ff3bb9 /home/yanji/dual_arm_control/devel/share/gennodejs/ros/real_robot_control/srv/leftrobot.js
+4b38bc01ee5949ec835d8b34286ee5cf /home/yanji/dual_arm_control/devel/share/gennodejs/ros/real_robot_control/srv/leftrobotsrv.js
 cb17b7ca619574c8459a47cb325dff9a /home/yanji/dual_arm_control/devel/share/gennodejs/ros/real_robot_control/srv/screwsrv.js
 197063481ade7c551313e75fc0aa180e /home/yanji/dual_arm_control/devel/share/gennodejs/ros/robot_planning/msg/force_pub.js
 bf9fe830eda4406228727fb548e56966 /home/yanji/dual_arm_control/devel/share/roseus/ros/real_robot_control/manifest.l
@@ -81,6 +89,8 @@ c204fe5878a475961b956f24c0907bb5 /home/yanji/dual_arm_control/devel/share/roseus
 8fe7e1579f839234984d0696bedd3f06 /home/yanji/dual_arm_control/devel/share/roseus/ros/real_robot_control/msg/screwFeedback.l
 1ca49af6c2e5c972425eb94ddf4b2932 /home/yanji/dual_arm_control/devel/share/roseus/ros/real_robot_control/msg/screwGoal.l
 00b8e0eaa42110f82cdb1e8eee79753b /home/yanji/dual_arm_control/devel/share/roseus/ros/real_robot_control/msg/screwResult.l
+f1265c1a43e35bc1d4f91153477579be /home/yanji/dual_arm_control/devel/share/roseus/ros/real_robot_control/srv/leftrobot.l
+b6cca04301a50f5b995dee3789c227ee /home/yanji/dual_arm_control/devel/share/roseus/ros/real_robot_control/srv/leftrobotsrv.l
 dba3753076879843602894c9e34717c3 /home/yanji/dual_arm_control/devel/share/roseus/ros/real_robot_control/srv/screwsrv.l
 0177ee93f7ffb28e9a12ed960fa75d35 /home/yanji/dual_arm_control/devel/share/roseus/ros/robot_planning/manifest.l
 c76c34b990d2dff1bf279615cd6ca023 /home/yanji/dual_arm_control/devel/share/roseus/ros/robot_planning/msg/force_pub.l
@@ -89,10 +99,11 @@ c76c34b990d2dff1bf279615cd6ca023 /home/yanji/dual_arm_control/devel/share/roseus
 0c0d76ffec8fa9d6436eb019f30a7d35 real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_force_pos_pub
 eda2ad9a4d6b1626c7b645c1b81ffe7c real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_force_pub
 a482e67dd756530cd8b22c0d8a2e992b real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_gripper
+067572876e1d4b428e7d1c4204758e57 real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_leftrobotsrv
 04e70bdff08a84fda94a0bdd797a8568 real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_orientation_pub
-85ff6a0d92639ef76e4dd6ad9f5dd723 real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_pose
+2f7e397e9a7c52d178e76007b06e8764 real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_pose
 47f278fe6351e32167b6cc87944f3721 real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_robot_pos_pub
-6eb189c07db5a42e4e908e24ee1a8160 real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_screwAction
+2228d6e150f541c09c441f9fe831ce8b real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_screwAction
 5dc6dea6dd5954d0397ae48222e91a28 real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_screwActionFeedback
 df063a7d9c5ee1eb1faee27cfa83582f real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_screwActionGoal
 5e9e8a0cbca61dd88a1d8fb7465791f4 real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_screwActionResult

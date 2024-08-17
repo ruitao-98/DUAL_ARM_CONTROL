@@ -298,19 +298,6 @@ _catkin_empty_exported_target/fast:
 .PHONY : _catkin_empty_exported_target/fast
 
 #=============================================================================
-# Target rules for targets named left_or_right_disassembly
-
-# Build rule for target.
-left_or_right_disassembly: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 left_or_right_disassembly
-.PHONY : left_or_right_disassembly
-
-# fast build rule for target.
-left_or_right_disassembly/fast:
-	$(MAKE) -f real_robot_control/CMakeFiles/left_or_right_disassembly.dir/build.make real_robot_control/CMakeFiles/left_or_right_disassembly.dir/build
-.PHONY : left_or_right_disassembly/fast
-
-#=============================================================================
 # Target rules for targets named move_out
 
 # Build rule for target.
@@ -662,6 +649,19 @@ shape_msgs_generate_messages_nodejs/fast:
 .PHONY : shape_msgs_generate_messages_nodejs/fast
 
 #=============================================================================
+# Target rules for targets named _real_robot_control_generate_messages_check_deps_leftrobotsrv
+
+# Build rule for target.
+_real_robot_control_generate_messages_check_deps_leftrobotsrv: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 _real_robot_control_generate_messages_check_deps_leftrobotsrv
+.PHONY : _real_robot_control_generate_messages_check_deps_leftrobotsrv
+
+# fast build rule for target.
+_real_robot_control_generate_messages_check_deps_leftrobotsrv/fast:
+	$(MAKE) -f real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_leftrobotsrv.dir/build.make real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_leftrobotsrv.dir/build
+.PHONY : _real_robot_control_generate_messages_check_deps_leftrobotsrv/fast
+
+#=============================================================================
 # Target rules for targets named real_robot_control_geneus
 
 # Build rule for target.
@@ -803,6 +803,32 @@ SCREWING_TOOL: cmake_check_build_system
 SCREWING_TOOL/fast:
 	$(MAKE) -f real_robot_control/CMakeFiles/SCREWING_TOOL.dir/build.make real_robot_control/CMakeFiles/SCREWING_TOOL.dir/build
 .PHONY : SCREWING_TOOL/fast
+
+#=============================================================================
+# Target rules for targets named task_control_screw
+
+# Build rule for target.
+task_control_screw: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 task_control_screw
+.PHONY : task_control_screw
+
+# fast build rule for target.
+task_control_screw/fast:
+	$(MAKE) -f real_robot_control/CMakeFiles/task_control_screw.dir/build.make real_robot_control/CMakeFiles/task_control_screw.dir/build
+.PHONY : task_control_screw/fast
+
+#=============================================================================
+# Target rules for targets named control_msgs_generate_messages_nodejs
+
+# Build rule for target.
+control_msgs_generate_messages_nodejs: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 control_msgs_generate_messages_nodejs
+.PHONY : control_msgs_generate_messages_nodejs
+
+# fast build rule for target.
+control_msgs_generate_messages_nodejs/fast:
+	$(MAKE) -f real_robot_control/CMakeFiles/control_msgs_generate_messages_nodejs.dir/build.make real_robot_control/CMakeFiles/control_msgs_generate_messages_nodejs.dir/build
+.PHONY : control_msgs_generate_messages_nodejs/fast
 
 #=============================================================================
 # Target rules for targets named dynamic_reconfigure_generate_messages_py
@@ -1806,45 +1832,6 @@ _real_robot_control_generate_messages_check_deps_orientation_pub/fast:
 .PHONY : _real_robot_control_generate_messages_check_deps_orientation_pub/fast
 
 #=============================================================================
-# Target rules for targets named task_control_screw
-
-# Build rule for target.
-task_control_screw: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 task_control_screw
-.PHONY : task_control_screw
-
-# fast build rule for target.
-task_control_screw/fast:
-	$(MAKE) -f real_robot_control/CMakeFiles/task_control_screw.dir/build.make real_robot_control/CMakeFiles/task_control_screw.dir/build
-.PHONY : task_control_screw/fast
-
-#=============================================================================
-# Target rules for targets named control_msgs_generate_messages_nodejs
-
-# Build rule for target.
-control_msgs_generate_messages_nodejs: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 control_msgs_generate_messages_nodejs
-.PHONY : control_msgs_generate_messages_nodejs
-
-# fast build rule for target.
-control_msgs_generate_messages_nodejs/fast:
-	$(MAKE) -f real_robot_control/CMakeFiles/control_msgs_generate_messages_nodejs.dir/build.make real_robot_control/CMakeFiles/control_msgs_generate_messages_nodejs.dir/build
-.PHONY : control_msgs_generate_messages_nodejs/fast
-
-#=============================================================================
-# Target rules for targets named robot_connet_test
-
-# Build rule for target.
-robot_connet_test: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 robot_connet_test
-.PHONY : robot_connet_test
-
-# fast build rule for target.
-robot_connet_test/fast:
-	$(MAKE) -f real_robot_control/CMakeFiles/robot_connet_test.dir/build.make real_robot_control/CMakeFiles/robot_connet_test.dir/build
-.PHONY : robot_connet_test/fast
-
-#=============================================================================
 # Target rules for targets named _real_robot_control_generate_messages_check_deps_screwFeedback
 
 # Build rule for target.
@@ -2192,7 +2179,6 @@ help:
 	@echo "... gtest_main"
 	@echo "... gtest"
 	@echo "... _catkin_empty_exported_target"
-	@echo "... left_or_right_disassembly"
 	@echo "... move_out"
 	@echo "... control_msgs_generate_messages_lisp"
 	@echo "... sensor_msgs_generate_messages_cpp"
@@ -2220,6 +2206,7 @@ help:
 	@echo "... rosgraph_msgs_generate_messages_eus"
 	@echo "... moveit_ros_planning_gencfg"
 	@echo "... shape_msgs_generate_messages_nodejs"
+	@echo "... _real_robot_control_generate_messages_check_deps_leftrobotsrv"
 	@echo "... real_robot_control_geneus"
 	@echo "... trajectory_msgs_generate_messages_nodejs"
 	@echo "... sensor_msgs_generate_messages_nodejs"
@@ -2231,6 +2218,8 @@ help:
 	@echo "... trajectory_msgs_generate_messages_cpp"
 	@echo "... actionlib_generate_messages_py"
 	@echo "... SCREWING_TOOL"
+	@echo "... task_control_screw"
+	@echo "... control_msgs_generate_messages_nodejs"
 	@echo "... dynamic_reconfigure_generate_messages_py"
 	@echo "... rosgraph_msgs_generate_messages_lisp"
 	@echo "... visualization_msgs_generate_messages_cpp"
@@ -2308,9 +2297,6 @@ help:
 	@echo "... _real_robot_control_generate_messages_check_deps_gripper"
 	@echo "... tf_generate_messages_cpp"
 	@echo "... _real_robot_control_generate_messages_check_deps_orientation_pub"
-	@echo "... task_control_screw"
-	@echo "... control_msgs_generate_messages_nodejs"
-	@echo "... robot_connet_test"
 	@echo "... _real_robot_control_generate_messages_check_deps_screwFeedback"
 	@echo "... real_robot_control_gencpp"
 	@echo "... moveit_msgs_generate_messages_py"
