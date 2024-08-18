@@ -127,6 +127,7 @@ void endeffector::width_reduce(int distance, ros::Publisher &pub, real_robot_con
 
 void endeffector::width_increase(int distance, ros::Publisher &pub, real_robot_control::current_pub &msg) {
 	std::vector<int> current_vec; //电流容器
+
 	ifstream in("delta_width.txt");
 	string content;
 	while (getline(in, content))
@@ -134,7 +135,7 @@ void endeffector::width_increase(int distance, ros::Publisher &pub, real_robot_c
 		cout << content << endl;
 	}
 	in.close();
-	int goal_position = atoi(content.c_str());
+	int previous_position = atoi(content.c_str());
 
     this->open_port();
 	this->setbaundrate();
@@ -150,15 +151,15 @@ void endeffector::width_increase(int distance, ros::Publisher &pub, real_robot_c
 	else {
 		distance = distance;
 	}
-	int item = 0;
-	while ( item < 1000)
-	{	
-		item = item + 1;
-		msg.current = 0.0; // Assuming 'current_position' is a field in your custom message
-		pub.publish(msg);
-		cout << "wait" << item << endl;
-		std::this_thread::sleep_for(std::chrono::milliseconds(10));
-	}
+	// int item = 0;
+	// while ( item < 1000)
+	// {	
+	// 	item = item + 1;
+	// 	msg.current = 0.0; // Assuming 'current_position' is a field in your custom message
+	// 	pub.publish(msg);
+	// 	cout << "wait" << item << endl;
+	// 	std::this_thread::sleep_for(std::chrono::milliseconds(10));
+	// }
 	
     this->setbaundrate();
 	this->torque_off(1);
@@ -168,17 +169,21 @@ void endeffector::width_increase(int distance, ros::Publisher &pub, real_robot_c
 	int start_position_1 = this->get_presentposition(1);
 	int goal_position_1 = int(start_position_1 + 4095 * distance);
 	this->set_goalposition(1, goal_position_1);
-	sleep(1);
+	std::this_thread::sleep_for(std::chrono::milliseconds(300));
+
 	while (true) {
 		int current = this->get_presentcurrent(1);
-		msg.current = current; // Assuming 'current_position' is a field in your custom message
+		msg.current = current; //发布电流信息，成为实验数据
 		pub.publish(msg);
+
 		current_vec.push_back(current);
 		if (this->get_presentvelocity(1) <= 1) {
 			this->torque_off(1);
-			sleep(0.5);
+			std::this_thread::sleep_for(std::chrono::milliseconds(300));
+			int end_position = this->get_presentposition(1);
 
-			goal_position = goal_position + 4095 * distance;
+			int goal_position = previous_position + (end_position - start_position_1); //宽度增加，编码器数值是增加的
+
 			fstream ofs;
 			ofs.open("delta_width.txt", ios::out);
 			ofs << goal_position;
@@ -186,28 +191,28 @@ void endeffector::width_increase(int distance, ros::Publisher &pub, real_robot_c
 			break;
 		}
 	}
-	time_t now;
-    struct tm time_info;
-    // Get the current time
-    time(&now);
-    // Convert the `time_t` value to local time in a thread-safe way
-    localtime_r(&now, &time_info);
-	// 创建一个时间格式化的字符串流
-	std::ostringstream oss;
-	oss << std::put_time(&time_info, "%Y-%m-%d_%H-%M-%S"); // 格式化时间 YYYY-MM-DD_HH-MM-SS
-	std::string time_str = oss.str();
-	// 创建文件名，包含当前时间
-	std::string file_name1 = "current_s1_" + time_str + ".txt";
-	// 打开文件流
-	std::ofstream file1(file_name1);
-	// 将列表的元素写入文件
-	for (double elem1 : current_vec) {
-		file1 << elem1 << std::endl;
-	}
-	// 关闭文件流
-	file1.close();
-    
 
+	// time_t now;
+    // struct tm time_info;
+    // // Get the current time
+    // time(&now);
+    // // Convert the `time_t` value to local time in a thread-safe way
+    // localtime_r(&now, &time_info);
+	// // 创建一个时间格式化的字符串流
+	// std::ostringstream oss;
+	// oss << std::put_time(&time_info, "%Y-%m-%d_%H-%M-%S"); // 格式化时间 YYYY-MM-DD_HH-MM-SS
+	// std::string time_str = oss.str();
+	// // 创建文件名，包含当前时间
+	// std::string file_name1 = "current_s1_" + time_str + ".txt";
+	// // 打开文件流
+	// std::ofstream file1(file_name1);
+	// // 将列表的元素写入文件
+	// for (double elem1 : current_vec) {
+	// 	file1 << elem1 << std::endl;
+	// }
+	// // 关闭文件流
+	// file1.close();
+    
 	while ((this->torque_on(1))) {
 		cout << "\r" <<"******养成好习惯，请关闭夹持装置的电源*********" << flush; 
 	}
@@ -221,6 +226,24 @@ int endeffector::width_reduce_or_increase_full(int judge){
 	while (!(this->torque_on(1))) {
 		cout << "\r" <<"******请打开夹持装置的电源，以执行功能*********" << flush; 
 	}
+	ifstream in("delta_width.txt");
+	string content;
+	while (getline(in, content))
+	{
+		cout << content << endl;
+	}
+	in.close();
+	int previous_position = atoi(content.c_str());
+
+	ifstream in1("goal_width.txt");
+	string content1;
+	while (getline(in1, content1))
+	{
+		cout << content1 << endl;
+	}
+	in1.close();
+	int goal_width = atoi(content1.c_str());
+
 	this->setdelaytime(1, 0);
 	this->torque_off(1);
 	this->set_velocitymode(1);
@@ -253,42 +276,45 @@ int endeffector::width_reduce_or_increase_full(int judge){
 		j = i % 5;
 		i = i + 1;
 		present_cu[j] = this->get_presentcurrent(1);
-    if (i <= 5){
-      ave_current = start_current;
-    }
-    if (i > 5){
-      ave_current = average_function(present_cu, 5);
-    }
+		if (i <= 5){
+		ave_current = start_current;
+		}
+		if (i > 5){
+		ave_current = average_function(present_cu, 5);
+		}
+		
 		if ((fabs(ave_current - start_current) > yuzhi) && (i > 5))
 		{
 			printf("ֹͣthe present current %.3f\n", ave_current);
 			this->set_goalvelocity(1, 0);
 			sleep(0.5);
 			int end_position = this->get_presentposition(1);
-			int delta_position = end_position - start_position;
+			int delta_position = (end_position - start_position) + previous_position;
 
 			ofs.open("delta_width.txt", ios::out);
 			ofs << delta_position;
 			ofs.close();
-
 			this->torque_off(0);
 
 			while ((this->torque_on(1))) {
 				cout << "\r" <<"******养成好习惯，请关闭夹持装置的电源*********" << flush; 
 			}
-			return 0;
-			break;
+			this->close_port();
+			
+			if (abs(delta_position - goal_width)>10){
+				printf("ͣ***the object is not at the center***");
+				return 1;
+			}
+			else{
+				printf("ͣ***the object is not at the center***");
+				return 0;
+			}
 		}
 	}
-	
-	while ((this->torque_on(1))) {
-		cout << "\r" <<"******养成好习惯，请关闭夹持装置的电源*********" << flush; 
-	}
-	this->close_port();
-	return 1;
 }
 
 int endeffector::width_recovery(){
+	//回到最大的地方
     this->open_port();
 	this->setbaundrate();
 			// 检测 夹持装置的电机 是否打开
@@ -299,6 +325,7 @@ int endeffector::width_recovery(){
 	this->setdelaytime(1, 0);
     this->setbaundrate();
 	this->torque_off(1);
+
 	ifstream in("delta_width.txt");
 	string content;
 	while (getline(in, content))
@@ -314,11 +341,11 @@ int endeffector::width_recovery(){
 	int start_position_1 = this->get_presentposition(1);
 	int goal_position_1 = int(start_position_1 - delta_position);
 	this->set_goalposition(1, goal_position_1);
-	sleep(1);
+	std::this_thread::sleep_for(std::chrono::milliseconds(500));
 	while (true) {
 		if (this->get_presentvelocity(1) <= 1) {
 			this->torque_off(1);
-			sleep(0.5);
+			std::this_thread::sleep_for(std::chrono::milliseconds(500));
 			int final_position = this->get_presentposition(1);
 			ofstream ofs;
 			ofs.open("delta_width.txt", ios::out);

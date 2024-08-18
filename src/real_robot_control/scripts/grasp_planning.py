@@ -22,6 +22,8 @@ import generate_grasping_pose as ge
 from real_robot_control.msg import pose
 import ransac_icp as rans
 from utils import *
+from real_robot_control.msg import gripper
+from real_robot_control.srv import *
 
 
 import jkrc
@@ -342,10 +344,35 @@ def planning_grasping(pos, rotm):
     ABS = 0
     INCR= 1
     tcp_pos=[left_link6_pos[0],left_link6_pos[1],left_link6_pos[2],rpy[0],rpy[1],rpy[2]]
+    print(tcp_pos)
+    rospy.set_param("x", left_link6_pos[0])
+    rospy.set_param("y", left_link6_pos[1])
+    rospy.set_param("z", left_link6_pos[2])
+    rospy.set_param("rx", rpy[0])
+    rospy.set_param("ry", rpy[1])
+    rospy.set_param("rz", rpy[2])
+    req.num = 7
+    resp = client.call(req) #执行交接动作
+    # robot.login() #登录
+    # robot.linear_move(tcp_pos,ABS,True,5)
+    # robot.logout() #每次运行完都登出
 
-    robot.login() #登录
-    robot.linear_move(tcp_pos,ABS,True,3)
-    robot.logout() #每次运行完都登出
+def try_planning_grasping(pos, rotm):
+    """
+    pos 和 rotm 都是夹爪中心（eef) 的期望位姿,分别是numpy 3*1 向量和3*3矩阵
+    """
+    print(pos)
+    print(rotm)
+    pos = pos / 1000
+    # 加偏执后， 直线运动
+    delta_p = np.array([0, 0, -0.05])
+    grasping_pos = pos + rotm @ delta_p
+    grasping_pos = grasping_pos.astype(float)
+    grasping_rotm = rotm.astype(float)
+    grasping_quat = trans_quat.mat2quat(grasping_rotm)
+    print(grasping_quat)
+    left_arm.try_planning(grasping_pos, grasping_quat)
+
 
 def planning_grasping_move_up(pos, rotm):
     pos = pos / 1000
@@ -451,9 +478,17 @@ def planning_handover(T_relative):
     INCR= 1
     tcp_pos=[left_link6_pos[0],left_link6_pos[1],left_link6_pos[2],rpy[0],rpy[1],rpy[2]]
 
-    robot.login() #登录
-    robot.linear_move(tcp_pos,ABS,True,2)
-    robot.logout() #每次运行完都登出
+    rospy.set_param("x", left_link6_pos[0])
+    rospy.set_param("y", left_link6_pos[1])
+    rospy.set_param("z", left_link6_pos[2])
+    rospy.set_param("rx", rpy[0])
+    rospy.set_param("ry", rpy[1])
+    rospy.set_param("rz", rpy[2])
+    req.num = 7
+    resp = client.call(req) #执行交接动作
+    # robot.login() #登录
+    # robot.linear_move(tcp_pos,ABS,True,2)
+    # robot.logout() #每次运行完都登出
 
 
 
@@ -488,13 +523,23 @@ def planning_to_right_side():
     left_arm.target_pose_planning(position=eef_pos_wait_in_left, quat=eef_quat_wait_in_left)
 
 if __name__ == '__main__':
-    gripper_obj = RobotiqGripper()
-    gripper_obj.activate()
-    gripper_obj.goTo(0)
+    # gripper_obj = RobotiqGripper()
+    # gripper_obj.activate()
+    # gripper_obj.goTo(0)
+
+    gripper_pub = rospy.Publisher("gripper_siginal", gripper, queue_size=10)
+
+
+    client = rospy.ServiceProxy("leftrobotservice",leftrobotsrv)
+    client.wait_for_service()
+    req = leftrobotsrvRequest() #机器人控制
 
     robot = jkrc.RC("192.168.3.200")#返回一个机器人对象 
     left_arm = Grasp_planning()
-
+    gri = gripper() #夹爪控制
+    for i in [0, 1]:
+        gri.open = 2.0
+        gripper_pub.publish(gri)
     # 规划到测量点
     planning_measurement_point()
 
@@ -503,11 +548,11 @@ if __name__ == '__main__':
     # src, tar, src_down_o3, tar_down_o3, desk, gripper = rans.get_pointcloud_from_data()
 
     # 从相机中获取点云
-    file_name = "handle.pcd"
+    file_name = "bolt_3score.pcd"
     src, tar, src_down_o3, tar_down_o3, desk, gripper = rans.get_pointcloud_from_camera(file_name)
 
     aabb, vertices = rans.get_boundingbox(src)
-    num_screw = 6
+    num_screw = 6 #随着物体变化，根据物体的对称形确定，圆形可设任意，六边形6个，对称2个
     s_poss, s_rpys, T_s = ge.screwing_poses(num_screw)
 
     result = rans.get_object_pose(src_down_o3, tar_down_o3)
@@ -516,27 +561,38 @@ if __name__ == '__main__':
     print(T_g_trans)
     keys_array = list(T_g_trans.keys())
 
-    for item in range(6):
+    for item in range(10): #总体尝试次数
         #选择一个抓取点
         keys_array = list(T_g_trans.keys())
         index_trans = np.random.choice(keys_array)
         selected_T_g = T_g[index_trans]
         T_relatives = rans.calculate_relative_matrixs(T_g[index_trans], T_s) 
         print(T_g_trans[index_trans])
+
         index = try_planning_handover(T_relatives)
         print('index = ', index)
+
+
         if index:
             print("successfully planned!")
             # 规划抓取动作
             print('planning grasping')
             print(T_g_trans[index_trans])
+            try_planning_grasping(T_g_trans[index_trans][:3, 3], T_g_trans[index_trans][:3, :3])
+            decition_result = wait_for_key_press() #不满意，就重来
+            if decition_result == 0:
+                continue
+
             planning_grasping(T_g_trans[index_trans][:3, 3], T_g_trans[index_trans][:3, :3])
 
             # 关闭夹爪
             print("please press 'enter' to grasp the object")
             decition_result = wait_for_key_press()
             if decition_result:
-                gripper_obj.goTo(255)
+                for i in [0, 1]:
+                    gri.open = 0.0
+                    gripper_pub.publish(gri)
+                    # gripper_obj.goTo(255)
 
             # 规划抬起动作
             print('planning move up')
@@ -545,6 +601,8 @@ if __name__ == '__main__':
             # 规划交接动作
             print('planning hand over')
             planning_handover(T_relatives[index])
+            req.num = 6
+            resp = client.call(req) #执行交接动作
             break
         elif index == -1:
             continue

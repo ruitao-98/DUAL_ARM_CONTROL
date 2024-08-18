@@ -65,7 +65,7 @@ def refine(T, src_down_o3, tar_down_o3, times):
             o3d.pipelines.registration.ICPConvergenceCriteria(max_iteration=200, relative_rmse=0.001))
 
     elif times == 1:
-        threshold = 2
+        threshold = 3
         reg_p2p = o3d.pipelines.registration.registration_icp(
             src_down_o3, tar_down_o3, threshold, T,
             o3d.pipelines.registration.TransformationEstimationPointToPoint(),
@@ -80,7 +80,7 @@ def refine(T, src_down_o3, tar_down_o3, times):
 
 def execute_global_registration(src_down, tar_down, src_fpfh,
                                 tar_fpfh, voxel_size):
-    distance_threshold = 10
+    distance_threshold = 4
     print("   RANSAC registration on downsampled point clouds.")
     print("   Since the downsampling voxel size is %.3f," % voxel_size)
     print("   we use a liberal distance threshold %.3f." % distance_threshold)
@@ -98,7 +98,7 @@ def execute_global_registration(src_down, tar_down, src_fpfh,
     return result
 
 def ransac(source, target):
-    voxel_size = 0.5       #指定下采样体素大小
+    voxel_size = 0.3       #指定下采样体素大小
 
     source_down = source.voxel_down_sample(voxel_size)
     target_down = target.voxel_down_sample(voxel_size)
@@ -141,10 +141,14 @@ def trans_to_robot_base(pcd):
     tcp_matrix[:3, 3] = tcp_trans
     print(tcp_matrix)
 
-    hand_eye_relation = np.array([[0.693078358902796, -0.712313829861997, -0.110686025350721, 82.5957586617159],
-                                  [0.707931883219150, 0.701526837022340, -0.0818079804127876, -44.4147286980286],
-                                  [0.135922173107974, -0.0216588255629318, 0.990482739946962,  60.2262194514354],
-                                  [0, 0, 0, 1]])
+    hand_eye_relation = np.array([[0.706330265364718,	-0.699256310511164,	-0.110173356307783,	81.6645139379991],
+                                [0.695506456292791,	0.714500329812274,	-0.0758949797627990,	-48.1687434460167],
+                                [0.131788942953691,	-0.0230193594278016,	0.991010486123473,	59.8289339845216],
+                                [0,	0,	0,	1]])
+    # hand_eye_relation = np.array([[0.693078358902796, -0.712313829861997, -0.110686025350721, 82.5957586617159],
+    #                               [0.707931883219150, 0.701526837022340, -0.0818079804127876, -44.4147286980286],
+    #                               [0.135922173107974, -0.0216588255629318, 0.990482739946962,  60.2262194514354],
+    #                               [0, 0, 0, 1]])
     base_eye_relation = np.dot(tcp_matrix, hand_eye_relation)
     points_augment = np.hstack((points, np.ones((len(points), 1))))
     points_augment_base = np.dot(base_eye_relation, points_augment.T)
@@ -280,7 +284,7 @@ def get_pointcloud_from_camera(file_name):
     # 相机采集tar 数据，待更新。。。。
     tar_raw = capture.get_point_cloud()
     tar = trans_to_robot_base(tar_raw)  # 变化到机器人基坐标系下
-    tar = pass_through_filter(tar, axis='z', lower_limit=2, upper_limit=100)
+    tar = pass_through_filter(tar, axis='z', lower_limit=3.5, upper_limit=100)
     tar = pass_through_filter(tar, axis='y', lower_limit=-100, upper_limit=100)
     voxel_size2 = 0.6 #指定下采样体素大小
     voxel_size1 = 0.4
@@ -299,14 +303,14 @@ def get_object_pose(src_down_o3, tar_down_o3):
     T = np.eye(4)
     src_temp, tar_temp = copy.deepcopy(src_down_o3), copy.deepcopy(tar_down_o3)
     result_ransac = ransac(src_down_o3, tar_down_o3)
-    result = refine(result_ransac.transformation, src_down_o3, tar_down_o3, 1)
+    result = refine(result_ransac.transformation, src_down_o3, tar_down_o3, 2)
     draw_results(src_temp, tar_temp, result)
 
     print('please make sure the registration results')
     decision = wait_for_key_press()
     while decision == 0:
         result_ransac = ransac(src_down_o3, tar_down_o3)
-        result = refine(result_ransac.transformation, src_down_o3, tar_down_o3, 1)
+        result = refine(result_ransac.transformation, src_down_o3, tar_down_o3, 2)
         draw_results(src_down_o3, tar_down_o3, result)
         decision = wait_for_key_press()
     

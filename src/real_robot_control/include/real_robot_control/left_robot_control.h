@@ -11,6 +11,9 @@
 #include "Eigen/StdVector"
 #include <mutex>
 #include "real_robot_control/jktypes.h"
+#include "actionlib/client/simple_action_client.h"
+#include "real_robot_control/screwAction.h"
+
 namespace jaka {
     using Quaternion = ::Quaternion; // 创建别名
 }
@@ -52,8 +55,13 @@ public:
     void move_to_right_middle(); //执行更换（右）操作的中间点
     void spiral_search();  //螺旋搜索
     void plug_out();  //螺旋搜索
-    void hybird_control();  //交接工件
-    void move_to_handeover();  //交接工件
+    // void hybird_control();  //交接工件
+    // void move_to_handeover();  //交接工件
+    void pure_passive_model(); //交接工件，机器人开启柔顺，并发布action让旋拧执行器运动，根据反馈结果进一步调整
+    void done_cb(const actionlib::SimpleClientGoalState &state, const real_robot_control::screwResultConstPtr &result);
+    void active_cb();
+    void feedback_cb(const real_robot_control::screwFeedbackConstPtr &feedback);
+    void back_to_middle();
 
     Eigen::VectorXd adm_m;
     Eigen::VectorXd adm_k;
@@ -64,7 +72,8 @@ public:
     ros::Publisher for_pub;
     real_robot_control::force_pub f;
     JAKAZuRobot robot;
-
+    actionlib::SimpleActionClient<real_robot_control::screwAction> client;
+    real_robot_control::screwGoal goal;
 
 private:
     // 参数
@@ -139,6 +148,17 @@ private:
     Eigen::Vector3d angluer_disp_clipped;
     Eigen::Vector3d new_linear_eef;
     Eigen::Matrix3d new_rotm_eef;
+
+    int screw_execute_result; //末端执行器运行结果 
+    // 0：未卡
+    // 1：卡住了
+    // 2: 还没开始
+
+    
+    int screw_execute_status; //末端执行器运行结果 
+    // 0：运行后
+    // 1：正在运行
+    // 2: 运行前
 
 
 };

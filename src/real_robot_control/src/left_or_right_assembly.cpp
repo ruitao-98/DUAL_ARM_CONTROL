@@ -28,7 +28,7 @@ bool doReq(real_robot_control::leftrobotsrv::Request& req,
     ROS_INFO("received data is: num = %d, ",num);
     int item;
     //逻辑处理
-    int result;
+    int result = 0;
     if (num == 1)
     {
         // 执行插入左tip的程序
@@ -47,6 +47,7 @@ bool doReq(real_robot_control::leftrobotsrv::Request& req,
             std::cout<<"publishing"<< std::endl;
         }
         std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+        pRobotControl->move_to_left_middle();
     }
 
     else if (num == 2)
@@ -67,6 +68,7 @@ bool doReq(real_robot_control::leftrobotsrv::Request& req,
             std::cout<<"publishing"<< std::endl;
         }
         std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+        pRobotControl->move_to_right_middle();
     }
 
     else if (num == 3)
@@ -157,9 +159,10 @@ bool doReq(real_robot_control::leftrobotsrv::Request& req,
     else if (num == 6)
     {
         // 执行handover
-        std::cout << "move to recycle" << std::endl;
+        std::cout << "handover" << std::endl;
 
-        // robot_control.move_to_recycle();
+        pRobotControl->pure_passive_model();
+
         gri.open = 1.0;
         item = 0;
         while (item < 2)
@@ -169,6 +172,27 @@ bool doReq(real_robot_control::leftrobotsrv::Request& req,
             std::this_thread::sleep_for(std::chrono::milliseconds(50));
         }
         std::this_thread::sleep_for(std::chrono::milliseconds(500));
+
+        pRobotControl->back_to_middle();
+
+    }
+
+    else if (num == 7)
+    {
+        // 执行最后一步运行
+        std::cout << "move" << std::endl;
+        double x; double y; double z; double rx; double ry; double rz;
+        ros::param::get("x", x);
+        ros::param::get("y", y);
+        ros::param::get("z", z);
+        ros::param::get("rx", rx);
+        ros::param::get("ry", ry);
+        ros::param::get("rz", rz);
+        CartesianPose cart;
+        cart.tran.x = x; cart.tran.y = y; cart.tran.z = z;
+        cart.rpy.rx = rx; cart.rpy.ry = ry; cart.rpy.rz = rz;
+        pRobotControl->robot.linear_move(&cart, ABS, TRUE, 6);
+
     }
     //设置最终结果
 
@@ -213,7 +237,7 @@ int main(int argc, char** argv) {
                 std::cout << "insertion for the left tip" << std::endl;
                 robot_control.move_to_left_insert(); //move to the assembly point
                 robot_control.spiral_search(); //搜索，插入成功
-
+                std::this_thread::sleep_for(std::chrono::milliseconds(100));
                 // 发布张开夹爪的信息
                 gri.open = 1.0;
                 item = 0;
@@ -232,7 +256,7 @@ int main(int argc, char** argv) {
                 std::cout << "insertion for the right tip" << std::endl;
                 robot_control.move_to_right_insert(); //move to the assembly point
                 robot_control.spiral_search();
-
+                std::this_thread::sleep_for(std::chrono::milliseconds(100));
                 // 发布张开夹爪的信息
                 gri.open = 1.0;
                 item = 0;
@@ -249,7 +273,7 @@ int main(int argc, char** argv) {
                 // 执行拔出左tip的程序
                 std::cout << "plug the left tip" << std::endl;
                 robot_control.move_to_left_pick(); //move to the assembly point
-                
+                std::this_thread::sleep_for(std::chrono::milliseconds(100));
                 // 发布闭合夹爪的信息
                 gri.open = 0.0;
                 item = 0;
@@ -271,8 +295,7 @@ int main(int argc, char** argv) {
                 // 执行拔出右tip的程序
                 std::cout << "plug the right tip" << std::endl;
                 robot_control.move_to_right_pick(); //move to the assembly point
-
-                std::this_thread::sleep_for(std::chrono::milliseconds(500));
+                std::this_thread::sleep_for(std::chrono::milliseconds(100));
                 // 发布闭合夹爪的信息
                 gri.open = 0.0;
                 item = 0;
@@ -300,7 +323,7 @@ int main(int argc, char** argv) {
                 // std::cout << "choice" << choice << std::endl;
 
                 robot_control.move_to_target(input_case);
-
+                std::this_thread::sleep_for(std::chrono::milliseconds(100));
                 gri.open = 0.0;
                 item = 0;
                 while (item < 2)
@@ -317,8 +340,7 @@ int main(int argc, char** argv) {
             case '5':
                 // 执行回收
                 std::cout << "move to recycle" << std::endl;
-
-                // robot_control.move_to_recycle();
+                // robot_control.pure_passive_model();
 
                 gri.open = 1.0;
                 item = 0;

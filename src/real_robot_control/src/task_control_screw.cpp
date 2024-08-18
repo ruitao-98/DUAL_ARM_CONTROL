@@ -5,6 +5,7 @@
 #include "ros/ros.h"
 #include "real_robot_control/screwsrv.h"
 
+
 using namespace std;
 endeffector ef;
 ros::Publisher current_pub;
@@ -127,12 +128,8 @@ void cb(const real_robot_control::screwGoalConstPtr &goal, Server* server){
 
         server->publishFeedback(feedback);
 
-        result = ef.width_recovery(); // return 3， 张开
+        result = ef.width_recovery(); // return 3， 完全张开
         usleep(100); //0.1s
-        // ef.screw_to_zero();  // 旋拧口复位，才能退出
-
-        // sleep(5);
-        // result = 0;
 
         feedback.screw_status = 0;  //执行器运行结束
         server->publishFeedback(feedback);
@@ -140,7 +137,7 @@ void cb(const real_robot_control::screwGoalConstPtr &goal, Server* server){
 
     else if (num == 4)
     {
-        // 一切任务成功了，执行旋拧口张开
+        // 旋拧口复位
 
         feedback.screw_status = 1; //执行器开始运行
 
@@ -155,7 +152,35 @@ void cb(const real_robot_control::screwGoalConstPtr &goal, Server* server){
         server->publishFeedback(feedback);
     }
 
+    else if (num == 5)
+    {
+        // 旋拧口关闭
 
+        feedback.screw_status = 1; //执行器开始运行
+
+        server->publishFeedback(feedback);
+
+        result = ef.width_reduce_or_increase_full(1);  // 旋拧口复位，才能退出
+        //result 1表示没有达到预期位置，0表示达到了
+
+        feedback.screw_status = 0;  //执行器运行结束
+        server->publishFeedback(feedback);
+    }
+
+    else if (num == 6)
+    {
+        // 旋拧口打开
+
+        feedback.screw_status = 1; //执行器开始运行
+        server->publishFeedback(feedback);
+
+        ef.width_increase(2,current_pub,msg);  // 旋拧口复位，才能退出
+
+        result = 2; //2，表示又回到了原本的状态了，打开
+
+        feedback.screw_status = 0;  //执行器运行结束
+        server->publishFeedback(feedback);
+    }
     //设置最终结果
     real_robot_control::screwResult r;
     r.result = result;
@@ -201,7 +226,7 @@ int main(int argc, char *argv[]){
             case '3':
                 // 执行插入右tip的程序
                 std::cout << "insertion for the right tip" << std::endl;
-                ef.width_reduce_or_increase_full(1);
+                ef.width_reduce_or_increase_full(1); 
                 break;
             case '4':
                 // 执行插入右tip的程序

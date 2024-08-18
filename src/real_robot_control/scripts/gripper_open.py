@@ -24,8 +24,8 @@ def dogripper(p):
 
     if p.open == 2:
         position_in_bit = gripper_obj.getPosition()
-        if position_in_bit != 20:
-            gripper_obj.goTo(20)
+        if position_in_bit != 0:
+            gripper_obj.goTo(0)
         else:
             print("setted to 20")
 

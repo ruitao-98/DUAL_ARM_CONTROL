@@ -5,7 +5,7 @@
 using namespace std;
 using namespace Eigen;
 endeffector ef;
-typedef actionlib::SimpleActionClient<real_robot_control::screwAction> Client;
+// typedef actionlib::SimpleActionClient<real_robot_control::screwAction> Client;
 
 RobotAdmittanceControl::RobotAdmittanceControl()
     : nh(std::make_shared<ros::NodeHandle>()),

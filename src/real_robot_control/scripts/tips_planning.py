@@ -15,6 +15,7 @@ import time
 from scipy.spatial.transform import Rotation as R
 from pynput.keyboard import Key, Listener
 from real_robot_control.srv import *
+from real_robot_control.msg import gripper
 
 
 
@@ -247,11 +248,21 @@ def wait_for_choice():
     key_pressed = {'value': None}
 
     def on_press(key):
+        
         try:
-            if key.char in ['0', '1', '2', '3', '4']:
+            # print(f"Key pressed: {key}, key.char: {getattr(key, 'char', None)}")
+            if key.char in ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']:
                 print(f"Key {key.char} pressed, returning {key.char}.")
                 key_pressed['value'] = int(key.char)
                 return False  # Stop the listener
+            else:
+                print('no in it')
+            # if key.char in ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']:
+            #     print(f"Key {key.char} pressed, returning {key.char}.")
+            #     key_pressed['value'] = int(key.char)
+            #     return False  # Stop the listener
+            # else:
+            #     print('no in it')
         except AttributeError:
             pass  # Ignore non-character keys
 
@@ -409,21 +420,24 @@ def planning_to_right_side():
     left_arm.target_pose_planning(position=eef_pos_wait_in_left, quat=eef_quat_wait_in_left)
 
 if __name__ == '__main__':
+    gripper_pub = rospy.Publisher("gripper_siginal", gripper, queue_size=10)
+    gri = gripper() # 夹爪控制
 
-    # move_out
-    left_arm = Left_planning()
     client = rospy.ServiceProxy("leftrobotservice",leftrobotsrv)
     client.wait_for_service()
-    req = leftrobotsrvRequest()
+    req = leftrobotsrvRequest() #机器人控制
+
+    left_arm = Left_planning()
     # planning_to_home()
     while (True):
         print("===================")
         print("please make a choice to select a goal to planning\n")
         print("0--> planning to put || 1--> planning to left side assembly || 2 --> planning to right side assembly \n")
         print("3--> planning to left side disassembly || 4 --> planning to right side disassembly \n")
-        print("5--> planning to recycle\n")
+        print("5--> planning to recycle || 8--> break || 9--> re-choose\n")
         print("===================") 
         choice = wait_for_choice()
+        print('choice = ', choice)
 
         if choice == 0:
             print("please select a put choice:")
@@ -455,10 +469,18 @@ if __name__ == '__main__':
             resp = client.call(req)
         
         elif choice == 5:
+            print("planning_to_recycle")
             planning_to_recycle()
+            time.sleep(1)
+            for i in [0, 1]:
+                gri.open = 1.0
+                gripper_pub.publish(gri)
+
+        elif choice == 8:
+            break
 
         elif choice == 9:
-            break
+            continue
         # time.sleep(2)
             
         
