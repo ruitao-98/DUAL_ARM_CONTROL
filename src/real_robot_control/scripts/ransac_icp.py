@@ -125,17 +125,22 @@ def trans_to_robot_base(pcd):
     转换点云到基坐标系
     """
     points = np.array(pcd.points)
-
+    present_x = rospy.get_param("present_x", -371.060)
+    present_y = rospy.get_param("present_y", -146.762)
+    present_z = rospy.get_param("present_z", 511.249)
+    present_rx = rospy.get_param("present_rx", -171.289 * np.pi / 180)
+    present_ry = rospy.get_param("present_ry", 7.497 * np.pi / 180)
+    present_rz = rospy.get_param("present_rz", -44.49 * np.pi / 180)
     tcp_matrix = np.eye(4)
     # 定义旋转矩阵
-    rotation_z = R.from_euler('z', -44.49 * np.pi / 180, degrees=False)
-    rotation_y = R.from_euler('y', 7.497 * np.pi / 180, degrees=False)
-    rotation_x = R.from_euler('x', -171.289 * np.pi / 180, degrees=False)
+    rotation_z = R.from_euler('z', present_rz, degrees=False)
+    rotation_y = R.from_euler('y', present_ry, degrees=False)
+    rotation_x = R.from_euler('x', present_rx, degrees=False)
     # 将旋转矩阵组合起来
     tcp_rotm = rotation_z * rotation_y * rotation_x
     # 提取旋转矩阵
     tcp_rotm_matrix = tcp_rotm.as_matrix()
-    tcp_trans = np.array([-371.060, -146.762, 511.249])
+    tcp_trans = np.array([present_x, present_y, present_z])
 
     tcp_matrix[:3, :3] = tcp_rotm_matrix
     tcp_matrix[:3, 3] = tcp_trans
@@ -284,8 +289,8 @@ def get_pointcloud_from_camera(file_name):
     # 相机采集tar 数据，待更新。。。。
     tar_raw = capture.get_point_cloud()
     tar = trans_to_robot_base(tar_raw)  # 变化到机器人基坐标系下
-    tar = pass_through_filter(tar, axis='z', lower_limit=3.5, upper_limit=100)
-    tar = pass_through_filter(tar, axis='y', lower_limit=-100, upper_limit=100)
+    tar = pass_through_filter(tar, axis='z', lower_limit=4, upper_limit=100)
+    tar = pass_through_filter(tar, axis='y', lower_limit=-200, upper_limit=100)
     voxel_size2 = 0.6 #指定下采样体素大小
     voxel_size1 = 0.4
     tar_down_o3 = tar.voxel_down_sample(voxel_size2)

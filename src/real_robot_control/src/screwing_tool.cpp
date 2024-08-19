@@ -213,9 +213,9 @@ void endeffector::width_increase(int distance, ros::Publisher &pub, real_robot_c
 	// // 关闭文件流
 	// file1.close();
     
-	while ((this->torque_on(1))) {
-		cout << "\r" <<"******养成好习惯，请关闭夹持装置的电源*********" << flush; 
-	}
+	// while ((this->torque_on(1))) {
+	// 	cout << "\r" <<"******养成好习惯，请关闭夹持装置的电源*********" << flush; 
+	// }
 	this->close_port();
 }
 
@@ -265,48 +265,48 @@ int endeffector::width_reduce_or_increase_full(int judge){
 	}
 	float start_current = average_function(base_current, 15);
 	printf("the started current%.3f \n", start_current);
-	int yuzhi = 35;
-	int present_cu[5] = { 0 };
+	int yuzhi = 38;
+	int present_cu[10] = { 0 };
 	int i = 0;
 	int fin_position;
     double ave_current;
 	while (true)
 	{
 		int j;
-		j = i % 5;
+		j = i % 10;
 		i = i + 1;
 		present_cu[j] = this->get_presentcurrent(1);
-		if (i <= 5){
+		if (i <= 10){
 		ave_current = start_current;
 		}
-		if (i > 5){
-		ave_current = average_function(present_cu, 5);
+		if (i > 10){
+		ave_current = average_function(present_cu, 10);
 		}
 		
-		if ((fabs(ave_current - start_current) > yuzhi) && (i > 5))
+		if ((fabs(ave_current - start_current) > yuzhi) && (i > 10))
 		{
 			printf("ֹͣthe present current %.3f\n", ave_current);
 			this->set_goalvelocity(1, 0);
-			sleep(0.5);
+			std::this_thread::sleep_for(std::chrono::milliseconds(300));
 			int end_position = this->get_presentposition(1);
 			int delta_position = (end_position - start_position) + previous_position;
-
+			cout << "delta_position = " << delta_position << endl;
 			ofs.open("delta_width.txt", ios::out);
 			ofs << delta_position;
 			ofs.close();
 			this->torque_off(0);
 
-			while ((this->torque_on(1))) {
-				cout << "\r" <<"******养成好习惯，请关闭夹持装置的电源*********" << flush; 
-			}
-			this->close_port();
-			
-			if (abs(delta_position - goal_width)>10){
+			if (abs(delta_position - goal_width)>500){
 				printf("ͣ***the object is not at the center***");
 				return 1;
 			}
 			else{
-				printf("ͣ***the object is not at the center***");
+
+				while ((this->torque_on(1))) {
+					cout << "\r" <<"******养成好习惯，请关闭夹持装置的电源*********" << flush; 
+				}
+				this->close_port();
+				printf("ͣ***the object is at the center***");
 				return 0;
 			}
 		}

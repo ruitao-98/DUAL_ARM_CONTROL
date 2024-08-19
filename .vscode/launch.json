@@ -43,7 +43,7 @@
     "name": "g++ - 生成和调试活动文件",
     "type": "cppdbg",
     "request": "launch",
-    "program": "${workspaceFolder}/devel/lib/real_robot_control/right_robot_control",
+    "program": "${workspaceFolder}/devel/lib/real_robot_control/left_or_right_assembly",
     "args": [],
     "stopAtEntry": false,
     "cwd": "${workspaceFolder}",

@@ -308,6 +308,22 @@ def planning_measurement_point():
                        75.26 * np.pi / 180, 78.773 * np.pi / 180, 143.051 * np.pi / 180]
     left_arm.joint_position_planning(target_position)
 
+    rz = -44.49 * np.pi / 180
+    ry = 7.497 * np.pi / 180
+    rx = -171.289 * np.pi / 180
+    x = -371.060
+    y = -146.762
+    z = 511.249
+
+    rospy.set_param("x",  float(x))
+    rospy.set_param("y",  float(y))
+    rospy.set_param("z",  float(z))
+    rospy.set_param("rx",  float(rx))
+    rospy.set_param("ry",  float(ry))
+    rospy.set_param("rz",  float(rz))
+    req.num = 7
+    resp = client.call(req) #精确执行
+
 def planning_grasping(pos, rotm):
     """
     pos 和 rotm 都是夹爪中心（eef) 的期望位姿,分别是numpy 3*1 向量和3*3矩阵
@@ -345,12 +361,12 @@ def planning_grasping(pos, rotm):
     INCR= 1
     tcp_pos=[left_link6_pos[0],left_link6_pos[1],left_link6_pos[2],rpy[0],rpy[1],rpy[2]]
     print(tcp_pos)
-    rospy.set_param("x", left_link6_pos[0])
-    rospy.set_param("y", left_link6_pos[1])
-    rospy.set_param("z", left_link6_pos[2])
-    rospy.set_param("rx", rpy[0])
-    rospy.set_param("ry", rpy[1])
-    rospy.set_param("rz", rpy[2])
+    rospy.set_param("x",  float(left_link6_pos[0]))
+    rospy.set_param("y",  float(left_link6_pos[1]))
+    rospy.set_param("z",  float(left_link6_pos[2]))
+    rospy.set_param("rx",  float(rpy[0]))
+    rospy.set_param("ry",  float(rpy[1]))
+    rospy.set_param("rz",  float(rpy[2]))
     req.num = 7
     resp = client.call(req) #执行交接动作
     # robot.login() #登录
@@ -439,7 +455,8 @@ def planning_handover(T_relative):
 
     # 变换到左侧机器人坐标系下
     gra_wait_pos_in_right = gra_wait_pos_in_right.tolist()
-    eef_pos_wait_in_left = [float(-28.0 /1000 + gra_wait_pos_in_right[0]), float(-1101.2 /1000 + gra_wait_pos_in_right[1]),
+
+    eef_pos_wait_in_left = [float(-30.0 /1000 + gra_wait_pos_in_right[0]), float(-1101.2 /1000 + gra_wait_pos_in_right[1]),
                             float(1.2/1000 + gra_wait_pos_in_right[2])]
     eef_mat_wait_in_left = gra_wait_mat_in_right
     eef_quat_wait_in_left = trans_quat.mat2quat(eef_mat_wait_in_left)
@@ -454,8 +471,12 @@ def planning_handover(T_relative):
 
     # 变换到左侧机器人坐标系下
     gra_pos_in_right = gra_pos_in_right.tolist()
+    # eef_pos_in_left = [float(-28.0 /1000 + gra_pos_in_right[0]), float(-1101.2 /1000 + gra_pos_in_right[1]),
+    #                         float(1.2/1000 + gra_pos_in_right[2])]
     eef_pos_in_left = [float(-28.0 /1000 + gra_pos_in_right[0]), float(-1101.2 /1000 + gra_pos_in_right[1]),
-                            float(1.2/1000 + gra_pos_in_right[2])]
+                        float(1.2/1000 + gra_pos_in_right[2])]
+    print ("eef_pos_in_left= ", eef_pos_in_left)
+
     eef_mat_in_left = gra_mat_in_right
 
     left_eef_offset = np.array([0, 0, 0.183 + 0.0495])
@@ -478,12 +499,12 @@ def planning_handover(T_relative):
     INCR= 1
     tcp_pos=[left_link6_pos[0],left_link6_pos[1],left_link6_pos[2],rpy[0],rpy[1],rpy[2]]
 
-    rospy.set_param("x", left_link6_pos[0])
-    rospy.set_param("y", left_link6_pos[1])
-    rospy.set_param("z", left_link6_pos[2])
-    rospy.set_param("rx", rpy[0])
-    rospy.set_param("ry", rpy[1])
-    rospy.set_param("rz", rpy[2])
+    rospy.set_param("x",  float(left_link6_pos[0]))
+    rospy.set_param("y",  float(left_link6_pos[1]))
+    rospy.set_param("z",  float(left_link6_pos[2]))
+    rospy.set_param("rx",  float(rpy[0]))
+    rospy.set_param("ry",  float(rpy[1]))
+    rospy.set_param("rz",  float(rpy[2]))
     req.num = 7
     resp = client.call(req) #执行交接动作
     # robot.login() #登录
@@ -538,17 +559,17 @@ if __name__ == '__main__':
     left_arm = Grasp_planning()
     gri = gripper() #夹爪控制
     for i in [0, 1]:
-        gri.open = 2.0
+        gri.open = 2.0 #255
         gripper_pub.publish(gri)
     # 规划到测量点
     planning_measurement_point()
 
-    time.sleep(0.5)
+    time.sleep(1)
     # 从数据中获取点云
     # src, tar, src_down_o3, tar_down_o3, desk, gripper = rans.get_pointcloud_from_data()
 
     # 从相机中获取点云
-    file_name = "bolt_3score.pcd"
+    file_name = "bolt_3score1.pcd"
     src, tar, src_down_o3, tar_down_o3, desk, gripper = rans.get_pointcloud_from_camera(file_name)
 
     aabb, vertices = rans.get_boundingbox(src)
@@ -561,8 +582,8 @@ if __name__ == '__main__':
     print(T_g_trans)
     keys_array = list(T_g_trans.keys())
 
-    for item in range(10): #总体尝试次数
-        #选择一个抓取点
+    for item in range(20): #总体尝试次数
+        #随机采样选择一个抓取点
         keys_array = list(T_g_trans.keys())
         index_trans = np.random.choice(keys_array)
         selected_T_g = T_g[index_trans]
@@ -571,7 +592,6 @@ if __name__ == '__main__':
 
         index = try_planning_handover(T_relatives)
         print('index = ', index)
-
 
         if index:
             print("successfully planned!")
@@ -591,6 +611,7 @@ if __name__ == '__main__':
             if decition_result:
                 for i in [0, 1]:
                     gri.open = 0.0
+
                     gripper_pub.publish(gri)
                     # gripper_obj.goTo(255)
 
@@ -602,7 +623,7 @@ if __name__ == '__main__':
             print('planning hand over')
             planning_handover(T_relatives[index])
             req.num = 6
-            resp = client.call(req) #执行交接动作
+            resp = client.call(req) #开启handover 任务
             break
         elif index == -1:
             continue

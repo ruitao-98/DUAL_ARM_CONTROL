@@ -1,3 +1,4 @@
+#! /home/yanji/anaconda3/envs/mujo/bin/python3
 from modbus_test import RobotiqGripper
 
 

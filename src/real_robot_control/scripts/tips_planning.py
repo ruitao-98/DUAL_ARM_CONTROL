@@ -422,6 +422,9 @@ def planning_to_right_side():
 if __name__ == '__main__':
     gripper_pub = rospy.Publisher("gripper_siginal", gripper, queue_size=10)
     gri = gripper() # 夹爪控制
+    for i in [0, 1]:
+        gri.open = 1.0  #160
+        gripper_pub.publish(gri)
 
     client = rospy.ServiceProxy("leftrobotservice",leftrobotsrv)
     client.wait_for_service()

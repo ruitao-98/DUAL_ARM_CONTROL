@@ -401,20 +401,26 @@ void RobotAdmittanceControl::pick_up(){
 }
 void RobotAdmittanceControl::back_to_middle(){
     int item = 0;
+    update_robot_state();
+    get_eef_pose();
     Eigen::Vector3d init_eef_pos; 
     Eigen::Vector3d e_eef_pos; 
     init_eef_pos = eef_pos;
-
+    robot.servo_move_enable(true);
     while (item < 3000) //100mm
     {  
+        if (item % 500 == 0){
+             cout << "serving: " << item << endl;
+        }
         item = item + 1;
         update_robot_state();
         get_eef_pose();
 
         e_eef_pos = eef_rotm.transpose() * (eef_pos - init_eef_pos);
 
-        if (abs(e_eef_pos[2]) > 0.2){
+        if (abs(e_eef_pos[2]) > 0.15){
             cout << e_eef_pos[2] << endl;
+            cout << "\r" << "final item = " << item << endl;
             break;
         }
         linear_disp<< 0, 0, -0.002;
@@ -422,14 +428,11 @@ void RobotAdmittanceControl::back_to_middle(){
         new_rotm_eef = eef_rotm;
         get_new_link6_pose(new_linear_eef, new_rotm_eef);
         new_pos.tran.x = new_linear[0] * 1000; new_pos.tran.y = new_linear[1] * 1000; new_pos.tran.z = new_linear[2] * 1000;
-        new_pos.rpy.rx = new_rpy.rx; new_pos.rpy.ry = new_rpy.ry; new_pos.rpy.rz = new_rpy.rz;
-        // new_pos.rpy.rx = current_rpy.rx; new_pos.rpy.ry = current_rpy.ry; new_pos.rpy.rz = current_rpy.rz;
+        // new_pos.rpy.rx = new_rpy.rx; new_pos.rpy.ry = new_rpy.ry; new_pos.rpy.rz = new_rpy.rz;
+        new_pos.rpy.rx = current_rpy.rx; new_pos.rpy.ry = current_rpy.ry; new_pos.rpy.rz = current_rpy.rz;
         robot.servo_p(&new_pos, ABS, loop_rate);
-        cout << "\r" << "final item = " << item << flush;
     }
-
-
-
+    robot.servo_move_enable(false);
 }
 
 
@@ -480,11 +483,14 @@ void RobotAdmittanceControl::pure_passive_model(){
     screw_execute_status = 0;
     
     int item = 0;
-    while (item < 1000)
+    while (item < 20000)
     {   auto start_time = std::chrono::high_resolution_clock::now();
 
         if ((screw_execute_result == 2) && (screw_execute_status == 0)){
-            cout << "初次执行" << endl;
+            if (item % 200 == 0){
+                 cout << "初次执行" << endl;
+            }
+           
             goal.num = 5;
             client.sendGoal(goal,
                             std::bind(&RobotAdmittanceControl::done_cb, this, std::placeholders::_1, std::placeholders::_2),
@@ -496,6 +502,7 @@ void RobotAdmittanceControl::pure_passive_model(){
             break;  
         }
         else if ((screw_execute_result == 1) && (screw_execute_status == 0)){
+            
             cout << "执行成功失败，搜索" << endl;
             goal.num = 6;
             client.sendGoal(goal,
@@ -506,30 +513,31 @@ void RobotAdmittanceControl::pure_passive_model(){
             while (true){
                 ros::spinOnce(); //等待打开程序执行完成
                 if (screw_execute_status == 0){
+                    cout << "screw_execute_status == 0, break" << endl;
                     break;
                 }
             }
-                // 使用随机设备生成随机数种子
-                std::random_device rd;
-                std::mt19937 gen(rd()); // Mersenne Twister 随机数生成器
-                std::uniform_real_distribution<> dis(0.0, 1.0); // 生成 0.0 到 1.0 之间的浮点数
+            // 使用随机设备生成随机数种子
+            std::random_device rd;
+            std::mt19937 gen(rd()); // Mersenne Twister 随机数生成器
+            std::uniform_real_distribution<> dis(-3.0, 3.0); // 生成 0.0 到 1.0 之间的浮点数
 
-                // 生成一个随机数
-                double x = dis(gen) / 1000;
-                double y = dis(gen) / 1000;
-                double z = dis(gen) / 1000;
+            // 生成一个随机数
+            double x = dis(gen) / 1000;
+            double y = dis(gen) / 1000;
+            double z = dis(gen) / 1000;
 
-                Eigen::Vector3d search_distance;
-                search_distance << x,y,z;
+            Eigen::Vector3d search_distance;
+            search_distance << x,y,z;
 
-                update_robot_state(); //robot move
-                get_eef_pose();
-                new_linear_eef = eef_pos + eef_rotm * search_distance;
-
-                get_new_link6_pose(new_linear_eef, new_rotm_eef);
-                new_pos.tran.x = new_linear[0] * 1000; new_pos.tran.y = new_linear[1] * 1000; new_pos.tran.z = new_linear[2] * 1000;
-                new_pos.rpy.rx = current_rpy.rx; new_pos.rpy.ry = current_rpy.ry; new_pos.rpy.rz = current_rpy.rz;
-                robot.servo_p(&new_pos, ABS, loop_rate);
+            update_robot_state(); //robot move
+            get_eef_pose();
+            new_linear_eef = eef_pos + eef_rotm * search_distance;
+            new_rotm_eef = eef_rotm;
+            get_new_link6_pose(new_linear_eef, new_rotm_eef);
+            new_pos.tran.x = new_linear[0] * 1000; new_pos.tran.y = new_linear[1] * 1000; new_pos.tran.z = new_linear[2] * 1000;
+            new_pos.rpy.rx = current_rpy.rx; new_pos.rpy.ry = current_rpy.ry; new_pos.rpy.rz = current_rpy.rz;
+            robot.servo_p(&new_pos, ABS, loop_rate);
         }
 
         update_robot_state();

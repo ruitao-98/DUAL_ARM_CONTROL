@@ -163,7 +163,7 @@ bool doReq(real_robot_control::leftrobotsrv::Request& req,
 
         pRobotControl->pure_passive_model();
 
-        gri.open = 1.0;
+        gri.open = 2.0; //打开夹爪,255
         item = 0;
         while (item < 2)
         {
@@ -188,10 +188,30 @@ bool doReq(real_robot_control::leftrobotsrv::Request& req,
         ros::param::get("rx", rx);
         ros::param::get("ry", ry);
         ros::param::get("rz", rz);
+        std::cout << x  << ", "<< y << ", "<< z << ", "<< (rx / 3.1415926) * 180 << ", "<< (ry/3.1415926) * 180 << ", "<< (rz/3.1415926) * 180 << std::endl;
         CartesianPose cart;
+        pRobotControl->robot.servo_move_enable(false);
         cart.tran.x = x; cart.tran.y = y; cart.tran.z = z;
         cart.rpy.rx = rx; cart.rpy.ry = ry; cart.rpy.rz = rz;
-        pRobotControl->robot.linear_move(&cart, ABS, TRUE, 6);
+        pRobotControl->robot.linear_move(&cart, ABS, TRUE, 7);
+
+        RobotStatus status;
+        pRobotControl->robot.get_robot_status(&status);
+        double present_x = status.cartesiantran_position[0];
+        double present_y = status.cartesiantran_position[1];
+        double present_z = status.cartesiantran_position[2]; //转化为米单位
+        // 姿态欧拉角赋值
+        double present_rx = status.cartesiantran_position[3];
+        double present_ry = status.cartesiantran_position[4];
+        double present_rz = status.cartesiantran_position[5];
+        std::cout << present_rx << " "<< present_ry << std::endl;
+        ros::param::set("present_x", present_x);
+        ros::param::set("present_y", present_y);
+        ros::param::set("present_z", present_z);
+        ros::param::set("present_rx", present_rx);
+        ros::param::set("present_ry", present_ry);
+        ros::param::set("present_rz", present_rz);
+
 
     }
     //设置最终结果
@@ -211,7 +231,6 @@ int main(int argc, char** argv) {
     RobotAdmittanceControl robot_control;
     pRobotControl = &robot_control;
 
-    
     // 初始化机器人
     robot_control.robot.login_in("192.168.3.200"); 
     robot_control.robot.power_on();
@@ -219,12 +238,11 @@ int main(int argc, char** argv) {
     robot_control.robot.set_tool_id(0);
     // robot.servo_speed_foresight(15, 0.03);
     robot_control.robot.servo_move_use_carte_NLF(50, 200, 800, 30, 60, 100);
-    robot_control.robot.servo_move_enable(TRUE);
+    // robot_control.robot.servo_move_enable(TRUE);
     robot_control.robot.set_torque_sensor_mode(1);
     robot_control.robot.set_compliant_type(1, 0);
     sleep(1);
     robot_control.robot.set_compliant_type(0,0);
-
     gripper_pub = robot_control.nh->advertise<real_robot_control::gripper>("gripper_siginal", 10);
     int item;
     while (running) {
@@ -337,20 +355,21 @@ int main(int argc, char** argv) {
                 robot_control.pick_up();
                 break;
             
+
             case '5':
                 // 执行回收
                 std::cout << "move to recycle" << std::endl;
                 // robot_control.pure_passive_model();
-
-                gri.open = 1.0;
-                item = 0;
-                while (item < 2)
-                {
-                    item = item + 1;
-                    gripper_pub.publish(gri);
-                    std::this_thread::sleep_for(std::chrono::milliseconds(50));
-                }
-                std::this_thread::sleep_for(std::chrono::milliseconds(500));
+                robot_control.back_to_middle(); //测试
+                // gri.open = 0.0;
+                // item = 0;
+                // while (item < 2)
+                // {
+                //     item = item + 1;
+                //     gripper_pub.publish(gri);
+                //     std::this_thread::sleep_for(std::chrono::milliseconds(50));
+                // }
+                // std::this_thread::sleep_for(std::chrono::milliseconds(500));
                 break;
 
             default:
