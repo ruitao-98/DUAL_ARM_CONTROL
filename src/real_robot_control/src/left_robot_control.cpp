@@ -1,5 +1,6 @@
 #include <chrono>
 #include "real_robot_control/left_robot_control.h"
+
 #include <random>
 
 using namespace std;
@@ -10,7 +11,8 @@ RobotAdmittanceControl::RobotAdmittanceControl():
     client(*nh, "screwactions", true){
     
     for_pub = nh->advertise<real_robot_control::force_pub>("robot_force", 10);
-    
+    joint_states_pub = nh->advertise<sensor_msgs::JointState>("/joint_states", 10);
+
     client.waitForServer();
 
     selection_vector.resize(6);
@@ -64,6 +66,42 @@ RobotAdmittanceControl::~RobotAdmittanceControl(){
     // if (sensor_thread.joinable()) {
     //     sensor_thread.join();
     // }
+}
+
+void RobotAdmittanceControl::joint_states_callback(ros::Publisher joint_states_pub)
+{
+    sensor_msgs::JointState joint_position;
+
+    RobotStatus left_robotstatus;
+    robot.get_robot_status(&left_robotstatus);
+
+    JointValue joint_pos = { -PI / 3, PI / 3, PI * 2 / 3, PI / 2, -PI / 2,  PI / 2 }; //右臂位置，写死了
+
+    for (int i = 0; i < 6; i++)
+    {
+        joint_position.position.push_back(left_robotstatus.joint_position[i]);
+        int j = i + 1;
+        joint_position.name.push_back("l_j" + to_string(j));
+    }
+    for (int i = 0; i < 6; i++)
+    {
+        joint_position.position.push_back(joint_pos.jVal[i]);
+        int j = i + 1;
+        joint_position.name.push_back("r_j" + to_string(j));
+    }
+    joint_position.position.push_back(0);
+    joint_position.name.push_back("l_p1");
+    joint_position.position.push_back(0);
+    joint_position.name.push_back("l_p2");
+    joint_position.position.push_back(0);
+    joint_position.name.push_back("r_c1");
+    joint_position.position.push_back(0);
+    joint_position.name.push_back("r_p1");
+    joint_position.position.push_back(0);
+    joint_position.name.push_back("r_p2");
+    joint_position.header.stamp = ros::Time::now();
+    
+    joint_states_pub.publish(joint_position);
 }
 
 void RobotAdmittanceControl::get_eef_pose(){
@@ -499,7 +537,7 @@ void RobotAdmittanceControl::pure_passive_model(){
         }
         else if ((screw_execute_result == 0) && (screw_execute_status == 0)){
             cout << "执行成功" << endl;
-            break;  
+            break;
         }
         else if ((screw_execute_result == 1) && (screw_execute_status == 0)){
             
@@ -537,7 +575,7 @@ void RobotAdmittanceControl::pure_passive_model(){
             get_new_link6_pose(new_linear_eef, new_rotm_eef);
             new_pos.tran.x = new_linear[0] * 1000; new_pos.tran.y = new_linear[1] * 1000; new_pos.tran.z = new_linear[2] * 1000;
             new_pos.rpy.rx = current_rpy.rx; new_pos.rpy.ry = current_rpy.ry; new_pos.rpy.rz = current_rpy.rz;
-            robot.servo_p(&new_pos, ABS, loop_rate);
+            robot.servo_p(&new_pos, ABS, 2);
         }
 
         update_robot_state();
@@ -725,7 +763,7 @@ void RobotAdmittanceControl::spiral_search(){
     update_robot_state();
     get_tcp_force();
     get_eef_pose();
-    wish_force << 0, 7, 0, 0, 0, 0;  //期望力
+    wish_force << 0, 10, 0, 0, 0, 0;  //期望力
     selection_vector<<1, 1, 1, 0, 0, 0; //选择向量，表示只控制y轴
     eef_pos_d = eef_pos;
     eef_rotm_d = eef_rotm;
@@ -741,7 +779,7 @@ void RobotAdmittanceControl::spiral_search(){
         update_robot_state();
         get_tcp_force();
         get_eef_pose();
-        if (tcp_force[1] < -8){
+        if (tcp_force[1] < -9){
             cout << tcp_force[1] << endl;
             cout << "insert stoped" <<endl;
             break;
@@ -785,7 +823,7 @@ void RobotAdmittanceControl::plug_out(){
     for (Eigen::Index i = 0; i < adm_m.size(); ++i) {
         adm_d[i] = 3 * sqrt(adm_m[i] * adm_k[i]);
     }
-    wish_force << 0, -10, 0, 0, 0, 0;  //期望力
+    wish_force << 0, -15, 0, 0, 0, 0;  //期望力
     selection_vector<<1, 1, 1, 0, 0, 0; //选择向量，表示只控制y轴
     eef_pos_d = eef_pos;
     eef_rotm_d = eef_rotm;
@@ -886,6 +924,7 @@ void RobotAdmittanceControl::move_to_target(int choice){
     robot.servo_move_enable(false);
     robot.linear_move(&new_pos, ABS, true, 10);
     cout<< "move to the picking position"<<endl;
+    joint_states_callback(joint_states_pub); //更新一下机器人状态
 
 }
 
@@ -900,6 +939,7 @@ void RobotAdmittanceControl::move_to_left_insert(){
     robot.servo_move_enable(false);
     robot.linear_move(&new_pos, ABS, true, 10);
     cout<< "move to the picking position"<<endl;
+    joint_states_callback(joint_states_pub); //更新一下机器人状态
 
 }
 
@@ -914,6 +954,7 @@ void RobotAdmittanceControl::move_to_right_insert(){
     robot.servo_move_enable(false);
     robot.linear_move(&new_pos, ABS, true, 10);
     cout<< "move to the picking position"<<endl;
+    joint_states_callback(joint_states_pub); //更新一下机器人状态
 }
 
 void RobotAdmittanceControl::move_to_left_pick(){
@@ -927,6 +968,7 @@ void RobotAdmittanceControl::move_to_left_pick(){
     robot.servo_move_enable(false);
     robot.linear_move(&new_pos, ABS, true, 8);
     cout<< "move to the picking position"<<endl;
+    joint_states_callback(joint_states_pub); //更新一下机器人状态
 }
 
 void RobotAdmittanceControl::move_to_right_pick(){
@@ -941,6 +983,7 @@ void RobotAdmittanceControl::move_to_right_pick(){
     robot.linear_move(&new_pos, ABS, true, 8);
 
     cout<< "move to the picking position"<<endl;
+    joint_states_callback(joint_states_pub); //更新一下机器人状态
 }
 
 
@@ -954,6 +997,7 @@ void RobotAdmittanceControl::move_to_left_middle(){
     robot.servo_move_enable(false);
     robot.linear_move(&new_pos, ABS, true, 10);
     cout<< "move to the picking position"<<endl;
+    joint_states_callback(joint_states_pub); //更新一下机器人状态
 }
 
 void RobotAdmittanceControl::move_to_right_middle(){
@@ -967,6 +1011,7 @@ void RobotAdmittanceControl::move_to_right_middle(){
     robot.servo_move_enable(false);
     robot.linear_move(&new_pos, ABS, true, 10);
     cout<< "move to the picking position"<<endl;
+    joint_states_callback(joint_states_pub); //更新一下机器人状态
 }
 
 void RobotAdmittanceControl::move_to_recycle(int choice, int int_value){
@@ -974,61 +1019,62 @@ void RobotAdmittanceControl::move_to_recycle(int choice, int int_value){
     update_robot_state();
     get_eef_pose();
 
-    if (int_value == 3){
+    if (int_value == 3){ //left
         if (choice == 0){
-        new_pos.tran.x = -314.096; new_pos.tran.y = -303.394 + 28 * 2; new_pos.tran.z = 45.632; //示教获得
+        new_pos.tran.x = -313.032; new_pos.tran.y = -302.817 + 28 * 2; new_pos.tran.z = 54.369; //示教获得
         new_pos.rpy.rx = -90 * PI / 180; new_pos.rpy.ry = -45 * PI / 180; new_pos.rpy.rz = -90 * PI / 180;
         }
         else if (choice == 1)
         {
-            new_pos.tran.x = -314.096; new_pos.tran.y = -303.394 + 28; new_pos.tran.z = 45.632; //示教获得
+            new_pos.tran.x = -313.032; new_pos.tran.y = -302.817 + 28; new_pos.tran.z = 54.369; //示教获得
             new_pos.rpy.rx = -90 * PI / 180; new_pos.rpy.ry = -45 * PI / 180; new_pos.rpy.rz = -90 * PI / 180;
         }
         else if (choice == 2)
         {
-            new_pos.tran.x = -314.096; new_pos.tran.y = -303.394; new_pos.tran.z = 45.632; //示教获得
+            new_pos.tran.x = -313.032; new_pos.tran.y = -302.817; new_pos.tran.z = 54.369; //示教获得
             new_pos.rpy.rx = -90 * PI / 180; new_pos.rpy.ry = -45 * PI / 180; new_pos.rpy.rz = -90 * PI / 180;
         }
         else if (choice == 3)
         {
-            new_pos.tran.x = -314.096; new_pos.tran.y = -303.394 - 28; new_pos.tran.z = 45.632; //示教获得
+            new_pos.tran.x = -313.032; new_pos.tran.y = -302.817 - 28; new_pos.tran.z = 54.369; //示教获得
             new_pos.rpy.rx = -90 * PI / 180; new_pos.rpy.ry = -45 * PI / 180; new_pos.rpy.rz = -90 * PI / 180;
         }
         else if (choice == 4)
         {
-            new_pos.tran.x = -314.096; new_pos.tran.y = -303.394 - 28 * 2; new_pos.tran.z = 45.632; //示教获得
+            new_pos.tran.x = -313.032; new_pos.tran.y = -302.817 - 28 * 2; new_pos.tran.z = 54.369; //示教获得
             new_pos.rpy.rx = -90 * PI / 180; new_pos.rpy.ry = -45 * PI / 180; new_pos.rpy.rz = -90 * PI / 180;
         }
     }
-    if (int_value == 4){
+    if (int_value == 4){ //right
         if (choice == 0){
-        new_pos.tran.x = -314.096; new_pos.tran.y = -303.394 + 28 * 2; new_pos.tran.z = 45.632; //示教获得
+        new_pos.tran.x = -314.122; new_pos.tran.y = -302.617 + 28 * 2; new_pos.tran.z = 45.632; //示教获得
         new_pos.rpy.rx = -90 * PI / 180; new_pos.rpy.ry = -45 * PI / 180; new_pos.rpy.rz = -90 * PI / 180;
         }
         else if (choice == 1)
         {
-            new_pos.tran.x = -314.096; new_pos.tran.y = -303.394 + 28; new_pos.tran.z = 45.632; //示教获得
+            new_pos.tran.x = -314.122; new_pos.tran.y = -302.617 + 28; new_pos.tran.z = 45.632; //示教获得
             new_pos.rpy.rx = -90 * PI / 180; new_pos.rpy.ry = -45 * PI / 180; new_pos.rpy.rz = -90 * PI / 180;
         }
         else if (choice == 2)
         {
-            new_pos.tran.x = -314.096; new_pos.tran.y = -303.394; new_pos.tran.z = 45.632; //示教获得
+            new_pos.tran.x = -314.122; new_pos.tran.y = -302.617; new_pos.tran.z = 54; //示教获得
             new_pos.rpy.rx = -90 * PI / 180; new_pos.rpy.ry = -45 * PI / 180; new_pos.rpy.rz = -90 * PI / 180;
         }
         else if (choice == 3)
         {
-            new_pos.tran.x = -314.096; new_pos.tran.y = -303.394 - 28; new_pos.tran.z = 45.632; //示教获得
+            new_pos.tran.x = -314.122; new_pos.tran.y = -302.617 - 28; new_pos.tran.z = 45.632; //示教获得
             new_pos.rpy.rx = -90 * PI / 180; new_pos.rpy.ry = -45 * PI / 180; new_pos.rpy.rz = -90 * PI / 180;
         }
         else if (choice == 4)
         {
-            new_pos.tran.x = -314.096; new_pos.tran.y = -303.394 - 28 * 2; new_pos.tran.z = 45.632; //示教获得
+            new_pos.tran.x = -314.122; new_pos.tran.y = -302.617 - 28 * 2; new_pos.tran.z = 45.632; //示教获得
             new_pos.rpy.rx = -90 * PI / 180; new_pos.rpy.ry = -45 * PI / 180; new_pos.rpy.rz = -90 * PI / 180;
         }
     }
  
     robot.servo_move_enable(false);
-    robot.linear_move(&new_pos, ABS, true, 6);
+    robot.linear_move(&new_pos, ABS, true, 12);
     cout<< "move to the picking position"<<endl;
+    joint_states_callback(joint_states_pub); //更新一下机器人状态
 }
 

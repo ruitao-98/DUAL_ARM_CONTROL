@@ -57,9 +57,10 @@ RobotAdmittanceControl::RobotAdmittanceControl()
     sleep(1);
     robot.set_compliant_type(0,0);
 
-    object_length << 0, 0, 0.021;  //三通，3分
-    // object_length << 0, 0, 0.020;   //M12 六角头螺丝
-    // object_length << 0, 0, 0.014;   //3分螺柱
+    // object_length << 0, 0, 0.0205;  //三通，3分
+    // object_length << 0, 0, 0.023;   //M12 六角头螺丝
+    object_length << 0, 0, 0.016;   //3分螺柱
+
     eef_offset << -0.0785, 0, 0.1169;
     eef_offset_to_sensor << -0.0785, 0, 0.0774;
     eef_offset = eef_offset + object_length;
@@ -443,6 +444,28 @@ void RobotAdmittanceControl::tcp_admittance_run(){
 }
 
 void RobotAdmittanceControl::screw_assembly_search(){
+
+    char choice_tcp;
+
+    std::cout << "Enter 1-3 to select the tcp:" << std::endl;
+    std::cin >> choice_tcp;
+        
+    switch(choice_tcp) {
+
+        case '1':
+            object_length << 0, 0, 0.0205;  //三通，3分
+
+        case '2':
+            object_length << 0, 0, 0.023;   //M12 六角头螺丝
+        
+        case '3':
+            object_length << 0, 0, 0.016;   //3分螺柱
+            
+        default:
+            // 程序结束
+            std::cout << "task stoped" << std::endl;
+        }
+
     int input;
     std::cout << "Enter 1 for continue" << std::endl;
     std::cin >> input;
@@ -1062,10 +1085,36 @@ void RobotAdmittanceControl::start(){
 
 void RobotAdmittanceControl::go_to_pose(){
     CartesianPose goal_pose;
-    goal_pose.tran.x = -67.511; goal_pose.tran.y = 455.00; goal_pose.tran.z = 200;
-    goal_pose.rpy.rx = (179 * PI) / 180; goal_pose.rpy.ry = (0 * PI) / 180; goal_pose.rpy.rz = (-60 * PI) / 180;
-    robot.servo_move_enable(false);
-    robot.linear_move(&goal_pose, ABS, TRUE, 12);
+    char input;
+
+    std::cout << "Enter 1-3 to select the goal position:" << std::endl;
+    std::cin >> input;
+        
+    switch(input) {
+
+        case '1':
+            goal_pose.tran.x = -67.511; goal_pose.tran.y = 455.00; goal_pose.tran.z = 200;
+            goal_pose.rpy.rx = (179 * PI) / 180; goal_pose.rpy.ry = (0 * PI) / 180; goal_pose.rpy.rz = (-60 * PI) / 180;
+            robot.servo_move_enable(false);
+            robot.linear_move(&goal_pose, ABS, TRUE, 12);
+
+        case '2':
+            goal_pose.tran.x = -67.511; goal_pose.tran.y = 455.00; goal_pose.tran.z = 200;
+            goal_pose.rpy.rx = (179 * PI) / 180; goal_pose.rpy.ry = (0 * PI) / 180; goal_pose.rpy.rz = (-60 * PI) / 180;
+            robot.servo_move_enable(false);
+            robot.linear_move(&goal_pose, ABS, TRUE, 12);
+        
+        case '3':
+            goal_pose.tran.x = -67.511; goal_pose.tran.y = 455.00; goal_pose.tran.z = 200;
+            goal_pose.rpy.rx = (179 * PI) / 180; goal_pose.rpy.ry = (0 * PI) / 180; goal_pose.rpy.rz = (-60 * PI) / 180;
+            robot.servo_move_enable(false);
+            robot.linear_move(&goal_pose, ABS, TRUE, 12);
+        
+        default:
+            // 程序结束
+            std::cout << "task stoped" << std::endl;
+        }
+
 
     update_robot_state();
     get_eef_pose();

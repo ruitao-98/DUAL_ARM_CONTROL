@@ -91,7 +91,7 @@ class Left_planning():
         self.scene.remove_world_object(self.wall2)
         wall2_pose = PoseStamped()
         wall2_pose.header.frame_id = self.world_reference_frame
-        wall2_pose.pose.position.x = self.wall2_size[0] / 2 + 0.9 + 0.3
+        wall2_pose.pose.position.x = self.wall2_size[0] / 2 + 0.9
         wall2_pose.pose.position.y = self.wall2_size[1] / 2 + 0.8
         wall2_pose.pose.position.z = self.wall2_size[2] / 2
         wall2_pose.pose.orientation.w = 1.0
@@ -101,7 +101,7 @@ class Left_planning():
         cabinet_pose = PoseStamped()
         cabinet_pose.header.frame_id = self.world_reference_frame
         cabinet_pose.pose.position.x = self.cabinet_size[0] / 2
-        cabinet_pose.pose.position.y = self.cabinet_size[1] / 2 + 1.5 + 0.15
+        cabinet_pose.pose.position.y = self.cabinet_size[1] / 2 + 1.5 + 0.1
         cabinet_pose.pose.position.z = self.cabinet_size[2] / 2
         cabinet_pose.pose.orientation.w = 1.0
         self.scene.add_box(self.cabinet, cabinet_pose, self.cabinet_size)
@@ -216,7 +216,7 @@ class Left_planning():
         target_pose.pose.orientation.z = quat[3]
         target_pose.pose.orientation.w = quat[0]
         self.left_arm.set_pose_target(target_pose, self.left_end_effector_link)
-        self.left_arm.set_max_velocity_scaling_factor(0.1)  # 设置最大速度为10%
+        self.left_arm.set_max_velocity_scaling_factor(0.2)  # 设置最大速度为10%
         self.left_arm.set_max_acceleration_scaling_factor(0.1)  # 设置最大加速度为10%
 
         # 规划出轨迹
@@ -314,6 +314,7 @@ def planning_to_put(choice):
 
 def planning_to_recycle(chioce):
     int_value =rospy.get_param("left_right_dis",4)
+    print("int_value = ", int_value)
     if int_value == 3:
         if choice == 0:
             pos_put_in_left = [-90/1000, (-300 + 28 *2)/1000, 76/1000]
@@ -421,7 +422,7 @@ def planning_to_left_side():
                                  [ 0.866,   -0.5,  0],
                                  [     0,      0,  1]])
     # 候补点在右侧的位置和姿态
-    delta_p = np.array([0.07, 0, 0])
+    delta_p = np.array([0.1, 0, 0])
     eef_wait_pos_in_right = eef_pos_in_right + eef_mat_in_right @ delta_p
     eef_wait_mat_in_right = np.array([[  -0.5, -0.866,  0],
                                       [ 0.866,   -0.5,  0],
@@ -460,7 +461,7 @@ def planning_to_right_side():
                                  [ 0.866,   -0.5,  0],
                                  [     0,      0,  1]])
     # 候补点在右侧的位置和姿态
-    delta_p = np.array([0.07, 0, 0])
+    delta_p = np.array([0.1, 0, 0])
     eef_wait_pos_in_right = eef_pos_in_right + eef_mat_in_right @ delta_p
     eef_wait_mat_in_right = np.array([[  -0.5, -0.866,  0],
                                       [ 0.866,   -0.5,  0],
@@ -544,12 +545,12 @@ if __name__ == '__main__':
             print("planning_to_recycle")
             print("please select a put choice:")
             choice = wait_for_choice()
-            # rospy.set_param("choice_int",choice) #设置为参数，供执行端读取
+            rospy.set_param("choice_int", choice) #设置为参数，供执行端读取
             planning_to_recycle(choice)
             time.sleep(1)
-            for i in [0, 1]:
-                gri.open = 1.0
-                gripper_pub.publish(gri)
+            req.num = 5
+            resp = client.call(req)
+
 
         elif choice == 8:
             break

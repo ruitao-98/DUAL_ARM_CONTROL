@@ -221,6 +221,8 @@ actionlib/client/simple_action_client.h
 /home/yanji/dual_arm_control/src/real_robot_control/include/real_robot_control/actionlib/client/simple_action_client.h
 real_robot_control/screwAction.h
 /home/yanji/dual_arm_control/src/real_robot_control/include/real_robot_control/real_robot_control/screwAction.h
+sensor_msgs/JointState.h
+-
 
 /home/yanji/dual_arm_control/src/real_robot_control/src/left_robot_control.cpp
 chrono
@@ -1137,6 +1139,24 @@ ros/forwards.h
 /opt/ros/noetic/include/ros/ros/forwards.h
 
 /opt/ros/noetic/include/rosconsole/macros_generated.h
+
+/opt/ros/noetic/include/sensor_msgs/JointState.h
+string
+-
+vector
+-
+memory
+-
+ros/types.h
+-
+ros/serialization.h
+-
+ros/builtin_message_traits.h
+-
+ros/message_operations.h
+-
+std_msgs/Header.h
+-
 
 /opt/ros/noetic/include/std_msgs/Header.h
 string

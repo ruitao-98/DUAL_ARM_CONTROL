@@ -13,6 +13,7 @@
 #include "real_robot_control/jktypes.h"
 #include "actionlib/client/simple_action_client.h"
 #include "real_robot_control/screwAction.h"
+#include <sensor_msgs/JointState.h>
 
 namespace jaka {
     using Quaternion = ::Quaternion; // 创建别名
@@ -62,6 +63,7 @@ public:
     void active_cb();
     void feedback_cb(const real_robot_control::screwFeedbackConstPtr &feedback);
     void back_to_middle();
+    void joint_states_callback(ros::Publisher joint_states_pub);
 
     Eigen::VectorXd adm_m;
     Eigen::VectorXd adm_k;
@@ -71,6 +73,7 @@ public:
     std::shared_ptr<ros::NodeHandle> nh;
     ros::Publisher for_pub;
     real_robot_control::force_pub f;
+    ros::Publisher joint_states_pub;
     JAKAZuRobot robot;
     actionlib::SimpleActionClient<real_robot_control::screwAction> client;
     real_robot_control::screwGoal goal;

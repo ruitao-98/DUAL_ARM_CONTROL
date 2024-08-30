@@ -160,7 +160,11 @@ void cb(const real_robot_control::screwGoalConstPtr &goal, Server* server){
 
         server->publishFeedback(feedback);
 
-        result = ef.width_reduce_or_increase_full(1);  // 旋拧口复位，才能退出
+        int goal_width;
+        ros::param::get("goal_width", goal_width);
+        std::cout << "goal_width = " << goal_width << std::endl;
+        
+        result = ef.width_reduce_full_for_handover(goal_width);  // 旋拧口复位，才能退出
         //result 1表示没有达到预期位置，0表示达到了
 
         feedback.screw_status = 0;  //执行器运行结束

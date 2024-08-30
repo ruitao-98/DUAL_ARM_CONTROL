@@ -17,17 +17,17 @@ def dogripper(p):
 
     if p.open == 1:
         position_in_bit = gripper_obj.getPosition()
-        if position_in_bit != 160:
-            gripper_obj.goTo(160)
+        if position_in_bit != 162:
+            gripper_obj.goTo(162)
         else:
-            print("setted to 160")
+            print("setted to 165")
 
     if p.open == 2:
         position_in_bit = gripper_obj.getPosition()
         if position_in_bit != 0:
             gripper_obj.goTo(0)
         else:
-            print("setted to 20")
+            print("setted to 0")
 
 
 

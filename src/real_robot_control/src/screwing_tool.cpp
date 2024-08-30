@@ -235,15 +235,6 @@ int endeffector::width_reduce_or_increase_full(int judge){
 	in.close();
 	int previous_position = atoi(content.c_str());
 
-	ifstream in1("goal_width.txt");
-	string content1;
-	while (getline(in1, content1))
-	{
-		cout << content1 << endl;
-	}
-	in1.close();
-	int goal_width = atoi(content1.c_str());
-
 	this->setdelaytime(1, 0);
 	this->torque_off(1);
 	this->set_velocitymode(1);
@@ -296,15 +287,86 @@ int endeffector::width_reduce_or_increase_full(int judge){
 			ofs.close();
 			this->torque_off(0);
 
+			while ((this->torque_on(1))) {
+				cout << "\r" <<"******养成好习惯，请关闭夹持装置的电源*********" << flush; 
+			}
+			sleep(2);
+			this->close_port();
+			printf("ͣ***the object is at the center***");
+			return 0;
+			
+		}
+	}
+}
+
+int endeffector::width_reduce_full_for_handover(int goal_width){
+    this->open_port();
+	this->setbaundrate();
+
+	ifstream in("delta_width.txt");
+	string content;
+	while (getline(in, content))
+	{
+		cout << content << endl;
+	}
+	
+	in.close();
+	int previous_position = atoi(content.c_str());
+
+	this->setdelaytime(1, 0);
+	this->torque_off(1);
+	this->set_velocitymode(1);
+	this->torque_on(1);
+	int base_current[15] = { 0 };
+	fstream ofs;
+	int start_position = this->get_presentposition(1);
+	
+	this->set_goalvelocity(1, -200); //reduce
+
+
+	sleep(1);
+	for (int i = 0; i < 15; i = i + 1) {
+		base_current[i] = this->get_presentcurrent(1);
+	}
+	float start_current = average_function(base_current, 15);
+	printf("the started current%.3f \n", start_current);
+	int yuzhi = 38;
+	int present_cu[10] = { 0 };
+	int i = 0;
+	int fin_position;
+    double ave_current;
+	while (true)
+	{
+		int j;
+		j = i % 10;
+		i = i + 1;
+		present_cu[j] = this->get_presentcurrent(1);
+		if (i <= 10){
+		ave_current = start_current;
+		}
+		if (i > 10){
+		ave_current = average_function(present_cu, 10);
+		}
+		
+		if ((fabs(ave_current - start_current) > yuzhi) && (i > 10))
+		{
+			printf("ֹͣthe present current %.3f\n", ave_current);
+			this->set_goalvelocity(1, 0);
+			std::this_thread::sleep_for(std::chrono::milliseconds(300));
+			int end_position = this->get_presentposition(1);
+			int delta_position = (end_position - start_position) + previous_position;
+			cout << "delta_position = " << delta_position << endl;
+			ofs.open("delta_width.txt", ios::out);
+			ofs << delta_position;
+			ofs.close();
+			this->torque_off(0);
+
 			if (abs(delta_position - goal_width)>500){
 				printf("ͣ***the object is not at the center***");
 				return 1;
 			}
-			else{
 
-				while ((this->torque_on(1))) {
-					cout << "\r" <<"******养成好习惯，请关闭夹持装置的电源*********" << flush; 
-				}
+			else{
 				this->close_port();
 				printf("ͣ***the object is at the center***");
 				return 0;

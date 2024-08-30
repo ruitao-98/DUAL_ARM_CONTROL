@@ -54,7 +54,7 @@ void goalCb(const control_msgs::FollowJointTrajectoryGoalConstPtr& torso_goal, S
 
     BOOL in_pos;
     cout << torso_goal->trajectory << endl;
-    left_robot.servo_move_enable(false);
+    left_robot.servo_move_enable(true);
     int point_num=torso_goal->trajectory.points.size();
     ROS_INFO("number of points: %d",point_num);
     JointValue joint_pose;
@@ -74,9 +74,9 @@ void goalCb(const control_msgs::FollowJointTrajectoryGoalConstPtr& torso_goal, S
         
         int step_num=int (dt * 1/0.008);
 
-        int sdk_res=left_robot.joint_move(&joint_pose, MoveMode::ABS, true, 0.1); 
+        // int sdk_res=left_robot.joint_move(&joint_pose, MoveMode::ABS, true, 0.2); 
 
-        // int sdk_res=left_robot.servo_j(&joint_pose, MoveMode::ABS, step_num);
+        int sdk_res=left_robot.servo_j(&joint_pose, MoveMode::ABS, step_num);
 
         if (sdk_res !=0)
         {
@@ -92,7 +92,7 @@ void goalCb(const control_msgs::FollowJointTrajectoryGoalConstPtr& torso_goal, S
         if(jointStates(joint_pose, 0))
         {
             left_robot.servo_move_enable(false);
-            errno_t resj = left_robot.joint_move(&joint_pose, MoveMode::ABS, true, 0.5); 
+            errno_t resj = left_robot.joint_move(&joint_pose, MoveMode::ABS, true, 0.2); 
             // 进一步执行，此处可以增加关节空间规划的精度，但是，对于urdf 和真实机器人的tcp空间规划精度仍然无法解决
             cout << resj << endl;
             left_robot.login_out();
@@ -163,7 +163,7 @@ void joint_states_callback(ros::Publisher joint_states_pub)
 void reset(){
     // -np.pi / 3, np.pi / 3, np.pi * 2 / 3, np.pi / 2, -np.pi / 2, np.pi / 2
     JointValue joint_pos = { -PI / 3, PI / 3, PI * 2 / 3, PI / 2, -PI / 2,  PI / 2 };
-    right_robot.joint_move(&joint_pos, ABS, TRUE, 0.2);
+    right_robot.joint_move(&joint_pos, ABS, TRUE, 0.15);
 }
 
 int main(int argc, char *argv[])

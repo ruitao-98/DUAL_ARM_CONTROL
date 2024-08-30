@@ -117,7 +117,7 @@ class Grasp_planning():
         self.scene.remove_world_object(self.wall2)
         wall2_pose = PoseStamped()
         wall2_pose.header.frame_id = self.world_reference_frame
-        wall2_pose.pose.position.x = self.wall2_size[0] / 2 + 0.9 + 0.3
+        wall2_pose.pose.position.x = self.wall2_size[0] / 2 + 0.9 
         wall2_pose.pose.position.y = self.wall2_size[1] / 2 + 0.8
         wall2_pose.pose.position.z = self.wall2_size[2] / 2
         wall2_pose.pose.orientation.w = 1.0
@@ -127,7 +127,7 @@ class Grasp_planning():
         cabinet_pose = PoseStamped()
         cabinet_pose.header.frame_id = self.world_reference_frame
         cabinet_pose.pose.position.x = self.cabinet_size[0] / 2
-        cabinet_pose.pose.position.y = self.cabinet_size[1] / 2 + 1.5 + 0.15
+        cabinet_pose.pose.position.y = self.cabinet_size[1] / 2 + 1.5 + 0.1
         cabinet_pose.pose.position.z = self.cabinet_size[2] / 2
         cabinet_pose.pose.orientation.w = 1.0
         self.scene.add_box(self.cabinet, cabinet_pose, self.cabinet_size)
@@ -623,6 +623,19 @@ if __name__ == '__main__':
             # 规划抬起动作
             print('planning move up')
             planning_grasping_move_up(T_g_trans[index_trans][:3, 3], T_g_trans[index_trans][:3, :3])
+
+            print('please press 1-3 select the goal object')
+            choice = wait_for_choice()
+            print('choice = ', choice)
+
+            if choice == 1:
+                rospy.set_param("goal_width", -46762) #3分螺母
+            
+            elif choice == 2:
+                rospy.set_param("goal_width", -46762) #3分3通
+            
+            elif choice == 3:
+                rospy.set_param("goal_width", -46762) #m12螺母
 
             # 规划交接动作
             print('planning hand over')
