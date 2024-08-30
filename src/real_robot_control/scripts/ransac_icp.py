@@ -18,11 +18,32 @@ import rospy
 from generate_grasping_pose import *
 import generate_grasping_pose as ge
 import copy
+from sklearn.cluster import DBSCAN
 #*******************导入mechmind***********************
 import capture_pointcloud as cap
 #*******************定义基础函数***********************
 
 capture = cap.CapturePointCloud()
+
+
+def wait_for_key_press():
+    key_pressed = {'value': None}
+
+    def on_press(key):
+        if key == Key.backspace:
+            print("Backspace pressed, returning 0.")
+            key_pressed['value'] = 0
+            return False  # Stop the listener
+        elif key == Key.enter:
+            print("Enter pressed, returning 1.")
+            key_pressed['value'] = 1
+            return False  # Stop the listener
+
+    with Listener(on_press=on_press) as listener:
+        print("please press 'enter' to ensure the pointcloud or press 'backspace' to continue" )
+        listener.join()
+    
+    return key_pressed['value']
 
 def numpy_to_multiarray(matrix):
     multiarray = Float32MultiArray()
@@ -80,7 +101,7 @@ def refine(T, src_down_o3, tar_down_o3, times):
 
 def execute_global_registration(src_down, tar_down, src_fpfh,
                                 tar_fpfh, voxel_size):
-    distance_threshold = 4
+    distance_threshold = 3
     print("   RANSAC registration on downsampled point clouds.")
     print("   Since the downsampling voxel size is %.3f," % voxel_size)
     print("   we use a liberal distance threshold %.3f." % distance_threshold)
@@ -98,7 +119,7 @@ def execute_global_registration(src_down, tar_down, src_fpfh,
     return result
 
 def ransac(source, target):
-    voxel_size = 0.3       #指定下采样体素大小
+    voxel_size = 0.2      #指定下采样体素大小
 
     source_down = source.voxel_down_sample(voxel_size)
     target_down = target.voxel_down_sample(voxel_size)
@@ -144,12 +165,12 @@ def trans_to_robot_base(pcd):
 
     tcp_matrix[:3, :3] = tcp_rotm_matrix
     tcp_matrix[:3, 3] = tcp_trans
-    print(tcp_matrix)
+    # print(tcp_matrix)
 
-    hand_eye_relation = np.array([[0.706330265364718,	-0.699256310511164,	-0.110173356307783,	81.6645139379991],
-                                [0.695506456292791,	0.714500329812274,	-0.0758949797627990,	-48.1687434460167],
-                                [0.131788942953691,	-0.0230193594278016,	0.991010486123473,	59.8289339845216],
-                                [0,	0,	0,	1]])
+    hand_eye_relation = np.array([[0.697474223574052,	-0.709481063272796,	-0.100828211860949,	82.2773608978644],
+                                    [0.705946783968100,	0.704442699443614,	-0.0734821162303507,	-47.2259493574123],
+                                    [0.123161867698044,	-0.0199274699321489,	0.992186499750542,	58.7023924844555],
+                                    [0,	0,	0,	1]])
     # hand_eye_relation = np.array([[0.693078358902796, -0.712313829861997, -0.110686025350721, 82.5957586617159],
     #                               [0.707931883219150, 0.701526837022340, -0.0818079804127876, -44.4147286980286],
     #                               [0.135922173107974, -0.0216588255629318, 0.990482739946962,  60.2262194514354],
@@ -256,6 +277,37 @@ def detect_colision(pcd1, pcd2):
     # o3d.visualization.draw_geometries([pcd1, pcd2, mesh1, mesh2], width=1080, height=720)
     return intersection
 
+def dbscan_point_cloud_segmentation(pcd, eps, min_samples):
+    """
+    对输入的点云进行DBSCAN分割，并返回分割后的点云列表
+
+    参数:
+    - pcd: open3d.geometry.PointCloud，输入的点云对象
+    - eps: float，DBSCAN的邻域半径，默认值为0.02
+    - min_samples: int，DBSCAN的最小点数，默认值为10
+
+    返回:
+    - List[open3d.geometry.PointCloud]，分割后的点云列表，每个点云对象代表一个簇
+    """
+    # 将点云转换为numpy数组
+    points = np.asarray(pcd.points)
+
+    # 执行DBSCAN聚类
+    db = DBSCAN(eps=eps, min_samples=min_samples).fit(points)
+    labels = db.labels_
+
+    # 提取不同簇
+    unique_labels = np.unique(labels)
+    clusters = []
+    
+    for label in unique_labels:
+        if label == -1:  # 跳过噪声点
+            continue
+        indices = np.where(labels == label)[0]
+        cluster = pcd.select_by_index(indices)
+        clusters.append(cluster)
+    
+    return clusters
 
 # 下面的函数，是对 main 中部分程序的封装，方便在grasp_planning中调用
 #####################
@@ -275,10 +327,31 @@ def get_pointcloud_from_data():
     voxel_size1 = 0.4
     tar_down_o3 = tar.voxel_down_sample(voxel_size2)
     src_down_o3 = src.voxel_down_sample(voxel_size1)
+
+    clusters = dbscan_point_cloud_segmentation(tar, eps=0.03, min_samples=15)
+
+        # 显示分割结果
+    for i, cluster in enumerate(clusters):
+        print(f"Cluster {i + 1}: {len(cluster.points)} points")
+        o3d.visualization.draw_geometries([cluster])
     # src, tar 基本只用于可视化
     return src, tar, src_down_o3, tar_down_o3, desk, gripper
 
 
+def visualize_cluster(cluster, width=800, height=600):
+    """
+    在指定大小的窗口中可视化点云簇
+
+    参数:
+    - cluster: open3d.geometry.PointCloud，要显示的点云簇
+    - width: int，窗口宽度，默认800
+    - height: int，窗口高度，默认600
+    """
+    vis = o3d.visualization.Visualizer()
+    vis.create_window(window_name="Point Cloud Cluster", width=width, height=height)
+    vis.add_geometry(cluster)
+    vis.run()
+    vis.destroy_window()
 
 def get_pointcloud_from_camera(file_name):
     base_path = "/home/yanji/dual_arm_control/src/real_robot_control/scripts/grasp_detection/pointcloud"
@@ -289,12 +362,26 @@ def get_pointcloud_from_camera(file_name):
     # 相机采集tar 数据，待更新。。。。
     tar_raw = capture.get_point_cloud()
     tar = trans_to_robot_base(tar_raw)  # 变化到机器人基坐标系下
-    tar = pass_through_filter(tar, axis='z', lower_limit=4, upper_limit=100)
-    tar = pass_through_filter(tar, axis='y', lower_limit=-200, upper_limit=100)
+    tar = pass_through_filter(tar, axis='z', lower_limit=6.5, upper_limit=100)
+    tar = pass_through_filter(tar, axis='y', lower_limit=-200, upper_limit=150)
     voxel_size2 = 0.6 #指定下采样体素大小
     voxel_size1 = 0.4
     tar_down_o3 = tar.voxel_down_sample(voxel_size2)
     src_down_o3 = src.voxel_down_sample(voxel_size1)
+    clusters = dbscan_point_cloud_segmentation(tar_down_o3, eps=1.8, min_samples=15)
+    print("clusters,",clusters )
+        # 显示分割结果
+    for i, cluster in enumerate(clusters):
+        print(f"Cluster {i + 1}: {len(cluster.points)} points")
+        if (len(cluster.points) > 100):
+            # o3d.visualization.draw_geometries([cluster])
+            visualize_cluster(cluster, width=800, height=600)
+            decition_result = wait_for_key_press()
+            if decition_result:
+                tar_down_o3 = cluster
+                break
+        
+        
     # src, tar 基本只用于可视化
     return src, tar, src_down_o3, tar_down_o3, desk, gripper
 

@@ -20,10 +20,12 @@ from scipy.spatial.transform import Rotation as R
 from pynput.keyboard import Key, Listener
 import generate_grasping_pose as ge
 from real_robot_control.msg import pose
+
 import ransac_icp as rans
 from utils import *
 from real_robot_control.msg import gripper
 from real_robot_control.srv import *
+
 
 
 import jkrc
@@ -387,12 +389,13 @@ def try_planning_grasping(pos, rotm):
     grasping_rotm = rotm.astype(float)
     grasping_quat = trans_quat.mat2quat(grasping_rotm)
     print(grasping_quat)
-    left_arm.try_planning(grasping_pos, grasping_quat)
+    result = left_arm.try_planning(grasping_pos, grasping_quat)
+    return result
 
 
 def planning_grasping_move_up(pos, rotm):
     pos = pos / 1000
-    delta_p = np.array([0, 0, -0.2])
+    delta_p = np.array([0, 0, -0.1])
     move_up_pos = pos + rotm @ delta_p
     move_up_pos = move_up_pos.astype(float)
     print(move_up_pos)
@@ -569,15 +572,17 @@ if __name__ == '__main__':
     # src, tar, src_down_o3, tar_down_o3, desk, gripper = rans.get_pointcloud_from_data()
 
     # 从相机中获取点云
-    file_name = "bolt_3score1.pcd"
+    # file_name = "circle_bolt.pcd"
+    # file_name = "three_3score.pcd"
+    file_name = "bolt_3score.pcd"
     src, tar, src_down_o3, tar_down_o3, desk, gripper = rans.get_pointcloud_from_camera(file_name)
 
     aabb, vertices = rans.get_boundingbox(src)
-    num_screw = 6 #随着物体变化，根据物体的对称形确定，圆形可设任意，六边形6个，对称2个
+    num_screw = 2 #随着物体变化，根据物体的对称形确定，圆形可设任意，六边形6个，对称2个
     s_poss, s_rpys, T_s = ge.screwing_poses(num_screw)
 
     result = rans.get_object_pose(src_down_o3, tar_down_o3)
-    num_grasp = 20
+    num_grasp = 26
     g_poss, g_rpys_trans, T_g, T_g_trans = rans.get_transformed_grasp_poses(num_grasp, vertices, result, gripper, desk)
     print(T_g_trans)
     keys_array = list(T_g_trans.keys())
@@ -592,16 +597,16 @@ if __name__ == '__main__':
 
         index = try_planning_handover(T_relatives)
         print('index = ', index)
-
-        if index:
+        gra_result = try_planning_grasping(T_g_trans[index_trans][:3, 3], T_g_trans[index_trans][:3, :3])
+        if (index is not None) and gra_result:
             print("successfully planned!")
             # 规划抓取动作
             print('planning grasping')
             print(T_g_trans[index_trans])
-            try_planning_grasping(T_g_trans[index_trans][:3, 3], T_g_trans[index_trans][:3, :3])
-            decition_result = wait_for_key_press() #不满意，就重来
-            if decition_result == 0:
-                continue
+            # try_planning_grasping(T_g_trans[index_trans][:3, 3], T_g_trans[index_trans][:3, :3])
+            # decition_result = wait_for_key_press() #不满意，就重来
+            # if decition_result == 0:
+            #     continue
 
             planning_grasping(T_g_trans[index_trans][:3, 3], T_g_trans[index_trans][:3, :3])
 

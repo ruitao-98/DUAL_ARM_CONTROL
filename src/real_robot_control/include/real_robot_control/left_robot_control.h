@@ -46,7 +46,7 @@ public:
     void start();  //测试
     void pick_up();  //使用导纳控制抓取tip并抬上来
     void move_to_target(int choice);  //移动到抓取位姿
-    void move_to_recycle();  //移动到回收位姿，取下旋拧头后放置到盒子里面
+    void move_to_recycle(int choice, int int_value);  //移动到回收位姿，取下旋拧头后放置到盒子里面
     void move_to_left_pick(); //移动到工具左边的更换位置，取走 /
     void move_to_right_pick(); //移动到工具右边的更换位置，取走
     void move_to_left_insert(); //移动到工具左边的更换位置，插入

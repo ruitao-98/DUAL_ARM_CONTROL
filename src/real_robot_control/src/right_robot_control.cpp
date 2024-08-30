@@ -653,7 +653,7 @@ void RobotAdmittanceControl::screw_assembly_search(){
                     robot.servo_p(&new_pos, ABS, 1);
                 }
                 // 
-                if ((tcp_force[2] > 2) && (local_item>220)){
+                if ((tcp_force[2] > 2) || (local_item>220)){
                     // sleep(1);
                     break;
                 }
@@ -1062,8 +1062,8 @@ void RobotAdmittanceControl::start(){
 
 void RobotAdmittanceControl::go_to_pose(){
     CartesianPose goal_pose;
-    goal_pose.tran.x = -50; goal_pose.tran.y = 510.00; goal_pose.tran.z = 198;
-    goal_pose.rpy.rx = (174 * PI) / 180; goal_pose.rpy.ry = (0 * PI) / 180; goal_pose.rpy.rz = (-60 * PI) / 180;
+    goal_pose.tran.x = -67.511; goal_pose.tran.y = 455.00; goal_pose.tran.z = 200;
+    goal_pose.rpy.rx = (179 * PI) / 180; goal_pose.rpy.ry = (0 * PI) / 180; goal_pose.rpy.rz = (-60 * PI) / 180;
     robot.servo_move_enable(false);
     robot.linear_move(&goal_pose, ABS, TRUE, 12);
 

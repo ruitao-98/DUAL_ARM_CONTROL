@@ -312,13 +312,79 @@ def planning_to_put(choice):
     left_arm.target_pose_planning(position=pos_put_in_left, quat=quat_put_in_left)
 
 
-def planning_to_recycle():
+def planning_to_recycle(chioce):
+    int_value =rospy.get_param("left_right_dis",4)
+    if int_value == 3:
+        if choice == 0:
+            pos_put_in_left = [-90/1000, (-300 + 28 *2)/1000, 76/1000]
+            mat_put_in_left = np.array([[0, 0, 1],
+                                        [ -1 ,0 , 0],
+                                        [ 0 ,-1 , 0]])
+            quat_put_in_left = trans_quat.mat2quat(mat_put_in_left)
+        
+        elif choice == 1:
+            pos_put_in_left = [-90/1000, (-300 + 28 *1)/1000, 76/1000]
+            mat_put_in_left = np.array([[0, 0, 1],
+                                        [ -1 ,0 , 0],
+                                        [ 0 ,-1 , 0]])
+            quat_put_in_left = trans_quat.mat2quat(mat_put_in_left)
+        
+        elif choice == 2:
+            pos_put_in_left = [-90/1000, (-300)/1000, 76/1000]
+            mat_put_in_left = np.array([[0, 0, 1],
+                                        [ -1 ,0 , 0],
+                                        [ 0 ,-1 , 0]])
+            quat_put_in_left = trans_quat.mat2quat(mat_put_in_left)
+        
+        elif choice == 3:
+            pos_put_in_left = [-90/1000, (-300 - 28 *1)/1000, 76/1000]
+            mat_put_in_left = np.array([[0, 0, 1],
+                                        [ -1 ,0 , 0],
+                                        [ 0 ,-1 , 0]])
+            quat_put_in_left = trans_quat.mat2quat(mat_put_in_left)
+        
+        elif choice == 4:
+            pos_put_in_left = [-90/1000, (-300 - 28 *2)/1000, 76/1000]
+            mat_put_in_left = np.array([[0, 0, 1],
+                                        [ -1 ,0 , 0],
+                                        [ 0 ,-1 , 0]])
+            quat_put_in_left = trans_quat.mat2quat(mat_put_in_left)
+    if int_value == 4:
+        if choice == 0:
+            pos_put_in_left = [-90/1000, (-300 + 28 *2)/1000, 76/1000]
+            mat_put_in_left = np.array([[0, 0, 1],
+                                        [ -1 ,0 , 0],
+                                        [ 0 ,-1 , 0]])
+            quat_put_in_left = trans_quat.mat2quat(mat_put_in_left)
+        
+        elif choice == 1:
+            pos_put_in_left = [-90/1000, (-300 + 28 *1)/1000, 76/1000]
+            mat_put_in_left = np.array([[0, 0, 1],
+                                        [ -1 ,0 , 0],
+                                        [ 0 ,-1 , 0]])
+            quat_put_in_left = trans_quat.mat2quat(mat_put_in_left)
+        
+        elif choice == 2:
+            pos_put_in_left = [-90/1000, (-300)/1000, 76/1000]
+            mat_put_in_left = np.array([[0, 0, 1],
+                                        [ -1 ,0 , 0],
+                                        [ 0 ,-1 , 0]])
+            quat_put_in_left = trans_quat.mat2quat(mat_put_in_left)
+        
+        elif choice == 3:
+            pos_put_in_left = [-90/1000, (-300 - 28 *1)/1000, 76/1000]
+            mat_put_in_left = np.array([[0, 0, 1],
+                                        [ -1 ,0 , 0],
+                                        [ 0 ,-1 , 0]])
+            quat_put_in_left = trans_quat.mat2quat(mat_put_in_left)
+        
+        elif choice == 4:
+            pos_put_in_left = [-90/1000, (-300 - 28 *2)/1000, 76/1000]
+            mat_put_in_left = np.array([[0, 0, 1],
+                                        [ -1 ,0 , 0],
+                                        [ 0 ,-1 , 0]])
+            quat_put_in_left = trans_quat.mat2quat(mat_put_in_left)
 
-    pos_put_in_left = [(-90-70)/1000, (-300)/1000, 55/1000]
-    mat_put_in_left = np.array([[0, 0, 1],
-                                [ -1 ,0 , 0],
-                                [ 0 ,-1 , 0]])
-    quat_put_in_left = trans_quat.mat2quat(mat_put_in_left)
     
     left_arm.target_pose_planning(position=pos_put_in_left, quat=quat_put_in_left)
 
@@ -420,6 +486,7 @@ def planning_to_right_side():
     left_arm.target_pose_planning(position=eef_pos_wait_in_left, quat=eef_quat_wait_in_left)
 
 if __name__ == '__main__':
+    left_arm = Left_planning()
     gripper_pub = rospy.Publisher("gripper_siginal", gripper, queue_size=10)
     gri = gripper() # 夹爪控制
     for i in [0, 1]:
@@ -430,7 +497,7 @@ if __name__ == '__main__':
     client.wait_for_service()
     req = leftrobotsrvRequest() #机器人控制
 
-    left_arm = Left_planning()
+    
     # planning_to_home()
     while (True):
         print("===================")
@@ -463,17 +530,22 @@ if __name__ == '__main__':
 
         elif choice == 3:
             planning_to_left_side()
+            rospy.set_param("left_right_dis",3) 
             req.num = 3
             resp = client.call(req)
 
         elif choice == 4:
             planning_to_right_side()
+            rospy.set_param("left_right_dis",4) #设置为参数，供执行端读取
             req.num = 4
             resp = client.call(req)
         
         elif choice == 5:
             print("planning_to_recycle")
-            planning_to_recycle()
+            print("please select a put choice:")
+            choice = wait_for_choice()
+            # rospy.set_param("choice_int",choice) #设置为参数，供执行端读取
+            planning_to_recycle(choice)
             time.sleep(1)
             for i in [0, 1]:
                 gri.open = 1.0

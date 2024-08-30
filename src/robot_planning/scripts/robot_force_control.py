@@ -1,3 +1,6 @@
+#! /home/yanji/anaconda3/envs/mujo/bin/python3
+# -*- coding: utf-8 -*-
+
 from robot_sim_env import Dual_arm_env
 import numpy as np
 import time

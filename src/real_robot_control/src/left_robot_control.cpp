@@ -969,14 +969,64 @@ void RobotAdmittanceControl::move_to_right_middle(){
     cout<< "move to the picking position"<<endl;
 }
 
-void RobotAdmittanceControl::move_to_recycle(){
+void RobotAdmittanceControl::move_to_recycle(int choice, int int_value){
 
     update_robot_state();
     get_eef_pose();
 
-    new_pos.tran.x = -357.641; new_pos.tran.y = -301.328; new_pos.tran.z = 49.42; //示教获得
-    new_pos.rpy.rx = -89.277 * PI / 180; new_pos.rpy.ry = -44.838 * PI / 180; new_pos.rpy.rz = 90.503 * PI / 180;
-    
+    if (int_value == 3){
+        if (choice == 0){
+        new_pos.tran.x = -314.096; new_pos.tran.y = -303.394 + 28 * 2; new_pos.tran.z = 45.632; //示教获得
+        new_pos.rpy.rx = -90 * PI / 180; new_pos.rpy.ry = -45 * PI / 180; new_pos.rpy.rz = -90 * PI / 180;
+        }
+        else if (choice == 1)
+        {
+            new_pos.tran.x = -314.096; new_pos.tran.y = -303.394 + 28; new_pos.tran.z = 45.632; //示教获得
+            new_pos.rpy.rx = -90 * PI / 180; new_pos.rpy.ry = -45 * PI / 180; new_pos.rpy.rz = -90 * PI / 180;
+        }
+        else if (choice == 2)
+        {
+            new_pos.tran.x = -314.096; new_pos.tran.y = -303.394; new_pos.tran.z = 45.632; //示教获得
+            new_pos.rpy.rx = -90 * PI / 180; new_pos.rpy.ry = -45 * PI / 180; new_pos.rpy.rz = -90 * PI / 180;
+        }
+        else if (choice == 3)
+        {
+            new_pos.tran.x = -314.096; new_pos.tran.y = -303.394 - 28; new_pos.tran.z = 45.632; //示教获得
+            new_pos.rpy.rx = -90 * PI / 180; new_pos.rpy.ry = -45 * PI / 180; new_pos.rpy.rz = -90 * PI / 180;
+        }
+        else if (choice == 4)
+        {
+            new_pos.tran.x = -314.096; new_pos.tran.y = -303.394 - 28 * 2; new_pos.tran.z = 45.632; //示教获得
+            new_pos.rpy.rx = -90 * PI / 180; new_pos.rpy.ry = -45 * PI / 180; new_pos.rpy.rz = -90 * PI / 180;
+        }
+    }
+    if (int_value == 4){
+        if (choice == 0){
+        new_pos.tran.x = -314.096; new_pos.tran.y = -303.394 + 28 * 2; new_pos.tran.z = 45.632; //示教获得
+        new_pos.rpy.rx = -90 * PI / 180; new_pos.rpy.ry = -45 * PI / 180; new_pos.rpy.rz = -90 * PI / 180;
+        }
+        else if (choice == 1)
+        {
+            new_pos.tran.x = -314.096; new_pos.tran.y = -303.394 + 28; new_pos.tran.z = 45.632; //示教获得
+            new_pos.rpy.rx = -90 * PI / 180; new_pos.rpy.ry = -45 * PI / 180; new_pos.rpy.rz = -90 * PI / 180;
+        }
+        else if (choice == 2)
+        {
+            new_pos.tran.x = -314.096; new_pos.tran.y = -303.394; new_pos.tran.z = 45.632; //示教获得
+            new_pos.rpy.rx = -90 * PI / 180; new_pos.rpy.ry = -45 * PI / 180; new_pos.rpy.rz = -90 * PI / 180;
+        }
+        else if (choice == 3)
+        {
+            new_pos.tran.x = -314.096; new_pos.tran.y = -303.394 - 28; new_pos.tran.z = 45.632; //示教获得
+            new_pos.rpy.rx = -90 * PI / 180; new_pos.rpy.ry = -45 * PI / 180; new_pos.rpy.rz = -90 * PI / 180;
+        }
+        else if (choice == 4)
+        {
+            new_pos.tran.x = -314.096; new_pos.tran.y = -303.394 - 28 * 2; new_pos.tran.z = 45.632; //示教获得
+            new_pos.rpy.rx = -90 * PI / 180; new_pos.rpy.ry = -45 * PI / 180; new_pos.rpy.rz = -90 * PI / 180;
+        }
+    }
+ 
     robot.servo_move_enable(false);
     robot.linear_move(&new_pos, ABS, true, 6);
     cout<< "move to the picking position"<<endl;

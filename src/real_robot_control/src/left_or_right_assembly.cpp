@@ -143,8 +143,16 @@ bool doReq(real_robot_control::leftrobotsrv::Request& req,
     {
         // 执行回收
         std::cout << "move to recycle" << std::endl;
+        int choice;
+        ros::param::get("choice_int", choice);
+        std::cout << "choice = " << choice << std::endl;
 
-        // robot_control.move_to_recycle();
+        int int_value;
+        ros::param::get("left_right_dis", int_value);
+        std::cout << "int_value = " << int_value << std::endl;
+        pRobotControl->move_to_recycle(choice, int_value);
+
+        pRobotControl->spiral_search();
         gri.open = 1.0;
         item = 0;
         while (item < 2)
