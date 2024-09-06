@@ -6,6 +6,22 @@
 
 #IncludeRegexTransform: 
 
+/home/yanji/dual_arm_control/devel/include/real_robot_control/force_pos_pub.h
+string
+-
+vector
+-
+memory
+-
+ros/types.h
+-
+ros/serialization.h
+-
+ros/builtin_message_traits.h
+-
+ros/message_operations.h
+-
+
 /home/yanji/dual_arm_control/devel/include/real_robot_control/force_pub.h
 string
 -
@@ -263,6 +279,8 @@ real_robot_control/screwAction.h
 /home/yanji/dual_arm_control/src/real_robot_control/include/real_robot_control/real_robot_control/screwAction.h
 sensor_msgs/JointState.h
 -
+real_robot_control/force_pos_pub.h
+/home/yanji/dual_arm_control/src/real_robot_control/include/real_robot_control/real_robot_control/force_pos_pub.h
 
 /home/yanji/dual_arm_control/src/real_robot_control/src/left_or_right_assembly.cpp
 real_robot_control/left_robot_control.h

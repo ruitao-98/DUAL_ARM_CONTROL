@@ -44,4 +44,22 @@ def wait_for_key_press():
         listener.join()
     
     return key_pressed['value']
+
+def wait_for_choice():
+    key_pressed = {'value': None}
+
+    def on_press(key):
+        try:
+            if key.char in ['0', '1', '2', '3', '4']:
+                print(f"Key {key.char} pressed, returning {key.char}.")
+                key_pressed['value'] = int(key.char)
+                return False  # Stop the listener
+        except AttributeError:
+            pass  # Ignore non-character keys
+
+    with Listener(on_press=on_press) as listener:
+        print("please press '0-4' to select a choice" )
+        listener.join()
+    
+    return key_pressed['value']
         

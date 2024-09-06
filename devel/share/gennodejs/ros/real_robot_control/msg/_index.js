@@ -8,6 +8,7 @@ let screwResult = require('./screwResult.js');
 let screwActionFeedback = require('./screwActionFeedback.js');
 let screwActionResult = require('./screwActionResult.js');
 let screwGoal = require('./screwGoal.js');
+let width_pub = require('./width_pub.js');
 let force_pos_pub = require('./force_pos_pub.js');
 let force_pub = require('./force_pub.js');
 let current_pub = require('./current_pub.js');
@@ -24,6 +25,7 @@ module.exports = {
   screwActionFeedback: screwActionFeedback,
   screwActionResult: screwActionResult,
   screwGoal: screwGoal,
+  width_pub: width_pub,
   force_pos_pub: force_pos_pub,
   force_pub: force_pub,
   current_pub: current_pub,

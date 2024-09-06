@@ -54,7 +54,7 @@ CMAKE_BINARY_DIR = /home/yanji/dual_arm_control/build
 include real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_pose.dir/progress.make
 
 real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_pose:
-	cd /home/yanji/dual_arm_control/build/real_robot_control && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/genmsg/cmake/../../../lib/genmsg/genmsg_check_deps.py real_robot_control /home/yanji/dual_arm_control/src/real_robot_control/msg/pose.msg std_msgs/Float32MultiArray:std_msgs/MultiArrayDimension:std_msgs/MultiArrayLayout
+	cd /home/yanji/dual_arm_control/build/real_robot_control && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/genmsg/cmake/../../../lib/genmsg/genmsg_check_deps.py real_robot_control /home/yanji/dual_arm_control/src/real_robot_control/msg/pose.msg std_msgs/MultiArrayDimension:std_msgs/MultiArrayLayout:std_msgs/Float32MultiArray
 
 _real_robot_control_generate_messages_check_deps_pose: real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_pose
 _real_robot_control_generate_messages_check_deps_pose: real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_pose.dir/build.make

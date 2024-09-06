@@ -16,6 +16,7 @@ real_robot_control/CMakeFiles/RIGHT_ADM_CONTROL.dir/src/right_robot_control.cpp.
 real_robot_control/CMakeFiles/RIGHT_ADM_CONTROL.dir/src/right_robot_control.cpp.o: /home/yanji/dual_arm_control/devel/include/real_robot_control/screwsrv.h
 real_robot_control/CMakeFiles/RIGHT_ADM_CONTROL.dir/src/right_robot_control.cpp.o: /home/yanji/dual_arm_control/devel/include/real_robot_control/screwsrvRequest.h
 real_robot_control/CMakeFiles/RIGHT_ADM_CONTROL.dir/src/right_robot_control.cpp.o: /home/yanji/dual_arm_control/devel/include/real_robot_control/screwsrvResponse.h
+real_robot_control/CMakeFiles/RIGHT_ADM_CONTROL.dir/src/right_robot_control.cpp.o: /home/yanji/dual_arm_control/devel/include/real_robot_control/width_pub.h
 real_robot_control/CMakeFiles/RIGHT_ADM_CONTROL.dir/src/right_robot_control.cpp.o: /home/yanji/dual_arm_control/src/real_robot_control/include/dynamixel/dynamixel_sdk.h
 real_robot_control/CMakeFiles/RIGHT_ADM_CONTROL.dir/src/right_robot_control.cpp.o: /home/yanji/dual_arm_control/src/real_robot_control/include/dynamixel/group_bulk_read.h
 real_robot_control/CMakeFiles/RIGHT_ADM_CONTROL.dir/src/right_robot_control.cpp.o: /home/yanji/dual_arm_control/src/real_robot_control/include/dynamixel/group_bulk_write.h

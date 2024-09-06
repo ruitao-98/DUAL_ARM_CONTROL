@@ -34,7 +34,7 @@ def dogripper(p):
 if __name__ == "__main__":
     gripper_obj = RobotiqGripper()
     rospy.init_node("gripper")
-    gripper_obj.activate()
+    # gripper_obj.activate()
     gripper_obj.goTo(0)
     
     # gripper_control = RobotiqGripper("/dev/ttyUSB0")

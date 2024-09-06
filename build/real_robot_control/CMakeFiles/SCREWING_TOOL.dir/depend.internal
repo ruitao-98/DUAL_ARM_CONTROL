@@ -3,6 +3,7 @@
 
 real_robot_control/CMakeFiles/SCREWING_TOOL.dir/src/screwing_tool.cpp.o
  /home/yanji/dual_arm_control/devel/include/real_robot_control/current_pub.h
+ /home/yanji/dual_arm_control/devel/include/real_robot_control/width_pub.h
  /home/yanji/dual_arm_control/src/real_robot_control/include/dynamixel/dynamixel_sdk.h
  /home/yanji/dual_arm_control/src/real_robot_control/include/dynamixel/group_bulk_read.h
  /home/yanji/dual_arm_control/src/real_robot_control/include/dynamixel/group_bulk_write.h

@@ -12,3 +12,4 @@ from ._screwActionResult import *
 from ._screwFeedback import *
 from ._screwGoal import *
 from ._screwResult import *
+from ._width_pub import *

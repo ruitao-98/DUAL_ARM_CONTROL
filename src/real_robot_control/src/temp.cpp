@@ -1,5 +1,12 @@
 #include <iostream>
 
+double x = dis(gen) / 1000;
+double y = dis(gen) / 1000;
+double z = dis(gen) / 1000;
+
+Eigen::Vector3d search_distance;
+search_distance << x,y,z;
+cout << x << y << z << endl;
 int main() {
     char input;
     bool running = true;

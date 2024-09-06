@@ -49,6 +49,7 @@ public:
     void excution_calculation_loop();
     void start();
     void screw_assembly_search();
+    void screw_assembly_directly();
     void tcp_admittance_run();
     void done_cb(const actionlib::SimpleClientGoalState &state, const real_robot_control::screwResultConstPtr &result);
     void active_cb();
@@ -112,9 +113,11 @@ private:
     double T = loop_rate * 0.008;
 
     Eigen::Vector3d eef_offset;
+    Eigen::Vector3d eef_offset_basic;
     Eigen::Vector3d object_length;
     Eigen::Matrix3d eef_offset_rotm;
     Eigen::Vector3d eef_offset_to_sensor;
+    Eigen::Vector3d eef_offset_to_sensor_basic;
     Eigen::Matrix3d eef_offset_rotm_to_sensor;
     jaka::Quaternion current_eef_quat;
     RotMatrix current_eef_rotm;

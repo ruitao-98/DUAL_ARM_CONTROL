@@ -127,7 +127,7 @@ class Grasp_planning():
         cabinet_pose = PoseStamped()
         cabinet_pose.header.frame_id = self.world_reference_frame
         cabinet_pose.pose.position.x = self.cabinet_size[0] / 2
-        cabinet_pose.pose.position.y = self.cabinet_size[1] / 2 + 1.5 + 0.1
+        cabinet_pose.pose.position.y = self.cabinet_size[1] / 2 + 1.5 + 0.2
         cabinet_pose.pose.position.z = self.cabinet_size[2] / 2
         cabinet_pose.pose.orientation.w = 1.0
         self.scene.add_box(self.cabinet, cabinet_pose, self.cabinet_size)
@@ -286,24 +286,6 @@ class Grasp_planning():
         moveit_commander.os._exit(0)
 
 
-def wait_for_choice():
-    key_pressed = {'value': None}
-
-    def on_press(key):
-        try:
-            if key.char in ['0', '1', '2', '3', '4']:
-                print(f"Key {key.char} pressed, returning {key.char}.")
-                key_pressed['value'] = int(key.char)
-                return False  # Stop the listener
-        except AttributeError:
-            pass  # Ignore non-character keys
-
-    with Listener(on_press=on_press) as listener:
-        print("please press '0-4' to select a choice" )
-        listener.join()
-    
-    return key_pressed['value']
-
 def planning_measurement_point():
 
     target_position = [187.755 * np.pi / 180, 100.911 * np.pi / 180, -88.554 * np.pi / 180, 
@@ -326,7 +308,7 @@ def planning_measurement_point():
     req.num = 7
     resp = client.call(req) #精确执行
 
-def planning_grasping(pos, rotm):
+def planning_grasping(pos, rotm, decide):
     """
     pos 和 rotm 都是夹爪中心（eef) 的期望位姿,分别是numpy 3*1 向量和3*3矩阵
     """
@@ -369,8 +351,9 @@ def planning_grasping(pos, rotm):
     rospy.set_param("rx",  float(rpy[0]))
     rospy.set_param("ry",  float(rpy[1]))
     rospy.set_param("rz",  float(rpy[2]))
-    req.num = 7
-    resp = client.call(req) #执行交接动作
+    if decide:
+        req.num = 7
+        resp = client.call(req) #执行交接动作
     # robot.login() #登录
     # robot.linear_move(tcp_pos,ABS,True,5)
     # robot.logout() #每次运行完都登出
@@ -395,7 +378,7 @@ def try_planning_grasping(pos, rotm):
 
 def planning_grasping_move_up(pos, rotm):
     pos = pos / 1000
-    delta_p = np.array([0, 0, -0.1])
+    delta_p = np.array([0, 0, -0.04])
     move_up_pos = pos + rotm @ delta_p
     move_up_pos = move_up_pos.astype(float)
     print(move_up_pos)
@@ -443,7 +426,7 @@ def try_planning_handover(T_relatives):
 def planning_handover(T_relative):
 
     # 旋拧点在右侧的位置和姿态
-    delta_p = np.array([0.10, 0, 0])
+    delta_p = np.array([0.06, 0, 0])
     eef_pos_in_right = np.array([-0.07189, 0.3575, 0.2679])
     eef_mat_in_right = np.array([[  -0.5, -0.866,  0],
                                 [ 0.866,   -0.5,  0],
@@ -455,11 +438,24 @@ def planning_handover(T_relative):
     # 抓取点在右侧的姿态
     gra_wait_mat_in_right = eef_mat_wait_in_right @ T_relative[:3, :3]
     gra_wait_pos_in_right = eef_pos_wait_in_right + eef_mat_wait_in_right @ (T_relative[:3, 3] / 1000)
+    rospy.set_param("T_s_g_00", T_relative[0, 0])
+    rospy.set_param("T_s_g_01", T_relative[0, 1])
+    rospy.set_param("T_s_g_02", T_relative[0, 2])
+    rospy.set_param("T_s_g_10", T_relative[1, 0])
+    rospy.set_param("T_s_g_11", T_relative[1, 1])
+    rospy.set_param("T_s_g_12", T_relative[1, 2])
+    rospy.set_param("T_s_g_20", T_relative[2, 0])
+    rospy.set_param("T_s_g_21", T_relative[2, 1])
+    rospy.set_param("T_s_g_22", T_relative[2, 2])
+    
+    rospy.set_param("T_s_g_03", T_relative[0, 3])
+    rospy.set_param("T_s_g_13", T_relative[1, 3])
+    rospy.set_param("T_s_g_23", T_relative[2, 3])
 
     # 变换到左侧机器人坐标系下
     gra_wait_pos_in_right = gra_wait_pos_in_right.tolist()
 
-    eef_pos_wait_in_left = [float(-30.0 /1000 + gra_wait_pos_in_right[0]), float(-1101.2 /1000 + gra_wait_pos_in_right[1]),
+    eef_pos_wait_in_left = [float(-28.0 /1000 + gra_wait_pos_in_right[0]), float(-1101.2 /1000 + gra_wait_pos_in_right[1]),
                             float(1.2/1000 + gra_wait_pos_in_right[2])]
     eef_mat_wait_in_left = gra_wait_mat_in_right
     eef_quat_wait_in_left = trans_quat.mat2quat(eef_mat_wait_in_left)
@@ -476,8 +472,8 @@ def planning_handover(T_relative):
     gra_pos_in_right = gra_pos_in_right.tolist()
     # eef_pos_in_left = [float(-28.0 /1000 + gra_pos_in_right[0]), float(-1101.2 /1000 + gra_pos_in_right[1]),
     #                         float(1.2/1000 + gra_pos_in_right[2])]
-    eef_pos_in_left = [float(-28.0 /1000 + gra_pos_in_right[0]), float(-1101.2 /1000 + gra_pos_in_right[1]),
-                        float(1.2/1000 + gra_pos_in_right[2])]
+    eef_pos_in_left = [float(-30.0 /1000 + gra_pos_in_right[0]), float(-1101.2 /1000 + gra_pos_in_right[1]),
+                        float(3.8/1000 + gra_pos_in_right[2])]
     print ("eef_pos_in_left= ", eef_pos_in_left)
 
     eef_mat_in_left = gra_mat_in_right
@@ -550,101 +546,137 @@ if __name__ == '__main__':
     # gripper_obj = RobotiqGripper()
     # gripper_obj.activate()
     # gripper_obj.goTo(0)
-
     gripper_pub = rospy.Publisher("gripper_siginal", gripper, queue_size=10)
-
-
     client = rospy.ServiceProxy("leftrobotservice",leftrobotsrv)
     client.wait_for_service()
     req = leftrobotsrvRequest() #机器人控制
-
     robot = jkrc.RC("192.168.3.200")#返回一个机器人对象 
     left_arm = Grasp_planning()
     gri = gripper() #夹爪控制
     for i in [0, 1]:
         gri.open = 2.0 #255
         gripper_pub.publish(gri)
-    # 规划到测量点
-    planning_measurement_point()
+    
+    global_decision = 0
 
-    time.sleep(1)
-    # 从数据中获取点云
-    # src, tar, src_down_o3, tar_down_o3, desk, gripper = rans.get_pointcloud_from_data()
+    for global_i in range(10):
+        # 规划到测量点
+        planning_measurement_point()
 
-    # 从相机中获取点云
-    # file_name = "circle_bolt.pcd"
-    # file_name = "three_3score.pcd"
-    file_name = "bolt_3score.pcd"
-    src, tar, src_down_o3, tar_down_o3, desk, gripper = rans.get_pointcloud_from_camera(file_name)
+        time.sleep(1)
+        # 从数据中获取点云
+        # src, tar, src_down_o3, tar_down_o3, desk, gripper = rans.get_pointcloud_from_data()
 
-    aabb, vertices = rans.get_boundingbox(src)
-    num_screw = 2 #随着物体变化，根据物体的对称形确定，圆形可设任意，六边形6个，对称2个
-    s_poss, s_rpys, T_s = ge.screwing_poses(num_screw)
 
-    result = rans.get_object_pose(src_down_o3, tar_down_o3)
-    num_grasp = 26
-    g_poss, g_rpys_trans, T_g, T_g_trans = rans.get_transformed_grasp_poses(num_grasp, vertices, result, gripper, desk)
-    print(T_g_trans)
-    keys_array = list(T_g_trans.keys())
+        print('please press 1-3 select the goal object')
+        print("1--> 3分螺母 || 2--> 3分3通 || 3--> m12螺母")
+        choice = wait_for_choice()
+        print('choice = ', choice)
 
-    for item in range(20): #总体尝试次数
-        #随机采样选择一个抓取点
+        if choice == 1:
+            rospy.set_param("goal_width", -50338) #3分螺母
+            file_name = "bolt_3score.pcd"
+            num_screw = 6 #随着物体变化，根据物体的对称形确定，圆形可设任意，六边形6个，对称2个
+        
+        elif choice == 2:
+            rospy.set_param("goal_width", -65199) #3分3通
+            file_name = "three_3score.pcd"
+            num_screw = 2 #随着物体变化，根据物体的对称形确定，圆形可设任意，六边形6个，对称2个
+        
+        elif choice == 3:
+            rospy.set_param("goal_width", -56363) #m12螺母
+            file_name = "m12_bolt.pcd"
+            num_screw = 6 #随着物体变化，根据物体的对称形确定，圆形可设任意，六边形6个，对称2个
+
+
+
+        src, tar, src_down_o3, tar_down_o3, desk, gripper = rans.get_pointcloud_from_camera(file_name)
+
+        aabb, vertices = rans.get_boundingbox(src)
+
+        s_poss, s_rpys, T_s = ge.screwing_poses(num_screw)
+
+        result = rans.get_object_pose(src_down_o3, tar_down_o3)
+        num_grasp = 26
+        g_poss, g_rpys_trans, T_g, T_g_trans = rans.get_transformed_grasp_poses(num_grasp, vertices, result, gripper, desk)
+        print(T_g_trans)
         keys_array = list(T_g_trans.keys())
-        index_trans = np.random.choice(keys_array)
-        selected_T_g = T_g[index_trans]
-        T_relatives = rans.calculate_relative_matrixs(T_g[index_trans], T_s) 
-        print(T_g_trans[index_trans])
 
-        index = try_planning_handover(T_relatives)
-        print('index = ', index)
-        gra_result = try_planning_grasping(T_g_trans[index_trans][:3, 3], T_g_trans[index_trans][:3, :3])
-        if (index is not None) and gra_result:
-            print("successfully planned!")
-            # 规划抓取动作
-            print('planning grasping')
+        for item in range(20): #总体尝试次数
+            #随机采样选择一个抓取点
+            keys_array = list(T_g_trans.keys())
+            index_trans = np.random.choice(keys_array)
+            selected_T_g = T_g[index_trans]
+            T_relatives = rans.calculate_relative_matrixs(T_g[index_trans], T_s) 
             print(T_g_trans[index_trans])
-            # try_planning_grasping(T_g_trans[index_trans][:3, 3], T_g_trans[index_trans][:3, :3])
-            # decition_result = wait_for_key_press() #不满意，就重来
-            # if decition_result == 0:
-            #     continue
 
-            planning_grasping(T_g_trans[index_trans][:3, 3], T_g_trans[index_trans][:3, :3])
+            index = try_planning_handover(T_relatives)
+            print('index = ', index)
+            gra_result = try_planning_grasping(T_g_trans[index_trans][:3, 3], T_g_trans[index_trans][:3, :3])
+            if (index is not None) and gra_result:
+                print("successfully planned!")
+                # 规划抓取动作
+                print('planning grasping')
+                print(T_g_trans[index_trans])
+                try_planning_grasping(T_g_trans[index_trans][:3, 3], T_g_trans[index_trans][:3, :3])
+                decition_result = wait_for_key_press() #不满意，就重来
+                if decition_result == 0:
+                    continue
 
-            # 关闭夹爪
-            print("please press 'enter' to grasp the object")
-            decition_result = wait_for_key_press()
-            if decition_result:
-                for i in [0, 1]:
-                    gri.open = 0.0
+                planning_grasping(T_g_trans[index_trans][:3, 3], T_g_trans[index_trans][:3, :3], 1)
 
-                    gripper_pub.publish(gri)
-                    # gripper_obj.goTo(255)
+                # 关闭夹爪
+                print("please press 'enter' to grasp the object")
+                decition_result = wait_for_key_press()
+                if decition_result:
+                    for i in [0, 1]:
+                        gri.open = 0.0
 
-            # 规划抬起动作
-            print('planning move up')
-            planning_grasping_move_up(T_g_trans[index_trans][:3, 3], T_g_trans[index_trans][:3, :3])
+                        gripper_pub.publish(gri)
+                        # gripper_obj.goTo(255)
 
-            print('please press 1-3 select the goal object')
-            choice = wait_for_choice()
-            print('choice = ', choice)
+                # 规划抬起动作
+                print('planning move up')
+                planning_grasping_move_up(T_g_trans[index_trans][:3, 3], T_g_trans[index_trans][:3, :3])
 
-            if choice == 1:
-                rospy.set_param("goal_width", -46762) #3分螺母
-            
-            elif choice == 2:
-                rospy.set_param("goal_width", -46762) #3分3通
-            
-            elif choice == 3:
-                rospy.set_param("goal_width", -46762) #m12螺母
+                # print('please press 1-3 select the goal object')
+                # choice = wait_for_choice()
+                # print('choice = ', choice)
 
-            # 规划交接动作
-            print('planning hand over')
-            planning_handover(T_relatives[index])
-            req.num = 6
-            resp = client.call(req) #开启handover 任务
-            break
-        elif index == -1:
+                # if choice == 1:
+                #     rospy.set_param("goal_width", -50338) #3分螺母
+                
+                # elif choice == 2:
+                #     rospy.set_param("goal_width", -65199) #3分3通
+                
+                # elif choice == 3:
+                #     rospy.set_param("goal_width", -56363) #m12螺母
+
+                # 规划交接动作
+                print('planning hand over')
+                planning_handover(T_relatives[index])
+                req.num = 6
+                resp = client.call(req) #开启handover 任务
+                if resp == 1:
+                    planning_grasping(T_g_trans[index_trans][:3, 3], T_g_trans[index_trans][:3, :3], 0) #回到抓取点
+                    # 打开夹爪
+                    print("please press 'enter' to grasp the object")
+                    decition_result = wait_for_key_press()
+                    if decition_result:
+                        for i in [0, 1]:
+                            gri.open = 2.0
+                            gripper_pub.publish(gri)
+                    global_decision = 1
+                break
+            elif index == -1:
+                continue
+        
+        if global_decision == 1: #遇到错误，重新之前全过程
             continue
+        elif global_decision == 0:
+            break
+    
+    planning_measurement_point() #最后退回去
 
         # 检查是否成功
 

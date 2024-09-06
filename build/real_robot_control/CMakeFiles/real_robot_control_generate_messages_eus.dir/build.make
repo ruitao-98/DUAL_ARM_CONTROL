@@ -67,6 +67,7 @@ real_robot_control/CMakeFiles/real_robot_control_generate_messages_eus: /home/ya
 real_robot_control/CMakeFiles/real_robot_control_generate_messages_eus: /home/yanji/dual_arm_control/devel/share/roseus/ros/real_robot_control/msg/robot_pos_pub.l
 real_robot_control/CMakeFiles/real_robot_control_generate_messages_eus: /home/yanji/dual_arm_control/devel/share/roseus/ros/real_robot_control/msg/orientation_pub.l
 real_robot_control/CMakeFiles/real_robot_control_generate_messages_eus: /home/yanji/dual_arm_control/devel/share/roseus/ros/real_robot_control/msg/force_pos_pub.l
+real_robot_control/CMakeFiles/real_robot_control_generate_messages_eus: /home/yanji/dual_arm_control/devel/share/roseus/ros/real_robot_control/msg/width_pub.l
 real_robot_control/CMakeFiles/real_robot_control_generate_messages_eus: /home/yanji/dual_arm_control/devel/share/roseus/ros/real_robot_control/srv/screwsrv.l
 real_robot_control/CMakeFiles/real_robot_control_generate_messages_eus: /home/yanji/dual_arm_control/devel/share/roseus/ros/real_robot_control/srv/leftrobotsrv.l
 real_robot_control/CMakeFiles/real_robot_control_generate_messages_eus: /home/yanji/dual_arm_control/devel/share/roseus/ros/real_robot_control/manifest.l
@@ -74,40 +75,40 @@ real_robot_control/CMakeFiles/real_robot_control_generate_messages_eus: /home/ya
 
 /home/yanji/dual_arm_control/devel/share/roseus/ros/real_robot_control/msg/screwAction.l: /opt/ros/noetic/lib/geneus/gen_eus.py
 /home/yanji/dual_arm_control/devel/share/roseus/ros/real_robot_control/msg/screwAction.l: /home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwAction.msg
+/home/yanji/dual_arm_control/devel/share/roseus/ros/real_robot_control/msg/screwAction.l: /opt/ros/noetic/share/actionlib_msgs/msg/GoalStatus.msg
+/home/yanji/dual_arm_control/devel/share/roseus/ros/real_robot_control/msg/screwAction.l: /home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwFeedback.msg
+/home/yanji/dual_arm_control/devel/share/roseus/ros/real_robot_control/msg/screwAction.l: /home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwActionResult.msg
+/home/yanji/dual_arm_control/devel/share/roseus/ros/real_robot_control/msg/screwAction.l: /opt/ros/noetic/share/std_msgs/msg/Header.msg
 /home/yanji/dual_arm_control/devel/share/roseus/ros/real_robot_control/msg/screwAction.l: /opt/ros/noetic/share/actionlib_msgs/msg/GoalID.msg
 /home/yanji/dual_arm_control/devel/share/roseus/ros/real_robot_control/msg/screwAction.l: /home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwActionFeedback.msg
-/home/yanji/dual_arm_control/devel/share/roseus/ros/real_robot_control/msg/screwAction.l: /home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwActionGoal.msg
-/home/yanji/dual_arm_control/devel/share/roseus/ros/real_robot_control/msg/screwAction.l: /home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwActionResult.msg
-/home/yanji/dual_arm_control/devel/share/roseus/ros/real_robot_control/msg/screwAction.l: /home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwResult.msg
-/home/yanji/dual_arm_control/devel/share/roseus/ros/real_robot_control/msg/screwAction.l: /opt/ros/noetic/share/std_msgs/msg/Header.msg
-/home/yanji/dual_arm_control/devel/share/roseus/ros/real_robot_control/msg/screwAction.l: /opt/ros/noetic/share/actionlib_msgs/msg/GoalStatus.msg
 /home/yanji/dual_arm_control/devel/share/roseus/ros/real_robot_control/msg/screwAction.l: /home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwGoal.msg
-/home/yanji/dual_arm_control/devel/share/roseus/ros/real_robot_control/msg/screwAction.l: /home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwFeedback.msg
+/home/yanji/dual_arm_control/devel/share/roseus/ros/real_robot_control/msg/screwAction.l: /home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwActionGoal.msg
+/home/yanji/dual_arm_control/devel/share/roseus/ros/real_robot_control/msg/screwAction.l: /home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwResult.msg
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/yanji/dual_arm_control/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Generating EusLisp code from real_robot_control/screwAction.msg"
 	cd /home/yanji/dual_arm_control/build/real_robot_control && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/geneus/cmake/../../../lib/geneus/gen_eus.py /home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwAction.msg -Ireal_robot_control:/home/yanji/dual_arm_control/devel/share/real_robot_control/msg -Ireal_robot_control:/home/yanji/dual_arm_control/src/real_robot_control/msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -Iactionlib_msgs:/opt/ros/noetic/share/actionlib_msgs/cmake/../msg -p real_robot_control -o /home/yanji/dual_arm_control/devel/share/roseus/ros/real_robot_control/msg
 
 /home/yanji/dual_arm_control/devel/share/roseus/ros/real_robot_control/msg/screwActionGoal.l: /opt/ros/noetic/lib/geneus/gen_eus.py
 /home/yanji/dual_arm_control/devel/share/roseus/ros/real_robot_control/msg/screwActionGoal.l: /home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwActionGoal.msg
-/home/yanji/dual_arm_control/devel/share/roseus/ros/real_robot_control/msg/screwActionGoal.l: /opt/ros/noetic/share/actionlib_msgs/msg/GoalID.msg
 /home/yanji/dual_arm_control/devel/share/roseus/ros/real_robot_control/msg/screwActionGoal.l: /opt/ros/noetic/share/std_msgs/msg/Header.msg
+/home/yanji/dual_arm_control/devel/share/roseus/ros/real_robot_control/msg/screwActionGoal.l: /opt/ros/noetic/share/actionlib_msgs/msg/GoalID.msg
 /home/yanji/dual_arm_control/devel/share/roseus/ros/real_robot_control/msg/screwActionGoal.l: /home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwGoal.msg
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/yanji/dual_arm_control/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Generating EusLisp code from real_robot_control/screwActionGoal.msg"
 	cd /home/yanji/dual_arm_control/build/real_robot_control && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/geneus/cmake/../../../lib/geneus/gen_eus.py /home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwActionGoal.msg -Ireal_robot_control:/home/yanji/dual_arm_control/devel/share/real_robot_control/msg -Ireal_robot_control:/home/yanji/dual_arm_control/src/real_robot_control/msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -Iactionlib_msgs:/opt/ros/noetic/share/actionlib_msgs/cmake/../msg -p real_robot_control -o /home/yanji/dual_arm_control/devel/share/roseus/ros/real_robot_control/msg
 
 /home/yanji/dual_arm_control/devel/share/roseus/ros/real_robot_control/msg/screwActionResult.l: /opt/ros/noetic/lib/geneus/gen_eus.py
 /home/yanji/dual_arm_control/devel/share/roseus/ros/real_robot_control/msg/screwActionResult.l: /home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwActionResult.msg
-/home/yanji/dual_arm_control/devel/share/roseus/ros/real_robot_control/msg/screwActionResult.l: /opt/ros/noetic/share/actionlib_msgs/msg/GoalID.msg
 /home/yanji/dual_arm_control/devel/share/roseus/ros/real_robot_control/msg/screwActionResult.l: /opt/ros/noetic/share/std_msgs/msg/Header.msg
 /home/yanji/dual_arm_control/devel/share/roseus/ros/real_robot_control/msg/screwActionResult.l: /opt/ros/noetic/share/actionlib_msgs/msg/GoalStatus.msg
+/home/yanji/dual_arm_control/devel/share/roseus/ros/real_robot_control/msg/screwActionResult.l: /opt/ros/noetic/share/actionlib_msgs/msg/GoalID.msg
 /home/yanji/dual_arm_control/devel/share/roseus/ros/real_robot_control/msg/screwActionResult.l: /home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwResult.msg
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/yanji/dual_arm_control/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Generating EusLisp code from real_robot_control/screwActionResult.msg"
 	cd /home/yanji/dual_arm_control/build/real_robot_control && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/geneus/cmake/../../../lib/geneus/gen_eus.py /home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwActionResult.msg -Ireal_robot_control:/home/yanji/dual_arm_control/devel/share/real_robot_control/msg -Ireal_robot_control:/home/yanji/dual_arm_control/src/real_robot_control/msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -Iactionlib_msgs:/opt/ros/noetic/share/actionlib_msgs/cmake/../msg -p real_robot_control -o /home/yanji/dual_arm_control/devel/share/roseus/ros/real_robot_control/msg
 
 /home/yanji/dual_arm_control/devel/share/roseus/ros/real_robot_control/msg/screwActionFeedback.l: /opt/ros/noetic/lib/geneus/gen_eus.py
 /home/yanji/dual_arm_control/devel/share/roseus/ros/real_robot_control/msg/screwActionFeedback.l: /home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwActionFeedback.msg
-/home/yanji/dual_arm_control/devel/share/roseus/ros/real_robot_control/msg/screwActionFeedback.l: /opt/ros/noetic/share/actionlib_msgs/msg/GoalID.msg
 /home/yanji/dual_arm_control/devel/share/roseus/ros/real_robot_control/msg/screwActionFeedback.l: /opt/ros/noetic/share/std_msgs/msg/Header.msg
 /home/yanji/dual_arm_control/devel/share/roseus/ros/real_robot_control/msg/screwActionFeedback.l: /opt/ros/noetic/share/actionlib_msgs/msg/GoalStatus.msg
+/home/yanji/dual_arm_control/devel/share/roseus/ros/real_robot_control/msg/screwActionFeedback.l: /opt/ros/noetic/share/actionlib_msgs/msg/GoalID.msg
 /home/yanji/dual_arm_control/devel/share/roseus/ros/real_robot_control/msg/screwActionFeedback.l: /home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwFeedback.msg
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/yanji/dual_arm_control/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Generating EusLisp code from real_robot_control/screwActionFeedback.msg"
 	cd /home/yanji/dual_arm_control/build/real_robot_control && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/geneus/cmake/../../../lib/geneus/gen_eus.py /home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwActionFeedback.msg -Ireal_robot_control:/home/yanji/dual_arm_control/devel/share/real_robot_control/msg -Ireal_robot_control:/home/yanji/dual_arm_control/src/real_robot_control/msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -Iactionlib_msgs:/opt/ros/noetic/share/actionlib_msgs/cmake/../msg -p real_robot_control -o /home/yanji/dual_arm_control/devel/share/roseus/ros/real_robot_control/msg
@@ -144,9 +145,9 @@ real_robot_control/CMakeFiles/real_robot_control_generate_messages_eus: /home/ya
 
 /home/yanji/dual_arm_control/devel/share/roseus/ros/real_robot_control/msg/pose.l: /opt/ros/noetic/lib/geneus/gen_eus.py
 /home/yanji/dual_arm_control/devel/share/roseus/ros/real_robot_control/msg/pose.l: /home/yanji/dual_arm_control/src/real_robot_control/msg/pose.msg
-/home/yanji/dual_arm_control/devel/share/roseus/ros/real_robot_control/msg/pose.l: /opt/ros/noetic/share/std_msgs/msg/Float32MultiArray.msg
 /home/yanji/dual_arm_control/devel/share/roseus/ros/real_robot_control/msg/pose.l: /opt/ros/noetic/share/std_msgs/msg/MultiArrayDimension.msg
 /home/yanji/dual_arm_control/devel/share/roseus/ros/real_robot_control/msg/pose.l: /opt/ros/noetic/share/std_msgs/msg/MultiArrayLayout.msg
+/home/yanji/dual_arm_control/devel/share/roseus/ros/real_robot_control/msg/pose.l: /opt/ros/noetic/share/std_msgs/msg/Float32MultiArray.msg
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/yanji/dual_arm_control/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Generating EusLisp code from real_robot_control/pose.msg"
 	cd /home/yanji/dual_arm_control/build/real_robot_control && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/geneus/cmake/../../../lib/geneus/gen_eus.py /home/yanji/dual_arm_control/src/real_robot_control/msg/pose.msg -Ireal_robot_control:/home/yanji/dual_arm_control/devel/share/real_robot_control/msg -Ireal_robot_control:/home/yanji/dual_arm_control/src/real_robot_control/msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -Iactionlib_msgs:/opt/ros/noetic/share/actionlib_msgs/cmake/../msg -p real_robot_control -o /home/yanji/dual_arm_control/devel/share/roseus/ros/real_robot_control/msg
 
@@ -165,18 +166,23 @@ real_robot_control/CMakeFiles/real_robot_control_generate_messages_eus: /home/ya
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/yanji/dual_arm_control/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Generating EusLisp code from real_robot_control/force_pos_pub.msg"
 	cd /home/yanji/dual_arm_control/build/real_robot_control && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/geneus/cmake/../../../lib/geneus/gen_eus.py /home/yanji/dual_arm_control/src/real_robot_control/msg/force_pos_pub.msg -Ireal_robot_control:/home/yanji/dual_arm_control/devel/share/real_robot_control/msg -Ireal_robot_control:/home/yanji/dual_arm_control/src/real_robot_control/msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -Iactionlib_msgs:/opt/ros/noetic/share/actionlib_msgs/cmake/../msg -p real_robot_control -o /home/yanji/dual_arm_control/devel/share/roseus/ros/real_robot_control/msg
 
+/home/yanji/dual_arm_control/devel/share/roseus/ros/real_robot_control/msg/width_pub.l: /opt/ros/noetic/lib/geneus/gen_eus.py
+/home/yanji/dual_arm_control/devel/share/roseus/ros/real_robot_control/msg/width_pub.l: /home/yanji/dual_arm_control/src/real_robot_control/msg/width_pub.msg
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/yanji/dual_arm_control/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Generating EusLisp code from real_robot_control/width_pub.msg"
+	cd /home/yanji/dual_arm_control/build/real_robot_control && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/geneus/cmake/../../../lib/geneus/gen_eus.py /home/yanji/dual_arm_control/src/real_robot_control/msg/width_pub.msg -Ireal_robot_control:/home/yanji/dual_arm_control/devel/share/real_robot_control/msg -Ireal_robot_control:/home/yanji/dual_arm_control/src/real_robot_control/msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -Iactionlib_msgs:/opt/ros/noetic/share/actionlib_msgs/cmake/../msg -p real_robot_control -o /home/yanji/dual_arm_control/devel/share/roseus/ros/real_robot_control/msg
+
 /home/yanji/dual_arm_control/devel/share/roseus/ros/real_robot_control/srv/screwsrv.l: /opt/ros/noetic/lib/geneus/gen_eus.py
 /home/yanji/dual_arm_control/devel/share/roseus/ros/real_robot_control/srv/screwsrv.l: /home/yanji/dual_arm_control/src/real_robot_control/srv/screwsrv.srv
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/yanji/dual_arm_control/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Generating EusLisp code from real_robot_control/screwsrv.srv"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/yanji/dual_arm_control/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Generating EusLisp code from real_robot_control/screwsrv.srv"
 	cd /home/yanji/dual_arm_control/build/real_robot_control && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/geneus/cmake/../../../lib/geneus/gen_eus.py /home/yanji/dual_arm_control/src/real_robot_control/srv/screwsrv.srv -Ireal_robot_control:/home/yanji/dual_arm_control/devel/share/real_robot_control/msg -Ireal_robot_control:/home/yanji/dual_arm_control/src/real_robot_control/msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -Iactionlib_msgs:/opt/ros/noetic/share/actionlib_msgs/cmake/../msg -p real_robot_control -o /home/yanji/dual_arm_control/devel/share/roseus/ros/real_robot_control/srv
 
 /home/yanji/dual_arm_control/devel/share/roseus/ros/real_robot_control/srv/leftrobotsrv.l: /opt/ros/noetic/lib/geneus/gen_eus.py
 /home/yanji/dual_arm_control/devel/share/roseus/ros/real_robot_control/srv/leftrobotsrv.l: /home/yanji/dual_arm_control/src/real_robot_control/srv/leftrobotsrv.srv
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/yanji/dual_arm_control/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Generating EusLisp code from real_robot_control/leftrobotsrv.srv"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/yanji/dual_arm_control/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_17) "Generating EusLisp code from real_robot_control/leftrobotsrv.srv"
 	cd /home/yanji/dual_arm_control/build/real_robot_control && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/geneus/cmake/../../../lib/geneus/gen_eus.py /home/yanji/dual_arm_control/src/real_robot_control/srv/leftrobotsrv.srv -Ireal_robot_control:/home/yanji/dual_arm_control/devel/share/real_robot_control/msg -Ireal_robot_control:/home/yanji/dual_arm_control/src/real_robot_control/msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -Iactionlib_msgs:/opt/ros/noetic/share/actionlib_msgs/cmake/../msg -p real_robot_control -o /home/yanji/dual_arm_control/devel/share/roseus/ros/real_robot_control/srv
 
 /home/yanji/dual_arm_control/devel/share/roseus/ros/real_robot_control/manifest.l: /opt/ros/noetic/lib/geneus/gen_eus.py
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/yanji/dual_arm_control/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_17) "Generating EusLisp manifest code for real_robot_control"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/yanji/dual_arm_control/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_18) "Generating EusLisp manifest code for real_robot_control"
 	cd /home/yanji/dual_arm_control/build/real_robot_control && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/geneus/cmake/../../../lib/geneus/gen_eus.py -m -o /home/yanji/dual_arm_control/devel/share/roseus/ros/real_robot_control real_robot_control std_msgs actionlib_msgs
 
 real_robot_control_generate_messages_eus: real_robot_control/CMakeFiles/real_robot_control_generate_messages_eus
@@ -194,6 +200,7 @@ real_robot_control_generate_messages_eus: /home/yanji/dual_arm_control/devel/sha
 real_robot_control_generate_messages_eus: /home/yanji/dual_arm_control/devel/share/roseus/ros/real_robot_control/msg/robot_pos_pub.l
 real_robot_control_generate_messages_eus: /home/yanji/dual_arm_control/devel/share/roseus/ros/real_robot_control/msg/orientation_pub.l
 real_robot_control_generate_messages_eus: /home/yanji/dual_arm_control/devel/share/roseus/ros/real_robot_control/msg/force_pos_pub.l
+real_robot_control_generate_messages_eus: /home/yanji/dual_arm_control/devel/share/roseus/ros/real_robot_control/msg/width_pub.l
 real_robot_control_generate_messages_eus: /home/yanji/dual_arm_control/devel/share/roseus/ros/real_robot_control/srv/screwsrv.l
 real_robot_control_generate_messages_eus: /home/yanji/dual_arm_control/devel/share/roseus/ros/real_robot_control/srv/leftrobotsrv.l
 real_robot_control_generate_messages_eus: /home/yanji/dual_arm_control/devel/share/roseus/ros/real_robot_control/manifest.l

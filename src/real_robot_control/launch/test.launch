@@ -1,0 +1,8 @@
+<launch>
+  <!-- 获取当前时间 -->
+  <arg name="time" default="20240906_1920" />
+
+  <!-- 打印时间到控制台 -->
+  <node pkg="rospy" type="echo" name="echo_time" output="screen" args="$(arg time)" />
+</launch>
+

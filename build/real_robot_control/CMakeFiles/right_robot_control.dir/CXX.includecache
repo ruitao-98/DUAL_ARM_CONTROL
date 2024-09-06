@@ -262,6 +262,22 @@ ros/builtin_message_traits.h
 ros/message_operations.h
 -
 
+/home/yanji/dual_arm_control/devel/include/real_robot_control/width_pub.h
+string
+-
+vector
+-
+memory
+-
+ros/types.h
+-
+ros/serialization.h
+-
+ros/builtin_message_traits.h
+-
+ros/message_operations.h
+-
+
 /home/yanji/dual_arm_control/src/real_robot_control/include/dynamixel/dynamixel_sdk.h
 group_bulk_read.h
 /home/yanji/dual_arm_control/src/real_robot_control/include/dynamixel/group_bulk_read.h
@@ -389,6 +405,8 @@ real_robot_control/servo_motor_function.h
 /home/yanji/dual_arm_control/src/real_robot_control/include/real_robot_control/real_robot_control/servo_motor_function.h
 real_robot_control/current_pub.h
 /home/yanji/dual_arm_control/src/real_robot_control/include/real_robot_control/real_robot_control/current_pub.h
+real_robot_control/width_pub.h
+/home/yanji/dual_arm_control/src/real_robot_control/include/real_robot_control/real_robot_control/width_pub.h
 iostream
 -
 fstream

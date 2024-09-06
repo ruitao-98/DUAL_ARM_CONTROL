@@ -17,6 +17,7 @@ real_robot_control/CMakeFiles/RIGHT_ADM_CONTROL.dir/src/right_robot_control.cpp.
  /home/yanji/dual_arm_control/devel/include/real_robot_control/screwsrv.h
  /home/yanji/dual_arm_control/devel/include/real_robot_control/screwsrvRequest.h
  /home/yanji/dual_arm_control/devel/include/real_robot_control/screwsrvResponse.h
+ /home/yanji/dual_arm_control/devel/include/real_robot_control/width_pub.h
  /home/yanji/dual_arm_control/src/real_robot_control/include/dynamixel/dynamixel_sdk.h
  /home/yanji/dual_arm_control/src/real_robot_control/include/dynamixel/group_bulk_read.h
  /home/yanji/dual_arm_control/src/real_robot_control/include/dynamixel/group_bulk_write.h

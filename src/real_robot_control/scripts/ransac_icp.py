@@ -73,11 +73,11 @@ def refine(T, src_down_o3, tar_down_o3, times):
     # source.estimate_normals(search_param=o3d.geometry.KDTreeSearchParamHybrid(radius=0.08, max_nn=30))
     # print("ICPing...")
     if times == 2:
-        threshold = 5
+        threshold = 4
         reg_p2p_1 = o3d.pipelines.registration.registration_icp(
             src_down_o3, tar_down_o3, threshold, T,
             o3d.pipelines.registration.TransformationEstimationPointToPoint(),
-            o3d.pipelines.registration.ICPConvergenceCriteria(max_iteration=50, relative_rmse=0.001))
+            o3d.pipelines.registration.ICPConvergenceCriteria(max_iteration=80, relative_rmse=0.001))
 
         threshold = 0.5
         reg_p2p = o3d.pipelines.registration.registration_icp(
@@ -101,7 +101,7 @@ def refine(T, src_down_o3, tar_down_o3, times):
 
 def execute_global_registration(src_down, tar_down, src_fpfh,
                                 tar_fpfh, voxel_size):
-    distance_threshold = 3
+    distance_threshold = 2
     print("   RANSAC registration on downsampled point clouds.")
     print("   Since the downsampling voxel size is %.3f," % voxel_size)
     print("   we use a liberal distance threshold %.3f." % distance_threshold)
@@ -119,7 +119,7 @@ def execute_global_registration(src_down, tar_down, src_fpfh,
     return result
 
 def ransac(source, target):
-    voxel_size = 0.2      #指定下采样体素大小
+    voxel_size = 1      #指定下采样体素大小
 
     source_down = source.voxel_down_sample(voxel_size)
     target_down = target.voxel_down_sample(voxel_size)
@@ -319,21 +319,27 @@ def get_pointcloud_from_data():
     # tar = o3d.io.read_point_cloud('/home/yanji/dual_arm_control/src/real_robot_control/scripts/grasp_detection/pointcloud/obj_7_0 - Cloud.pcd')  # 采集点云
     desk = o3d.io.read_point_cloud('/home/yanji/dual_arm_control/src/real_robot_control/scripts/grasp_detection/pointcloud/desk.pcd')  # 模板点云
     gripper = o3d.io.read_point_cloud("/home/yanji/dual_arm_control/src/real_robot_control/scripts/grasp_detection/pointcloud/gripper.pcd") # 夹爪点云，用于计算碰撞
-    tar = o3d.io.read_point_cloud('/home/yanji/dual_arm_control/src/real_robot_control/scripts/grasp_detection/pointcloud/obj_7_1 - Cloud.pcd')  # 采集点云
+    tar = o3d.io.read_point_cloud('/home/yanji/dual_arm_control/src/real_robot_control/scripts/grasp_detection/captured_data/PointCloud.pcd')  # 采集点云
     tar = trans_to_robot_base(tar)  # 变化到机器人基坐标系下
-    tar = pass_through_filter(tar, axis='z', lower_limit=2, upper_limit=100)
-    tar = pass_through_filter(tar, axis='y', lower_limit=-100, upper_limit=100)
+    tar = pass_through_filter(tar, axis='z', lower_limit=6.5, upper_limit=100)
+    tar = pass_through_filter(tar, axis='y', lower_limit=-200, upper_limit=150)
     voxel_size2 = 0.6 #指定下采样体素大小
     voxel_size1 = 0.4
     tar_down_o3 = tar.voxel_down_sample(voxel_size2)
     src_down_o3 = src.voxel_down_sample(voxel_size1)
 
-    clusters = dbscan_point_cloud_segmentation(tar, eps=0.03, min_samples=15)
-
+    clusters = dbscan_point_cloud_segmentation(tar_down_o3, eps=2.3, min_samples=15)
+    print("clusters,",clusters )
         # 显示分割结果
     for i, cluster in enumerate(clusters):
         print(f"Cluster {i + 1}: {len(cluster.points)} points")
-        o3d.visualization.draw_geometries([cluster])
+        if (len(cluster.points) > 100):
+            # o3d.visualization.draw_geometries([cluster])
+            visualize_cluster(cluster, width=800, height=600)
+            decition_result = wait_for_key_press()
+            if decition_result:
+                tar_down_o3 = cluster
+                break
     # src, tar 基本只用于可视化
     return src, tar, src_down_o3, tar_down_o3, desk, gripper
 
@@ -362,13 +368,13 @@ def get_pointcloud_from_camera(file_name):
     # 相机采集tar 数据，待更新。。。。
     tar_raw = capture.get_point_cloud()
     tar = trans_to_robot_base(tar_raw)  # 变化到机器人基坐标系下
-    tar = pass_through_filter(tar, axis='z', lower_limit=6.5, upper_limit=100)
+    tar = pass_through_filter(tar, axis='z', lower_limit=7.5, upper_limit=100)
     tar = pass_through_filter(tar, axis='y', lower_limit=-200, upper_limit=150)
     voxel_size2 = 0.6 #指定下采样体素大小
     voxel_size1 = 0.4
     tar_down_o3 = tar.voxel_down_sample(voxel_size2)
     src_down_o3 = src.voxel_down_sample(voxel_size1)
-    clusters = dbscan_point_cloud_segmentation(tar_down_o3, eps=1.8, min_samples=15)
+    clusters = dbscan_point_cloud_segmentation(tar_down_o3, eps=4, min_samples=15)
     print("clusters,",clusters )
         # 显示分割结果
     for i, cluster in enumerate(clusters):
@@ -395,6 +401,7 @@ def get_object_pose(src_down_o3, tar_down_o3):
     T = np.eye(4)
     src_temp, tar_temp = copy.deepcopy(src_down_o3), copy.deepcopy(tar_down_o3)
     result_ransac = ransac(src_down_o3, tar_down_o3)
+    print("result_ransac", result_ransac.transformation)
     result = refine(result_ransac.transformation, src_down_o3, tar_down_o3, 2)
     draw_results(src_temp, tar_temp, result)
 
@@ -402,6 +409,7 @@ def get_object_pose(src_down_o3, tar_down_o3):
     decision = wait_for_key_press()
     while decision == 0:
         result_ransac = ransac(src_down_o3, tar_down_o3)
+        print("result_ransac", result_ransac.transformation)
         result = refine(result_ransac.transformation, src_down_o3, tar_down_o3, 2)
         draw_results(src_down_o3, tar_down_o3, result)
         decision = wait_for_key_press()

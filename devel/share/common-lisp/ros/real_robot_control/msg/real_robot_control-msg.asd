@@ -34,4 +34,6 @@
     (:file "_package_screwGoal" :depends-on ("_package"))
     (:file "screwResult" :depends-on ("_package_screwResult"))
     (:file "_package_screwResult" :depends-on ("_package"))
+    (:file "width_pub" :depends-on ("_package_width_pub"))
+    (:file "_package_width_pub" :depends-on ("_package"))
   ))

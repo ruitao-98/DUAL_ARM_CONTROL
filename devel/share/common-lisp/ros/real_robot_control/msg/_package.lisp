@@ -29,5 +29,7 @@
    "SCREWGOAL"
    "<SCREWRESULT>"
    "SCREWRESULT"
+   "<WIDTH_PUB>"
+   "WIDTH_PUB"
   ))
 

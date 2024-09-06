@@ -87,7 +87,8 @@ int motors::get_presentvelocity(int m_ID)
 {
 	dxl_comm_result = packetHandler->read4ByteTxRx(portHandler, m_ID, Present_velocity, (uint32_t*)&dxl_present_velocity, &dxl_error);
 	if ((dxl_error == 0) && (dxl_comm_result == 0))
-		printf("Motor %d: Present Velocity: %d\n", m_ID, dxl_present_velocity);
+		;
+		// printf("Motor %d: Present Velocity: %d\n", m_ID, dxl_present_velocity);
 	else
 		printf("Failed to Read the Velocity!\n");
 	return dxl_present_velocity;
@@ -108,8 +109,11 @@ int motors::get_presentcurrent(int m_ID)
 int motors::get_presentposition(int m_ID)
 {
 	dxl_comm_result = packetHandler->read4ByteTxRx(portHandler, m_ID, Present_Position, (uint32_t*)&dxl_present_position, &dxl_error);
-	if ((dxl_error == 0) && (dxl_comm_result == 0))
-		printf("Motor %d: Present Position: %d\n", m_ID, dxl_present_position);
+	if ((dxl_error == 0) && (dxl_comm_result == 0)){
+		
+	}
+		// printf("Motor %d: Present Position: %d\n", m_ID, dxl_present_position);
+		
 	else{
         printf("Failed to Read the Position!\n");
     }

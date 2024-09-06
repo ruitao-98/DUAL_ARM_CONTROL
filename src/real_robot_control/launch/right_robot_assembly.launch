@@ -1,0 +1,17 @@
+<launch>
+
+  <!-- Run task control for screw -->
+  <node pkg="real_robot_control" type="task_control_screw" name="task_control_screw" output="screen" />
+  <!-- Delay to allow MoveIt! to start -->
+  <node pkg="real_robot_control" type="sleep.py" name="sleep_3" args="3" output="screen" />
+
+  <!-- Run gripper open script -->
+  <node pkg="real_robot_control" type="calcu_orientation.py" name="calcu_orientation" output="screen" />
+  <!-- Delay to allow MoveIt! to start -->
+  <node pkg="real_robot_control" type="sleep.py" name="sleep_1" args="1" output="screen" />
+
+  <!-- Run left or right assembly -->
+  <node pkg="real_robot_control" type="right_robot_control" name="right_robot_control" output="screen" />
+
+
+</launch>

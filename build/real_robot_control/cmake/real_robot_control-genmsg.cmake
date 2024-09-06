@@ -1,6 +1,6 @@
 # generated from genmsg/cmake/pkg-genmsg.cmake.em
 
-message(STATUS "real_robot_control: 14 messages, 2 services")
+message(STATUS "real_robot_control: 15 messages, 2 services")
 
 set(MSG_I_FLAGS "-Ireal_robot_control:/home/yanji/dual_arm_control/devel/share/real_robot_control/msg;-Ireal_robot_control:/home/yanji/dual_arm_control/src/real_robot_control/msg;-Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg;-Iactionlib_msgs:/opt/ros/noetic/share/actionlib_msgs/cmake/../msg")
 
@@ -19,22 +19,22 @@ add_custom_target(real_robot_control_generate_messages ALL)
 
 get_filename_component(_filename "/home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwAction.msg" NAME_WE)
 add_custom_target(_real_robot_control_generate_messages_check_deps_${_filename}
-  COMMAND ${CATKIN_ENV} ${PYTHON_EXECUTABLE} ${GENMSG_CHECK_DEPS_SCRIPT} "real_robot_control" "/home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwAction.msg" "actionlib_msgs/GoalID:real_robot_control/screwActionFeedback:real_robot_control/screwActionGoal:real_robot_control/screwActionResult:real_robot_control/screwResult:std_msgs/Header:actionlib_msgs/GoalStatus:real_robot_control/screwGoal:real_robot_control/screwFeedback"
+  COMMAND ${CATKIN_ENV} ${PYTHON_EXECUTABLE} ${GENMSG_CHECK_DEPS_SCRIPT} "real_robot_control" "/home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwAction.msg" "actionlib_msgs/GoalStatus:real_robot_control/screwFeedback:real_robot_control/screwActionResult:std_msgs/Header:actionlib_msgs/GoalID:real_robot_control/screwActionFeedback:real_robot_control/screwGoal:real_robot_control/screwActionGoal:real_robot_control/screwResult"
 )
 
 get_filename_component(_filename "/home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwActionGoal.msg" NAME_WE)
 add_custom_target(_real_robot_control_generate_messages_check_deps_${_filename}
-  COMMAND ${CATKIN_ENV} ${PYTHON_EXECUTABLE} ${GENMSG_CHECK_DEPS_SCRIPT} "real_robot_control" "/home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwActionGoal.msg" "actionlib_msgs/GoalID:std_msgs/Header:real_robot_control/screwGoal"
+  COMMAND ${CATKIN_ENV} ${PYTHON_EXECUTABLE} ${GENMSG_CHECK_DEPS_SCRIPT} "real_robot_control" "/home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwActionGoal.msg" "std_msgs/Header:actionlib_msgs/GoalID:real_robot_control/screwGoal"
 )
 
 get_filename_component(_filename "/home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwActionResult.msg" NAME_WE)
 add_custom_target(_real_robot_control_generate_messages_check_deps_${_filename}
-  COMMAND ${CATKIN_ENV} ${PYTHON_EXECUTABLE} ${GENMSG_CHECK_DEPS_SCRIPT} "real_robot_control" "/home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwActionResult.msg" "actionlib_msgs/GoalID:std_msgs/Header:actionlib_msgs/GoalStatus:real_robot_control/screwResult"
+  COMMAND ${CATKIN_ENV} ${PYTHON_EXECUTABLE} ${GENMSG_CHECK_DEPS_SCRIPT} "real_robot_control" "/home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwActionResult.msg" "std_msgs/Header:actionlib_msgs/GoalStatus:actionlib_msgs/GoalID:real_robot_control/screwResult"
 )
 
 get_filename_component(_filename "/home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwActionFeedback.msg" NAME_WE)
 add_custom_target(_real_robot_control_generate_messages_check_deps_${_filename}
-  COMMAND ${CATKIN_ENV} ${PYTHON_EXECUTABLE} ${GENMSG_CHECK_DEPS_SCRIPT} "real_robot_control" "/home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwActionFeedback.msg" "actionlib_msgs/GoalID:std_msgs/Header:actionlib_msgs/GoalStatus:real_robot_control/screwFeedback"
+  COMMAND ${CATKIN_ENV} ${PYTHON_EXECUTABLE} ${GENMSG_CHECK_DEPS_SCRIPT} "real_robot_control" "/home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwActionFeedback.msg" "std_msgs/Header:actionlib_msgs/GoalStatus:actionlib_msgs/GoalID:real_robot_control/screwFeedback"
 )
 
 get_filename_component(_filename "/home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwGoal.msg" NAME_WE)
@@ -69,7 +69,7 @@ add_custom_target(_real_robot_control_generate_messages_check_deps_${_filename}
 
 get_filename_component(_filename "/home/yanji/dual_arm_control/src/real_robot_control/msg/pose.msg" NAME_WE)
 add_custom_target(_real_robot_control_generate_messages_check_deps_${_filename}
-  COMMAND ${CATKIN_ENV} ${PYTHON_EXECUTABLE} ${GENMSG_CHECK_DEPS_SCRIPT} "real_robot_control" "/home/yanji/dual_arm_control/src/real_robot_control/msg/pose.msg" "std_msgs/Float32MultiArray:std_msgs/MultiArrayDimension:std_msgs/MultiArrayLayout"
+  COMMAND ${CATKIN_ENV} ${PYTHON_EXECUTABLE} ${GENMSG_CHECK_DEPS_SCRIPT} "real_robot_control" "/home/yanji/dual_arm_control/src/real_robot_control/msg/pose.msg" "std_msgs/MultiArrayDimension:std_msgs/MultiArrayLayout:std_msgs/Float32MultiArray"
 )
 
 get_filename_component(_filename "/home/yanji/dual_arm_control/src/real_robot_control/msg/robot_pos_pub.msg" NAME_WE)
@@ -85,6 +85,11 @@ add_custom_target(_real_robot_control_generate_messages_check_deps_${_filename}
 get_filename_component(_filename "/home/yanji/dual_arm_control/src/real_robot_control/msg/force_pos_pub.msg" NAME_WE)
 add_custom_target(_real_robot_control_generate_messages_check_deps_${_filename}
   COMMAND ${CATKIN_ENV} ${PYTHON_EXECUTABLE} ${GENMSG_CHECK_DEPS_SCRIPT} "real_robot_control" "/home/yanji/dual_arm_control/src/real_robot_control/msg/force_pos_pub.msg" ""
+)
+
+get_filename_component(_filename "/home/yanji/dual_arm_control/src/real_robot_control/msg/width_pub.msg" NAME_WE)
+add_custom_target(_real_robot_control_generate_messages_check_deps_${_filename}
+  COMMAND ${CATKIN_ENV} ${PYTHON_EXECUTABLE} ${GENMSG_CHECK_DEPS_SCRIPT} "real_robot_control" "/home/yanji/dual_arm_control/src/real_robot_control/msg/width_pub.msg" ""
 )
 
 get_filename_component(_filename "/home/yanji/dual_arm_control/src/real_robot_control/srv/screwsrv.srv" NAME_WE)
@@ -106,25 +111,25 @@ add_custom_target(_real_robot_control_generate_messages_check_deps_${_filename}
 _generate_msg_cpp(real_robot_control
   "/home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwAction.msg"
   "${MSG_I_FLAGS}"
-  "/opt/ros/noetic/share/actionlib_msgs/cmake/../msg/GoalID.msg;/home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwActionFeedback.msg;/home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwActionGoal.msg;/home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwActionResult.msg;/home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwResult.msg;/opt/ros/noetic/share/std_msgs/cmake/../msg/Header.msg;/opt/ros/noetic/share/actionlib_msgs/cmake/../msg/GoalStatus.msg;/home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwGoal.msg;/home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwFeedback.msg"
+  "/opt/ros/noetic/share/actionlib_msgs/cmake/../msg/GoalStatus.msg;/home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwFeedback.msg;/home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwActionResult.msg;/opt/ros/noetic/share/std_msgs/cmake/../msg/Header.msg;/opt/ros/noetic/share/actionlib_msgs/cmake/../msg/GoalID.msg;/home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwActionFeedback.msg;/home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwGoal.msg;/home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwActionGoal.msg;/home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwResult.msg"
   ${CATKIN_DEVEL_PREFIX}/${gencpp_INSTALL_DIR}/real_robot_control
 )
 _generate_msg_cpp(real_robot_control
   "/home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwActionGoal.msg"
   "${MSG_I_FLAGS}"
-  "/opt/ros/noetic/share/actionlib_msgs/cmake/../msg/GoalID.msg;/opt/ros/noetic/share/std_msgs/cmake/../msg/Header.msg;/home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwGoal.msg"
+  "/opt/ros/noetic/share/std_msgs/cmake/../msg/Header.msg;/opt/ros/noetic/share/actionlib_msgs/cmake/../msg/GoalID.msg;/home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwGoal.msg"
   ${CATKIN_DEVEL_PREFIX}/${gencpp_INSTALL_DIR}/real_robot_control
 )
 _generate_msg_cpp(real_robot_control
   "/home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwActionResult.msg"
   "${MSG_I_FLAGS}"
-  "/opt/ros/noetic/share/actionlib_msgs/cmake/../msg/GoalID.msg;/opt/ros/noetic/share/std_msgs/cmake/../msg/Header.msg;/opt/ros/noetic/share/actionlib_msgs/cmake/../msg/GoalStatus.msg;/home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwResult.msg"
+  "/opt/ros/noetic/share/std_msgs/cmake/../msg/Header.msg;/opt/ros/noetic/share/actionlib_msgs/cmake/../msg/GoalStatus.msg;/opt/ros/noetic/share/actionlib_msgs/cmake/../msg/GoalID.msg;/home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwResult.msg"
   ${CATKIN_DEVEL_PREFIX}/${gencpp_INSTALL_DIR}/real_robot_control
 )
 _generate_msg_cpp(real_robot_control
   "/home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwActionFeedback.msg"
   "${MSG_I_FLAGS}"
-  "/opt/ros/noetic/share/actionlib_msgs/cmake/../msg/GoalID.msg;/opt/ros/noetic/share/std_msgs/cmake/../msg/Header.msg;/opt/ros/noetic/share/actionlib_msgs/cmake/../msg/GoalStatus.msg;/home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwFeedback.msg"
+  "/opt/ros/noetic/share/std_msgs/cmake/../msg/Header.msg;/opt/ros/noetic/share/actionlib_msgs/cmake/../msg/GoalStatus.msg;/opt/ros/noetic/share/actionlib_msgs/cmake/../msg/GoalID.msg;/home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwFeedback.msg"
   ${CATKIN_DEVEL_PREFIX}/${gencpp_INSTALL_DIR}/real_robot_control
 )
 _generate_msg_cpp(real_robot_control
@@ -166,7 +171,7 @@ _generate_msg_cpp(real_robot_control
 _generate_msg_cpp(real_robot_control
   "/home/yanji/dual_arm_control/src/real_robot_control/msg/pose.msg"
   "${MSG_I_FLAGS}"
-  "/opt/ros/noetic/share/std_msgs/cmake/../msg/Float32MultiArray.msg;/opt/ros/noetic/share/std_msgs/cmake/../msg/MultiArrayDimension.msg;/opt/ros/noetic/share/std_msgs/cmake/../msg/MultiArrayLayout.msg"
+  "/opt/ros/noetic/share/std_msgs/cmake/../msg/MultiArrayDimension.msg;/opt/ros/noetic/share/std_msgs/cmake/../msg/MultiArrayLayout.msg;/opt/ros/noetic/share/std_msgs/cmake/../msg/Float32MultiArray.msg"
   ${CATKIN_DEVEL_PREFIX}/${gencpp_INSTALL_DIR}/real_robot_control
 )
 _generate_msg_cpp(real_robot_control
@@ -183,6 +188,12 @@ _generate_msg_cpp(real_robot_control
 )
 _generate_msg_cpp(real_robot_control
   "/home/yanji/dual_arm_control/src/real_robot_control/msg/force_pos_pub.msg"
+  "${MSG_I_FLAGS}"
+  ""
+  ${CATKIN_DEVEL_PREFIX}/${gencpp_INSTALL_DIR}/real_robot_control
+)
+_generate_msg_cpp(real_robot_control
+  "/home/yanji/dual_arm_control/src/real_robot_control/msg/width_pub.msg"
   "${MSG_I_FLAGS}"
   ""
   ${CATKIN_DEVEL_PREFIX}/${gencpp_INSTALL_DIR}/real_robot_control
@@ -242,6 +253,8 @@ get_filename_component(_filename "/home/yanji/dual_arm_control/src/real_robot_co
 add_dependencies(real_robot_control_generate_messages_cpp _real_robot_control_generate_messages_check_deps_${_filename})
 get_filename_component(_filename "/home/yanji/dual_arm_control/src/real_robot_control/msg/force_pos_pub.msg" NAME_WE)
 add_dependencies(real_robot_control_generate_messages_cpp _real_robot_control_generate_messages_check_deps_${_filename})
+get_filename_component(_filename "/home/yanji/dual_arm_control/src/real_robot_control/msg/width_pub.msg" NAME_WE)
+add_dependencies(real_robot_control_generate_messages_cpp _real_robot_control_generate_messages_check_deps_${_filename})
 get_filename_component(_filename "/home/yanji/dual_arm_control/src/real_robot_control/srv/screwsrv.srv" NAME_WE)
 add_dependencies(real_robot_control_generate_messages_cpp _real_robot_control_generate_messages_check_deps_${_filename})
 get_filename_component(_filename "/home/yanji/dual_arm_control/src/real_robot_control/srv/leftrobotsrv.srv" NAME_WE)
@@ -259,25 +272,25 @@ list(APPEND ${PROJECT_NAME}_EXPORTED_TARGETS real_robot_control_generate_message
 _generate_msg_eus(real_robot_control
   "/home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwAction.msg"
   "${MSG_I_FLAGS}"
-  "/opt/ros/noetic/share/actionlib_msgs/cmake/../msg/GoalID.msg;/home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwActionFeedback.msg;/home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwActionGoal.msg;/home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwActionResult.msg;/home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwResult.msg;/opt/ros/noetic/share/std_msgs/cmake/../msg/Header.msg;/opt/ros/noetic/share/actionlib_msgs/cmake/../msg/GoalStatus.msg;/home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwGoal.msg;/home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwFeedback.msg"
+  "/opt/ros/noetic/share/actionlib_msgs/cmake/../msg/GoalStatus.msg;/home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwFeedback.msg;/home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwActionResult.msg;/opt/ros/noetic/share/std_msgs/cmake/../msg/Header.msg;/opt/ros/noetic/share/actionlib_msgs/cmake/../msg/GoalID.msg;/home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwActionFeedback.msg;/home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwGoal.msg;/home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwActionGoal.msg;/home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwResult.msg"
   ${CATKIN_DEVEL_PREFIX}/${geneus_INSTALL_DIR}/real_robot_control
 )
 _generate_msg_eus(real_robot_control
   "/home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwActionGoal.msg"
   "${MSG_I_FLAGS}"
-  "/opt/ros/noetic/share/actionlib_msgs/cmake/../msg/GoalID.msg;/opt/ros/noetic/share/std_msgs/cmake/../msg/Header.msg;/home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwGoal.msg"
+  "/opt/ros/noetic/share/std_msgs/cmake/../msg/Header.msg;/opt/ros/noetic/share/actionlib_msgs/cmake/../msg/GoalID.msg;/home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwGoal.msg"
   ${CATKIN_DEVEL_PREFIX}/${geneus_INSTALL_DIR}/real_robot_control
 )
 _generate_msg_eus(real_robot_control
   "/home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwActionResult.msg"
   "${MSG_I_FLAGS}"
-  "/opt/ros/noetic/share/actionlib_msgs/cmake/../msg/GoalID.msg;/opt/ros/noetic/share/std_msgs/cmake/../msg/Header.msg;/opt/ros/noetic/share/actionlib_msgs/cmake/../msg/GoalStatus.msg;/home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwResult.msg"
+  "/opt/ros/noetic/share/std_msgs/cmake/../msg/Header.msg;/opt/ros/noetic/share/actionlib_msgs/cmake/../msg/GoalStatus.msg;/opt/ros/noetic/share/actionlib_msgs/cmake/../msg/GoalID.msg;/home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwResult.msg"
   ${CATKIN_DEVEL_PREFIX}/${geneus_INSTALL_DIR}/real_robot_control
 )
 _generate_msg_eus(real_robot_control
   "/home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwActionFeedback.msg"
   "${MSG_I_FLAGS}"
-  "/opt/ros/noetic/share/actionlib_msgs/cmake/../msg/GoalID.msg;/opt/ros/noetic/share/std_msgs/cmake/../msg/Header.msg;/opt/ros/noetic/share/actionlib_msgs/cmake/../msg/GoalStatus.msg;/home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwFeedback.msg"
+  "/opt/ros/noetic/share/std_msgs/cmake/../msg/Header.msg;/opt/ros/noetic/share/actionlib_msgs/cmake/../msg/GoalStatus.msg;/opt/ros/noetic/share/actionlib_msgs/cmake/../msg/GoalID.msg;/home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwFeedback.msg"
   ${CATKIN_DEVEL_PREFIX}/${geneus_INSTALL_DIR}/real_robot_control
 )
 _generate_msg_eus(real_robot_control
@@ -319,7 +332,7 @@ _generate_msg_eus(real_robot_control
 _generate_msg_eus(real_robot_control
   "/home/yanji/dual_arm_control/src/real_robot_control/msg/pose.msg"
   "${MSG_I_FLAGS}"
-  "/opt/ros/noetic/share/std_msgs/cmake/../msg/Float32MultiArray.msg;/opt/ros/noetic/share/std_msgs/cmake/../msg/MultiArrayDimension.msg;/opt/ros/noetic/share/std_msgs/cmake/../msg/MultiArrayLayout.msg"
+  "/opt/ros/noetic/share/std_msgs/cmake/../msg/MultiArrayDimension.msg;/opt/ros/noetic/share/std_msgs/cmake/../msg/MultiArrayLayout.msg;/opt/ros/noetic/share/std_msgs/cmake/../msg/Float32MultiArray.msg"
   ${CATKIN_DEVEL_PREFIX}/${geneus_INSTALL_DIR}/real_robot_control
 )
 _generate_msg_eus(real_robot_control
@@ -336,6 +349,12 @@ _generate_msg_eus(real_robot_control
 )
 _generate_msg_eus(real_robot_control
   "/home/yanji/dual_arm_control/src/real_robot_control/msg/force_pos_pub.msg"
+  "${MSG_I_FLAGS}"
+  ""
+  ${CATKIN_DEVEL_PREFIX}/${geneus_INSTALL_DIR}/real_robot_control
+)
+_generate_msg_eus(real_robot_control
+  "/home/yanji/dual_arm_control/src/real_robot_control/msg/width_pub.msg"
   "${MSG_I_FLAGS}"
   ""
   ${CATKIN_DEVEL_PREFIX}/${geneus_INSTALL_DIR}/real_robot_control
@@ -395,6 +414,8 @@ get_filename_component(_filename "/home/yanji/dual_arm_control/src/real_robot_co
 add_dependencies(real_robot_control_generate_messages_eus _real_robot_control_generate_messages_check_deps_${_filename})
 get_filename_component(_filename "/home/yanji/dual_arm_control/src/real_robot_control/msg/force_pos_pub.msg" NAME_WE)
 add_dependencies(real_robot_control_generate_messages_eus _real_robot_control_generate_messages_check_deps_${_filename})
+get_filename_component(_filename "/home/yanji/dual_arm_control/src/real_robot_control/msg/width_pub.msg" NAME_WE)
+add_dependencies(real_robot_control_generate_messages_eus _real_robot_control_generate_messages_check_deps_${_filename})
 get_filename_component(_filename "/home/yanji/dual_arm_control/src/real_robot_control/srv/screwsrv.srv" NAME_WE)
 add_dependencies(real_robot_control_generate_messages_eus _real_robot_control_generate_messages_check_deps_${_filename})
 get_filename_component(_filename "/home/yanji/dual_arm_control/src/real_robot_control/srv/leftrobotsrv.srv" NAME_WE)
@@ -412,25 +433,25 @@ list(APPEND ${PROJECT_NAME}_EXPORTED_TARGETS real_robot_control_generate_message
 _generate_msg_lisp(real_robot_control
   "/home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwAction.msg"
   "${MSG_I_FLAGS}"
-  "/opt/ros/noetic/share/actionlib_msgs/cmake/../msg/GoalID.msg;/home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwActionFeedback.msg;/home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwActionGoal.msg;/home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwActionResult.msg;/home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwResult.msg;/opt/ros/noetic/share/std_msgs/cmake/../msg/Header.msg;/opt/ros/noetic/share/actionlib_msgs/cmake/../msg/GoalStatus.msg;/home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwGoal.msg;/home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwFeedback.msg"
+  "/opt/ros/noetic/share/actionlib_msgs/cmake/../msg/GoalStatus.msg;/home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwFeedback.msg;/home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwActionResult.msg;/opt/ros/noetic/share/std_msgs/cmake/../msg/Header.msg;/opt/ros/noetic/share/actionlib_msgs/cmake/../msg/GoalID.msg;/home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwActionFeedback.msg;/home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwGoal.msg;/home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwActionGoal.msg;/home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwResult.msg"
   ${CATKIN_DEVEL_PREFIX}/${genlisp_INSTALL_DIR}/real_robot_control
 )
 _generate_msg_lisp(real_robot_control
   "/home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwActionGoal.msg"
   "${MSG_I_FLAGS}"
-  "/opt/ros/noetic/share/actionlib_msgs/cmake/../msg/GoalID.msg;/opt/ros/noetic/share/std_msgs/cmake/../msg/Header.msg;/home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwGoal.msg"
+  "/opt/ros/noetic/share/std_msgs/cmake/../msg/Header.msg;/opt/ros/noetic/share/actionlib_msgs/cmake/../msg/GoalID.msg;/home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwGoal.msg"
   ${CATKIN_DEVEL_PREFIX}/${genlisp_INSTALL_DIR}/real_robot_control
 )
 _generate_msg_lisp(real_robot_control
   "/home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwActionResult.msg"
   "${MSG_I_FLAGS}"
-  "/opt/ros/noetic/share/actionlib_msgs/cmake/../msg/GoalID.msg;/opt/ros/noetic/share/std_msgs/cmake/../msg/Header.msg;/opt/ros/noetic/share/actionlib_msgs/cmake/../msg/GoalStatus.msg;/home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwResult.msg"
+  "/opt/ros/noetic/share/std_msgs/cmake/../msg/Header.msg;/opt/ros/noetic/share/actionlib_msgs/cmake/../msg/GoalStatus.msg;/opt/ros/noetic/share/actionlib_msgs/cmake/../msg/GoalID.msg;/home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwResult.msg"
   ${CATKIN_DEVEL_PREFIX}/${genlisp_INSTALL_DIR}/real_robot_control
 )
 _generate_msg_lisp(real_robot_control
   "/home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwActionFeedback.msg"
   "${MSG_I_FLAGS}"
-  "/opt/ros/noetic/share/actionlib_msgs/cmake/../msg/GoalID.msg;/opt/ros/noetic/share/std_msgs/cmake/../msg/Header.msg;/opt/ros/noetic/share/actionlib_msgs/cmake/../msg/GoalStatus.msg;/home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwFeedback.msg"
+  "/opt/ros/noetic/share/std_msgs/cmake/../msg/Header.msg;/opt/ros/noetic/share/actionlib_msgs/cmake/../msg/GoalStatus.msg;/opt/ros/noetic/share/actionlib_msgs/cmake/../msg/GoalID.msg;/home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwFeedback.msg"
   ${CATKIN_DEVEL_PREFIX}/${genlisp_INSTALL_DIR}/real_robot_control
 )
 _generate_msg_lisp(real_robot_control
@@ -472,7 +493,7 @@ _generate_msg_lisp(real_robot_control
 _generate_msg_lisp(real_robot_control
   "/home/yanji/dual_arm_control/src/real_robot_control/msg/pose.msg"
   "${MSG_I_FLAGS}"
-  "/opt/ros/noetic/share/std_msgs/cmake/../msg/Float32MultiArray.msg;/opt/ros/noetic/share/std_msgs/cmake/../msg/MultiArrayDimension.msg;/opt/ros/noetic/share/std_msgs/cmake/../msg/MultiArrayLayout.msg"
+  "/opt/ros/noetic/share/std_msgs/cmake/../msg/MultiArrayDimension.msg;/opt/ros/noetic/share/std_msgs/cmake/../msg/MultiArrayLayout.msg;/opt/ros/noetic/share/std_msgs/cmake/../msg/Float32MultiArray.msg"
   ${CATKIN_DEVEL_PREFIX}/${genlisp_INSTALL_DIR}/real_robot_control
 )
 _generate_msg_lisp(real_robot_control
@@ -489,6 +510,12 @@ _generate_msg_lisp(real_robot_control
 )
 _generate_msg_lisp(real_robot_control
   "/home/yanji/dual_arm_control/src/real_robot_control/msg/force_pos_pub.msg"
+  "${MSG_I_FLAGS}"
+  ""
+  ${CATKIN_DEVEL_PREFIX}/${genlisp_INSTALL_DIR}/real_robot_control
+)
+_generate_msg_lisp(real_robot_control
+  "/home/yanji/dual_arm_control/src/real_robot_control/msg/width_pub.msg"
   "${MSG_I_FLAGS}"
   ""
   ${CATKIN_DEVEL_PREFIX}/${genlisp_INSTALL_DIR}/real_robot_control
@@ -548,6 +575,8 @@ get_filename_component(_filename "/home/yanji/dual_arm_control/src/real_robot_co
 add_dependencies(real_robot_control_generate_messages_lisp _real_robot_control_generate_messages_check_deps_${_filename})
 get_filename_component(_filename "/home/yanji/dual_arm_control/src/real_robot_control/msg/force_pos_pub.msg" NAME_WE)
 add_dependencies(real_robot_control_generate_messages_lisp _real_robot_control_generate_messages_check_deps_${_filename})
+get_filename_component(_filename "/home/yanji/dual_arm_control/src/real_robot_control/msg/width_pub.msg" NAME_WE)
+add_dependencies(real_robot_control_generate_messages_lisp _real_robot_control_generate_messages_check_deps_${_filename})
 get_filename_component(_filename "/home/yanji/dual_arm_control/src/real_robot_control/srv/screwsrv.srv" NAME_WE)
 add_dependencies(real_robot_control_generate_messages_lisp _real_robot_control_generate_messages_check_deps_${_filename})
 get_filename_component(_filename "/home/yanji/dual_arm_control/src/real_robot_control/srv/leftrobotsrv.srv" NAME_WE)
@@ -565,25 +594,25 @@ list(APPEND ${PROJECT_NAME}_EXPORTED_TARGETS real_robot_control_generate_message
 _generate_msg_nodejs(real_robot_control
   "/home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwAction.msg"
   "${MSG_I_FLAGS}"
-  "/opt/ros/noetic/share/actionlib_msgs/cmake/../msg/GoalID.msg;/home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwActionFeedback.msg;/home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwActionGoal.msg;/home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwActionResult.msg;/home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwResult.msg;/opt/ros/noetic/share/std_msgs/cmake/../msg/Header.msg;/opt/ros/noetic/share/actionlib_msgs/cmake/../msg/GoalStatus.msg;/home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwGoal.msg;/home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwFeedback.msg"
+  "/opt/ros/noetic/share/actionlib_msgs/cmake/../msg/GoalStatus.msg;/home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwFeedback.msg;/home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwActionResult.msg;/opt/ros/noetic/share/std_msgs/cmake/../msg/Header.msg;/opt/ros/noetic/share/actionlib_msgs/cmake/../msg/GoalID.msg;/home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwActionFeedback.msg;/home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwGoal.msg;/home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwActionGoal.msg;/home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwResult.msg"
   ${CATKIN_DEVEL_PREFIX}/${gennodejs_INSTALL_DIR}/real_robot_control
 )
 _generate_msg_nodejs(real_robot_control
   "/home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwActionGoal.msg"
   "${MSG_I_FLAGS}"
-  "/opt/ros/noetic/share/actionlib_msgs/cmake/../msg/GoalID.msg;/opt/ros/noetic/share/std_msgs/cmake/../msg/Header.msg;/home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwGoal.msg"
+  "/opt/ros/noetic/share/std_msgs/cmake/../msg/Header.msg;/opt/ros/noetic/share/actionlib_msgs/cmake/../msg/GoalID.msg;/home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwGoal.msg"
   ${CATKIN_DEVEL_PREFIX}/${gennodejs_INSTALL_DIR}/real_robot_control
 )
 _generate_msg_nodejs(real_robot_control
   "/home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwActionResult.msg"
   "${MSG_I_FLAGS}"
-  "/opt/ros/noetic/share/actionlib_msgs/cmake/../msg/GoalID.msg;/opt/ros/noetic/share/std_msgs/cmake/../msg/Header.msg;/opt/ros/noetic/share/actionlib_msgs/cmake/../msg/GoalStatus.msg;/home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwResult.msg"
+  "/opt/ros/noetic/share/std_msgs/cmake/../msg/Header.msg;/opt/ros/noetic/share/actionlib_msgs/cmake/../msg/GoalStatus.msg;/opt/ros/noetic/share/actionlib_msgs/cmake/../msg/GoalID.msg;/home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwResult.msg"
   ${CATKIN_DEVEL_PREFIX}/${gennodejs_INSTALL_DIR}/real_robot_control
 )
 _generate_msg_nodejs(real_robot_control
   "/home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwActionFeedback.msg"
   "${MSG_I_FLAGS}"
-  "/opt/ros/noetic/share/actionlib_msgs/cmake/../msg/GoalID.msg;/opt/ros/noetic/share/std_msgs/cmake/../msg/Header.msg;/opt/ros/noetic/share/actionlib_msgs/cmake/../msg/GoalStatus.msg;/home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwFeedback.msg"
+  "/opt/ros/noetic/share/std_msgs/cmake/../msg/Header.msg;/opt/ros/noetic/share/actionlib_msgs/cmake/../msg/GoalStatus.msg;/opt/ros/noetic/share/actionlib_msgs/cmake/../msg/GoalID.msg;/home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwFeedback.msg"
   ${CATKIN_DEVEL_PREFIX}/${gennodejs_INSTALL_DIR}/real_robot_control
 )
 _generate_msg_nodejs(real_robot_control
@@ -625,7 +654,7 @@ _generate_msg_nodejs(real_robot_control
 _generate_msg_nodejs(real_robot_control
   "/home/yanji/dual_arm_control/src/real_robot_control/msg/pose.msg"
   "${MSG_I_FLAGS}"
-  "/opt/ros/noetic/share/std_msgs/cmake/../msg/Float32MultiArray.msg;/opt/ros/noetic/share/std_msgs/cmake/../msg/MultiArrayDimension.msg;/opt/ros/noetic/share/std_msgs/cmake/../msg/MultiArrayLayout.msg"
+  "/opt/ros/noetic/share/std_msgs/cmake/../msg/MultiArrayDimension.msg;/opt/ros/noetic/share/std_msgs/cmake/../msg/MultiArrayLayout.msg;/opt/ros/noetic/share/std_msgs/cmake/../msg/Float32MultiArray.msg"
   ${CATKIN_DEVEL_PREFIX}/${gennodejs_INSTALL_DIR}/real_robot_control
 )
 _generate_msg_nodejs(real_robot_control
@@ -642,6 +671,12 @@ _generate_msg_nodejs(real_robot_control
 )
 _generate_msg_nodejs(real_robot_control
   "/home/yanji/dual_arm_control/src/real_robot_control/msg/force_pos_pub.msg"
+  "${MSG_I_FLAGS}"
+  ""
+  ${CATKIN_DEVEL_PREFIX}/${gennodejs_INSTALL_DIR}/real_robot_control
+)
+_generate_msg_nodejs(real_robot_control
+  "/home/yanji/dual_arm_control/src/real_robot_control/msg/width_pub.msg"
   "${MSG_I_FLAGS}"
   ""
   ${CATKIN_DEVEL_PREFIX}/${gennodejs_INSTALL_DIR}/real_robot_control
@@ -701,6 +736,8 @@ get_filename_component(_filename "/home/yanji/dual_arm_control/src/real_robot_co
 add_dependencies(real_robot_control_generate_messages_nodejs _real_robot_control_generate_messages_check_deps_${_filename})
 get_filename_component(_filename "/home/yanji/dual_arm_control/src/real_robot_control/msg/force_pos_pub.msg" NAME_WE)
 add_dependencies(real_robot_control_generate_messages_nodejs _real_robot_control_generate_messages_check_deps_${_filename})
+get_filename_component(_filename "/home/yanji/dual_arm_control/src/real_robot_control/msg/width_pub.msg" NAME_WE)
+add_dependencies(real_robot_control_generate_messages_nodejs _real_robot_control_generate_messages_check_deps_${_filename})
 get_filename_component(_filename "/home/yanji/dual_arm_control/src/real_robot_control/srv/screwsrv.srv" NAME_WE)
 add_dependencies(real_robot_control_generate_messages_nodejs _real_robot_control_generate_messages_check_deps_${_filename})
 get_filename_component(_filename "/home/yanji/dual_arm_control/src/real_robot_control/srv/leftrobotsrv.srv" NAME_WE)
@@ -718,25 +755,25 @@ list(APPEND ${PROJECT_NAME}_EXPORTED_TARGETS real_robot_control_generate_message
 _generate_msg_py(real_robot_control
   "/home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwAction.msg"
   "${MSG_I_FLAGS}"
-  "/opt/ros/noetic/share/actionlib_msgs/cmake/../msg/GoalID.msg;/home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwActionFeedback.msg;/home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwActionGoal.msg;/home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwActionResult.msg;/home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwResult.msg;/opt/ros/noetic/share/std_msgs/cmake/../msg/Header.msg;/opt/ros/noetic/share/actionlib_msgs/cmake/../msg/GoalStatus.msg;/home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwGoal.msg;/home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwFeedback.msg"
+  "/opt/ros/noetic/share/actionlib_msgs/cmake/../msg/GoalStatus.msg;/home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwFeedback.msg;/home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwActionResult.msg;/opt/ros/noetic/share/std_msgs/cmake/../msg/Header.msg;/opt/ros/noetic/share/actionlib_msgs/cmake/../msg/GoalID.msg;/home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwActionFeedback.msg;/home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwGoal.msg;/home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwActionGoal.msg;/home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwResult.msg"
   ${CATKIN_DEVEL_PREFIX}/${genpy_INSTALL_DIR}/real_robot_control
 )
 _generate_msg_py(real_robot_control
   "/home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwActionGoal.msg"
   "${MSG_I_FLAGS}"
-  "/opt/ros/noetic/share/actionlib_msgs/cmake/../msg/GoalID.msg;/opt/ros/noetic/share/std_msgs/cmake/../msg/Header.msg;/home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwGoal.msg"
+  "/opt/ros/noetic/share/std_msgs/cmake/../msg/Header.msg;/opt/ros/noetic/share/actionlib_msgs/cmake/../msg/GoalID.msg;/home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwGoal.msg"
   ${CATKIN_DEVEL_PREFIX}/${genpy_INSTALL_DIR}/real_robot_control
 )
 _generate_msg_py(real_robot_control
   "/home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwActionResult.msg"
   "${MSG_I_FLAGS}"
-  "/opt/ros/noetic/share/actionlib_msgs/cmake/../msg/GoalID.msg;/opt/ros/noetic/share/std_msgs/cmake/../msg/Header.msg;/opt/ros/noetic/share/actionlib_msgs/cmake/../msg/GoalStatus.msg;/home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwResult.msg"
+  "/opt/ros/noetic/share/std_msgs/cmake/../msg/Header.msg;/opt/ros/noetic/share/actionlib_msgs/cmake/../msg/GoalStatus.msg;/opt/ros/noetic/share/actionlib_msgs/cmake/../msg/GoalID.msg;/home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwResult.msg"
   ${CATKIN_DEVEL_PREFIX}/${genpy_INSTALL_DIR}/real_robot_control
 )
 _generate_msg_py(real_robot_control
   "/home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwActionFeedback.msg"
   "${MSG_I_FLAGS}"
-  "/opt/ros/noetic/share/actionlib_msgs/cmake/../msg/GoalID.msg;/opt/ros/noetic/share/std_msgs/cmake/../msg/Header.msg;/opt/ros/noetic/share/actionlib_msgs/cmake/../msg/GoalStatus.msg;/home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwFeedback.msg"
+  "/opt/ros/noetic/share/std_msgs/cmake/../msg/Header.msg;/opt/ros/noetic/share/actionlib_msgs/cmake/../msg/GoalStatus.msg;/opt/ros/noetic/share/actionlib_msgs/cmake/../msg/GoalID.msg;/home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwFeedback.msg"
   ${CATKIN_DEVEL_PREFIX}/${genpy_INSTALL_DIR}/real_robot_control
 )
 _generate_msg_py(real_robot_control
@@ -778,7 +815,7 @@ _generate_msg_py(real_robot_control
 _generate_msg_py(real_robot_control
   "/home/yanji/dual_arm_control/src/real_robot_control/msg/pose.msg"
   "${MSG_I_FLAGS}"
-  "/opt/ros/noetic/share/std_msgs/cmake/../msg/Float32MultiArray.msg;/opt/ros/noetic/share/std_msgs/cmake/../msg/MultiArrayDimension.msg;/opt/ros/noetic/share/std_msgs/cmake/../msg/MultiArrayLayout.msg"
+  "/opt/ros/noetic/share/std_msgs/cmake/../msg/MultiArrayDimension.msg;/opt/ros/noetic/share/std_msgs/cmake/../msg/MultiArrayLayout.msg;/opt/ros/noetic/share/std_msgs/cmake/../msg/Float32MultiArray.msg"
   ${CATKIN_DEVEL_PREFIX}/${genpy_INSTALL_DIR}/real_robot_control
 )
 _generate_msg_py(real_robot_control
@@ -795,6 +832,12 @@ _generate_msg_py(real_robot_control
 )
 _generate_msg_py(real_robot_control
   "/home/yanji/dual_arm_control/src/real_robot_control/msg/force_pos_pub.msg"
+  "${MSG_I_FLAGS}"
+  ""
+  ${CATKIN_DEVEL_PREFIX}/${genpy_INSTALL_DIR}/real_robot_control
+)
+_generate_msg_py(real_robot_control
+  "/home/yanji/dual_arm_control/src/real_robot_control/msg/width_pub.msg"
   "${MSG_I_FLAGS}"
   ""
   ${CATKIN_DEVEL_PREFIX}/${genpy_INSTALL_DIR}/real_robot_control
@@ -853,6 +896,8 @@ add_dependencies(real_robot_control_generate_messages_py _real_robot_control_gen
 get_filename_component(_filename "/home/yanji/dual_arm_control/src/real_robot_control/msg/orientation_pub.msg" NAME_WE)
 add_dependencies(real_robot_control_generate_messages_py _real_robot_control_generate_messages_check_deps_${_filename})
 get_filename_component(_filename "/home/yanji/dual_arm_control/src/real_robot_control/msg/force_pos_pub.msg" NAME_WE)
+add_dependencies(real_robot_control_generate_messages_py _real_robot_control_generate_messages_check_deps_${_filename})
+get_filename_component(_filename "/home/yanji/dual_arm_control/src/real_robot_control/msg/width_pub.msg" NAME_WE)
 add_dependencies(real_robot_control_generate_messages_py _real_robot_control_generate_messages_check_deps_${_filename})
 get_filename_component(_filename "/home/yanji/dual_arm_control/src/real_robot_control/srv/screwsrv.srv" NAME_WE)
 add_dependencies(real_robot_control_generate_messages_py _real_robot_control_generate_messages_check_deps_${_filename})

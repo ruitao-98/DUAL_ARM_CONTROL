@@ -33,7 +33,7 @@
 
 //PC
 #define Baudratemx              57600
-#define device_port             "/dev/ttyUSB1"
+#define device_port             "/dev/ttyUSB0"
 
 //PC
 #define Baudratexm              1000000

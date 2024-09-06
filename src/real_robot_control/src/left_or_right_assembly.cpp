@@ -170,20 +170,27 @@ bool doReq(real_robot_control::leftrobotsrv::Request& req,
     {
         // 执行handover
         std::cout << "handover" << std::endl;
-
-        pRobotControl->pure_passive_model();
-
-        gri.open = 2.0; //打开夹爪,255
-        item = 0;
-        while (item < 2)
-        {
-            item = item + 1;
-            gripper_pub.publish(gri);
-            std::this_thread::sleep_for(std::chrono::milliseconds(50));
-        }
+        pRobotControl->robot.set_torque_sensor_mode(1);
+        pRobotControl->robot.set_compliant_type(1, 0);
         std::this_thread::sleep_for(std::chrono::milliseconds(500));
+        pRobotControl->robot.set_compliant_type(0, 0);
+
+        result = pRobotControl->pure_passive_model();
+
+        if (result == 0){ //成功才打开夹爪
+            gri.open = 2.0; //打开夹爪,255
+            item = 0;
+            while (item < 2)
+            {
+                item = item + 1;
+                gripper_pub.publish(gri);
+                std::this_thread::sleep_for(std::chrono::milliseconds(50));
+            }
+            std::this_thread::sleep_for(std::chrono::milliseconds(500));
+        }
 
         pRobotControl->back_to_middle();
+        pRobotControl->joint_states_callback(pRobotControl->joint_states_pub);
 
     }
 
@@ -203,7 +210,7 @@ bool doReq(real_robot_control::leftrobotsrv::Request& req,
         pRobotControl->robot.servo_move_enable(false);
         cart.tran.x = x; cart.tran.y = y; cart.tran.z = z;
         cart.rpy.rx = rx; cart.rpy.ry = ry; cart.rpy.rz = rz;
-        pRobotControl->robot.linear_move(&cart, ABS, TRUE, 7);
+        pRobotControl->robot.linear_move(&cart, ABS, TRUE, 18);
 
         RobotStatus status;
         pRobotControl->robot.get_robot_status(&status);
@@ -221,6 +228,7 @@ bool doReq(real_robot_control::leftrobotsrv::Request& req,
         ros::param::set("present_rx", present_rx);
         ros::param::set("present_ry", present_ry);
         ros::param::set("present_rz", present_rz);
+        pRobotControl->joint_states_callback(pRobotControl->joint_states_pub);
 
 
     }
@@ -240,10 +248,11 @@ int main(int argc, char** argv) {
     ros::init(argc, argv, "left_robot_control");
     RobotAdmittanceControl robot_control;
     pRobotControl = &robot_control;
-
+    std::cout << "pre-login" << std::endl;
     // 初始化机器人
     robot_control.robot.login_in("192.168.3.200"); 
     robot_control.robot.power_on();
+    std::cout << "login" << std::endl;
     robot_control.robot.enable_robot();
     robot_control.robot.set_tool_id(0);
     // robot.servo_speed_foresight(15, 0.03);
@@ -367,10 +376,14 @@ int main(int argc, char** argv) {
             
 
             case '5':
+                robot_control.robot.set_torque_sensor_mode(1);
+                robot_control.robot.set_compliant_type(1, 0);
+                std::this_thread::sleep_for(std::chrono::milliseconds(500));
+                robot_control.robot.set_compliant_type(0, 0);
                 // 执行回收
                 std::cout << "move to recycle" << std::endl;
-                // robot_control.pure_passive_model();
-                robot_control.back_to_middle(); //测试
+                robot_control.pure_passive_model();
+                // robot_control.back_to_middle(); //测试
                 // gri.open = 0.0;
                 // item = 0;
                 // while (item < 2)

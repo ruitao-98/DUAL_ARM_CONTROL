@@ -97,6 +97,7 @@ add_message_files(
   robot_pos_pub.msg
   orientation_pub.msg
   force_pos_pub.msg
+  width_pub.msg
 )
 
 

@@ -1,0 +1,45 @@
+<launch>
+    <!-- 参数：手动输入的文件名后缀 -->
+  <arg name="suffix" default="default_suffix" />
+
+<!-- 获取当前时间 -->
+  <!-- <arg name="time" command="date +%Y%m%d_%H%M" /> -->
+  <arg name="item" default="1" />
+
+  <!-- 生成带时间戳和后缀的文件名 -->
+  <arg name="filename" default="$(arg item)_$(arg suffix)" />
+
+  <!-- 输出文件路径，可以根据需要进行修改 -->
+  <arg name="output_dir" default="/home/yanji/dual_arm_control/rosbag_record" />
+
+
+  <!-- Run motion planning -->
+  <node pkg="real_robot_control" type="motion_planning" name="motion_planning" output="screen" />
+
+  <!-- Delay to allow motion planning to start -->
+  <node pkg="real_robot_control" type="sleep.py" name="sleep_5" args="5" output="screen" />
+
+  <!-- Launch MoveIt! configuration -->
+  <include file="$(find robot_moveit_config_ver2)/launch/demo.launch" />
+
+  <!-- Delay to allow MoveIt! to start -->
+  <node pkg="real_robot_control" type="sleep.py" name="sleep_3" args="3" output="screen" />
+
+  <!-- Run task control for screw -->
+  <node pkg="real_robot_control" type="task_control_screw" name="task_control_screw" output="screen" />
+
+  <!-- Delay to allow task control to start -->
+  <node pkg="real_robot_control" type="sleep.py" name="sleep_11" args="1" output="screen" />
+
+  <!-- Run left or right assembly -->
+  <node pkg="real_robot_control" type="left_or_right_assembly" name="left_or_right_assembly" output="screen" />
+
+  <!-- Delay to allow assembly control to start -->
+  <node pkg="real_robot_control" type="sleep.py" name="sleep_12" args="1" output="screen" />
+
+  <!-- Run gripper open script -->
+  <node pkg="real_robot_control" type="gripper_open.py" name="gripper_open" output="screen" />
+
+  <node pkg="rosbag" type="record" name="rosbag_record" output="screen" required="true"
+        args="-O $(arg output_dir)/$(arg filename).bag /width_p /for_pos /robot_force" />
+</launch>

@@ -38,7 +38,7 @@ void endeffector::width_reduce(int distance, ros::Publisher &pub, real_robot_con
 
 	std::vector<int> current_vec; //电流容器
 
-	ifstream in("delta_width.txt");
+	ifstream in(delta_width);
 	string content;
 	while (getline(in, content))
 	{
@@ -77,7 +77,7 @@ void endeffector::width_reduce(int distance, ros::Publisher &pub, real_robot_con
 		msg.current = 0.0; // Assuming 'current_position' is a field in your custom message
 		pub.publish(msg);
 		cout << "wait" << item << endl;
-		std::this_thread::sleep_for(std::chrono::milliseconds(10));
+		// std::this_thread::sleep_for(std::chrono::milliseconds(10));
 	}
 	
 	this->set_goalposition(1, goal_position_1);
@@ -91,7 +91,7 @@ void endeffector::width_reduce(int distance, ros::Publisher &pub, real_robot_con
 			this->torque_off(1);
 			goal_position = goal_position - 4095 * distance;
 			fstream ofs;
-			ofs.open("delta_width.txt", ios::out);
+			ofs.open(delta_width, ios::out);
 			ofs << goal_position;
 			ofs.close();
 			break;
@@ -125,24 +125,27 @@ void endeffector::width_reduce(int distance, ros::Publisher &pub, real_robot_con
 	this->close_port();
 }
 
-void endeffector::width_increase(int distance, ros::Publisher &pub, real_robot_control::current_pub &msg) {
+void endeffector::width_increase(int distance, ros::Publisher &pub, real_robot_control::current_pub &msg, 
+				ros::Publisher &pub1, real_robot_control::width_pub &msg1) {
 	std::vector<int> current_vec; //电流容器
 
-	ifstream in("delta_width.txt");
+	ifstream in(delta_width);
 	string content;
 	while (getline(in, content))
 	{
 		cout << content << endl;
 	}
+	
 	in.close();
 	int previous_position = atoi(content.c_str());
-
+	cout << "[content] previous_position = " << previous_position << endl;
+	
     this->open_port();
 	this->setbaundrate();
-			// 检测 夹持装置的电机 是否打开
-	while (!(this->torque_on(1))) {
-		cout << "\r" <<"******请打开夹持装置的电源，以执行功能*********" << flush; 
-	}
+	// 检测 夹持装置的电机 是否打开
+	// while (!(this->torque_on(1))) {
+	// 	cout << "\r" <<"******请打开夹持装置的电源，以执行功能*********" << flush; 
+	// }
 	this->setdelaytime(1, 0);
 	if (distance < 0)
 	{
@@ -151,32 +154,42 @@ void endeffector::width_increase(int distance, ros::Publisher &pub, real_robot_c
 	else {
 		distance = distance;
 	}
-	// int item = 0;
-	// while ( item < 1000)
-	// {	
-	// 	item = item + 1;
-	// 	msg.current = 0.0; // Assuming 'current_position' is a field in your custom message
-	// 	pub.publish(msg);
-	// 	cout << "wait" << item << endl;
-	// 	std::this_thread::sleep_for(std::chrono::milliseconds(10));
-	// }
-	
+
     this->setbaundrate();
 	this->torque_off(1);
 	this->set_expositionmode(1);
-	this->set_goalprofile(1, 200);
+	this->set_goalprofile(1, 210);
 	this->torque_on(1);
 	int start_position_1 = this->get_presentposition(1);
 	int goal_position_1 = int(start_position_1 + 4095 * distance);
 	this->set_goalposition(1, goal_position_1);
-	std::this_thread::sleep_for(std::chrono::milliseconds(300));
+	int item = 0;
+	auto start_time = std::chrono::high_resolution_clock::now();
+	while ( item < 20)
+	{	
+		item = item + 1;
+		msg.current = 0.0; 
+		pub.publish(msg);
+
+		int width = this->get_presentposition(1);
+		msg1.width = width;
+		pub1.publish(msg1);
+
+	}
+	auto end_time = std::chrono::high_resolution_clock::now();
+	auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end_time-start_time);
+    cout << " excution time is"<< duration.count()<<"ms" << endl;
+	// std::this_thread::sleep_for(std::chrono::milliseconds(300));
 
 	while (true) {
 		int current = this->get_presentcurrent(1);
 		msg.current = current; //发布电流信息，成为实验数据
 		pub.publish(msg);
 
-		current_vec.push_back(current);
+		int width = this->get_presentposition(1);
+		msg1.width = width;
+		pub1.publish(msg1);
+		// current_vec.push_back(current);
 		if (this->get_presentvelocity(1) <= 1) {
 			this->torque_off(1);
 			std::this_thread::sleep_for(std::chrono::milliseconds(300));
@@ -185,7 +198,7 @@ void endeffector::width_increase(int distance, ros::Publisher &pub, real_robot_c
 			int goal_position = previous_position + (end_position - start_position_1); //宽度增加，编码器数值是增加的
 
 			fstream ofs;
-			ofs.open("delta_width.txt", ios::out);
+			ofs.open(delta_width, ios::out);
 			ofs << goal_position;
 			ofs.close();
 			break;
@@ -222,15 +235,16 @@ void endeffector::width_increase(int distance, ros::Publisher &pub, real_robot_c
 int endeffector::width_reduce_or_increase_full(int judge){
     this->open_port();
 	this->setbaundrate();
+
 			// 检测 夹持装置的电机 是否打开
 	while (!(this->torque_on(1))) {
 		cout << "\r" <<"******请打开夹持装置的电源，以执行功能*********" << flush; 
 	}
-	ifstream in("delta_width.txt");
+	ifstream in(delta_width);
 	string content;
 	while (getline(in, content))
 	{
-		cout << content << endl;
+		cout << "[content] delta_width = " << content << endl;
 	}
 	in.close();
 	int previous_position = atoi(content.c_str());
@@ -242,6 +256,7 @@ int endeffector::width_reduce_or_increase_full(int judge){
 	int base_current[15] = { 0 };
 	fstream ofs;
 	int start_position = this->get_presentposition(1);
+	cout << "start_position = " << start_position << endl;
 	if (judge == 1){
 		this->set_goalvelocity(1, -200); //reduce
 	}
@@ -250,13 +265,13 @@ int endeffector::width_reduce_or_increase_full(int judge){
 		this->set_goalvelocity(1, 200); //increase
 	}
 
-	sleep(1);
+	std::this_thread::sleep_for(std::chrono::milliseconds(300));
 	for (int i = 0; i < 15; i = i + 1) {
 		base_current[i] = this->get_presentcurrent(1);
 	}
 	float start_current = average_function(base_current, 15);
 	printf("the started current%.3f \n", start_current);
-	int yuzhi = 38;
+	int yuzhi = 42;
 	int present_cu[10] = { 0 };
 	int i = 0;
 	int fin_position;
@@ -280,9 +295,11 @@ int endeffector::width_reduce_or_increase_full(int judge){
 			this->set_goalvelocity(1, 0);
 			std::this_thread::sleep_for(std::chrono::milliseconds(300));
 			int end_position = this->get_presentposition(1);
+			cout << "end_position = " << end_position << endl;
 			int delta_position = (end_position - start_position) + previous_position;
 			cout << "delta_position = " << delta_position << endl;
-			ofs.open("delta_width.txt", ios::out);
+			
+			ofs.open(delta_width, std::ios::out);
 			ofs << delta_position;
 			ofs.close();
 			this->torque_off(0);
@@ -290,7 +307,7 @@ int endeffector::width_reduce_or_increase_full(int judge){
 			while ((this->torque_on(1))) {
 				cout << "\r" <<"******养成好习惯，请关闭夹持装置的电源*********" << flush; 
 			}
-			sleep(2);
+			sleep(4);
 			this->close_port();
 			printf("ͣ***the object is at the center***");
 			return 0;
@@ -299,11 +316,21 @@ int endeffector::width_reduce_or_increase_full(int judge){
 	}
 }
 
-int endeffector::width_reduce_full_for_handover(int goal_width){
+int endeffector::width_reduce_full_for_handover(int goal_width, ros::Publisher &pub1, real_robot_control::width_pub &msg1){
     this->open_port();
 	this->setbaundrate();
 
-	ifstream in("delta_width.txt");
+	if (!(this->torque_on(1))){
+		while (!(this->torque_on(1))) {
+			cout << "\r" <<"******请打开夹持装置的电源，以执行功能*********" << flush; 
+		}
+		sleep(4);
+	}
+	if (this->torque_on(1)){
+		;
+	}
+
+	ifstream in(delta_width);
 	string content;
 	while (getline(in, content))
 	{
@@ -312,7 +339,7 @@ int endeffector::width_reduce_full_for_handover(int goal_width){
 	
 	in.close();
 	int previous_position = atoi(content.c_str());
-
+	cout << "[content] previous_position = " << previous_position << endl;
 	this->setdelaytime(1, 0);
 	this->torque_off(1);
 	this->set_velocitymode(1);
@@ -321,22 +348,36 @@ int endeffector::width_reduce_full_for_handover(int goal_width){
 	fstream ofs;
 	int start_position = this->get_presentposition(1);
 	
-	this->set_goalvelocity(1, -200); //reduce
+	this->set_goalvelocity(1, -210); //reduce
+	int item = 0;
+	auto start_time = std::chrono::high_resolution_clock::now();
+	while ( item < 20)
+	{	
+		item = item + 1;
+		int width = this->get_presentposition(1);
+		msg1.width = width;
+		pub1.publish(msg1);
+	}
+	auto end_time = std::chrono::high_resolution_clock::now();
+	auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end_time-start_time);
+    cout << " excution time is"<< duration.count()<<"ms" << endl;
 
-
-	sleep(1);
 	for (int i = 0; i < 15; i = i + 1) {
 		base_current[i] = this->get_presentcurrent(1);
 	}
 	float start_current = average_function(base_current, 15);
 	printf("the started current%.3f \n", start_current);
-	int yuzhi = 38;
+	int yuzhi = 45;
 	int present_cu[10] = { 0 };
 	int i = 0;
 	int fin_position;
     double ave_current;
 	while (true)
-	{
+	{	
+		int width = this->get_presentposition(1);
+		msg1.width = width;
+		pub1.publish(msg1);
+
 		int j;
 		j = i % 10;
 		i = i + 1;
@@ -352,16 +393,23 @@ int endeffector::width_reduce_full_for_handover(int goal_width){
 		{
 			printf("ֹͣthe present current %.3f\n", ave_current);
 			this->set_goalvelocity(1, 0);
-			std::this_thread::sleep_for(std::chrono::milliseconds(300));
+			while ( this->get_presentvelocity(0) != 0)
+			{	
+				int width = this->get_presentposition(1);
+				msg1.width = width;
+				pub1.publish(msg1);
+			}
+
+			// std::this_thread::sleep_for(std::chrono::milliseconds(300));
 			int end_position = this->get_presentposition(1);
 			int delta_position = (end_position - start_position) + previous_position;
 			cout << "delta_position = " << delta_position << endl;
-			ofs.open("delta_width.txt", ios::out);
+			ofs.open(delta_width, ios::out);
 			ofs << delta_position;
 			ofs.close();
 			this->torque_off(0);
 
-			if (abs(delta_position - goal_width)>500){
+			if (abs(delta_position - goal_width)>2000){
 				printf("ͣ***the object is not at the center***");
 				return 1;
 			}
@@ -369,6 +417,7 @@ int endeffector::width_reduce_full_for_handover(int goal_width){
 			else{
 				this->close_port();
 				printf("ͣ***the object is at the center***");
+
 				return 0;
 			}
 		}
@@ -379,26 +428,30 @@ int endeffector::width_recovery(){
 	//回到最大的地方
     this->open_port();
 	this->setbaundrate();
-			// 检测 夹持装置的电机 是否打开
-	while (!(this->torque_on(1))) {
-		cout << "\r" <<"******请打开夹持装置的电源，以执行功能*********" << flush; 
+
+	ifstream in(delta_width);
+	string content;
+	while (getline(in, content))
+	{
+		cout << "[content] " << content << endl;
 	}
+	in.close();
+	int delta_position = atoi(content.c_str());
+
+	if (!(this->torque_on(1))){
+		while (!(this->torque_on(1))) {
+			cout << "\r" <<"******请打开夹持装置的电源，以执行功能*********" << flush; 
+		}
+		sleep(4);
+	}
+
 	cout << " " << endl;
 	this->setdelaytime(1, 0);
     this->setbaundrate();
 	this->torque_off(1);
 
-	ifstream in("delta_width.txt");
-	string content;
-	while (getline(in, content))
-	{
-		cout << content << endl;
-	}
-	in.close();
-	int delta_position = atoi(content.c_str());
-
 	this->set_expositionmode(1);
-	this->set_goalprofile(1, 200);
+	this->set_goalprofile(1, 210);
 	this->torque_on(1);
 	int start_position_1 = this->get_presentposition(1);
 	int goal_position_1 = int(start_position_1 - delta_position);
@@ -410,17 +463,18 @@ int endeffector::width_recovery(){
 			std::this_thread::sleep_for(std::chrono::milliseconds(500));
 			int final_position = this->get_presentposition(1);
 			ofstream ofs;
-			ofs.open("delta_width.txt", ios::out);
+			ofs.open(delta_width, ios::out);
 			ofs << (final_position - start_position_1) + delta_position;
 			ofs.close();
 			break;
 		}
 	}
 
-	while ((this->torque_on(1))) {
-		cout << "\r" <<"******养成好习惯，请关闭夹持装置的电源*********" << flush; 
-	}
-
+	// while ((this->torque_on(1))) {
+	// 	cout << "\r" <<"******养成好习惯，请关闭夹持装置的电源*********" << flush; 
+	// }
+	// sleep(5);
+	
   	this->close_port();
 
 
@@ -444,14 +498,20 @@ int endeffector::screwing_s1(int speed, float circle, ros::Publisher &pub, real_
 	{
 		circle = -circle;
 	}
+	
+
 
 	 // Assuming 'current_position' is a field in your custom message
 	fstream ofs;
     this->open_port();
 	this->setbaundrate();
 	// 检测 夹持装置的电机 是否关闭
-	while (this->torque_on(1)) {
-		cout << "\r" <<"******请关闭夹持装置的电源，以保护电机*********" << flush; 
+	if (this->torque_on(1)){
+		while ((this->torque_on(1))) {
+		cout << "\r" <<"******请关闭夹持装置的电源，以执行功能*********" << flush; 
+		}
+		sleep(4);
+		
 	}
 	this->setdelaytime(0, 0);
 	this->torque_off(0);
@@ -462,7 +522,7 @@ int endeffector::screwing_s1(int speed, float circle, ros::Publisher &pub, real_
 	int present_position;
 	present_position = this->get_presentposition(0);
 
-	ofs.open("standard.txt", ios::out);
+	ofs.open(standard_path, ios::out);
 	ofs << present_position;
 	ofs.close();
 
@@ -497,9 +557,9 @@ int endeffector::screwing_s1(int speed, float circle, ros::Publisher &pub, real_
 			msg.current = ave_current;
 			// cout << msg.current << endl;
 		}
-		printf("ֹͣthe present current %.3f\n", ave_current);
+		// printf("ֹͣthe present current %.3f\n", ave_current);
 		int pre_velo = this->get_presentvelocity(0);
-		printf("ֹͣthe present velocity %d\n", pre_velo);
+		// printf("ֹͣthe present velocity %d\n", pre_velo);
 		pub.publish(msg);
 		if ((fabs(ave_current - start_current) > yuzhi) && (i > 10))
 		{
@@ -514,7 +574,7 @@ int endeffector::screwing_s1(int speed, float circle, ros::Publisher &pub, real_
 
 			// 存储位置
 			int delta_position = fin_position - present_position;
-			ofs.open("delta_circle.txt", ios::out);
+			ofs.open(delta_circle, ios::out);
 			ofs << delta_position;
 			ofs.close();
 
@@ -527,7 +587,7 @@ int endeffector::screwing_s1(int speed, float circle, ros::Publisher &pub, real_
 			// 存储位置
 			int delta_position = fin_position - present_position;
 			printf("ֹthe end position %.3f\n", (float(fin_position - present_position) / 4095));
-			ofs.open("delta_circle.txt", ios::out);
+			ofs.open(delta_circle, ios::out);
 			ofs << delta_position;
 			ofs.close();
 			this->torque_off(0);
@@ -562,16 +622,16 @@ int endeffector::screwing_s2(int speed, ros::Publisher &pub, real_robot_control:
 	int start_position = this->get_presentposition(0);
 
 	int base_current[15] = { 0 };
-	std::this_thread::sleep_for(std::chrono::milliseconds(100)); 
+	std::this_thread::sleep_for(std::chrono::milliseconds(300)); 
 	for (int i = 0; i < 15; i = i + 1) {
 		base_current[i] = this->get_presentcurrent(0);
 	}
 	double start_current = average_function(base_current, 15);
 	printf("the started current %.3f \n", start_current);
-	for (int m = 0; m < 15; m++) {
-		std::cout << base_current[m] << std::endl;
-	}
-	int yuzhi = 35;
+	// for (int m = 0; m < 15; m++) {
+	// 	std::cout << base_current[m] << std::endl;
+	// }
+	int yuzhi = 18;
 	int goal_position = int(start_position - 4095 * 6.238 * 2);
 	int present_cu[10] = { 0 };
 	int i = 0;
@@ -590,7 +650,7 @@ int endeffector::screwing_s2(int speed, ros::Publisher &pub, real_robot_control:
 		}
 		if (i > 10) {
      		ave_current = average_function(present_cu, 10);
-			printf("the present current %.3f \n", ave_current);
+			// printf("the present current %.3f \n", ave_current);
 			msg.current = ave_current;
 		}
 		pub.publish(msg);
@@ -684,7 +744,7 @@ int endeffector::unscrew_to_zero(int speed) {
 		speed = speed;
 	}
 
-	ifstream in("delta_circle.txt");
+	ifstream in(delta_circle);
 	string content;
 	while (getline(in, content))
 	{
@@ -880,7 +940,7 @@ int endeffector::measure_angle(int standard) {
 }
 
 void endeffector::screw_to_zero() {
-	ifstream in("standard.txt");
+	ifstream in(standard_path);
 	string content;
 	while (getline(in, content))
 	{

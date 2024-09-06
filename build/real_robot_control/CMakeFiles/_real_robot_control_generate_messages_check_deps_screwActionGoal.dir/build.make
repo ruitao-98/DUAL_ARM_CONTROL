@@ -54,7 +54,7 @@ CMAKE_BINARY_DIR = /home/yanji/dual_arm_control/build
 include real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_screwActionGoal.dir/progress.make
 
 real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_screwActionGoal:
-	cd /home/yanji/dual_arm_control/build/real_robot_control && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/genmsg/cmake/../../../lib/genmsg/genmsg_check_deps.py real_robot_control /home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwActionGoal.msg actionlib_msgs/GoalID:std_msgs/Header:real_robot_control/screwGoal
+	cd /home/yanji/dual_arm_control/build/real_robot_control && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/genmsg/cmake/../../../lib/genmsg/genmsg_check_deps.py real_robot_control /home/yanji/dual_arm_control/devel/share/real_robot_control/msg/screwActionGoal.msg std_msgs/Header:actionlib_msgs/GoalID:real_robot_control/screwGoal
 
 _real_robot_control_generate_messages_check_deps_screwActionGoal: real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_screwActionGoal
 _real_robot_control_generate_messages_check_deps_screwActionGoal: real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_screwActionGoal.dir/build.make

@@ -1,15 +1,15 @@
-// // #include <vector>
-// // #include "real_robot_control/JAKAZuRobot.h"
-// // #include "ros/ros.h"
-// // #include <stdio.h>
-// // #include <thread>
-// // #include "real_robot_control/force_pub.h"
-// // #include "Eigen/Dense"
-// // #include "Eigen/Core"
-// // #include "Eigen/Geometry"
-// // #include "Eigen/StdVector"
-// // #include <mutex>
-// // #include <chrono>
+#include <vector>
+#include "real_robot_control/JAKAZuRobot.h"
+#include "ros/ros.h"
+#include <stdio.h>
+#include <thread>
+#include "real_robot_control/force_pub.h"
+#include "Eigen/Dense"
+#include "Eigen/Core"
+#include "Eigen/Geometry"
+#include "Eigen/StdVector"
+#include <mutex>
+#include <chrono>
 
 // // int main(int argc, char** argv){
 // //     JAKAZuRobot robot;
@@ -226,71 +226,91 @@
 // }
 
 
-#include "real_robot_control/right_robot_control.h"
-#include "actionlib/client/simple_action_client.h"
-#include "real_robot_control/screwAction.h"
-#include "real_robot_control/screwsrv.h"
+// #include "real_robot_control/right_robot_control.h"
+// #include "actionlib/client/simple_action_client.h"
+// #include "real_robot_control/screwAction.h"
+// #include "real_robot_control/screwsrv.h"
 
-Eigen::VectorXd selection_vector;
-typedef actionlib::SimpleActionClient<real_robot_control::screwAction> Client;
+// Eigen::VectorXd selection_vector;
+// typedef actionlib::SimpleActionClient<real_robot_control::screwAction> Client;
 
-void done_cb(const actionlib::SimpleClientGoalState &state, const real_robot_control::screwResultConstPtr &result){
-    if (state.state_ == state.SUCCEEDED)
-    {
-        ROS_INFO("final:%d",result->result);
-    } else {
-        ROS_INFO("failed！");
-    }
+// void done_cb(const actionlib::SimpleClientGoalState &state, const real_robot_control::screwResultConstPtr &result){
+//     if (state.state_ == state.SUCCEEDED)
+//     {
+//         ROS_INFO("final:%d",result->result);
+//     } else {
+//         ROS_INFO("failed！");
+//     }
 
-}
-//服务已经激活
-void active_cb(){
-    ROS_INFO("activated....");
-}
-//处理连续反馈
-void  feedback_cb(const real_robot_control::screwFeedbackConstPtr &feedback){
-    // ROS_INFO("洗涤进度为:%d%s", feedback->progress_bar, "%");
-}
-// #include "ros/ros.h"
+// }
+// //服务已经激活
+// void active_cb(){
+//     ROS_INFO("activated....");
+// }
+// //处理连续反馈
+// void  feedback_cb(const real_robot_control::screwFeedbackConstPtr &feedback){
+//     // ROS_INFO("洗涤进度为:%d%s", feedback->progress_bar, "%");
+// }
+// // #include "ros/ros.h"
 
-// endeffector ef;
+// // endeffector ef;
 
-
+#include <random>
 int main(int argc, char *argv[]){
     ros::init(argc, argv, "robot_control");
-    ros::NodeHandle nh;
-    Eigen::VectorXd selection_vector;
-    Eigen::Vector3d _vector;
-    selection_vector.resize(6);
-    selection_vector<<2, 0, 1, 0, 0, 0;
-    _vector << 2 , 3, 8;
+        // 使用随机设备生成随机数种子
+    std::random_device rd;
+    std::mt19937 gen(rd()); // Mersenne Twister 随机数生成器
+    // 生成 1.0 到 3.0 之间的浮点数
+    std::uniform_real_distribution<> dis_real(2.0, 4.0);
 
-    std::cout << "******* 有 10s 的时间，请打开夹持装置的开关 *****" << std::endl;
-    // for (int timesec = 0;  timesec<10; timesec++){
-    //     std::cout << "\r" << "倒计时: " << 10 - timesec << " 秒" << std::flush; 
-    //     sleep(1);
-    // }
-    int input;
-    std::cout << "Enter 1" << std::endl;
-    std::cin >> input;
-    int N = 6;
-    int phi_index = 0;
-    int theta_index = 1;
-    while (true) {
-        if (theta_index<3){
-            if (phi_index==N){
-                phi_index = 0;
-                theta_index++;
-            }
-        }
-        else if (theta_index == 3){
-            break;
-        }
-        sleep(1);
+    // 生成 -1.0 或 1.0 的浮点数
+    std::uniform_int_distribution<> dis_int(0, 1);
+    double sign_x = dis_int(gen) == 0 ? 1.0 : -1.0;
+    double sign_y = dis_int(gen) == 0 ? 1.0 : -1.0;
+    double sign_z = dis_int(gen) == 0 ? 1.0 : -1.0;
 
-        std::cout << "phi_index =" << phi_index << ", theta_index=" << theta_index << std::endl;
-        std::cout << "covered" <<  std::endl;
-    }
+    // 生成一个随机数
+    double x = (dis_real(gen) * sign_x )/ 1000;
+    double y = (dis_real(gen) * sign_y )/ 1000;
+    double z = (dis_real(gen) * sign_z )/ 1000;
+
+    Eigen::Vector3d search_distance;
+    search_distance << x,y,z;
+    std::cout << x << " " << y << " " << z << std::endl;
+//     ros::NodeHandle nh;
+//     Eigen::VectorXd selection_vector;
+//     Eigen::Vector3d _vector;
+//     selection_vector.resize(6);
+//     selection_vector<<2, 0, 1, 0, 0, 0;
+//     _vector << 2 , 3, 8;
+
+//     std::cout << "******* 有 10s 的时间，请打开夹持装置的开关 *****" << std::endl;
+//     // for (int timesec = 0;  timesec<10; timesec++){
+//     //     std::cout << "\r" << "倒计时: " << 10 - timesec << " 秒" << std::flush; 
+//     //     sleep(1);
+//     // }
+//     int input;
+//     std::cout << "Enter 1" << std::endl;
+//     std::cin >> input;
+//     int N = 6;
+//     int phi_index = 0;
+//     int theta_index = 1;
+//     while (true) {
+//         if (theta_index<3){
+//             if (phi_index==N){
+//                 phi_index = 0;
+//                 theta_index++;
+//             }
+//         }
+//         else if (theta_index == 3){
+//             break;
+//         }
+//         sleep(1);
+
+//         std::cout << "phi_index =" << phi_index << ", theta_index=" << theta_index << std::endl;
+//         std::cout << "covered" <<  std::endl;
+//     }
 
         // 4.创建action客户端对象;
     // SimpleActionClient(ros::NodeHandle & n, const std::string & name, bool spin_thread = true)
@@ -341,6 +361,6 @@ int main(int argc, char *argv[]){
     // ef.width_reduce(3);
     // sleep(3);
     // ef.width_increase(3);
-    return 0;
+//     return 0;
 }
 

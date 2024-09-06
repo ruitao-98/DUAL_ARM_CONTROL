@@ -53,8 +53,8 @@ void goalCb(const control_msgs::FollowJointTrajectoryGoalConstPtr& torso_goal, S
     left_robot.login_in(left_robot_ip.c_str()); // 每次执行回调函数都重新登陆，运行完再登出，防止和其他控制机器人程序冲突
 
     BOOL in_pos;
-    cout << torso_goal->trajectory << endl;
-    left_robot.servo_move_enable(true);
+    // cout << torso_goal->trajectory << endl;
+    left_robot.servo_move_enable(false);
     int point_num=torso_goal->trajectory.points.size();
     ROS_INFO("number of points: %d",point_num);
     JointValue joint_pose;
@@ -74,9 +74,9 @@ void goalCb(const control_msgs::FollowJointTrajectoryGoalConstPtr& torso_goal, S
         
         int step_num=int (dt * 1/0.008);
 
-        // int sdk_res=left_robot.joint_move(&joint_pose, MoveMode::ABS, true, 0.2); 
+        int sdk_res=left_robot.joint_move(&joint_pose, MoveMode::ABS, true, 0.16); 
 
-        int sdk_res=left_robot.servo_j(&joint_pose, MoveMode::ABS, step_num);
+        // int sdk_res=left_robot.servo_j(&joint_pose, MoveMode::ABS, step_num);
 
         if (sdk_res !=0)
         {
