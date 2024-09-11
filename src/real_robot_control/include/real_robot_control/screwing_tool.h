@@ -22,7 +22,8 @@ public:
 	void width_increase(int distance, ros::Publisher &pub, real_robot_control::current_pub &msg, 
 	ros::Publisher &pub1, real_robot_control::width_pub &msg1);
 
-	int width_reduce_full_for_handover(int goal_width, ros::Publisher &pub1, real_robot_control::width_pub &msg1); 
+	int width_reduce_full_for_handover(int goal_width, ros::Publisher &pub, real_robot_control::current_pub &msg, 
+										ros::Publisher &pub1, real_robot_control::width_pub &msg1); 
     int width_reduce_or_increase_full(int judge); 
     int width_recovery();
     /**

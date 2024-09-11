@@ -7,10 +7,10 @@
   <arg name="item" default="1" />
 
   <!-- 生成带时间戳和后缀的文件名 -->
-  <arg name="filename" default="$(arg item)_$(arg suffix)" />
+  <arg name="filename" default="$(arg suffix)_$(arg item)" />
 
   <!-- 输出文件路径，可以根据需要进行修改 -->
-  <arg name="output_dir" default="/home/yanji/dual_arm_control/rosbag_record" />
+  <arg name="output_dir" default="/home/yanji/dual_arm_control/rosbag_record/random_search" />
 
 
   <!-- Run motion planning -->

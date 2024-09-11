@@ -176,6 +176,8 @@ bool doReq(real_robot_control::leftrobotsrv::Request& req,
         pRobotControl->robot.set_compliant_type(0, 0);
 
         result = pRobotControl->pure_passive_model();
+        // result = pRobotControl->random_pure_passive_model();
+        // result = pRobotControl->directly_handover();
 
         if (result == 0){ //成功才打开夹爪
             gri.open = 2.0; //打开夹爪,255

@@ -167,7 +167,7 @@ void cb(const real_robot_control::screwGoalConstPtr &goal, Server* server){
         ros::param::get("goal_width", goal_width);
         std::cout << "goal_width = " << goal_width << std::endl;
         
-        result = ef.width_reduce_full_for_handover(goal_width, width_pub, msg1);  
+        result = ef.width_reduce_full_for_handover(goal_width, current_pub,msg,  width_pub, msg1);  
         //result 1表示没有达到预期位置，0表示达到了
 
         feedback.screw_status = 0;  //执行器运行结束
@@ -181,7 +181,7 @@ void cb(const real_robot_control::screwGoalConstPtr &goal, Server* server){
         feedback.screw_status = 1; //执行器开始运行
         server->publishFeedback(feedback);
 
-        ef.width_increase(2,current_pub,msg, width_pub, msg1);  // 旋拧口复位，才能退出
+        ef.width_increase(4,current_pub,msg, width_pub, msg1);  // 旋拧口复位，才能退出
 
         result = 2; //2，表示又回到了原本的状态了，打开
 
@@ -230,20 +230,21 @@ int main(int argc, char *argv[]){
                 std::cout << "insertion for the right tip" << std::endl;
                 // ef.unscrewing_s1(150,80);
                 // ef.unscrew_to_zero(100);
-                ef.screw_to_zero();
+                // ef.screw_to_zero();
+                ef.width_recovery();
                 break;
             case '3':
                 // 执行插入右tip的程序
                 std::cout << "insertion for the right tip" << std::endl;
-                ef.width_reduce_or_increase_full(1); 
+                // ef.width_reduce_or_increase_full(1); 
                 
-                // ef.width_reduce_full_for_handover(goal_width, width_pub, msg1);  
+                ef.width_reduce_full_for_handover(goal_width, current_pub, msg, width_pub, msg1);  
                 break;
             case '4':
                 // 执行插入右tip的程序
                 std::cout << "insertion for the right tip" << std::endl;
-                ef.width_recovery();
-                // ef.width_increase(2,current_pub, msg, width_pub, msg1);  // 旋拧口复位，才能退出
+                // ef.width_recovery();
+                ef.width_increase(3,current_pub, msg, width_pub, msg1);  // 旋拧口复位，才能退出
                 break;
 
             default:

@@ -1,0 +1,210 @@
+[content] previous_position = 0
+Motor 1: Failed to set return delay time!
+Motor 1: Set to Velocity Mode!
+Motor 1: Set Goal Velocity: -210!
+ excution time is319ms
+the started current-67.846 
+item200 excution time is8ms
+item400 excution time is7ms
+item600 excution time is8ms
+item800 excution time is8ms
+item1000 excution time is8ms
+item1200 excution time is8ms
+item1400 excution time is5ms
+item1600 excution time is8ms
+item1800 excution time is8ms
+item2000 excution time is7ms
+ֹͣthe present current -117.500
+Motor 1: Set Goal Velocity: 0!
+delta_position = -62726
+ͣ***the object is not at the center***[ INFO] [1725790655.766712613]: final results:1
+[ INFO] [1725790655.766756385]: screw_execute_status:0
+[ INFO] [1725790655.766931832]: screw_execute_result:1
+执行失败，搜索
+**************************
+[ INFO] [1725790655.768007241]: goal is :6
+-62726
+[ INFO] [1725790655.768038528]: activated....
+[content] previous_position = -62726
+[ INFO] [1725790655.768065238]: screw_execute_status:1
+Motor 0: Successed to open the port!
+set baundrate to 57600!
+Motor 1: Failed to set return delay time!
+set baundrate to 57600!
+Motor 1: Set to Extended Position Mode!
+Motor 1: Set Velocity Profile in Position Mode: 210!
+Motor 1: Set Goal Position: -42844!
+ excution time is320ms
+writed delta_width = -46345
+[ INFO] [1725790661.382331036]: final results:2
+[ INFO] [1725790661.382382764]: screw_execute_result:2
+screw_execute_status == 0, break
+[ INFO] [1725790661.382424291]: screw_execute_status:0
+第一次，或因为宽度基本没有变化，随机搜索
+ grad  -0-0
+new x = -0.270633new z = -1.9816
+**************************
+[ INFO] [1725790662.198435040]: goal is :5
+[ INFO] [1725790662.198603013]: activated....
+[ INFO] [1725790662.198694577]: screw_execute_status:1
+goal_width = -70594
+Motor 0: Successed to open the port!
+set baundrate to 57600!
+-46345
+[content] previous_position = -46345
+Motor 1: Failed to set return delay time!
+Motor 1: Set to Velocity Mode!
+Motor 1: Set Goal Velocity: -210!
+ excution time is320ms
+the started current-73.231 
+item2200 excution time is8ms
+item2400 excution time is8ms
+item2600 excution time is7ms
+ֹͣthe present current -120.750
+Motor 1: Set Goal Velocity: 0!
+delta_position = -63350
+ͣ***the object is not at the center***[ INFO] [1725790667.653745353]: final results:1
+[ INFO] [1725790667.653785136]: screw_execute_result:1
+[ INFO] [1725790667.653809948]: screw_execute_status:0
+执行失败，搜索
+####################
+last_width = -62726
+present_width = -63350
+#####################
+present pos:-0.218866 0.0588299 -1.80433
+prevX = 0 prevZ = 0
+**************************
+[ INFO] [1725790667.654591704]: goal is :6
+-63350
+[content] previous_position = -63350
+[ INFO] [1725790667.654682024]: activated....
+[ INFO] [1725790667.654692555]: screw_execute_status:1
+Motor 0: Successed to open the port!
+set baundrate to 57600!
+Motor 1: Failed to set return delay time!
+set baundrate to 57600!
+Motor 1: Set to Extended Position Mode!
+Motor 1: Set Velocity Profile in Position Mode: 210!
+Motor 1: Set Goal Position: -43567!
+ excution time is320ms
+writed delta_width = -46969
+[ INFO] [1725790673.269344984]: final results:2
+[ INFO] [1725790673.269402166]: screw_execute_result:2
+screw_execute_status == 0, break
+[ INFO] [1725790673.269428364]: screw_execute_status:0
+ grad  -1.98545-0.240835
+new x = -2.20431new z = -2.04517
+**************************
+[ INFO] [1725790674.085522458]: goal is :5
+[ INFO] [1725790674.085718506]: screw_execute_status:1
+[ INFO] [1725790674.085751807]: activated....
+goal_width = -70594
+Motor 0: Successed to open the port!
+set baundrate to 57600!
+-46969
+[content] previous_position = -46969
+Motor 1: Failed to set return delay time!
+Motor 1: Set to Velocity Mode!
+Motor 1: Set Goal Velocity: -210!
+ excution time is319ms
+the started current-73.462 
+item2800 excution time is8ms
+item3000 excution time is8ms
+item3200 excution time is8ms
+ֹͣthe present current -120.625
+Motor 1: Set Goal Velocity: 0!
+delta_position = -63653
+ͣ***the object is not at the center***[ INFO] [1725790679.444756540]: final results:1
+[ INFO] [1725790679.444822206]: screw_execute_result:1
+[ INFO] [1725790679.444848452]: screw_execute_status:0
+执行失败，搜索
+####################
+last_width = -63350
+present_width = -63653
+#####################
+present pos:-2.29736 -0.00451413 -1.88629
+prevX = -0.218866 prevZ = -1.80433
+**************************
+[ INFO] [1725790679.448743792]: goal is :6
+[ INFO] [1725790679.448757670]: activated....
+-63653
+[content] previous_position = -63653
+[ INFO] [1725790679.448779943]: screw_execute_status:1
+Motor 0: Successed to open the port!
+set baundrate to 57600!
+Motor 1: Failed to set return delay time!
+set baundrate to 57600!
+Motor 1: Set to Extended Position Mode!
+Motor 1: Set Velocity Profile in Position Mode: 210!
+Motor 1: Set Goal Position: -43963!
+ excution time is319ms
+writed delta_width = -47272
+[ INFO] [1725790685.060368211]: final results:2
+[ INFO] [1725790685.060420680]: screw_execute_result:2
+screw_execute_status == 0, break
+[ INFO] [1725790685.060445372]: screw_execute_status:0
+ grad  -0.0787987-1.99845
+new x = -2.37615new z = -3.88474
+**************************
+[ INFO] [1725790685.866733415]: goal is :5
+[ INFO] [1725790685.866927489]: activated....
+[ INFO] [1725790685.867040269]: screw_execute_status:1
+goal_width = -70594
+Motor 0: Successed to open the port!
+set baundrate to 57600!
+-47272
+[content] previous_position = -47272
+Motor 1: Failed to set return delay time!
+Motor 1: Set to Velocity Mode!
+Motor 1: Set Goal Velocity: -210!
+ excution time is319ms
+the started current-75.000 
+item3400 excution time is8ms
+item3600 excution time is7ms
+item3800 excution time is8ms
+item4000 excution time is26ms
+ֹͣthe present current -125.750
+Motor 1: Set Goal Velocity: 0!
+delta_position = -70135
+ͣ***the object is at the center***[ INFO] [1725790693.107653299]: final results:0
+[ INFO] [1725790693.107714104]: screw_execute_result:0
+[ INFO] [1725790693.107742637]: screw_execute_status:0
+执行成功
+**************************
+[ INFO] [1725790693.149679215]: goal is :3
+[ INFO] [1725790693.149762498]: activated....
+Motor 0: Successed to open the port!
+[ INFO] [1725790693.149799739]: screw_execute_status:1
+set baundrate to 57600!
+[content] -70135
+ 
+Motor 1: Failed to set return delay time!
+set baundrate to 57600!
+Motor 1: Set to Extended Position Mode!
+Motor 1: Set Velocity Profile in Position Mode: 210!
+Motor 1: Set Goal Position: 3192!
+[ INFO] [1725790717.313908135]: final results:3
+screw_execute_status == 0, break
+try_time = 3
+[ INFO] [1725790717.313939638]: screw_execute_status:0
+[ INFO] [1725790717.313971712]: screw_execute_result:3
+2.0
+2.0
+serving: 0
+-0.0800951
+final item = 430
+[ INFO] [1725790721.786605652]: final results:0
+2.0
+2.0
+^C[rosbag_record-13] killing on exit
+[gripper_open-12] killing on exit
+[left_or_right_assembly-10] killing on exit
+[task_control_screw-8] killing on exit
+[rviz_yanji_server_210032_868410722027972674-6] killing on exit
+[move_group-5] killing on exit
+[robot_state_publisher-4] killing on exit
+[virtual_joint_broadcaster_0-3] killing on exit
+[motion_planning-1] killing on exit
+shutting down processing monitor...
+... shutting down processing monitor complete
+done

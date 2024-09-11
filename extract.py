@@ -24,7 +24,7 @@ import rospy
 import os
 
 # 设置bag文件路径
-bag_file_path = "/home/yanji/dual_arm_control/rosbag_record/recorded_topics.bag"
+bag_file_path = "/home/yanji/dual_arm_control/rosbag_record/current/default_suffix_1.bag"
 
 # 检查文件是否存在
 if not os.path.exists(bag_file_path):
@@ -38,21 +38,26 @@ bag = rosbag.Bag(bag_file_path)
 width_data = []
 for_pos_data = []
 robot_force_data = []
+current_data = []
 
 # 遍历bag中的消息
-for topic, msg, t in bag.read_messages(topics=['/width_p', '/for_pos', '/robot_force']):
-    
+# for topic, msg, t in bag.read_messages(topics=['/width_p', '/for_pos', '/robot_force']):
+for topic, msg, t in bag.read_messages(topics=['/width_p', '/current_p']): 
     if topic == '/width_p':
         # 假设消息类型是std_msgs/Float64，存储width
-        width_data.append(msg.data)
-    
-    elif topic == '/for_pos':
+        width_data.append(msg.width)
+
+    elif topic == '/current_p':
         # 假设消息类型是包含X, Y, Z, MX, MY, MZ的自定义消息，分别提取数据
-        for_pos_data.append([msg.X, msg.Y, msg.Z, msg.MX, msg.MY, msg.MZ])
+        current_data.append([msg.current])
     
-    elif topic == '/robot_force':
-        # 假设消息类型是包含FX, FY, FZ, X, Y, Z, theta的自定义消息，分别提取数据
-        robot_force_data.append([msg.FX, msg.FY, msg.FZ, msg.X, msg.Y, msg.Z, msg.theta])
+    # elif topic == '/for_pos':
+    #     # 假设消息类型是包含X, Y, Z, MX, MY, MZ的自定义消息，分别提取数据
+    #     for_pos_data.append([msg.X, msg.Y, msg.Z, msg.FX, msg.FY, msg.FZ])
+    
+    # elif topic == '/robot_force':
+    #     # 假设消息类型是包含FX, FY, FZ, X, Y, Z, theta的自定义消息，分别提取数据
+    #     robot_force_data.append([msg.X, msg.Y, msg.Z, msg.MX, msg.MY, msg.MZ])
 
 bag.close()
 
@@ -60,10 +65,14 @@ bag.close()
 print("Width Data (/width_p):")
 print(width_data)
 
-print("\nFor Pos Data (/for_pos):")
-for data in for_pos_data:
-    print(f"X: {data[0]}, Y: {data[1]}, Z: {data[2]}, MX: {data[3]}, MY: {data[4]}, MZ: {data[5]}")
+print("current Data (/current_p):")
+print(current_data)
 
-print("\nRobot Force Data (/robot_force):")
-for data in robot_force_data:
-    print(f"FX: {data[0]}, FY: {data[1]}, FZ: {data[2]}, X: {data[3]}, Y: {data[4]}, Z: {data[5]}, Theta: {data[6]}")
+
+# print("\nFor Pos Data (/robot_force):")
+# for data in robot_force_data:
+#     print(f"X: {data[0]}, Y: {data[1]}, Z: {data[2]}, MX: {data[3]}, MY: {data[4]}, MZ: {data[5]}")
+
+# print("\nRobot Force Data (/for_pos):")
+# for data in for_pos_data:
+#     print(f"X: {data[0]}, Y: {data[1]}, Z: {data[2]}, rx: {data[3]}, ry: {data[4]}, rz: {data[5]}")

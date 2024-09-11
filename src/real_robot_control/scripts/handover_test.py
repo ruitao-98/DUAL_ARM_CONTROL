@@ -78,6 +78,10 @@ class Grasp_planning():
         # 初始化需要使用move group控制的机械臂中的arm group
         self.left_arm = MoveGroupCommander('left_arm')
         self.right_arm = MoveGroupCommander('right_arm')
+        self.left_arm.set_planner_id("RRTConnect")
+        planner_id = self.left_arm.get_planner_id()
+        
+        print(planner_id)
 
         # 获取终端link的名称
         self.left_end_effector_link = self.left_arm.get_end_effector_link()
@@ -91,7 +95,7 @@ class Grasp_planning():
         self.world_reference_frame = 'base_link'
 
         # 设置位置(单位：米)和姿态（单位：弧度）的允许误差
-        self.left_arm.set_goal_position_tolerance(0.0005)
+        self.left_arm.set_goal_position_tolerance(0.0003)
         self.left_arm.set_goal_orientation_tolerance(0.0005)
         self.right_arm.set_goal_position_tolerance(0.005)
         self.right_arm.set_goal_orientation_tolerance(0.03)
@@ -244,6 +248,7 @@ class Grasp_planning():
         self.left_arm.set_max_velocity_scaling_factor(0.1)  # 设置最大速度为10%
         self.left_arm.set_max_acceleration_scaling_factor(0.1)  # 设置最大加速度为10%
         self.left_arm.set_planning_time(5)
+
         # 规划出轨迹
         planning_result = self.left_arm.plan()
         decition_result = self.wait_for_key_press()
@@ -316,7 +321,7 @@ def planning_grasping(pos, rotm):
 
     pos = pos / 1000
     # 加偏执后， 直线运动
-    delta_p = np.array([0, 0, 0])
+    delta_p = np.array([0, 0, -0.05])
     grasping_pos = pos + rotm @ delta_p
     grasping_pos = grasping_pos.astype(float)
     grasping_rotm = rotm.astype(float)
@@ -488,7 +493,7 @@ if __name__ == '__main__':
     # 规划到测量点
 
     print('please press 1-3 select the goal object')
-    print("1--> 水管 || 2--> m8 长螺丝 || 3--> 长螺柱")
+    print("1--> 螺母 || 2--> m8 长螺丝 || 3--> 长螺柱 || 4--> 堵头 || 5--> 三通 || 6-->两通")
     choice = wait_for_choice()
     print('choice = ', choice)
 
@@ -497,42 +502,62 @@ if __name__ == '__main__':
 
 
     elif choice == 2:
-        rospy.set_param("goal_width", -78218) #m8 长螺丝
+        rospy.set_param("goal_width", -77945) #m8 长螺丝
 
 
     elif choice == 3:
-        rospy.set_param("goal_width", -59459) #长螺柱
+        rospy.set_param("goal_width", -59344) #长螺柱
+
+
+    elif choice == 4:
+        rospy.set_param("goal_width", -54207) #堵头
+
+
+    elif choice == 5:
+        rospy.set_param("goal_width", -64935) #三通
+    
+    elif choice == 6:
+        rospy.set_param("goal_width", -74674) #两通
+
+        # -48859  # 中块 大头
 
 
 
 
 
     # 规划交接动作
-    # print('planning hand over')
-    # planning_handover(pos, rotm)
-    # req.num = 6
-    # resp = client.call(req) #开启handover 任务
-    # print('resp =',  resp)
 
-    # pos = np.array([-100.64, -747.73, 271.613])  #3 分螺母真值
-    # rpy = [120 * np.pi / 180, -93 * np.pi / 180, 0 * np.pi / 180]
-    # rotm = from_eular_to_matrix(rpy)
+    pos = np.array([-100.64, -747.73, 271.613])  #3 分螺母真值
+    rpy = [120 * np.pi / 180, -87 * np.pi / 180, 0 * np.pi / 180]
+    rotm = from_eular_to_matrix(rpy)
 
     # pos = np.array([-106.41, -745.668, 245.846])  #m8 长螺丝真值
     # rpy = [-90 * np.pi / 180, -1 * np.pi / 180, -150.518 * np.pi / 180]
     # rotm = from_eular_to_matrix(rpy)
 
-    pos = np.array([-107.076, -747.03, 254.812])  #长螺柱
-    rpy = [-90 * np.pi / 180, 3 * np.pi / 180, -155.23 * np.pi / 180]
-    rotm = from_eular_to_matrix(rpy)
+    # pos = np.array([-107.076, -747.03, 254.812])  #长螺柱
+    # rpy = [-90 * np.pi / 180, 3 * np.pi / 180, -155.23 * np.pi / 180]
+    # rotm = from_eular_to_matrix(rpy)
+
+    # pos = np.array([-103.387, -748.331, 278.354])  #堵头
+    # rpy = [116.013 * np.pi / 180, -92 * np.pi / 180, 0 * np.pi / 180]
+    # rotm = from_eular_to_matrix(rpy)
+
+    # pos = np.array([-101.471, -749.132, 273.407])  #三通
+    # rpy = [120 * np.pi / 180, -93 * np.pi / 180, 0 * np.pi / 180]
+    # rotm = from_eular_to_matrix(rpy)
+
+    # pos = np.array([-103.912, -747.203, 264.654])  #两通
+    # rpy = [120 * np.pi / 180, -87 * np.pi / 180, 0 * np.pi / 180]
+    # rotm = from_eular_to_matrix(rpy)
 
     random_float1 = random.uniform(-4, 4)
     random_float2 = random.uniform(-4, 4)
-    random_float3 = random.uniform(-4, 4)
+    random_float3 = random.uniform(-1, 4)
     pos[0] = pos[0] + random_float1
-    pos[1] = pos[1] + random_float2
-    pos[2] = pos[2] + random_float3
-    print(pos)
+    pos[1] = pos[1] - 4
+    pos[2] = pos[2]  +3
+    print("random_floatxyz:", random_float1, random_float2, random_float3)
         # 规划到测量点
     # planning_grasping_move_up(pos, rotm)
     planning_grasping(pos, rotm)
@@ -542,6 +567,9 @@ if __name__ == '__main__':
     resp = client.call(req) #开启handover 任务
     print('resp =',  resp)
 
+    for i in [0, 1]:
+        gri.open = 2.0 #255
+        gripper_pub.publish(gri)
 
 
 

@@ -37,7 +37,7 @@ planner_configs:
     goal_bias: 0.05  # When close to goal select goal, with this probability? default: 0.05
   RRTConnect:
     type: geometric::RRTConnect
-    range: 0.0  # Max motion added to tree. ==> maxDistance_ default: 0.0, if 0.0, set on setup()
+    range: 0.005  # Max motion added to tree. ==> maxDistance_ default: 0.0, if 0.0, set on setup()
   RRTstar:
     type: geometric::RRTstar
     range: 0.0  # Max motion added to tree. ==> maxDistance_ default: 0.0, if 0.0, set on setup()
@@ -165,6 +165,7 @@ planner_configs:
     use_strict_queue_ordering: 0  # sort edges in the queue at the end of the batch (0) or after each rewiring (1). Default: 0
     find_approximate_solutions: 0  # track approximate solutions (1) or not (0). Default: 0
 left_arm:
+  default_planner_config: RRTConnect  # 这里定义了默认规划器  
   planner_configs:
     - AnytimePathShortening
     - SBL
@@ -195,6 +196,7 @@ left_arm:
     - BITstar
   projection_evaluator: joints(l_j1,l_j2)
   longest_valid_segment_fraction: 0.005
+  
 right_arm:
   planner_configs:
     - AnytimePathShortening
@@ -226,7 +228,9 @@ right_arm:
     - BITstar
   projection_evaluator: joints(r_j1,r_j2)
   longest_valid_segment_fraction: 0.005
+  default_planner_config: RRTConnect  # 这里定义了默认规划器
 gripper:
+  default_planner_config: RRTConnect  # 这里定义了默认规划器
   planner_configs:
     - AnytimePathShortening
     - SBL
@@ -258,6 +262,7 @@ gripper:
   projection_evaluator: joints(l_p1,l_p2)
   longest_valid_segment_fraction: 0.005
 screw_tool:
+  default_planner_config: RRTConnect  # 这里定义了默认规划器
   planner_configs:
     - AnytimePathShortening
     - SBL

@@ -197,6 +197,7 @@ void endeffector::width_increase(int distance, ros::Publisher &pub, real_robot_c
 
 			int goal_position = previous_position + (end_position - start_position_1); //宽度增加，编码器数值是增加的
 
+			cout << "writed delta_width = " << goal_position - 130 << endl; //-100 用于补偿回程误差
 			fstream ofs;
 			ofs.open(delta_width, ios::out);
 			ofs << goal_position;
@@ -271,7 +272,7 @@ int endeffector::width_reduce_or_increase_full(int judge){
 	}
 	float start_current = average_function(base_current, 15);
 	printf("the started current%.3f \n", start_current);
-	int yuzhi = 42;
+	int yuzhi = 40;
 	int present_cu[10] = { 0 };
 	int i = 0;
 	int fin_position;
@@ -316,7 +317,8 @@ int endeffector::width_reduce_or_increase_full(int judge){
 	}
 }
 
-int endeffector::width_reduce_full_for_handover(int goal_width, ros::Publisher &pub1, real_robot_control::width_pub &msg1){
+int endeffector::width_reduce_full_for_handover(int goal_width, ros::Publisher &pub, real_robot_control::current_pub &msg, 
+												ros::Publisher &pub1, real_robot_control::width_pub &msg1){
     this->open_port();
 	this->setbaundrate();
 
@@ -357,6 +359,9 @@ int endeffector::width_reduce_full_for_handover(int goal_width, ros::Publisher &
 		int width = this->get_presentposition(1);
 		msg1.width = width;
 		pub1.publish(msg1);
+
+		msg.current = 0.0;
+		pub.publish(msg);
 	}
 	auto end_time = std::chrono::high_resolution_clock::now();
 	auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end_time-start_time);
@@ -367,7 +372,7 @@ int endeffector::width_reduce_full_for_handover(int goal_width, ros::Publisher &
 	}
 	float start_current = average_function(base_current, 15);
 	printf("the started current%.3f \n", start_current);
-	int yuzhi = 45;
+	int yuzhi =45;
 	int present_cu[10] = { 0 };
 	int i = 0;
 	int fin_position;
@@ -388,7 +393,8 @@ int endeffector::width_reduce_full_for_handover(int goal_width, ros::Publisher &
 		if (i > 10){
 		ave_current = average_function(present_cu, 10);
 		}
-		
+		msg.current = ave_current;
+		pub.publish(msg);
 		if ((fabs(ave_current - start_current) > yuzhi) && (i > 10))
 		{
 			printf("ֹͣthe present current %.3f\n", ave_current);
@@ -398,12 +404,18 @@ int endeffector::width_reduce_full_for_handover(int goal_width, ros::Publisher &
 				int width = this->get_presentposition(1);
 				msg1.width = width;
 				pub1.publish(msg1);
+
+				msg.current = this->get_presentcurrent(1);
+				pub.publish(msg);
 			}
 
 			// std::this_thread::sleep_for(std::chrono::milliseconds(300));
 			int end_position = this->get_presentposition(1);
 			int delta_position = (end_position - start_position) + previous_position;
 			cout << "delta_position = " << delta_position << endl;
+			
+			ros::param::set("present_width", delta_position);
+
 			ofs.open(delta_width, ios::out);
 			ofs << delta_position;
 			ofs.close();
@@ -436,7 +448,7 @@ int endeffector::width_recovery(){
 		cout << "[content] " << content << endl;
 	}
 	in.close();
-	int delta_position = atoi(content.c_str());
+	int delta_position = atoi(content.c_str()) - 120; //补偿
 
 	if (!(this->torque_on(1))){
 		while (!(this->torque_on(1))) {
@@ -444,7 +456,7 @@ int endeffector::width_recovery(){
 		}
 		sleep(4);
 	}
-
+	sleep(2);
 	cout << " " << endl;
 	this->setdelaytime(1, 0);
     this->setbaundrate();
@@ -456,7 +468,7 @@ int endeffector::width_recovery(){
 	int start_position_1 = this->get_presentposition(1);
 	int goal_position_1 = int(start_position_1 - delta_position);
 	this->set_goalposition(1, goal_position_1);
-	std::this_thread::sleep_for(std::chrono::milliseconds(500));
+	std::this_thread::sleep_for(std::chrono::milliseconds(800));
 	while (true) {
 		if (this->get_presentvelocity(1) <= 1) {
 			this->torque_off(1);
@@ -954,6 +966,7 @@ void endeffector::screw_to_zero() {
 	while (this->torque_on(1)) {
 		cout << "\r" <<"******请关闭夹持装置的电源，以保护电机*********" << flush; 
 	}
+	sleep(4);
 	this->setdelaytime(0, 0);
 	this->torque_off(0);
 	this->set_expositionmode(0);

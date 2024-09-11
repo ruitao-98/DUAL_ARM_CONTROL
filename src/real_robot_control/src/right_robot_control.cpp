@@ -256,7 +256,7 @@ void RobotAdmittanceControl::tcp_admittance_control(){
     Eigen::VectorXd adm_acc = MA.cwiseQuotient(adm_m);
     Eigen::VectorXd adm_vel = eef_vel + adm_acc * T;
     linear_disp = adm_vel.head(3) * T;
-    angular_disp = eef_rotm.transpose() * adm_vel.tail(3) * T;
+    angular_disp = eef_rotm * adm_vel.tail(3) * T; 
     linear_disp = selection_vector.head<3>().cwiseProduct(linear_disp);
     angular_disp = selection_vector.tail<3>().cwiseProduct(angular_disp);
     eef_vel = adm_vel;
@@ -1300,7 +1300,7 @@ void RobotAdmittanceControl::screw_assembly_search(){
         new_pos.tran.x = new_linear[0] * 1000; new_pos.tran.y = new_linear[1] * 1000; new_pos.tran.z = new_linear[2] * 1000;
         new_pos.rpy.rx = new_rpy.rx; new_pos.rpy.ry = new_rpy.ry; new_pos.rpy.rz = new_rpy.rz;
         // new_pos.rpy.rx = current_rpy.rx; new_pos.rpy.ry = current_rpy.ry; new_pos.rpy.rz = current_rpy.rz;
-        robot.servo_p(&new_pos, ABS, 5);
+        robot.servo_p(&new_pos, ABS, 4);
         cout << "\r" << "final item = " << item << flush;
     }
 
@@ -1375,22 +1375,22 @@ void RobotAdmittanceControl::go_to_pose(){
     switch(input) {
 
         case '1':
-            goal_pose.tran.x = -172; goal_pose.tran.y = 296.737; goal_pose.tran.z = 178;
-            goal_pose.rpy.rx = (-178 * PI) / 180; goal_pose.rpy.ry = (0.558 * PI) / 180; goal_pose.rpy.rz = (-49.943 * PI) / 180; //m12
+            goal_pose.tran.x = -150.133; goal_pose.tran.y = 303.129; goal_pose.tran.z = 182;
+            goal_pose.rpy.rx = (178.988 * PI) / 180; goal_pose.rpy.ry = (0.493 * PI) / 180; goal_pose.rpy.rz = (-50.604 * PI) / 180; //m12
             robot.servo_move_enable(false);
             robot.linear_move(&goal_pose, ABS, TRUE, 18);
             break; // 添加break语句
 
         case '2':
-            goal_pose.tran.x = 46.578; goal_pose.tran.y = 319.169; goal_pose.tran.z = 178;
-            goal_pose.rpy.rx = (178 * PI) / 180; goal_pose.rpy.ry = (0 * PI) / 180; goal_pose.rpy.rz = (-74.997 * PI) / 180;
+            goal_pose.tran.x = 64.854; goal_pose.tran.y = 332.012; goal_pose.tran.z = 175;
+            goal_pose.rpy.rx = (179.716 * PI) / 180; goal_pose.rpy.ry = (-1.061 * PI) / 180; goal_pose.rpy.rz = (-57.839 * PI) / 180;
             robot.servo_move_enable(false);
             robot.linear_move(&goal_pose, ABS, TRUE, 18);
             break; // 添加break语句
         
         case '3':
-            goal_pose.tran.x = 197.029; goal_pose.tran.y = 383.9; goal_pose.tran.z = 180;
-            goal_pose.rpy.rx = (-179.289 * PI) / 180; goal_pose.rpy.ry = (2.554 * PI) / 180; goal_pose.rpy.rz = (-77.513 * PI) / 180;
+            goal_pose.tran.x = 235.13; goal_pose.tran.y = 406.882; goal_pose.tran.z = 182;
+            goal_pose.rpy.rx = (177.815 * PI) / 180; goal_pose.rpy.ry = (1.249 * PI) / 180; goal_pose.rpy.rz = (-53.967 * PI) / 180;
             robot.servo_move_enable(false);
             robot.linear_move(&goal_pose, ABS, TRUE, 18);
             break; // 添加break语句

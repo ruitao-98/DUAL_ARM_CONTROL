@@ -15,6 +15,8 @@
 #include "real_robot_control/screwAction.h"
 #include <sensor_msgs/JointState.h>
 #include "real_robot_control/force_pos_pub.h"
+#include <set>
+#include <utility> // for std::pair
 
 namespace jaka {
     using Quaternion = ::Quaternion; // 创建别名
@@ -60,11 +62,16 @@ public:
     // void hybird_control();  //交接工件
     // void move_to_handeover();  //交接工件
     int pure_passive_model(); //交接工件，机器人开启柔顺，并发布action让旋拧执行器运动，根据反馈结果进一步调整
+    int random_pure_passive_model();
+    int directly_handover();
     void done_cb(const actionlib::SimpleClientGoalState &state, const real_robot_control::screwResultConstPtr &result);
     void active_cb();
     void feedback_cb(const real_robot_control::screwFeedbackConstPtr &feedback);
     void back_to_middle();
     void joint_states_callback(ros::Publisher joint_states_pub);
+
+    bool isInTabuList(int x, int z);
+    void addToTabuList(int x, int z);
 
     Eigen::VectorXd adm_m;
     Eigen::VectorXd adm_k;
@@ -81,6 +88,8 @@ public:
 
     ros::Publisher for_pos_pub;
     real_robot_control::force_pos_pub fp;
+
+    std::set<std::pair<int, int>> tabuList;
 
 private:
     // 参数
@@ -101,6 +110,8 @@ private:
     Eigen::Matrix3d object_rotm;
     Eigen::Vector3d object_length;
 
+    Eigen::Vector3d euler_angles;
+
 
     // std::thread excution_thread;
     // std::thread sensor_thread;
@@ -114,6 +125,9 @@ private:
     CartesianPose new_pos;
     RotMatrix new_rotm;
     Rpy new_rpy;
+
+    RotMatrix new_eef_rotm;
+    Rpy new_eef_rpy;
 
 
     

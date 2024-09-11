@@ -426,7 +426,7 @@ def try_planning_handover(T_relatives):
 def planning_handover(T_relative):
 
     # 旋拧点在右侧的位置和姿态
-    delta_p = np.array([0.06, 0, 0])
+    delta_p = np.array([0.05, 0, 0])
     eef_pos_in_right = np.array([-0.07189, 0.3575, 0.2679])
     eef_mat_in_right = np.array([[  -0.5, -0.866,  0],
                                 [ 0.866,   -0.5,  0],
@@ -438,19 +438,19 @@ def planning_handover(T_relative):
     # 抓取点在右侧的姿态
     gra_wait_mat_in_right = eef_mat_wait_in_right @ T_relative[:3, :3]
     gra_wait_pos_in_right = eef_pos_wait_in_right + eef_mat_wait_in_right @ (T_relative[:3, 3] / 1000)
-    rospy.set_param("T_s_g_00", T_relative[0, 0])
-    rospy.set_param("T_s_g_01", T_relative[0, 1])
-    rospy.set_param("T_s_g_02", T_relative[0, 2])
-    rospy.set_param("T_s_g_10", T_relative[1, 0])
-    rospy.set_param("T_s_g_11", T_relative[1, 1])
-    rospy.set_param("T_s_g_12", T_relative[1, 2])
-    rospy.set_param("T_s_g_20", T_relative[2, 0])
-    rospy.set_param("T_s_g_21", T_relative[2, 1])
-    rospy.set_param("T_s_g_22", T_relative[2, 2])
+    # rospy.set_param("T_s_g_00", T_relative[0, 0])
+    # rospy.set_param("T_s_g_01", T_relative[0, 1])
+    # rospy.set_param("T_s_g_02", T_relative[0, 2])
+    # rospy.set_param("T_s_g_10", T_relative[1, 0])
+    # rospy.set_param("T_s_g_11", T_relative[1, 1])
+    # rospy.set_param("T_s_g_12", T_relative[1, 2])
+    # rospy.set_param("T_s_g_20", T_relative[2, 0])
+    # rospy.set_param("T_s_g_21", T_relative[2, 1])
+    # rospy.set_param("T_s_g_22", T_relative[2, 2])
     
-    rospy.set_param("T_s_g_03", T_relative[0, 3])
-    rospy.set_param("T_s_g_13", T_relative[1, 3])
-    rospy.set_param("T_s_g_23", T_relative[2, 3])
+    # rospy.set_param("T_s_g_03", T_relative[0, 3])
+    # rospy.set_param("T_s_g_13", T_relative[1, 3])
+    # rospy.set_param("T_s_g_23", T_relative[2, 3])
 
     # 变换到左侧机器人坐标系下
     gra_wait_pos_in_right = gra_wait_pos_in_right.tolist()
@@ -574,17 +574,17 @@ if __name__ == '__main__':
         print('choice = ', choice)
 
         if choice == 1:
-            rospy.set_param("goal_width", -50338) #3分螺母
+            rospy.set_param("goal_width", -51144) #3分螺母
             file_name = "bolt_3score.pcd"
             num_screw = 6 #随着物体变化，根据物体的对称形确定，圆形可设任意，六边形6个，对称2个
         
         elif choice == 2:
-            rospy.set_param("goal_width", -65199) #3分3通
+            rospy.set_param("goal_width", -65352) #3分3通
             file_name = "three_3score.pcd"
             num_screw = 2 #随着物体变化，根据物体的对称形确定，圆形可设任意，六边形6个，对称2个
         
         elif choice == 3:
-            rospy.set_param("goal_width", -56363) #m12螺母
+            rospy.set_param("goal_width", -56809) #m12螺母
             file_name = "m12_bolt.pcd"
             num_screw = 6 #随着物体变化，根据物体的对称形确定，圆形可设任意，六边形6个，对称2个
 
