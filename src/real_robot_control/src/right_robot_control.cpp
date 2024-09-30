@@ -460,6 +460,13 @@ void RobotAdmittanceControl::screw_assembly_directly(){
     eef_rotm_d = eef_rotm;
 
     int item = 0;
+    real_robot_control::screwGoal goal;
+    //实验测试用，用完注释
+    // goal.num = 5;
+    // client.sendGoal(goal,
+    //             std::bind(&RobotAdmittanceControl::done_cb, this, std::placeholders::_1, std::placeholders::_2),
+    //             std::bind(&RobotAdmittanceControl::active_cb, this),
+    //             std::bind(&RobotAdmittanceControl::feedback_cb, this, std::placeholders::_1));  
 
     while (item < 7000)
     {   
@@ -553,16 +560,17 @@ void RobotAdmittanceControl::screw_assembly_directly(){
     new_rpy.rx = current_rpy.rx; 
     new_rpy.ry = current_rpy.ry;
     screw_execute_result = 9; //不需要对其进行初始化，一开始他没有结果
-    real_robot_control::screwGoal goal;
+    
 
     int N = 8;
     int phi_index = 0;
     int theta_index = 1;
-    double distance_threhold = 1;  // 单位 mm 
+    double distance_threhold = 0.8;  // 单位 mm 
     while (true){
         // cout << "init_height - end_height = " << init_height - end_height << endl;
         // cout << "init_height - end_height. transpose = " << eef_rotm.transpose() * (init_height - end_height)  << endl;
         Eigen::Vector3d delta_height = eef_rotm.transpose() * (init_height - end_height);
+        cout << "delta_height[2] = " << delta_height[2] << endl;
         // 判断是否要执行下一个期望位姿
         if (screw_execute_result == 2){ 
             cout << "装配完成，退出" << endl;
@@ -571,11 +579,18 @@ void RobotAdmittanceControl::screw_assembly_directly(){
             break;
         }
 
-        else if ((screw_execute_result == 0) && (delta_height[2]>(distance_threhold /800))){
-            cout << "delta_height[2] = " << delta_height[2] << endl;
+        else if ((screw_execute_result == 0) && (delta_height[2]>(distance_threhold /1000))){
             cout << "flag = 0, 对准成功，进入下一步装配" << endl;
             flag = 0;
             // 对准成功，进入下一步装配，完全旋拧
+        }
+
+        else if (screw_execute_result == 1){
+            cout << "装配完成，退出" << endl;
+            // 装配完成
+            flag = 3;
+            // 对准成功，进入下一步装配，完全旋拧
+            break;
         }
 
 
@@ -585,7 +600,7 @@ void RobotAdmittanceControl::screw_assembly_directly(){
         update_robot_state();
         get_eef_pose();
         eef_pos_d = eef_pos;
-        while (item < 5000)
+        while (item < 50000)
         {  
             if (screw_execute_status == 2)
             {   // 判断是否达到了期望位姿，如果达到了，并且此时执行器不是在运行的状态，就发布信息让执行器转动，一次循环只发送一次
@@ -738,6 +753,15 @@ void RobotAdmittanceControl::screw_assembly_search(){
             
             object_length << 0, 0, 0.006;  //水管
             break; 
+        
+        case '5':
+            
+            object_length << 0, 0, 0.046;  //圆形螺丝
+            break; 
+
+        case '6':
+            object_length << 0, 0, 0.027;   //3分螺母 加长
+            break; 
             
         default:
             // 程序结束
@@ -784,7 +808,6 @@ void RobotAdmittanceControl::screw_assembly_search(){
             break;
         }
 
-        cout << tcp_force[1] << endl;
         tcp_admittance_control();
         
         linear_disp_clipped = linear_disp.cwiseMin(0.01).cwiseMax(-0.01);
@@ -805,8 +828,8 @@ void RobotAdmittanceControl::screw_assembly_search(){
         new_pos.tran.x = new_linear[0] * 1000; new_pos.tran.y = new_linear[1] * 1000; new_pos.tran.z = new_linear[2] * 1000;
         new_pos.rpy.rx = new_rpy.rx; new_pos.rpy.ry = new_rpy.ry; new_pos.rpy.rz = new_rpy.rz;
         // new_pos.rpy.rx = current_rpy.rx; new_pos.rpy.ry = current_rpy.ry; new_pos.rpy.rz = current_rpy.rz;
-        cout<<"new_trans" << new_pos.tran.x << " " << new_pos.tran.y << " "<< new_pos.tran.z << " "<< endl;
-        cout <<"new_rpy" << (new_pos.rpy.rx / PI) * 180 << "  " << (new_pos.rpy.ry / PI) * 180<< "  " << (new_pos.rpy.rz / PI) * 180<<"  " << endl; //new_rpy.rx不受导纳控制输出的影响，一开始就写死了
+        // cout<<"new_trans" << new_pos.tran.x << " " << new_pos.tran.y << " "<< new_pos.tran.z << " "<< endl;
+        // cout <<"new_rpy" << (new_pos.rpy.rx / PI) * 180 << "  " << (new_pos.rpy.ry / PI) * 180<< "  " << (new_pos.rpy.rz / PI) * 180<<"  " << endl; //new_rpy.rx不受导纳控制输出的影响，一开始就写死了
         robot.servo_p(&new_pos, ABS, loop_rate);
         // std::this_thread::sleep_for(std::chrono::milliseconds(8)); 
 
@@ -826,9 +849,9 @@ void RobotAdmittanceControl::screw_assembly_search(){
 
         auto end_time = std::chrono::high_resolution_clock::now();
         auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end_time-start_time);
-        cout << "linear search item" << item << " excution time is"<< duration.count()<<"ms" << endl;
-
-
+        if (item % 130 == 0){
+            cout << "linear search item" << item << " excution time is"<< duration.count()<<"ms" << endl;
+        }
     }
     std::cout << "Enter 1 for continue" << std::endl;
     std::cin >> input;
@@ -1371,48 +1394,62 @@ void RobotAdmittanceControl::go_to_pose(){
 
     std::cout << "Enter 1-3 to select the goal position:" << std::endl;
     std::cin >> input;
-        
-    switch(input) {
+    
+    switch(input) { //单臂实验标定结果
 
         case '1':
-            goal_pose.tran.x = -150.133; goal_pose.tran.y = 303.129; goal_pose.tran.z = 182;
-            goal_pose.rpy.rx = (178.988 * PI) / 180; goal_pose.rpy.ry = (0.493 * PI) / 180; goal_pose.rpy.rz = (-50.604 * PI) / 180; //m12
+            goal_pose.tran.x = -152.571; goal_pose.tran.y = 342.299; goal_pose.tran.z = 264.209;
+            goal_pose.rpy.rx = (180 * PI) / 180; goal_pose.rpy.ry = (0 * PI) / 180; goal_pose.rpy.rz = (-10 * PI) / 180; //m12
             robot.servo_move_enable(false);
             robot.linear_move(&goal_pose, ABS, TRUE, 18);
             break; // 添加break语句
 
-        case '2':
-            goal_pose.tran.x = 64.854; goal_pose.tran.y = 332.012; goal_pose.tran.z = 175;
-            goal_pose.rpy.rx = (179.716 * PI) / 180; goal_pose.rpy.ry = (-1.061 * PI) / 180; goal_pose.rpy.rz = (-57.839 * PI) / 180;
-            robot.servo_move_enable(false);
-            robot.linear_move(&goal_pose, ABS, TRUE, 18);
-            break; // 添加break语句
-        
-        case '3':
-            goal_pose.tran.x = 235.13; goal_pose.tran.y = 406.882; goal_pose.tran.z = 182;
-            goal_pose.rpy.rx = (177.815 * PI) / 180; goal_pose.rpy.ry = (1.249 * PI) / 180; goal_pose.rpy.rz = (-53.967 * PI) / 180;
-            robot.servo_move_enable(false);
-            robot.linear_move(&goal_pose, ABS, TRUE, 18);
-            break; // 添加break语句
-        
-        case '4':
-            goal_pose.tran.x = -110.169; goal_pose.tran.y = 415.724; goal_pose.tran.z = 283.141;
-            goal_pose.rpy.rx = (174.870 * PI) / 180; goal_pose.rpy.ry = (30.874 * PI) / 180; goal_pose.rpy.rz = (-73.671 * PI) / 180; //m12
-            robot.servo_move_enable(false);
-            robot.linear_move(&goal_pose, ABS, TRUE, 18);
-            break; // 交接水管
-        
-        case '5':
-            goal_pose.tran.x = -72.817; goal_pose.tran.y = 343.633; goal_pose.tran.z = 213.059;
-            goal_pose.rpy.rx = (180.0 * PI) / 180; goal_pose.rpy.ry = (0 * PI) / 180; goal_pose.rpy.rz = (-60 * PI) / 180; //m12
-            robot.servo_move_enable(false);
-            robot.linear_move(&goal_pose, ABS, TRUE, 18);
-            break; // 配合其他工具宁螺丝
-        
         default:
             // 程序结束
             std::cout << "task stoped" << std::endl;
         }
+
+    // switch(input) {  //双臂实验标定结果
+
+    //     case '1':
+    //         goal_pose.tran.x = -150.133; goal_pose.tran.y = 303.129; goal_pose.tran.z = 182;
+    //         goal_pose.rpy.rx = (178.988 * PI) / 180; goal_pose.rpy.ry = (0.493 * PI) / 180; goal_pose.rpy.rz = (-50.604 * PI) / 180; //m12
+    //         robot.servo_move_enable(false);
+    //         robot.linear_move(&goal_pose, ABS, TRUE, 18);
+    //         break; // 添加break语句
+
+    //     case '2':
+    //         goal_pose.tran.x = 64.854; goal_pose.tran.y = 332.012; goal_pose.tran.z = 175;
+    //         goal_pose.rpy.rx = (179.716 * PI) / 180; goal_pose.rpy.ry = (-1.061 * PI) / 180; goal_pose.rpy.rz = (-57.839 * PI) / 180;
+    //         robot.servo_move_enable(false);
+    //         robot.linear_move(&goal_pose, ABS, TRUE, 18);
+    //         break; // 添加break语句
+        
+    //     case '3':
+    //         goal_pose.tran.x = 235.13; goal_pose.tran.y = 406.882; goal_pose.tran.z = 182;
+    //         goal_pose.rpy.rx = (177.815 * PI) / 180; goal_pose.rpy.ry = (1.249 * PI) / 180; goal_pose.rpy.rz = (-53.967 * PI) / 180;
+    //         robot.servo_move_enable(false);
+    //         robot.linear_move(&goal_pose, ABS, TRUE, 18);
+    //         break; // 添加break语句
+        
+    //     case '4':
+    //         goal_pose.tran.x = -110.169; goal_pose.tran.y = 415.724; goal_pose.tran.z = 283.141;
+    //         goal_pose.rpy.rx = (174.870 * PI) / 180; goal_pose.rpy.ry = (30.874 * PI) / 180; goal_pose.rpy.rz = (-73.671 * PI) / 180; //m12
+    //         robot.servo_move_enable(false);
+    //         robot.linear_move(&goal_pose, ABS, TRUE, 18);
+    //         break; // 交接水管
+        
+    //     case '5':
+    //         goal_pose.tran.x = -72.817; goal_pose.tran.y = 343.633; goal_pose.tran.z = 213.059;
+    //         goal_pose.rpy.rx = (180.0 * PI) / 180; goal_pose.rpy.ry = (0 * PI) / 180; goal_pose.rpy.rz = (-60 * PI) / 180; //m12
+    //         robot.servo_move_enable(false);
+    //         robot.linear_move(&goal_pose, ABS, TRUE, 18);
+    //         break; // 配合其他工具宁螺丝
+        
+    //     default:
+    //         // 程序结束
+    //         std::cout << "task stoped" << std::endl;
+    //     }
 
 
     update_robot_state();
@@ -1461,10 +1498,11 @@ void RobotAdmittanceControl::go_to_pose(){
 void RobotAdmittanceControl::reset(){
     // -np.pi / 3, np.pi / 2, np.pi * 3 / 4, np.pi * 1 / 4, -np.pi / 2, np.pi / 2
     cout<< "reset the robot"<<endl;
-    JointValue right_joint_pos = { -PI/3, PI/3, 2*PI/3, PI/2, -PI/2, PI/2 };
-    robot.joint_move(&right_joint_pos, ABS, true, 0.15);
-    // JointValue left_joint_pos = { 0, PI/2, PI / 2, PI , PI / 2, (135 * PI) / 180 };
-    // robot.joint_move(&left_joint_pos, ABS, true, 0.2);
+    // JointValue right_joint_pos = { -PI/3, PI/3, 2*PI/3, PI/2, -PI/2, PI/2 };  //标准实验，双臂协作时的零点
+    // robot.joint_move(&right_joint_pos, ABS, true, 0.15);
+
+    JointValue left_joint_pos = { -60.283 * PI / 180, 74.928 * PI / 180, 132.499 * PI / 180, 62.573 * PI / 180, -90 * PI / 180, 39.717 * PI / 180 }; //只做单臂实验的领零点
+    robot.joint_move(&left_joint_pos, ABS, true, 0.1);
     cout<< "the robot was resetted"<<endl;
 }
 

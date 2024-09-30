@@ -85,43 +85,76 @@
 # print(rpy_temp_trans)
 
 
-import numpy as np
-from scipy.spatial.transform import Rotation as R
+# import numpy as np
+# from scipy.spatial.transform import Rotation as R
+# import open3d as o3d
+
+# def calculate_axis_angles(N, theta):
+#     angles = []
+#     for i in range(N):
+#         phi = 2 * np.pi * i / N 
+#         n = np.array([np.sin(phi), -np.cos(phi), 0])
+#         axis_angle = (n, theta)
+#         angles.append(axis_angle)
+#     return angles
+
+# def axis_angle_to_rotation_matrix(axis, angle):
+#     rotation = R.from_rotvec(angle * axis)
+#     return rotation.as_matrix()
+
+# def create_coordinate_frame(rotation_matrix, origin=[0, 0, 0], size=0.1):
+#     mesh_frame = o3d.geometry.TriangleMesh.create_coordinate_frame(size=size)
+#     mesh_frame.rotate(rotation_matrix, center=[0, 0, 0])
+#     mesh_frame.translate(origin)
+#     return mesh_frame
+
+# N = 6  # 例如，10个点
+# theta = -np.radians(10)  # 例如，30度的旋转角
+
+# axis_angles = calculate_axis_angles(N, theta)
+
+# coordinate_frames = []
+# for idx, (axis, angle) in enumerate(axis_angles):
+#     rotation_matrix = axis_angle_to_rotation_matrix(axis, angle)
+#     coordinate_frame = create_coordinate_frame(rotation_matrix, origin=[0, 0, 0])
+#     coordinate_frames.append(coordinate_frame)
+
+# # 创建原始坐标系
+# original_frame = o3d.geometry.TriangleMesh.create_coordinate_frame(size=0.2)
+
+# # 可视化所有坐标系
+# o3d.visualization.draw_geometries([original_frame] + coordinate_frames[:1])
+
 import open3d as o3d
+import numpy as np
 
-def calculate_axis_angles(N, theta):
-    angles = []
-    for i in range(N):
-        phi = 2 * np.pi * i / N 
-        n = np.array([np.sin(phi), -np.cos(phi), 0])
-        axis_angle = (n, theta)
-        angles.append(axis_angle)
-    return angles
+# 读取点云
+pcd = o3d.io.read_point_cloud("/home/yanji/dual_arm_control/src/real_robot_control/scripts/grasp_detection/pointcloud/gripper.pcd")  # 替换为你的点云文件路径
 
-def axis_angle_to_rotation_matrix(axis, angle):
-    rotation = R.from_rotvec(angle * axis)
-    return rotation.as_matrix()
+# 为每个点设置固定颜色，比如红色 (1, 0, 0)
+pcd.paint_uniform_color([1, 0, 0])  # 设置为红色
 
-def create_coordinate_frame(rotation_matrix, origin=[0, 0, 0], size=0.1):
-    mesh_frame = o3d.geometry.TriangleMesh.create_coordinate_frame(size=size)
-    mesh_frame.rotate(rotation_matrix, center=[0, 0, 0])
-    mesh_frame.translate(origin)
-    return mesh_frame
+# 创建一个可视化窗口并添加点云
+vis = o3d.visualization.Visualizer()
+vis.create_window()
 
-N = 6  # 例如，10个点
-theta = -np.radians(10)  # 例如，30度的旋转角
+# 添加点云到可视化窗口
+vis.add_geometry(pcd)
 
-axis_angles = calculate_axis_angles(N, theta)
+# 获取可视化的渲染选项
+render_option = vis.get_render_option()
 
-coordinate_frames = []
-for idx, (axis, angle) in enumerate(axis_angles):
-    rotation_matrix = axis_angle_to_rotation_matrix(axis, angle)
-    coordinate_frame = create_coordinate_frame(rotation_matrix, origin=[0, 0, 0])
-    coordinate_frames.append(coordinate_frame)
+# 设置背景颜色为白色 (可选)
+render_option.background_color = np.array([1, 1, 1])
 
-# 创建原始坐标系
-original_frame = o3d.geometry.TriangleMesh.create_coordinate_frame(size=0.2)
+# 设置点云的透明度
+render_option.point_size = 5  # 控制点的大小
+render_option.point_color_option = o3d.visualization.PointColorOption.Color  # 确保颜色被使用
+# 修改为透明的颜色, Open3D原生不支持透明度，但我们可以通过着色器处理
 
-# 可视化所有坐标系
-o3d.visualization.draw_geometries([original_frame] + coordinate_frames[:1])
+# 启动可视化
+vis.run()
+
+# 销毁窗口
+vis.destroy_window()
 

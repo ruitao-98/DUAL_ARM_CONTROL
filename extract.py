@@ -22,9 +22,10 @@
 import rosbag
 import rospy
 import os
+import matplotlib.pyplot as plt
 
 # 设置bag文件路径
-bag_file_path = "/home/yanji/dual_arm_control/rosbag_record/current/default_suffix_1.bag"
+bag_file_path = "/home/yanji/dual_arm_control/rosbag_record/current_0928/base_new_4.bag"
 
 # 检查文件是否存在
 if not os.path.exists(bag_file_path):
@@ -62,12 +63,26 @@ for topic, msg, t in bag.read_messages(topics=['/width_p', '/current_p']):
 bag.close()
 
 # 打印解析的数据
-print("Width Data (/width_p):")
-print(width_data)
+# print("Width Data (/width_p):")
+# print(width_data)
 
-print("current Data (/current_p):")
-print(current_data)
+# print("current Data (/current_p):")
+# print(current_data)
 
+# 创建两个子图
+fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(6, 8))
+
+# 在第一个子图绘制 list1
+ax1.plot(width_data,  linestyle='-',color='b', linewidth = 1)
+
+
+# 在第二个子图绘制 list2
+ax2.plot(current_data, linestyle='-', color='g', linewidth = 1)
+
+
+# 显示图形
+plt.tight_layout()
+plt.show()
 
 # print("\nFor Pos Data (/robot_force):")
 # for data in robot_force_data:

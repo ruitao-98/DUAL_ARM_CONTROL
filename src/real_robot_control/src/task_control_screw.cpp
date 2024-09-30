@@ -90,7 +90,7 @@ void cb(const real_robot_control::screwGoalConstPtr &goal, Server* server){
         server->publishFeedback(feedback);
 
         sleep(1); //等机器人稳定了
-        result = ef.screwing_s1(180, 1, current_pub, msg); //0表示没有卡住， 1表示卡住了
+        result = ef.screwing_s1(200, 1, current_pub, msg); //0表示没有卡住， 1表示卡住了
         // sleep(10);
         // result = 0;
 
@@ -227,7 +227,7 @@ int main(int argc, char *argv[]){
 
             case '2':
                 // 执行插入右tip的程序
-                std::cout << "insertion for the right tip" << std::endl;
+                std::cout << "width_recovery" << std::endl;
                 // ef.unscrewing_s1(150,80);
                 // ef.unscrew_to_zero(100);
                 // ef.screw_to_zero();
@@ -235,14 +235,14 @@ int main(int argc, char *argv[]){
                 break;
             case '3':
                 // 执行插入右tip的程序
-                std::cout << "insertion for the right tip" << std::endl;
+                std::cout << "width_reduce_full_for_handover" << std::endl;
                 // ef.width_reduce_or_increase_full(1); 
                 
                 ef.width_reduce_full_for_handover(goal_width, current_pub, msg, width_pub, msg1);  
                 break;
             case '4':
                 // 执行插入右tip的程序
-                std::cout << "insertion for the right tip" << std::endl;
+                std::cout << "width_increase 3" << std::endl;
                 // ef.width_recovery();
                 ef.width_increase(3,current_pub, msg, width_pub, msg1);  // 旋拧口复位，才能退出
                 break;

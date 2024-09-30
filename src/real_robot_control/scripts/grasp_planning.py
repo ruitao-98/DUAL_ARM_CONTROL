@@ -589,7 +589,7 @@ if __name__ == '__main__':
             num_screw = 6 #随着物体变化，根据物体的对称形确定，圆形可设任意，六边形6个，对称2个
 
 
-
+        # src, tar, src_down_o3, tar_down_o3, desk, gripper = rans.get_pointcloud_from_data()
         src, tar, src_down_o3, tar_down_o3, desk, gripper = rans.get_pointcloud_from_camera(file_name)
 
         aabb, vertices = rans.get_boundingbox(src)

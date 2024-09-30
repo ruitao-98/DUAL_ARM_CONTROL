@@ -311,24 +311,27 @@ def dbscan_point_cloud_segmentation(pcd, eps, min_samples):
 
 # 下面的函数，是对 main 中部分程序的封装，方便在grasp_planning中调用
 #####################
-def get_pointcloud_from_data():
+def get_pointcloud_from_data(file_name):
     """
     src: 模板， tar：采集的数据
     """
-    src = o3d.io.read_point_cloud('/home/yanji/dual_arm_control/src/real_robot_control/scripts/grasp_detection/pointcloud/handle.pcd')  # 模板点云
+    base_path = "/home/yanji/dual_arm_control/src/real_robot_control/scripts/grasp_detection/pointcloud"
+    path = os.path.join(base_path, file_name)
+    src = o3d.io.read_point_cloud(path)  # 模板点云
+    # src = o3d.io.read_point_cloud('/home/yanji/dual_arm_control/src/real_robot_control/scripts/grasp_detection/pointcloud/handle.pcd')  # 模板点云
     # tar = o3d.io.read_point_cloud('/home/yanji/dual_arm_control/src/real_robot_control/scripts/grasp_detection/pointcloud/obj_7_0 - Cloud.pcd')  # 采集点云
     desk = o3d.io.read_point_cloud('/home/yanji/dual_arm_control/src/real_robot_control/scripts/grasp_detection/pointcloud/desk.pcd')  # 模板点云
     gripper = o3d.io.read_point_cloud("/home/yanji/dual_arm_control/src/real_robot_control/scripts/grasp_detection/pointcloud/gripper.pcd") # 夹爪点云，用于计算碰撞
     tar = o3d.io.read_point_cloud('/home/yanji/dual_arm_control/src/real_robot_control/scripts/grasp_detection/captured_data/PointCloud.pcd')  # 采集点云
+    # tar_raw = capture.get_point_cloud()
     tar = trans_to_robot_base(tar)  # 变化到机器人基坐标系下
-    tar = pass_through_filter(tar, axis='z', lower_limit=6.5, upper_limit=100)
+    tar = pass_through_filter(tar, axis='z', lower_limit=7.5, upper_limit=100)
     tar = pass_through_filter(tar, axis='y', lower_limit=-200, upper_limit=150)
     voxel_size2 = 0.6 #指定下采样体素大小
     voxel_size1 = 0.4
     tar_down_o3 = tar.voxel_down_sample(voxel_size2)
     src_down_o3 = src.voxel_down_sample(voxel_size1)
-
-    clusters = dbscan_point_cloud_segmentation(tar_down_o3, eps=2.3, min_samples=15)
+    clusters = dbscan_point_cloud_segmentation(tar_down_o3, eps=4, min_samples=15)
     print("clusters,",clusters )
         # 显示分割结果
     for i, cluster in enumerate(clusters):
@@ -340,6 +343,8 @@ def get_pointcloud_from_data():
             if decition_result:
                 tar_down_o3 = cluster
                 break
+        
+        
     # src, tar 基本只用于可视化
     return src, tar, src_down_o3, tar_down_o3, desk, gripper
 
@@ -465,12 +470,12 @@ if __name__ == "__main__":
     #使用open3d读取
     gripper = o3d.io.read_point_cloud("/home/yanji/dual_arm_control/src/real_robot_control/scripts/grasp_detection/pointcloud/gripper.pcd") # 夹爪点云，用于计算碰撞
 
-    src = o3d.io.read_point_cloud('/home/yanji/dual_arm_control/src/real_robot_control/scripts/grasp_detection/pointcloud/handle.pcd')  # 模板点云
+    src = o3d.io.read_point_cloud('/home/yanji/dual_arm_control/src/real_robot_control/scripts/grasp_detection/pointcloud/three_3score.pcd')  # 模板点云
     desk = o3d.io.read_point_cloud('/home/yanji/dual_arm_control/src/real_robot_control/scripts/grasp_detection/pointcloud/desk.pcd')  # 模板点云
     aabb = calculate_bounding_box(src)
     vertices = get_box_points(aabb)  # 在模板点云上计算boundingbox 和 bounding box的点，供后续使用
 
-    tar = o3d.io.read_point_cloud('/home/yanji/dual_arm_control/src/real_robot_control/scripts/grasp_detection/pointcloud/obj_7_0 - Cloud.pcd')  # 采集点云
+    tar = o3d.io.read_point_cloud('/home/yanji/dual_arm_control/src/real_robot_control/scripts/grasp_detection/pointcloud/obj_1_0 - Cloud.pcd')  # 采集点云
     tar = trans_to_robot_base(tar)  # 变化到机器人基坐标系下
     tar = pass_through_filter(tar, axis='z', lower_limit=2, upper_limit=100)
     tar = pass_through_filter(tar, axis='y', lower_limit=-100, upper_limit=100)
@@ -483,7 +488,7 @@ if __name__ == "__main__":
     tar_temp = tar
 
 
-    num = 6 # 这个数值指的是生成旋拧点的个数，取决于物体的对称程度，六边形就是6，只是对称就是2，圆形可以是任意。
+    num = 2 # 这个数值指的是生成旋拧点的个数，取决于物体的对称程度，六边形就是6，只是对称就是2，圆形可以是任意。
     poss, rpys, T_s = screwing_poses(num)
    
     axis_pcds = generate_coodinate(poss, rpys)
@@ -512,16 +517,63 @@ if __name__ == "__main__":
     #批量转化抓取点
     T_g_trans = []
     grippers = []
+    grippers_collision = []
     for i in range(len(T_grasp)):
         T_temp_trans = np.dot(result, T_grasp[i]).astype(np.float32)
         gripper_trans = copy.deepcopy(gripper)
         # 设置 mesh 的颜色（例如，设置为白色）
-        gripper_trans.paint_uniform_color([1, 0.8, 0.8])
+        gripper_trans.paint_uniform_color([0.1, 0.7, 0.1])
         gripper_trans.transform(T_temp_trans)
+        
         interaction = detect_colision(desk, gripper_trans)
         if not interaction:
             grippers.append(gripper_trans)
             T_g_trans.append(numpy_to_multiarray(T_temp_trans))
+        if interaction:
+            gripper_trans1 = copy.deepcopy(gripper)
+            # 设置 mesh 的颜色（例如，设置为白色）
+            gripper_trans1.paint_uniform_color([0.1, 0.7, 0.1])
+            gripper_trans1.transform(T_temp_trans)
+            grippers_collision.append(gripper_trans1)
+
+
+
+    axis_pcds_trans = generate_coodinate(poss_trans, rpys_trans)
+
+    o3d.visualization.gui.Application.instance.initialize()
+    source_temp = o3d.geometry.PointCloud(src_temp)
+    target_temp = o3d.geometry.PointCloud(tar_temp)
+    source_temp.paint_uniform_color([1, 0.706, 0])
+    target_temp.paint_uniform_color([0, 0.651, 0.929])
+    source_temp.transform(result)
+    desk = o3d.geometry.PointCloud(desk)
+    desk.paint_uniform_color([0, 0, 1])
+    
+
+    vis = o3d.visualization.O3DVisualizer("Point Cloud", 1024, 768)
+    vis.show_settings = True
+
+    # 添加点云
+    vis.add_geometry("source", source_temp)
+    vis.add_geometry("target", target_temp)
+    # vis.scene.scene.set_lighting(o3d.visualization.rendering.Open3DScene.LightingProfile.NO_SHADOWS, [0, 0, 0])
+
+    # 设置材料属性，包括透明度
+    source_material = o3d.visualization.rendering.MaterialRecord()
+    source_material.shader = "defaultLit"
+    source_material.base_color = [1, 0.706, 0, 1]  # 0.5 是透明度
+    vis.modify_geometry_material("source", source_material)
+
+    target_material = o3d.visualization.rendering.MaterialRecord()
+    target_material.shader = "defaultLit"
+    target_material.base_color = [0, 0.651, 0.929, 1]  # 0.5 是透明度
+    vis.modify_geometry_material("target", target_material)
+    o3d.visualization.gui.Application.instance.run()
+    # 启动可视化
+    # vis.show()
+
+    o3d.visualization.draw_geometries([source_temp, target_temp] + grippers + grippers_collision, window_name="result", width=1080, height=720)
+    o3d.visualization.draw_geometries([source_temp, target_temp, desk] + grippers + grippers_collision + axis_pcds_trans, window_name="result", width=1080, height=720)
     
     # 发布结果：
     matrix_array_msg = pose()

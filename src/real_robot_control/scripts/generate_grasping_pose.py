@@ -55,13 +55,13 @@ def get_grasping_points(vertices):
                 if [0, 0, (item[2] + threshold) / 2] in points_parrell:
                     pass
                 else:
-                    points_parrell.append([0, 0, (item[2] + threshold) / 2])
+                    points_parrell.append([0, 0, (item[2] + threshold) / 2 - 5])
         else:
             if item[2] < -threshold:
                 if [0, 0, (item[2] + threshold) / 2] in points_parrell:
                     pass
                 else:
-                    points_parrell.append([0, 0, (item[2] - threshold) / 2 + 10])
+                    points_parrell.append([0, 0, (item[2] - threshold) / 2 + 5])
 
     if (abs(max_z) + abs(min_z) <= 42): # 竖直交接不能超过夹爪行程，夹爪行程为50mm
         points_vertical.append([0, 0, (max_z + min_z) / 2])
@@ -181,10 +181,13 @@ def screwing_poses(num):
 
 
 if __name__ == "__main__":
-    src = o3d.io.read_point_cloud('/home/yanji/dual_arm_control/src/real_robot_control/scripts/grasp_detection/pointcloud/handle.pcd')  # 模板点云
+    src = o3d.io.read_point_cloud('/home/yanji/dual_arm_control/src/real_robot_control/scripts/grasp_detection/pointcloud/m12_bolt.pcd')  # 模板点云
     aabb = calculate_bounding_box(src)
     vertices = get_box_points(aabb)
-    o3d.visualization.draw_geometries([src, aabb], window_name="result", width=1080, height=720,
+    source_temp = o3d.geometry.PointCloud(src)
+    source_temp.paint_uniform_color([1, 0.706, 0])
+
+    o3d.visualization.draw_geometries([source_temp, aabb], window_name="result", width=1080, height=720,
                                       zoom=1.2,
                                       front=[0.6, -0.2, -0.7],
                                       lookat=[10, 1.5, 1.338],
@@ -192,10 +195,11 @@ if __name__ == "__main__":
     poss_trans = []
     rpys_trans = []
     # 批量转换抓取点，生成抓取点的矩阵
-    num = 15
-    poss_trans, rpys_trans, T_grasp = get_all_grasp_matrixes(num, vertices)
+    num = 6
+    # poss_trans, rpys_trans, T_grasp = get_all_grasp_matrixes(num, vertices)
+    poss_trans, rpys_trans, T_grasp = screwing_poses(num)
     axis_pcds_trans = ran.generate_coodinate(poss_trans, rpys_trans)
-    o3d.visualization.draw_geometries([src] + axis_pcds_trans, window_name="result", width=1080,
+    o3d.visualization.draw_geometries([source_temp] + axis_pcds_trans, window_name="result", width=1080,
                                       height=720)
 
     mesh = o3d.io.read_point_cloud("/home/yanji/dual_arm_control/src/real_robot_control/scripts/grasp_detection/pointcloud/gripper.pcd")

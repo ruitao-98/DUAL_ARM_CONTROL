@@ -158,7 +158,7 @@ void endeffector::width_increase(int distance, ros::Publisher &pub, real_robot_c
     this->setbaundrate();
 	this->torque_off(1);
 	this->set_expositionmode(1);
-	this->set_goalprofile(1, 210);
+	this->set_goalprofile(1, 280);
 	this->torque_on(1);
 	int start_position_1 = this->get_presentposition(1);
 	int goal_position_1 = int(start_position_1 + 4095 * distance);
@@ -326,7 +326,7 @@ int endeffector::width_reduce_full_for_handover(int goal_width, ros::Publisher &
 		while (!(this->torque_on(1))) {
 			cout << "\r" <<"******请打开夹持装置的电源，以执行功能*********" << flush; 
 		}
-		sleep(4);
+
 	}
 	if (this->torque_on(1)){
 		;
@@ -345,12 +345,13 @@ int endeffector::width_reduce_full_for_handover(int goal_width, ros::Publisher &
 	this->setdelaytime(1, 0);
 	this->torque_off(1);
 	this->set_velocitymode(1);
+	// this->set_currentmode(1);
 	this->torque_on(1);
-	int base_current[15] = { 0 };
+	int base_current[20] = { 0 };
 	fstream ofs;
 	int start_position = this->get_presentposition(1);
-	
-	this->set_goalvelocity(1, -210); //reduce
+
+	this->set_goalvelocity(1, -200); //reduce
 	int item = 0;
 	auto start_time = std::chrono::high_resolution_clock::now();
 	while ( item < 20)
@@ -367,13 +368,13 @@ int endeffector::width_reduce_full_for_handover(int goal_width, ros::Publisher &
 	auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end_time-start_time);
     cout << " excution time is"<< duration.count()<<"ms" << endl;
 
-	for (int i = 0; i < 15; i = i + 1) {
+	for (int i = 0; i < 20; i = i + 1) {
 		base_current[i] = this->get_presentcurrent(1);
 	}
-	float start_current = average_function(base_current, 15);
+	float start_current = average_function(base_current, 20);
 	printf("the started current%.3f \n", start_current);
-	int yuzhi =45;
-	int present_cu[10] = { 0 };
+	int yuzhi = 50;
+	int present_cu[16] = { 0 };
 	int i = 0;
 	int fin_position;
     double ave_current;
@@ -384,19 +385,20 @@ int endeffector::width_reduce_full_for_handover(int goal_width, ros::Publisher &
 		pub1.publish(msg1);
 
 		int j;
-		j = i % 10;
+		j = i % 16;
 		i = i + 1;
 		present_cu[j] = this->get_presentcurrent(1);
-		if (i <= 10){
+		if (i <= 16){
 		ave_current = start_current;
 		}
-		if (i > 10){
-		ave_current = average_function(present_cu, 10);
+		if (i > 16){
+		ave_current = average_function(present_cu, 16);
 		}
 		msg.current = ave_current;
 		pub.publish(msg);
-		if ((fabs(ave_current - start_current) > yuzhi) && (i > 10))
+		if ((fabs(ave_current - start_current) > yuzhi) && (i > 16))
 		{
+			// this->torque_off(1);
 			printf("ֹͣthe present current %.3f\n", ave_current);
 			this->set_goalvelocity(1, 0);
 			while ( this->get_presentvelocity(0) != 0)
@@ -419,7 +421,7 @@ int endeffector::width_reduce_full_for_handover(int goal_width, ros::Publisher &
 			ofs.open(delta_width, ios::out);
 			ofs << delta_position;
 			ofs.close();
-			this->torque_off(0);
+			this->torque_off(1);
 
 			if (abs(delta_position - goal_width)>2000){
 				printf("ͣ***the object is not at the center***");
@@ -454,16 +456,15 @@ int endeffector::width_recovery(){
 		while (!(this->torque_on(1))) {
 			cout << "\r" <<"******请打开夹持装置的电源，以执行功能*********" << flush; 
 		}
-		sleep(4);
 	}
-	sleep(2);
+
 	cout << " " << endl;
 	this->setdelaytime(1, 0);
     this->setbaundrate();
 	this->torque_off(1);
 
 	this->set_expositionmode(1);
-	this->set_goalprofile(1, 210);
+	this->set_goalprofile(1, 280);
 	this->torque_on(1);
 	int start_position_1 = this->get_presentposition(1);
 	int goal_position_1 = int(start_position_1 - delta_position);
@@ -522,8 +523,6 @@ int endeffector::screwing_s1(int speed, float circle, ros::Publisher &pub, real_
 		while ((this->torque_on(1))) {
 		cout << "\r" <<"******请关闭夹持装置的电源，以执行功能*********" << flush; 
 		}
-		sleep(4);
-		
 	}
 	this->setdelaytime(0, 0);
 	this->torque_off(0);
@@ -540,13 +539,13 @@ int endeffector::screwing_s1(int speed, float circle, ros::Publisher &pub, real_
 
 	goal_position = int(present_position + 6.238 * 4095 * circle); 
 	this->set_goalposition(0, goal_position);
-	int base_current[15] = { 0 };
+	int base_current[20] = { 0 };
 
-	std::this_thread::sleep_for(std::chrono::milliseconds(100)); 
-	for (int i = 0; i < 15; i = i + 1) {
+	std::this_thread::sleep_for(std::chrono::milliseconds(200)); 
+	for (int i = 0; i < 20; i = i + 1) {
 		base_current[i] = this->get_presentcurrent(0);
 	}
-	float start_current = average_function(base_current, 15);
+	float start_current = average_function(base_current, 20);
 	printf("the started current%.3f \n", start_current);
 	int yuzhi = 35;
 	int present_cu[10] = { 0 };
@@ -643,8 +642,8 @@ int endeffector::screwing_s2(int speed, ros::Publisher &pub, real_robot_control:
 	// for (int m = 0; m < 15; m++) {
 	// 	std::cout << base_current[m] << std::endl;
 	// }
-	int yuzhi = 18;
-	int goal_position = int(start_position - 4095 * 6.238 * 2);
+	int yuzhi = 30;
+	int goal_position = int(start_position - 4095 * 6.238 * 4);
 	int present_cu[10] = { 0 };
 	int i = 0;
   	double ave_current;
@@ -814,7 +813,7 @@ int endeffector::unscrewing_s1(int speed_1, int speed_2) {
 	this->set_goalprofile(0, speed_1);
 	this->torque_on(0);
 	int start_position_1 = this->get_presentposition(0);
-	int goal_position_1 = int(start_position_1 + 4095 * 1 * 6.238);
+	int goal_position_1 = int(start_position_1 + 4095 * 0.05 * 6.238);
 	this->set_goalposition(0, goal_position_1);
 	sleep(1);
 	while (true) {
@@ -966,7 +965,6 @@ void endeffector::screw_to_zero() {
 	while (this->torque_on(1)) {
 		cout << "\r" <<"******请关闭夹持装置的电源，以保护电机*********" << flush; 
 	}
-	sleep(4);
 	this->setdelaytime(0, 0);
 	this->torque_off(0);
 	this->set_expositionmode(0);
