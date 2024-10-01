@@ -1195,6 +1195,7 @@ int RobotAdmittanceControl::pure_passive_model(){
             int new_intZ = static_cast<int>(z);
             int local_try_time = 0;
             int multi;
+            // 这里先检查一下在不在禁忌表中，在的话，再执行下面的程序
             while (local_try_time < 80) { //如果在重新生成随机搜索
                 local_try_time = local_try_time + 1;
 

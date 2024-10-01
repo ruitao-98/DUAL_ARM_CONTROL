@@ -23,9 +23,20 @@ import rosbag
 import rospy
 import os
 import matplotlib.pyplot as plt
+import numpy as np
 
+
+
+file_path = "/home/yanji/dual_arm_control/rosbag_record/current_0928"
+file_path_save = "/home/yanji/dual_arm_control/rosbag_record/current_0928_transferred"
+
+
+
+file_name = "base_new_1"
+file_name_txt = file_name + ".bag"
 # 设置bag文件路径
-bag_file_path = "/home/yanji/dual_arm_control/rosbag_record/current_0928/base_new_4.bag"
+# bag_file_path = "/home/yanji/dual_arm_control/rosbag_record/current_0928/base_new_4.bag"
+bag_file_path = os.path.join(file_path, file_name_txt)
 
 # 检查文件是否存在
 if not os.path.exists(bag_file_path):
@@ -62,12 +73,6 @@ for topic, msg, t in bag.read_messages(topics=['/width_p', '/current_p']):
 
 bag.close()
 
-# 打印解析的数据
-# print("Width Data (/width_p):")
-# print(width_data)
-
-# print("current Data (/current_p):")
-# print(current_data)
 
 # 创建两个子图
 fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(6, 8))
@@ -78,11 +83,22 @@ ax1.plot(width_data,  linestyle='-',color='b', linewidth = 1)
 
 # 在第二个子图绘制 list2
 ax2.plot(current_data, linestyle='-', color='g', linewidth = 1)
-
+print(len(width_data))
+print(len(current_data))
 
 # 显示图形
 plt.tight_layout()
 plt.show()
+
+# save_name_width = file_name + "_width.txt"
+# save_name_current = file_name + "_current.txt"
+save_name_width = os.path.join(file_path_save, file_name + "_width.txt")
+save_name_current = os.path.join(file_path_save, file_name + "_current.txt")
+width_data_np = np.array(width_data)
+current_data_np = np.array(current_data)
+np.savetxt(save_name_width, width_data_np, delimiter="\n")
+np.savetxt(save_name_current, current_data_np, delimiter="\n")
+
 
 # print("\nFor Pos Data (/robot_force):")
 # for data in robot_force_data:
