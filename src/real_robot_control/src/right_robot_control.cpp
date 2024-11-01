@@ -729,6 +729,16 @@ void RobotAdmittanceControl::screw_assembly_search(){
 
     char choice_tcp;
 
+    adm_m << 3, 3, 3, 2, 2, 2;
+    adm_k << 700.0, 700.0, 1200.0, 10.0, 10.0, 10.0;
+    for (Eigen::Index i = 0; i < adm_m.size(); ++i) {
+        adm_d[i] = 4 * sqrt(adm_m[i] * adm_k[i]);
+    }
+    adm_d[0] = 3.5 * sqrt(adm_m[0] * adm_k[0]);
+    adm_d[1] = 3.5 * sqrt(adm_m[1] * adm_k[1]);
+    // adm_d[2] = 3.5 * sqrt(adm_m[1] * adm_k[1]);
+    adm_d[2] = 2.8 * sqrt(adm_m[2] * adm_k[2]);
+
     std::cout << "Enter 1-3 to select the tcp:" << std::endl;
     std::cout << "1--> M12 六角头 || 2--> 3分螺母 || 3--> 3分三通" << std::endl;
     std::cin >> choice_tcp;
@@ -780,6 +790,7 @@ void RobotAdmittanceControl::screw_assembly_search(){
     //直线搜索***********************************************************************************
     wish_force << 0, 0, -4, 0, 0, 0;  //期望力
     selection_vector<<1, 1, 1, 0, 0, 0; //选择向量
+
 
     update_robot_state();
     get_tcp_force();
@@ -862,17 +873,8 @@ void RobotAdmittanceControl::screw_assembly_search(){
     get_tcp_force();
     get_eef_pose();
 
-    // std::vector<double> x_vec;
-    // std::vector<double> y_vec;
 
-    // std::vector<double> x_true_vec;
-    // std::vector<double> y_true_vec;
-
-    // std::vector<double> x_robot_vec;
-    // std::vector<double> y_robot_vec;
-
-
-    wish_force << 0, 0, -4, 0, 0, 0;  //期望力
+    wish_force << 0, 0, -5, 0, 0, 0;  //期望力
     selection_vector<<0, 0, 1, 0, 0, 0; //选择向量，表示只控制z轴
 
     Eigen::Matrix3d init_eef_rotm = eef_rotm;
@@ -880,19 +882,31 @@ void RobotAdmittanceControl::screw_assembly_search(){
 
     Eigen::Vector3d traj; //轨迹的向量表示
     item = 0;
-    double a = 0;
-    double b = 0.4/(2*PI); //毫米单位
+    double d = 0.2; //最大间隙
+    double a = d / 2;
+    double b = d / (2*PI); //毫米单位
+    double h = d / 2.6;
     double theta = 0;
+    double radius = a + b * theta;
+
+    std::array<int, 42> point_numbers = {17, 32, 49, 65, 82, 98, 114, 131, 147, 163, 
+                                        180, 196, 212, 229, 245, 261, 278, 294, 310, 327, 
+                                        343, 359, 376, 392, 408, 425, 441, 458, 473, 
+                                        490, 507, 522, 540, 555, 572, 588, 604, 621,
+                                         637, 654, 669, 686}; //h=d/2.6的情况下用python脚本离线生成，36圈
+    int circle_count = 0;
+
     phi_changed = 0; //初始化
-    int point_num = 260;
+
     int temp_item = 0;
     int record_item;
     while (item < 7000)
     {   
         if (phi_changed){
-            double theta_2 = 0.5 * PI / 180;
+            double theta_2 = 0.8 * PI / 180;
+            int point_num = point_numbers[circle_count];
             std::vector<Eigen::Matrix3d> rotationMatrices = calculateRotationMatrices(point_num, theta_2);
-            if (adjust_phi>(point_num/2)){  //calculateRotationMatrices从-x处出发，逆时针，而机器人运动是从+x出发，所以要进行变换
+            if (adjust_phi>(point_num/2)){  //calculateRotationMatrices从-x处出发，逆时针，而机器人运动是从+x出发，逆时针，所以要进行变换
                 adjust_phi = adjust_phi - (point_num/2);
             }
             else{
@@ -913,26 +927,12 @@ void RobotAdmittanceControl::screw_assembly_search(){
         eef_pos_d = eef_pos;
         eef_rotm_d = eef_rotm;
 
-        // 生成平面螺旋曲线
-        // theta = (2 * PI / point_num) + theta; //螺旋线的角度
-        // double radius = a + b * theta;
-        // double x = radius * cos(theta) * 0.001;
-        // double y = radius * sin(theta) * 0.001; // 此处缩放到米为单位，以便于与导纳控制输出对其
-        // double z = 0;
-        // traj << x, y, z;
-        // x_true_vec.push_back(traj[0]);
-        // y_true_vec.push_back(traj[1]);
-
         item = item + 1;
 
         // 判断机器人状态
         update_robot_state();
         get_tcp_force();
         get_eef_pose();
-        // cout << eef_pos[0] << ", " << eef_pos[1] << endl;
-        // x_vec.push_back(eef_pos[0]);
-        // y_vec.push_back(eef_pos[1]);
-
 
         // p.X = eef_pos[0];
         // p.Y = eef_pos[1];
@@ -958,13 +958,13 @@ void RobotAdmittanceControl::screw_assembly_search(){
                 angluer_disp_clipped = angular_disp.cwiseMin(0.01).cwiseMax(-0.01); //此处获取了在tcp坐标系下机器人末端的位移偏量
                 //我们需要在此处对其进行修改，上述偏量经过选择向量的修改只剩z方向的偏移了，我们再加上x,y方向的偏移。
                 linear_disp_clipped = linear_disp_clipped + traj;
-                new_linear_eef = init_eef_pos + init_eef_rotm * linear_disp_clipped; //最后将总偏移量再加到原始的tcp坐标上面去。
+                new_linear_eef = init_eef_pos + eef_rotm * linear_disp_clipped; //最后将总偏移量再加到原始的tcp坐标上面去。
                 //fixed rotation
                 new_rotm_eef = eef_rotm;
                 //no-fixed rotation
                 get_new_link6_pose(new_linear_eef, new_rotm_eef);
                 new_pos.tran.x = new_linear[0] * 1000; new_pos.tran.y = new_linear[1] * 1000; new_pos.tran.z = new_linear[2] * 1000;
-                new_pos.rpy.rx = new_rpy.rx; new_pos.rpy.ry = new_rpy.ry; new_pos.rpy.rz = new_rpy.rz;
+                new_pos.rpy.rx = new_rpy.rx; new_pos.rpy.ry = new_rpy.ry; new_pos.rpy.rz = new_rpy.rz; //修改后的角度
                 if (local_item == 1){
                     linear_disp_clipped << 0, 0, 0.001;
                     new_linear_eef = eef_pos + eef_rotm_d_modified * linear_disp_clipped; //最后将总偏移量再加到原始的tcp坐标上面去。
@@ -991,19 +991,31 @@ void RobotAdmittanceControl::screw_assembly_search(){
         else{
             // 生成平面螺旋曲线
             
-            theta = (2 * PI / point_num) + theta; //螺旋线的角度
-            double radius = a + b * theta;
+            // theta = (2 * PI / point_num) + theta; //螺旋线的角度
+            if (item == 0){
+                radius = a + b * theta;
+            }
+            else{
+                theta = theta + 2 * asin(h / (2 * radius)); //螺旋线的角度
+                radius = a + b * theta;
+            }
+
             double x = radius * cos(theta) * 0.001;
             double y = radius * sin(theta) * 0.001; // 此处缩放到米为单位，以便于与导纳控制输出对其
             double z = 0;
             traj << x, y, z;
+            if (theta >= 2 * PI * (circle_count + 1)){
+                circle_count = circle_count + 1;
+                cout << "circle_count = " << circle_count << endl;
+            }
 
-            if (tcp_force[2] < 1){
+
+            if (tcp_force[2] < 0.7){
                 cout << "force" <<  tcp_force[2] << endl;
                 cout << "spiral search stoped" <<endl;  //实际实验时进行调试
                 break;
             }
-            if ((abs(tcp_force[0]) > 4) || (abs(tcp_force[1]) > 4)){
+            if ((abs(tcp_force[0]) > 6) || (abs(tcp_force[1]) > 6)){
                 cout << "x_force" <<  tcp_force[0] << ", y_force" <<  tcp_force[1]<< endl;
                 cout << "spiral search stoped" <<endl;  //实际实验时进行调试
                 break;
@@ -1025,7 +1037,7 @@ void RobotAdmittanceControl::screw_assembly_search(){
         angluer_disp_clipped = angular_disp.cwiseMin(0.01).cwiseMax(-0.01); //此处获取了在tcp坐标系下机器人末端的位移偏量
         //我们需要在此处对其进行修改，上述偏量经过选择向量的修改只剩z方向的偏移了，我们再加上x,y方向的偏移。
         linear_disp_clipped = linear_disp_clipped + traj;
-        new_linear_eef = init_eef_pos + init_eef_rotm * linear_disp_clipped; //最后将总偏移量再加到原始的tcp坐标上面去。
+        new_linear_eef = init_eef_pos + eef_rotm * linear_disp_clipped; //最后将总偏移量再加到原始的tcp坐标上面去。
         
         // x_robot_vec.push_back(new_linear_eef[0]);
         // y_robot_vec.push_back(new_linear_eef[1]);
@@ -1043,7 +1055,7 @@ void RobotAdmittanceControl::screw_assembly_search(){
         // cout <<"new_rpy" << (new_pos.rpy.rx / PI) * 180 << "  " << (new_pos.rpy.ry / PI) * 180<< "  " << (new_pos.rpy.rz / PI) * 180<<"  " << endl;
 
         robot.servo_p(&new_pos, ABS, 1);
-        std::this_thread::sleep_for(std::chrono::milliseconds(16)); 
+        std::this_thread::sleep_for(std::chrono::milliseconds(5)); 
 
         auto end_time = std::chrono::high_resolution_clock::now();
         auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end_time-start_time);
@@ -1054,56 +1066,6 @@ void RobotAdmittanceControl::screw_assembly_search(){
     }
 
 
-    // time_t now;
-    // struct tm time_info;
-    // // Get the current time
-    // time(&now);
-    // // Convert the `time_t` value to local time in a thread-safe way
-    // localtime_r(&now, &time_info);
-	// // 创建一个时间格式化的字符串流
-	// std::ostringstream oss;
-	// oss << std::put_time(&time_info, "%Y-%m-%d_%H-%M-%S"); // 格式化时间 YYYY-MM-DD_HH-MM-SS
-	// std::string time_str = oss.str();
-	// // 创建文件名，包含当前时间
-	// std::string file_name1 = "x_" + time_str + ".txt";
-    // std::string file_name2 = "y_" + time_str + ".txt";
-    // std::string file_name3 = "x_true_" + time_str + ".txt";
-    // std::string file_name4 = "y_true_" + time_str + ".txt";
-    // std::string file_name5 = "x_robot_" + time_str + ".txt";
-    // std::string file_name6 = "y_robot_" + time_str + ".txt";
-	// // 打开文件流
-	// std::ofstream file1(file_name1);
-    // std::ofstream file2(file_name2);
-    // std::ofstream file3(file_name3);
-    // std::ofstream file4(file_name4);
-    // std::ofstream file5(file_name5);
-    // std::ofstream file6(file_name6);
-	// // 将列表的元素写入文件
-	// for (double elem1 : x_vec) {
-	// 	file1 << elem1 << std::endl;
-	// }
-    // for (double elem2 : y_vec) {
-	// 	file2 << elem2 << std::endl;
-	// }
-    // for (double elem2 : x_true_vec) {
-	// 	file3 << elem2 << std::endl;
-	// }
-    // for (double elem2 : y_true_vec) {
-	// 	file4 << elem2 << std::endl;
-	// }
-    // for (double elem2 : x_robot_vec) {
-	// 	file5 << elem2 << std::endl;
-	// }
-    // for (double elem2 : y_robot_vec) {
-	// 	file6 << elem2 << std::endl;
-	// }
-	// // 关闭文件流
-	// file1.close();
-    // file2.close();
-    // file3.close();
-    // file4.close();
-    // file5.close();
-    // file6.close();
 
     std::cout << "Enter 1 for continue" << std::endl;
     std::cin >> input;
@@ -1132,7 +1094,7 @@ void RobotAdmittanceControl::screw_assembly_search(){
     screw_execute_result = 9; //不需要对其进行初始化，一开始他没有结果
     real_robot_control::screwGoal goal;
 
-    int N = 8;
+    int N = 6;
     int phi_index = 0;
     int theta_index = 1;
     double distance_threhold = 1;  // 单位 mm 
@@ -1395,61 +1357,61 @@ void RobotAdmittanceControl::go_to_pose(){
     std::cout << "Enter 1-3 to select the goal position:" << std::endl;
     std::cin >> input;
     
-    switch(input) { //单臂实验标定结果
-
-        case '1':
-            goal_pose.tran.x = -152.571; goal_pose.tran.y = 342.299; goal_pose.tran.z = 264.209;
-            goal_pose.rpy.rx = (180 * PI) / 180; goal_pose.rpy.ry = (0 * PI) / 180; goal_pose.rpy.rz = (-10 * PI) / 180; //m12
-            robot.servo_move_enable(false);
-            robot.linear_move(&goal_pose, ABS, TRUE, 18);
-            break; // 添加break语句
-
-        default:
-            // 程序结束
-            std::cout << "task stoped" << std::endl;
-        }
-
-    // switch(input) {  //双臂实验标定结果
+    // switch(input) { //单臂实验标定结果
 
     //     case '1':
-    //         goal_pose.tran.x = -150.133; goal_pose.tran.y = 303.129; goal_pose.tran.z = 182;
-    //         goal_pose.rpy.rx = (178.988 * PI) / 180; goal_pose.rpy.ry = (0.493 * PI) / 180; goal_pose.rpy.rz = (-50.604 * PI) / 180; //m12
+    //         goal_pose.tran.x = -152.571; goal_pose.tran.y = 342.299; goal_pose.tran.z = 264.209;
+    //         goal_pose.rpy.rx = (180 * PI) / 180; goal_pose.rpy.ry = (0 * PI) / 180; goal_pose.rpy.rz = (-10 * PI) / 180; //m12
     //         robot.servo_move_enable(false);
     //         robot.linear_move(&goal_pose, ABS, TRUE, 18);
     //         break; // 添加break语句
 
-    //     case '2':
-    //         goal_pose.tran.x = 64.854; goal_pose.tran.y = 332.012; goal_pose.tran.z = 175;
-    //         goal_pose.rpy.rx = (179.716 * PI) / 180; goal_pose.rpy.ry = (-1.061 * PI) / 180; goal_pose.rpy.rz = (-57.839 * PI) / 180;
-    //         robot.servo_move_enable(false);
-    //         robot.linear_move(&goal_pose, ABS, TRUE, 18);
-    //         break; // 添加break语句
-        
-    //     case '3':
-    //         goal_pose.tran.x = 235.13; goal_pose.tran.y = 406.882; goal_pose.tran.z = 182;
-    //         goal_pose.rpy.rx = (177.815 * PI) / 180; goal_pose.rpy.ry = (1.249 * PI) / 180; goal_pose.rpy.rz = (-53.967 * PI) / 180;
-    //         robot.servo_move_enable(false);
-    //         robot.linear_move(&goal_pose, ABS, TRUE, 18);
-    //         break; // 添加break语句
-        
-    //     case '4':
-    //         goal_pose.tran.x = -110.169; goal_pose.tran.y = 415.724; goal_pose.tran.z = 283.141;
-    //         goal_pose.rpy.rx = (174.870 * PI) / 180; goal_pose.rpy.ry = (30.874 * PI) / 180; goal_pose.rpy.rz = (-73.671 * PI) / 180; //m12
-    //         robot.servo_move_enable(false);
-    //         robot.linear_move(&goal_pose, ABS, TRUE, 18);
-    //         break; // 交接水管
-        
-    //     case '5':
-    //         goal_pose.tran.x = -72.817; goal_pose.tran.y = 343.633; goal_pose.tran.z = 213.059;
-    //         goal_pose.rpy.rx = (180.0 * PI) / 180; goal_pose.rpy.ry = (0 * PI) / 180; goal_pose.rpy.rz = (-60 * PI) / 180; //m12
-    //         robot.servo_move_enable(false);
-    //         robot.linear_move(&goal_pose, ABS, TRUE, 18);
-    //         break; // 配合其他工具宁螺丝
-        
     //     default:
     //         // 程序结束
     //         std::cout << "task stoped" << std::endl;
     //     }
+
+    switch(input) {  //双臂实验标定结果
+
+        case '1':
+            goal_pose.tran.x = -76.022; goal_pose.tran.y = 429.777; goal_pose.tran.z = 195.261;
+            goal_pose.rpy.rx = (176.795 * PI) / 180; goal_pose.rpy.ry = (0.178 * PI) / 180; goal_pose.rpy.rz = (-0.168 * PI) / 180; //m12
+            robot.servo_move_enable(false);
+            robot.linear_move(&goal_pose, ABS, TRUE, 18);
+            break; // 添加break语句
+
+        case '2':
+            goal_pose.tran.x = -72.949; goal_pose.tran.y = 442.044; goal_pose.tran.z = 192.941;
+            goal_pose.rpy.rx = (175.927 * PI) / 180; goal_pose.rpy.ry = (1.348 * PI) / 180; goal_pose.rpy.rz = (-0.303 * PI) / 180;
+            robot.servo_move_enable(false);
+            robot.linear_move(&goal_pose, ABS, TRUE, 18);
+            break; // 添加break语句
+        
+        case '3':
+            goal_pose.tran.x = 235.13; goal_pose.tran.y = 406.882; goal_pose.tran.z = 182;
+            goal_pose.rpy.rx = (177.815 * PI) / 180; goal_pose.rpy.ry = (1.249 * PI) / 180; goal_pose.rpy.rz = (-53.967 * PI) / 180;
+            robot.servo_move_enable(false);
+            robot.linear_move(&goal_pose, ABS, TRUE, 18);
+            break; // 添加break语句
+        
+        case '4':
+            goal_pose.tran.x = -110.169; goal_pose.tran.y = 415.724; goal_pose.tran.z = 283.141;
+            goal_pose.rpy.rx = (174.870 * PI) / 180; goal_pose.rpy.ry = (30.874 * PI) / 180; goal_pose.rpy.rz = (-73.671 * PI) / 180; //m12
+            robot.servo_move_enable(false);
+            robot.linear_move(&goal_pose, ABS, TRUE, 18);
+            break; // 交接水管
+        
+        case '5':
+            goal_pose.tran.x = -72.817; goal_pose.tran.y = 343.633; goal_pose.tran.z = 213.059;
+            goal_pose.rpy.rx = (180.0 * PI) / 180; goal_pose.rpy.ry = (0 * PI) / 180; goal_pose.rpy.rz = (-60 * PI) / 180; //m12
+            robot.servo_move_enable(false);
+            robot.linear_move(&goal_pose, ABS, TRUE, 18);
+            break; // 配合其他工具宁螺丝
+        
+        default:
+            // 程序结束
+            std::cout << "task stoped" << std::endl;
+        }
 
 
     update_robot_state();

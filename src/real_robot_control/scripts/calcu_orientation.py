@@ -29,53 +29,72 @@ class cal_pos:
         rate = rospy.Rate(500) 
         is_periodic = 0
         done = 0
+        count = 0
         old_circle_number = 0
         print('start')
+        point_numbers = [17, 32, 49, 65, 82, 98, 114, 131, 147, 163, 
+                        180, 196, 212, 229, 245, 261, 278, 294, 310, 327, 
+                        343, 359, 376, 392, 408, 425, 441, 458, 473, 
+                        490, 507, 522, 540, 555, 572, 588, 604, 621,
+                            637, 654, 669, 686]
         while not rospy.is_shutdown():
 
             if old_theta != self.theta: # 只有更新了才会被加入
-                # print(self.FZ)
                 FZ_array.append(self.FZ)
                 theta_array.append(self.theta)
                 old_theta = self.theta
                 
+                if self.theta >= 2 * np.pi * (count + 1): # 转了一圈
+                    point_num = point_numbers[count] #刚刚过去的这个周期的点数，count 是圈数，从0记数
+                    circle_number = count
+                    print("circle_num = ", circle_number)
+                    count = count + 1
+                     
+                    # 提取索引 6 到 11 的元素进行求和
 
-                if (len(theta_array) % 260 == 0):
-                    print(len(theta_array))
-                    circle_number = circle_number + 1
-
+                    # if (len(theta_array) % 260 == 0):
+                    #     print(len(theta_array))
+                    #     circle_number = circle_number + 1
                     if not is_periodic: #只计算一次，后续都不计算了
-                        if circle_number > 6:
-                            is_periodic = self.analyze_signal_with_autocorrelation(FZ_array[-260 * 6:])  # 计算是否出现周期性
+                        if circle_number >= 6: #已经是第七圈了
+                            selected_elements = point_numbers[circle_number-5:circle_number+1]
+                            index_sum = sum(selected_elements)
+                            is_periodic = self.analyze_signal_with_autocorrelation(FZ_array[-index_sum:])  # 计算是否出现周期性
                         else:
                             is_periodic = self.analyze_signal_with_autocorrelation(FZ_array)  # 计算是否出现周期性 
 
                     if is_periodic:
-                        temp_array = FZ_array[-260-1:]  #提取出最近的一个周期
+
+                        temp_array = FZ_array[-point_num-1:]  #提取出最近的一个周期
+                        temp_theta_array = theta_array[-point_num-1:]
                         # 找到列表中的最小值
                         min_value = min(temp_array)
                         max_value = max(temp_array)
                         if done == 0: # 只在第一次发布使用
-                            if max_value - min_value > 5: #卡一个阈值
+                            print("done = 0")
+                            if max_value - min_value > 3: #卡一个阈值
                                 print( "is_periodic=", is_periodic)
                                 # 找到最小值的索引
                                 min_index = temp_array.index(min_value)
-                                print(min_index)
+                                print("min_index", min_index)
+                                print('theta=', temp_theta_array[min_index])
                                 self.orien.phi = min_index
                                 self.pub.publish(self.orien) #将产生的偏转角度发布出去
-                                old_circle_number = circle_number
                                 done = 1
+
+                            old_circle_number = circle_number
+
 
                         if circle_number == old_circle_number + 2:
                             print("max=", max_value, "min=", min_value)
-                            if max_value - min_value > 5: #卡一个阈值
+                            if max_value - min_value > 3: #卡一个阈值
                                 print( "is_periodic=", is_periodic)
                                 # 找到最小值的索引
                                 min_index = temp_array.index(min_value)
-                                print(min_index)
+                                print("min_index", min_index)
                                 self.orien.phi = min_index
                                 self.pub.publish(self.orien) #将产生的偏转角度发布出去
-                                old_circle_number = circle_number
+                            old_circle_number = circle_number
                         
             rate.sleep()
             
@@ -113,6 +132,7 @@ class cal_pos:
             is_periodic = 1
         else:
             is_periodic = 0
+        print("is_periodic", is_periodic)
         # 绘制自相关图
         # plt.plot(autocorr)
         # plt.title('Autocorrelation')

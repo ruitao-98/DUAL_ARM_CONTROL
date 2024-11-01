@@ -102,11 +102,11 @@ void cb(const real_robot_control::screwGoalConstPtr &goal, Server* server){
     else if (num == 2)
     {
         // "对准失败，卡住了，退出"
-        std::cout << "执行退出命令" << std::endl;
+        std::cout << "对准失败，卡住了，退出" << std::endl;
         feedback.screw_status = 1; //执行器开始运行
         server->publishFeedback(feedback);
 
-        result = ef.unscrew_to_zero(100);  //return 0;
+        result = ef.unscrew_to_zero(150);  //return 0;
         // sleep(2);
         // result = 0;
 

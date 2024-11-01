@@ -10,7 +10,7 @@
   <arg name="filename" default="$(arg suffix)_$(arg item)" />
 
   <!-- 输出文件路径，可以根据需要进行修改 -->
-  <arg name="output_dir" default="/home/yanji/dual_arm_control/rosbag_record/current_0928" />
+  <arg name="output_dir" default="/home/yanji/dual_arm_control/rosbag_record/current_obj" />
 
   <!-- Run task control for screw -->
   <node pkg="real_robot_control" type="task_control_screw" name="task_control_screw" output="screen" />

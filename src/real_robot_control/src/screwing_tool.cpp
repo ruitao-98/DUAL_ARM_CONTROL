@@ -373,7 +373,7 @@ int endeffector::width_reduce_full_for_handover(int goal_width, ros::Publisher &
 	}
 	float start_current = average_function(base_current, 20);
 	printf("the started current%.3f \n", start_current);
-	int yuzhi = 50;
+	int yuzhi = 45;
 	int present_cu[16] = { 0 };
 	int i = 0;
 	int fin_position;

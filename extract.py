@@ -27,12 +27,12 @@ import numpy as np
 
 
 
-file_path = "/home/yanji/dual_arm_control/rosbag_record/current_0928"
-file_path_save = "/home/yanji/dual_arm_control/rosbag_record/current_0928_transferred"
+file_path = "/home/yanji/dual_arm_control/rosbag_record/current_obj"
+file_path_save = "/home/yanji/dual_arm_control/rosbag_record/current_obj_trans"
 
 
 
-file_name = "base_new_1"
+file_name = "luomu_0"
 file_name_txt = file_name + ".bag"
 # 设置bag文件路径
 # bag_file_path = "/home/yanji/dual_arm_control/rosbag_record/current_0928/base_new_4.bag"
