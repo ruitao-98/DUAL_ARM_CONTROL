@@ -1,0 +1,17 @@
+try_time = -1 final real excuted xyz:-2.61093, -1.26071, -5.33816
+end width = -75891
+start width = -60766
+first_gripping_xyz =-0.726722, -0.216104, -0.231619
+----------------------------------------
+ grad  0.740889, 0.671627
+try_time = 0 new expected x y z = 1.18542, 0, 1.0746
+try_time =0 new real excuted xyz:0.0178261, -0.00902296, 0.028068 width = -60830
+----------------------------------------
+local_searching ...
+[expected xyz before tabulist:]1.20325, 0, 1.10267
+ grad  -0.597635, -0.801768
+try_time = 1 new expected x y z = -0.93839, 0, -1.25476
+try_time =1 new real excuted xyz:0.0178261, -0.00902296, 0.028068 width = -71936
+----------------------------------------
+ grad  nan, nan
+try_time = 2 new expected x y z = -nan, 0, -nan

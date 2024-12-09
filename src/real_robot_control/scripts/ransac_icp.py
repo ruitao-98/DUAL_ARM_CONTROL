@@ -73,17 +73,17 @@ def refine(T, src_down_o3, tar_down_o3, times):
     # source.estimate_normals(search_param=o3d.geometry.KDTreeSearchParamHybrid(radius=0.08, max_nn=30))
     # print("ICPing...")
     if times == 2:
-        threshold = 4
+        threshold = 3
         reg_p2p_1 = o3d.pipelines.registration.registration_icp(
             src_down_o3, tar_down_o3, threshold, T,
             o3d.pipelines.registration.TransformationEstimationPointToPoint(),
-            o3d.pipelines.registration.ICPConvergenceCriteria(max_iteration=80, relative_rmse=0.001))
+            o3d.pipelines.registration.ICPConvergenceCriteria(max_iteration=200, relative_rmse=0.001))
 
         threshold = 0.5
         reg_p2p = o3d.pipelines.registration.registration_icp(
             src_down_o3, tar_down_o3, threshold, reg_p2p_1.transformation,
             o3d.pipelines.registration.TransformationEstimationPointToPoint(),
-            o3d.pipelines.registration.ICPConvergenceCriteria(max_iteration=200, relative_rmse=0.001))
+            o3d.pipelines.registration.ICPConvergenceCriteria(max_iteration=300, relative_rmse=0.001))
 
     elif times == 1:
         threshold = 3
@@ -101,7 +101,7 @@ def refine(T, src_down_o3, tar_down_o3, times):
 
 def execute_global_registration(src_down, tar_down, src_fpfh,
                                 tar_fpfh, voxel_size):
-    distance_threshold = 2
+    distance_threshold = 3
     print("   RANSAC registration on downsampled point clouds.")
     print("   Since the downsampling voxel size is %.3f," % voxel_size)
     print("   we use a liberal distance threshold %.3f." % distance_threshold)
@@ -167,14 +167,15 @@ def trans_to_robot_base(pcd):
     tcp_matrix[:3, 3] = tcp_trans
     # print(tcp_matrix)
 
-    hand_eye_relation = np.array([[0.697474223574052,	-0.709481063272796,	-0.100828211860949,	82.2773608978644],
-                                    [0.705946783968100,	0.704442699443614,	-0.0734821162303507,	-47.2259493574123],
-                                    [0.123161867698044,	-0.0199274699321489,	0.992186499750542,	58.7023924844555],
-                                    [0,	0,	0,	1]])
-    # hand_eye_relation = np.array([[0.693078358902796, -0.712313829861997, -0.110686025350721, 82.5957586617159],
-    #                               [0.707931883219150, 0.701526837022340, -0.0818079804127876, -44.4147286980286],
-    #                               [0.135922173107974, -0.0216588255629318, 0.990482739946962,  60.2262194514354],
-    #                               [0, 0, 0, 1]])
+    # hand_eye_relation = np.array([[0.701549147331529,	-0.706240948689989,	-0.0951447122643627,	83.5283785718320],
+    #                                 [0.701893502491081,	0.707881057595618,	-0.0790564321109518,	-47.1363447776933],
+    #                                 [0.123184029156412,	-0.0113194827962284,	0.992319285446987,	59.0101312563280],
+    #                                 [0,	0,	0,	1]])
+
+    hand_eye_relation = np.array([[0.693078358902796, -0.712313829861997, -0.110686025350721, 82.5957586617159],
+                                  [0.707931883219150, 0.701526837022340, -0.0818079804127876, -46.4147286980286],
+                                  [0.135922173107974, -0.0216588255629318, 0.990482739946962,  60.2262194514354],
+                                  [0, 0, 0, 1]])
     base_eye_relation = np.dot(tcp_matrix, hand_eye_relation)
     points_augment = np.hstack((points, np.ones((len(points), 1))))
     points_augment_base = np.dot(base_eye_relation, points_augment.T)
@@ -373,7 +374,7 @@ def get_pointcloud_from_camera(file_name):
     # 相机采集tar 数据，待更新。。。。
     tar_raw = capture.get_point_cloud()
     tar = trans_to_robot_base(tar_raw)  # 变化到机器人基坐标系下
-    tar = pass_through_filter(tar, axis='z', lower_limit=7.5, upper_limit=100)
+    tar = pass_through_filter(tar, axis='z', lower_limit=7, upper_limit=100)
     tar = pass_through_filter(tar, axis='y', lower_limit=-200, upper_limit=150)
     voxel_size2 = 0.6 #指定下采样体素大小
     voxel_size1 = 0.4

@@ -183,6 +183,21 @@ move_out/fast:
 .PHONY : move_out/fast
 
 # Convenience name for target.
+real_robot_control/CMakeFiles/code_test.dir/rule:
+	cd /home/yanji/dual_arm_control/build && $(MAKE) -f CMakeFiles/Makefile2 real_robot_control/CMakeFiles/code_test.dir/rule
+.PHONY : real_robot_control/CMakeFiles/code_test.dir/rule
+
+# Convenience name for target.
+code_test: real_robot_control/CMakeFiles/code_test.dir/rule
+
+.PHONY : code_test
+
+# fast build rule for target.
+code_test/fast:
+	cd /home/yanji/dual_arm_control/build && $(MAKE) -f real_robot_control/CMakeFiles/code_test.dir/build.make real_robot_control/CMakeFiles/code_test.dir/build
+.PHONY : code_test/fast
+
+# Convenience name for target.
 real_robot_control/CMakeFiles/control_msgs_generate_messages_lisp.dir/rule:
 	cd /home/yanji/dual_arm_control/build && $(MAKE) -f CMakeFiles/Makefile2 real_robot_control/CMakeFiles/control_msgs_generate_messages_lisp.dir/rule
 .PHONY : real_robot_control/CMakeFiles/control_msgs_generate_messages_lisp.dir/rule
@@ -1036,21 +1051,6 @@ roscpp_generate_messages_eus: real_robot_control/CMakeFiles/roscpp_generate_mess
 roscpp_generate_messages_eus/fast:
 	cd /home/yanji/dual_arm_control/build && $(MAKE) -f real_robot_control/CMakeFiles/roscpp_generate_messages_eus.dir/build.make real_robot_control/CMakeFiles/roscpp_generate_messages_eus.dir/build
 .PHONY : roscpp_generate_messages_eus/fast
-
-# Convenience name for target.
-real_robot_control/CMakeFiles/code_test.dir/rule:
-	cd /home/yanji/dual_arm_control/build && $(MAKE) -f CMakeFiles/Makefile2 real_robot_control/CMakeFiles/code_test.dir/rule
-.PHONY : real_robot_control/CMakeFiles/code_test.dir/rule
-
-# Convenience name for target.
-code_test: real_robot_control/CMakeFiles/code_test.dir/rule
-
-.PHONY : code_test
-
-# fast build rule for target.
-code_test/fast:
-	cd /home/yanji/dual_arm_control/build && $(MAKE) -f real_robot_control/CMakeFiles/code_test.dir/build.make real_robot_control/CMakeFiles/code_test.dir/build
-.PHONY : code_test/fast
 
 # Convenience name for target.
 real_robot_control/CMakeFiles/moveit_msgs_generate_messages_lisp.dir/rule:
@@ -1953,6 +1953,21 @@ _real_robot_control_generate_messages_check_deps_orientation_pub/fast:
 .PHONY : _real_robot_control_generate_messages_check_deps_orientation_pub/fast
 
 # Convenience name for target.
+real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_pose_pub.dir/rule:
+	cd /home/yanji/dual_arm_control/build && $(MAKE) -f CMakeFiles/Makefile2 real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_pose_pub.dir/rule
+.PHONY : real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_pose_pub.dir/rule
+
+# Convenience name for target.
+_real_robot_control_generate_messages_check_deps_pose_pub: real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_pose_pub.dir/rule
+
+.PHONY : _real_robot_control_generate_messages_check_deps_pose_pub
+
+# fast build rule for target.
+_real_robot_control_generate_messages_check_deps_pose_pub/fast:
+	cd /home/yanji/dual_arm_control/build && $(MAKE) -f real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_pose_pub.dir/build.make real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_pose_pub.dir/build
+.PHONY : _real_robot_control_generate_messages_check_deps_pose_pub/fast
+
+# Convenience name for target.
 real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_screwFeedback.dir/rule:
 	cd /home/yanji/dual_arm_control/build && $(MAKE) -f CMakeFiles/Makefile2 real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_screwFeedback.dir/rule
 .PHONY : real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_screwFeedback.dir/rule
@@ -2389,6 +2404,7 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
 	@echo "... move_out"
+	@echo "... code_test"
 	@echo "... control_msgs_generate_messages_lisp"
 	@echo "... sensor_msgs_generate_messages_cpp"
 	@echo "... _real_robot_control_generate_messages_check_deps_screwGoal"
@@ -2447,7 +2463,6 @@ help:
 	@echo "... geometry_msgs_generate_messages_eus"
 	@echo "... roscpp_generate_messages_cpp"
 	@echo "... roscpp_generate_messages_eus"
-	@echo "... code_test"
 	@echo "... moveit_msgs_generate_messages_lisp"
 	@echo "... control_msgs_generate_messages_py"
 	@echo "... actionlib_msgs_generate_messages_py"
@@ -2510,6 +2525,7 @@ help:
 	@echo "... _real_robot_control_generate_messages_check_deps_gripper"
 	@echo "... tf_generate_messages_cpp"
 	@echo "... _real_robot_control_generate_messages_check_deps_orientation_pub"
+	@echo "... _real_robot_control_generate_messages_check_deps_pose_pub"
 	@echo "... _real_robot_control_generate_messages_check_deps_screwFeedback"
 	@echo "... real_robot_control_gencpp"
 	@echo "... moveit_msgs_generate_messages_py"

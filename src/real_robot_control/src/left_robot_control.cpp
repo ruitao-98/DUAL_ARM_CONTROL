@@ -72,12 +72,7 @@ RobotAdmittanceControl::RobotAdmittanceControl():
 }
 
 RobotAdmittanceControl::~RobotAdmittanceControl(){
-    // if (excution_thread.joinable()) {
-    //     excution_thread.join();
-    // }
-    // if (sensor_thread.joinable()) {
-    //     sensor_thread.join();
-    // }
+
 }
 
 void RobotAdmittanceControl::joint_states_callback(ros::Publisher joint_states_pub)
@@ -125,19 +120,12 @@ void RobotAdmittanceControl::get_eef_pose(){
     current_rpy.rx = status.cartesiantran_position[3];
     current_rpy.ry = status.cartesiantran_position[4];
     current_rpy.rz = status.cartesiantran_position[5];
-    // cout << link6_pos[0] << link6_pos[1] << link6_pos[2] << endl;
-    // cout << current_rpy.rx << ","<< current_rpy.ry << ","<< current_rpy.rz << endl;
-    // 欧拉角转旋转矩阵，赋值
-    // robot.rpy_to_rot_matrix(&current_rpy, &current_rotm);
-    // link6_rotm << current_rotm.x.x, current_rotm.y.x, current_rotm.z.x,
-    //               current_rotm.x.y, current_rotm.y.y, current_rotm.z.y,
-    //               current_rotm.x.z, current_rotm.y.z, current_rotm.z.z;
+
     link6_rotm = Eigen::AngleAxisd(current_rpy.rz, Eigen::Vector3d::UnitZ()) *
                  Eigen::AngleAxisd(current_rpy.ry, Eigen::Vector3d::UnitY()) *
                  Eigen::AngleAxisd(current_rpy.rx, Eigen::Vector3d::UnitX());
     eef_rotm =  link6_rotm * eef_offset_rotm;
-    // euler_angles = eef_rotm.eulerAngles(2, 1, 0); // rz ry rx
-    // cout << euler_angles[0] << euler_angles[1] << euler_angles[2] << endl;
+
     eef_pos = link6_pos + eef_rotm * (eef_offset_rotm.transpose() * eef_offset);
 }
  
@@ -153,8 +141,6 @@ void RobotAdmittanceControl::updata_rotation(const Eigen::Matrix3d& current_rotm
     Eigen::AngleAxisd delta_rotation(angluar_disp.norm(), angluar_disp.normalized());
     // 更新当前旋转矩阵
     new_orientation = delta_rotation.toRotationMatrix() *  current_rotm;
-    // cout<< current_rotm <<endl;
-    // cout<< new_orientation <<endl;
 }
 
 
@@ -262,106 +248,6 @@ void RobotAdmittanceControl::tcp_admittance_control(){
         eef_vel = adm_vel;
 }
 
-void RobotAdmittanceControl::calculation_loop(){
-    for(int j =0; j<1000000; j++){
-        auto start_time = std::chrono::high_resolution_clock::now();
-        update_robot_state();
-        get_world_force();
-        
-        // std::this_thread::sleep_for(std::chrono::milliseconds(5)); // 正确的延迟方法
-        // sleep(0.1);
-        auto end_time = std::chrono::high_resolution_clock::now();
-        auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end_time-start_time);
-        cout<< "the number is:"<< j << "    "<<"calculation time is"<< duration.count()<<"ms"<<endl;
-        
-    }
-}
-
-void RobotAdmittanceControl::excution_loop(){
-    for(int step=0; step<10000; step++){
-
-        auto start_time = std::chrono::high_resolution_clock::now();
-        cart.tran.x = 0; cart.tran.y = -0.02; cart.tran.z = 0;
-        cart.rpy.rx = 0; cart.rpy.ry = 0; cart.rpy.rz = 0;
-        // std::lock_guard<std::mutex> lock(robot_mutex); // 加锁，进入临界区
-        // robot.linear_move(&cart, INCR, TRUE, 1);
-        // {
-            // std::lock_guard<std::mutex> lock(robot_mutex); 
-        robot.servo_p(&cart, INCR, loop_rate);
-        // } // 离开作用域，锁自动释放
-        auto end_time = std::chrono::high_resolution_clock::now();
-        auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end_time-start_time);
-        cout<<  "the number is:"<< step << "    "<<"excution time is"<< duration.count()<<"ms"<<endl;
-    }
-}
-
-void RobotAdmittanceControl::excution_calculation_loop(){
-    update_robot_state();
-    // get_world_force();
-    get_tcp_force();
-    get_eef_pose();
-    tcp_admittance_control();
-    
-    linear_disp_clipped = linear_disp.cwiseMin(0.01).cwiseMax(-0.01);
-    angluer_disp_clipped = angular_disp.cwiseMin(0.01).cwiseMax(-0.01);
-    new_linear_eef = eef_pos + eef_rotm * linear_disp_clipped;
-    //fixed rotation
-    new_rotm_eef = eef_rotm;
-
-    //no-fixed rotation
-
-    // updata_rotation(eef_rotm, angluer_disp_clipped, new_rotm_eef);
-
-    get_new_link6_pose(new_linear_eef, new_rotm_eef);
-    // Eigen::Vector3d eigen_rpy = new_angular.eulerAngles(2,1,0);
-    // cout << eigen_rpy << endl;
-    // new_rpy.rx = eigen_rpy[2]; new_rpy.ry = eigen_rpy[1]; new_rpy.rz = eigen_rpy[0]; 
-    // new_rotm.x.x = new_angular(0,0); new_rotm.y.x = new_angular(0,1); new_rotm.z.x = new_angular(0,2);
-    // new_rotm.x.y = new_angular(1,0); new_rotm.y.y = new_angular(1,1); new_rotm.z.y = new_angular(1,2);
-    // new_rotm.x.z = new_angular(2,0); new_rotm.y.z = new_angular(2,1); new_rotm.z.z = new_angular(2,2);
-    // robot.rot_matrix_to_rpy(&new_rotm, &new_rpy);
-
-    new_pos.tran.x = new_linear[0] * 1000; new_pos.tran.y = new_linear[1] * 1000; new_pos.tran.z = new_linear[2] * 1000;
-    // new_pos.rpy.rx = new_rpy.rx; new_pos.rpy.ry = new_rpy.ry; new_pos.rpy.rz = new_rpy.rz;
-    new_pos.rpy.rx = current_rpy.rx; new_pos.rpy.ry = current_rpy.ry; new_pos.rpy.rz = current_rpy.rz;
-    robot.servo_p(&new_pos, ABS, loop_rate);
-}
-
-void RobotAdmittanceControl::start(){
-    // excution_loop();
-    update_robot_state();
-    get_tcp_force();
-    get_eef_pose();
-    eef_pos_d = eef_pos;
-    eef_rotm_d = eef_rotm;
-    // double init_z = eef_pos_d[2];
- 
-    
-    int item = 0;
-    while (item < 1000000)
-    {   auto start_time = std::chrono::high_resolution_clock::now();
-        eef_pos_d = eef_pos;
-        eef_rotm_d = eef_rotm;
-        // cout << "eef_d" << eef_pos_d << endl;
-        // if (eef_pos_d[2] > init_z - 0.005){
-        //     eef_pos_d[2] = eef_pos_d[2] - 0.0001;
-            
-        // }
-        // else{
-        //     eef_pos_d[2] = init_z - 0.009;
-        // }
-        
-        item = item + 1;
-        // eef_pos_d(1) -= 0.0000; //y方向1mm移动
-        excution_calculation_loop();
-        // sleep(0.1);
-        auto end_time = std::chrono::high_resolution_clock::now();
-        auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end_time-start_time);
-        cout << "item" << item << " excution time is"<< duration.count()<<"ms" << endl;
-    }
-    // reset();
-
-}
 
 void RobotAdmittanceControl::go_to_pose(){
     CartesianPose goal_pose;
@@ -429,9 +315,6 @@ void RobotAdmittanceControl::pick_up(){
         }
    
         item = item + 1;
-
-        // excution_calculation_loop();
-
         tcp_admittance_control();
         
         linear_disp_clipped = linear_disp.cwiseMin(0.01).cwiseMax(-0.01);
@@ -439,7 +322,6 @@ void RobotAdmittanceControl::pick_up(){
         //我们需要在此处对其进行修改，上述偏量经过选择向量的修改只剩z方向的偏移了，我们再加上x,y方向的偏移。
         new_linear_eef = eef_pos + eef_rotm * linear_disp_clipped; //最后将总偏移量再加到原始的tcp坐标上面去。
         
-
         //fixed rotation
         new_rotm_eef = eef_rotm;
 
@@ -486,7 +368,7 @@ void RobotAdmittanceControl::back_to_middle(){
 
         e_eef_pos = eef_rotm.transpose() * (eef_pos - init_eef_pos);
 
-        if (abs(e_eef_pos[2]) > 0.08){
+        if (abs(e_eef_pos[2]) > 0.07){
             cout << e_eef_pos[2] << endl;
             cout << "\r" << "final item = " << item << endl;
             break;
@@ -526,137 +408,52 @@ void RobotAdmittanceControl::feedback_cb(const real_robot_control::screwFeedback
     ROS_INFO("screw_execute_status:%d",screw_execute_status);
 }
 
-bool RobotAdmittanceControl::isInTabuList(int x, int z) {
-    std::pair<int, int> position = std::make_pair(x, z);
-    return tabuList.find(position) != tabuList.end();
+bool RobotAdmittanceControl::isInTabuList(int x, int y, int z) {
+    for (const auto& item : tabuList) {
+        if (std::get<0>(item) == x && std::get<1>(item) == y && std::get<2>(item) == z) {
+            cout << "is in tabulist " << endl;
+            return true; // 找到匹配的三元组
+        }
+    }
+    return false; // 未找到
+    // std::tuple<int, int, int> position = std::make_tuple(x, y, z);
+    // return tabuList.find(position) != tabuList.end();
 }
+
+void RobotAdmittanceControl::printTabuList() const{
+        std::cout << "Tabu List: ";
+        for (const auto& item : tabuList) {
+            std::cout << "(" << std::get<0>(item) << ", "
+                      << std::get<1>(item) << ", "
+                      << std::get<2>(item) << ") ";
+        }
+        std::cout << std::endl;
+    }
 
 // 将当前位置加入禁忌表
-void RobotAdmittanceControl::addToTabuList(int x, int z) {
-    std::pair<int, int> position = std::make_pair(x, z);
-    tabuList.insert(position);
-    std::cout << "Position (" << x << ", " << z << ") added to tabu list." << std::endl;
-}
-
-int RobotAdmittanceControl::directly_handover(){
-
-    robot.servo_move_enable(TRUE);
-    selection_vector<<1, 1, 1, 1, 1, 1; //选择向量
-    wish_force << 0, 0, 0, 0, 0, 0;  //期望力
-    
-    object_rotm = Eigen::Matrix3d::Identity();
-    // object_length << 0, -0.032, 0; //m8 长螺丝
-    // object_length << 0, -0.019, 0; //螺柱
-    // object_length << 0, -0.006, 0; //螺柱
-    object_length << 0, 0, 0; //三通和螺母
-    // object_length << 0.008, 0, 0; //两通
-
-    int x_z = 1; //1:在xz平面内搜索，0：在yz平面内搜索
-    int single = 0; //1为只在z方向搜索，0，在平面内搜索
-    eef_offset_rotm = eef_offset_rotm_basic * object_rotm;
-    eef_offset_rotm_to_sensor = eef_offset_rotm_to_sensor_basic * object_rotm; 
-
-    eef_offset = eef_offset_basic + eef_offset_rotm_basic * object_length;
-    eef_offset_to_sensor = eef_offset_to_sensor_basic + eef_offset_rotm_basic * object_length; //更新工具坐标系下的旋转和平移坐标系
-
-    cout << eef_offset << endl;
-    cout << eef_offset_rotm << endl;
-    // sleep(2);
-
-    adm_m << 3.5, 3.2, 3.2, 0.5, 0.5, 0.5;
-    adm_k << 1000.0, 1000.0, 1000.0, 0.7, 0.7, 0.7;
-    for (Eigen::Index i = 0; i < adm_m.size(); ++i) {
-        adm_d[i] = 3.5 * sqrt(adm_m[i] * adm_k[i]);
-    }
-    adm_d[0] = 3.5 * sqrt(adm_m[0] * adm_k[0]);
-    adm_d[3] = 2 * sqrt(adm_m[3] * adm_k[3]);
-    adm_d[4] = 2 * sqrt(adm_m[4] * adm_k[4]);
-    adm_d[5] = 2 * sqrt(adm_m[5] * adm_k[5]);
-    update_robot_state();
-    get_tcp_force();
-    get_eef_pose();
-    eef_pos_d = eef_pos;
-    eef_rotm_d = eef_rotm;
-
-
-    Eigen::Vector3d init_eef_pos;
-    init_eef_pos = eef_pos;
-
-    screw_execute_result = 2; //2
-    screw_execute_status = 0;
-    
-    int item = 0;
-    int try_time = 0;
-    int max_times = 5;
-
-    while (item < 26000)
-    {   auto start_time = std::chrono::high_resolution_clock::now();
-
-        if ((screw_execute_result == 2) && (screw_execute_status == 0)){
-            if (item % 200 == 0){
-                 cout << "初次执行" << endl;
-            }
-           
-            goal.num = 5;
-            client.sendGoal(goal,
-                            std::bind(&RobotAdmittanceControl::done_cb, this, std::placeholders::_1, std::placeholders::_2),
-                            std::bind(&RobotAdmittanceControl::active_cb, this),
-                            std::bind(&RobotAdmittanceControl::feedback_cb, this, std::placeholders::_1));
-            
-            std::this_thread::sleep_for(std::chrono::milliseconds(50));
-            ros::spinOnce(); //处理回调信息，更改screw_execute_status
-        }
-        else if ((screw_execute_result == 0) && (screw_execute_status == 0)){
-            cout << "执行成功" << endl;
-            goal.num = 3; //打开旋拧口
-            client.sendGoal(goal,
-                            std::bind(&RobotAdmittanceControl::done_cb, this, std::placeholders::_1, std::placeholders::_2),
-                            std::bind(&RobotAdmittanceControl::active_cb, this),
-                            std::bind(&RobotAdmittanceControl::feedback_cb, this, std::placeholders::_1)); 
-            std::this_thread::sleep_for(std::chrono::milliseconds(2000));
-            while (true){
-                ros::spinOnce(); //等待打开程序执行完成
-                if (screw_execute_status == 0){
-                    cout << "screw_execute_status == 0, break" << endl;
-                    break;
-                }
-            }
-            break;
-        }
-        else if ((screw_execute_result == 1) && (screw_execute_status == 0)){
-            cout << "失败" << endl;
-            goal.num = 3; //打开旋拧口
-            client.sendGoal(goal,
-                            std::bind(&RobotAdmittanceControl::done_cb, this, std::placeholders::_1, std::placeholders::_2),
-                            std::bind(&RobotAdmittanceControl::active_cb, this),
-                            std::bind(&RobotAdmittanceControl::feedback_cb, this, std::placeholders::_1)); 
-            std::this_thread::sleep_for(std::chrono::milliseconds(2000));
-
-            while (true){
-                ros::spinOnce(); //等待打开程序执行完成
-                if (screw_execute_status == 0){
-                    cout << "screw_execute_status == 0, break" << endl;
-                    break;
-                }
-            }
-            break;
-        }
-        ros::spinOnce();
-    }
-    robot.servo_move_enable(false);
-
-    if ((screw_execute_result == 1) && (try_time == max_times)){
-        return 1;
-        }
-
-    else{
-        return 0;
-    }
-
-
+void RobotAdmittanceControl::addToTabuList(int x, int y, int z) {
+    tabuList.emplace_back(x, y, z);
+    // std::tuple<int, int, int> position = std::make_tuple(x, y, z);
+    // tabuList.insert(position);
+    std::cout << "Position (" << x << ", " << y << ", " << z << ") added to tabu list." << std::endl;
 }
 
 int RobotAdmittanceControl::random_pure_passive_model(){
+
+    // 获取 ROS 参数
+    std::string output_dir;
+    std::string filename;
+    if (!nh->getParam("log_output_dir", output_dir)) {
+        ROS_ERROR("Failed to get 'log_output_dir' parameter, using default.");
+        output_dir = "/tmp";  // 默认值
+    }
+    if (!nh->getParam("log_filename", filename)) {
+        ROS_ERROR("Failed to get 'log_filename' parameter, using default.");
+        filename = "default_log";
+    }
+    // 构造完整的日志文件路径
+    std::string log_file_path = output_dir + "/" + filename + ".txt";
+    std::ofstream logFile(log_file_path, std::ios::app);
 
     robot.servo_move_enable(TRUE);
     selection_vector<<1, 1, 1, 1, 1, 1; //选择向量
@@ -696,16 +493,25 @@ int RobotAdmittanceControl::random_pure_passive_model(){
     eef_pos_d = eef_pos;
     eef_rotm_d = eef_rotm;
 
-
     Eigen::Vector3d init_eef_pos;
+    Eigen::Vector3d start_init_eef_pos;
+    Eigen::Vector3d e_eef_pos;
+    Eigen::Vector3d expected_xyz;
+
     init_eef_pos = eef_pos;
+    start_init_eef_pos = eef_pos;
 
     screw_execute_result = 2; //2
     screw_execute_status = 0;
     
     int item = 0;
     int try_time = 0;
-    int max_times = 5;
+    int max_times = 15;
+    double x = 0; 
+    double y = 0;
+    double z = 0;
+    int intX; int intY; int intZ;
+    int present_width;
 
     while (item < 26000)
     {   auto start_time = std::chrono::high_resolution_clock::now();
@@ -725,7 +531,18 @@ int RobotAdmittanceControl::random_pure_passive_model(){
             ros::spinOnce(); //处理回调信息，更改screw_execute_status
         }
         else if ((screw_execute_result == 0) && (screw_execute_status == 0)){
-            cout << "执行成功" << endl;
+            cout << "达到目标宽度，执行成功" << endl;
+            ros::param::get("present_width", present_width); //更新最新的宽度
+            e_eef_pos = eef_rotm.inverse() * (eef_pos - init_eef_pos);
+            x = e_eef_pos[0] * 1000;
+            y = e_eef_pos[1] * 1000;
+            z = e_eef_pos[2] * 1000;
+            cout << "try_time =" << try_time - 1 << 
+            " final real excuted xyz:" << x << ", " << y << ", " << z << endl; //记录的是上一次的实际到达位置
+            cout<< "end width = " << present_width << endl;
+
+            logFile << "try_time =" << try_time - 1 << " final real excuted xyz:" << x << ", " << y << ", " << z << endl;
+            logFile << "end width = " << present_width << endl;
             break;
         }
         else if ((screw_execute_result == 1) && (screw_execute_status == 0)){
@@ -734,6 +551,19 @@ int RobotAdmittanceControl::random_pure_passive_model(){
 
             if (try_time == max_times ){
                 cout << "搜索失败，重新尝试" << endl;
+                ros::param::get("present_width", present_width); //更新最新的宽度
+                e_eef_pos = eef_rotm.inverse() * (eef_pos - init_eef_pos);
+                x = e_eef_pos[0] * 1000;
+                y = e_eef_pos[1] * 1000;
+                z = e_eef_pos[2] * 1000;
+
+                cout << "try_time =" << try_time - 1 << 
+                " final real excuted xyz:" << x << ", " << y << ", " << z << endl; //记录的是上一次的实际到达位置
+                cout<< "end width = " << present_width << endl;
+                logFile << "try_time =" << try_time - 1 << 
+                " final real excuted xyz:" << x << ", " << y << ", " << z << endl;
+                logFile << "end width = " << present_width << endl;
+
                 goal.num = 3; //打开旋拧口
                 client.sendGoal(goal,
                                 std::bind(&RobotAdmittanceControl::done_cb, this, std::placeholders::_1, std::placeholders::_2),
@@ -750,35 +580,53 @@ int RobotAdmittanceControl::random_pure_passive_model(){
                 }
                 break;
             }
-
-            // // 使用随机设备生成随机数种子
+            // 使用随机设备生成随机数种子
             std::random_device rd;
             std::mt19937 gen(rd()); // Mersenne Twister 随机数生成器
             // 生成 1.0 到 3.0 之间的浮点数
-            std::uniform_real_distribution<> dis_real(0, 2.5);
-
-            //  // 生成 -1.0 或 1.0 的浮点数
-            std::uniform_int_distribution<> dis_int(0, 1);
-            double sign_x = dis_int(gen) == 0 ? 1.0 : -1.0;
-            double sign_z = dis_int(gen) == 0 ? 1.0 : -1.0;
+            std::uniform_real_distribution<> dis_real(-5, 5);
 
             // 生成一个随机数
-            double x = (dis_real(gen) * sign_x ); //(-1, 1) 之间的随机数
-            double z = (dis_real(gen) * sign_z );
-            double y = 0;
+            x = dis_real(gen); 
+            z = dis_real(gen);
+            y = dis_real(gen);
 
             Eigen::Vector3d search_distance;
-            search_distance << x,y,z;
-            std::cout <<"delta x y z" << x << " " << y << " " << z << std::endl;
-            search_distance = search_distance / 1000; //缩放到1000
-
             update_robot_state(); 
             get_eef_pose();
-            if (try_time == 0){
-                init_eef_pos = eef_pos;
-            }
 
-            
+            if (try_time == 0){ //第一次夹取后，还没有开始搜索
+                init_eef_pos = eef_pos; //记录作为坐标系原点
+                ros::param::get("present_width", present_width); //获取第一次夹取，初始条件下的宽度
+                cout<< "start width = " << present_width << endl;
+                e_eef_pos = eef_rotm.inverse() * (init_eef_pos - start_init_eef_pos);
+                cout << "first_gripping_xyz =" << e_eef_pos[0] * 1000 << 
+                ", " << e_eef_pos[1] * 1000 << ", " << e_eef_pos[2] * 1000 << endl;
+
+                logFile << "start width = " << present_width << endl;
+                e_eef_pos = eef_rotm.inverse() * (init_eef_pos - start_init_eef_pos);
+                logFile << "first_gripping_xyz =" << e_eef_pos[0] * 1000 << 
+                ", " << e_eef_pos[1] * 1000 << ", " << e_eef_pos[2] * 1000 << endl;
+            }
+            else{
+                ros::param::get("present_width", present_width); //更新最新的宽度
+                e_eef_pos = eef_rotm.inverse() * (eef_pos - init_eef_pos);
+
+               cout << "##try_time =" << try_time - 1 << " new real excuted xyz:" 
+                << e_eef_pos[0] * 1000 << ", " << e_eef_pos[1] * 1000 << ", " << e_eef_pos[2] * 1000 << 
+                " width = " << present_width << endl; //记录的是上一次的实际到达位置
+                logFile << "##try_time =" << try_time - 1 << " new real excuted xyz:" 
+                << e_eef_pos[0] * 1000 << ", " << e_eef_pos[1] * 1000 << ", " << e_eef_pos[2] * 1000 << 
+                " width = " << present_width << endl; 
+
+                intX = static_cast<int>(expected_xyz[0]); //加入的是上次执行失败的搜索方向
+                intY = static_cast<int>(expected_xyz[1]); 
+                intZ = static_cast<int>(expected_xyz[2]);
+                addToTabuList(intX, intY, intZ);
+                // 为了保证禁忌表的可用性，必须将非搜索方向的状态手动设为0，因为机器人读取的可能会有误差，不能保证是0
+            }
+            logFile << "----------------------------------------" << std::endl;
+
             goal.num = 6;
             client.sendGoal(goal,
                             std::bind(&RobotAdmittanceControl::done_cb, this, std::placeholders::_1, std::placeholders::_2),
@@ -790,19 +638,67 @@ int RobotAdmittanceControl::random_pure_passive_model(){
                 ros::spinOnce(); //等待打开程序执行完成
                 if (screw_execute_status == 0){
                     cout << "screw_execute_status == 0, break" << endl;
-                    break;
+                    break;}
+            }
+
+            if (single){
+                    search_distance << 0, 0, z; }
+            else{
+                if(x_z){
+                    search_distance << x, 0, z;
+                }
+                else{
+                    search_distance << 0, y, z;
+                }} 
+
+            intX = static_cast<int>(std::round(search_distance[0])); //检查当前的位置是不是在禁忌表中
+            intY = static_cast<int>(std::round(search_distance[1])); 
+            intZ = static_cast<int>(std::round(search_distance[2]));
+
+            if (isInTabuList(intX, intY, intZ)){
+                while(isInTabuList(intX, intY, intZ) || abs(x) > 5 || abs(y) > 5 || abs(z) > 5){
+                    if (single){
+                        // 归一化方向向量
+                        x = 0; y = 0;
+                        z = dis_real(gen);
+                        search_distance << 0, 0, z;
+                    }
+                    else{
+                        if(x_z){
+                            x = dis_real(gen); y = 0;
+                            z = dis_real(gen);
+                            search_distance << x, 0, z;
+    
+                        }
+                        else{
+                            x = 0;
+                            y = dis_real(gen);
+                            z = dis_real(gen);
+                            search_distance << 0, y, z;
+                        }
+                    }
+                intX = static_cast<int>(std::round(search_distance[0])); //检查当前的位置是不是在禁忌表中
+                intY = static_cast<int>(std::round(search_distance[1])); 
+                intZ = static_cast<int>(std::round(search_distance[2]));
                 }
             }
 
+            expected_xyz << search_distance[0], search_distance[1], search_distance[2]; //mm为单位
+
+            std::cout << "##try_time" << try_time << " ## expected x y z" << search_distance[0] << " " 
+            << search_distance[1] << " " << search_distance[2] << std::endl;
+            logFile << "##try_time" << try_time << " ## expected x y z" << search_distance[0] << " " 
+            << search_distance[1] << " " << search_distance[2] << std::endl;
+
+            search_distance = search_distance / 1000; //缩放到1000
+
             update_robot_state(); //robot move
             get_eef_pose();
-            // cout << "old x, y, z = " << link6_pos[0] << link6_pos[1] << link6_pos[2] << endl;
             new_linear_eef = init_eef_pos + eef_rotm * search_distance;
             new_rotm_eef = eef_rotm;
             get_new_link6_pose(new_linear_eef, new_rotm_eef);
             new_pos.tran.x = new_linear[0] * 1000; new_pos.tran.y = new_linear[1] * 1000; new_pos.tran.z = new_linear[2] * 1000;
             new_pos.rpy.rx = current_rpy.rx; new_pos.rpy.ry = current_rpy.ry; new_pos.rpy.rz = current_rpy.rz;
-            // cout << "new x, y, z = " << new_pos.tran.x << new_pos.tran.y << new_pos.tran.z << endl;
 
             robot.servo_p(&new_pos, ABS, 100);
             std::this_thread::sleep_for(std::chrono::milliseconds(800));
@@ -826,16 +722,11 @@ int RobotAdmittanceControl::random_pure_passive_model(){
         fp.FX = new_eef_rpy.rx;
         fp.FY = new_eef_rpy.ry;
         fp.FZ = new_eef_rpy.rz;
-        // cout << fp.FX * 180 / PI << " " << fp.FY * 180 / PI << " " << fp.FZ * 180 / PI << " " << endl;
-        // fp.X = tcp_force[3];
-        // fp.Y = tcp_force[4];
-        // fp.Z = tcp_force[5];
-        // fp.theta = 0;
+ 
         for_pos_pub.publish(fp);
         
         eef_pos_d = eef_pos;
         eef_rotm_d = eef_rotm;
-
 
         item = item + 1;
 
@@ -873,24 +764,22 @@ int RobotAdmittanceControl::random_pure_passive_model(){
         ros::spinOnce();
     }
     robot.servo_move_enable(false);
-
     // 用于handover 测试，最终打开旋拧口
-    goal.num = 3; //打开旋拧口
-    client.sendGoal(goal,
-                    std::bind(&RobotAdmittanceControl::done_cb, this, std::placeholders::_1, std::placeholders::_2),
-                    std::bind(&RobotAdmittanceControl::active_cb, this),
-                    std::bind(&RobotAdmittanceControl::feedback_cb, this, std::placeholders::_1)); 
-    std::this_thread::sleep_for(std::chrono::milliseconds(2000));
+    // goal.num = 3; //打开旋拧口
+    // client.sendGoal(goal,
+    //                 std::bind(&RobotAdmittanceControl::done_cb, this, std::placeholders::_1, std::placeholders::_2),
+    //                 std::bind(&RobotAdmittanceControl::active_cb, this),
+    //                 std::bind(&RobotAdmittanceControl::feedback_cb, this, std::placeholders::_1)); 
+    // std::this_thread::sleep_for(std::chrono::milliseconds(2000));
 
-    while (true){
-        ros::spinOnce(); //等待打开程序执行完成
-        if (screw_execute_status == 0){
-            cout << "screw_execute_status == 0, break" << endl;
-            break;
-        }
-    }
-    cout << "try_time = " << try_time << endl;
-    
+    // while (true){
+    //     ros::spinOnce(); //等待打开程序执行完成
+    //     if (screw_execute_status == 0){
+    //         cout << "screw_execute_status == 0, break" << endl;
+    //         break;
+    //     }
+    // }
+    logFile.close();
     if ((screw_execute_result == 1) && (try_time == max_times)){
         return 1;
         }
@@ -898,33 +787,50 @@ int RobotAdmittanceControl::random_pure_passive_model(){
     else{
         return 0;
     }
-
-
 }
 
 int RobotAdmittanceControl::pure_passive_model(){
 
+      // 获取 ROS 参数
+    std::string output_dir;
+    std::string filename;
+    if (!nh->getParam("log_output_dir", output_dir)) {
+        ROS_ERROR("Failed to get 'log_output_dir' parameter, using default.");
+        output_dir = "/tmp";  // 默认值
+    }
+    if (!nh->getParam("log_filename", filename)) {
+        ROS_ERROR("Failed to get 'log_filename' parameter, using default.");
+        filename = "default_log";
+    }
+    // 构造完整的日志文件路径
+    std::string log_file_path = output_dir + "/" + filename + ".txt";
+    std::ofstream logFile(log_file_path, std::ios::app);
+
     robot.servo_move_enable(TRUE);
     selection_vector<<1, 1, 1, 1, 1, 1; //选择向量
     wish_force << 0, 0, 0, 0, 0, 0;  //期望力
-    // //获取当前工件末端tcp
-    // int T_00; int T_01; int T_02; int T_03;
-    // int T_10; int T_11; int T_12; int T_13;
-    // int T_20; int T_21; int T_22; int T_23;
+    /*
+        //获取当前工件末端tcp
+    int T_00; int T_01; int T_02; int T_03;
+    int T_10; int T_11; int T_12; int T_13;
+    int T_20; int T_21; int T_22; int T_23;
 
-    // ros::param::get("T_s_g_00", T_00); ros::param::get("T_s_g_01", T_01); ros::param::get("T_s_g_02", T_02); ros::param::get("T_s_g_03", T_03);
-    // ros::param::get("T_s_g_10", T_10); ros::param::get("T_s_g_11", T_11); ros::param::get("T_s_g_12", T_12); ros::param::get("T_s_g_13", T_13);
-    // ros::param::get("T_s_g_20", T_20); ros::param::get("T_s_g_21", T_21); ros::param::get("T_s_g_22", T_22); ros::param::get("T_s_g_23", T_23);
+    ros::param::get("T_s_g_00", T_00); ros::param::get("T_s_g_01", T_01); ros::param::get("T_s_g_02", T_02); ros::param::get("T_s_g_03", T_03);
+    ros::param::get("T_s_g_10", T_10); ros::param::get("T_s_g_11", T_11); ros::param::get("T_s_g_12", T_12); ros::param::get("T_s_g_13", T_13);
+    ros::param::get("T_s_g_20", T_20); ros::param::get("T_s_g_21", T_21); ros::param::get("T_s_g_22", T_22); ros::param::get("T_s_g_23", T_23);
 
-    // Eigen::Matrix4d T_sg;
-    // T_sg << T_00, T_01, T_02, T_03,
-    //         T_10, T_11, T_12, T_13,
-    //         T_20, T_21, T_22, T_23,
-    //         0, 0, 0, 1;
-    // T_sg = T_sg.inverse(); //一开始是旋拧坐标系下的抓取点表示，求逆以后才是抓取点下的旋拧点
+    Eigen::Matrix4d T_sg;
+    T_sg << T_00, T_01, T_02, T_03,
+            T_10, T_11, T_12, T_13,
+            T_20, T_21, T_22, T_23,
+            0, 0, 0, 1;
+    T_sg = T_sg.inverse(); //一开始是旋拧坐标系下的抓取点表示，求逆以后才是抓取点下的旋拧点
 
-    // object_rotm = T_sg.block<3,3>(0, 0);
-    // object_length = T_sg.col(3).head<3>();
+    object_rotm = T_sg.block<3,3>(0, 0);
+    object_length = T_sg.col(3).head<3>();
+    */
+
+
     object_rotm = Eigen::Matrix3d::Identity();
     // object_length << 0, -0.032, 0; //m8 长螺丝
     // object_length << 0, -0.019, 0; //螺柱
@@ -935,15 +841,12 @@ int RobotAdmittanceControl::pure_passive_model(){
 
     int x_z = 1; //1:在xz平面内搜索，0：在yz平面内搜索
     int single = 1; //1为只在z方向搜索，0，在平面内搜索
+
     eef_offset_rotm = eef_offset_rotm_basic * object_rotm;
     eef_offset_rotm_to_sensor = eef_offset_rotm_to_sensor_basic * object_rotm; 
 
     eef_offset = eef_offset_basic + eef_offset_rotm_basic * object_length;
     eef_offset_to_sensor = eef_offset_to_sensor_basic + eef_offset_rotm_basic * object_length; //更新工具坐标系下的旋转和平移坐标系
-
-    cout << eef_offset << endl;
-    cout << eef_offset_rotm << endl;
-    // sleep(2);
 
     adm_m << 3.5, 3.2, 3.2, 0.5, 0.5, 0.5;
     adm_k << 1000.0, 1000.0, 1000.0, 0.5, 0.5, 0.5;
@@ -957,41 +860,44 @@ int RobotAdmittanceControl::pure_passive_model(){
     update_robot_state();
     get_tcp_force();
     get_eef_pose();
+
     eef_pos_d = eef_pos;
     eef_rotm_d = eef_rotm;
 
-
     Eigen::Vector3d init_eef_pos;
+    Eigen::Vector3d start_init_eef_pos;
     init_eef_pos = eef_pos;
+    start_init_eef_pos = eef_pos;
 
     screw_execute_result = 2; //2
     screw_execute_status = 0;
     
     int item = 0;
     int try_time = 0;
-    int max_times = 9;
+    int max_times = 15;
     int present_width;
     int last_width;
-    double stepSize = 2.2;
+    double stepSize = 1.6; //sqrt(2)
     if (single){
-        stepSize = 1.5;
+        stepSize = 1.2; //1
     }
     double gradX = 0, gradZ = 0;
     double prevX = 0, prevZ = 0;
+    Eigen::Vector3d expected_xyz; //相对于初始位置的搜索向量
     double directionX, directionZ;
+    // double predirectionX, predirectionZ;
     double x = 0; 
     double y = 0;
     double z = 0;
-
+    int intX; int intY; int intZ;
+    Eigen::Vector3d e_eef_pos;
     while (item < 26000)
     {   auto start_time = std::chrono::high_resolution_clock::now();
-
         if ((screw_execute_result == 2) && (screw_execute_status == 0)){
             if (item % 200 == 0){
-                 cout << "初次执行" << endl;
-            }
-           
-            goal.num = 5;
+                 cout << "关闭旋拧口" << endl;}
+
+            goal.num = 5; //夹取旋拧口
             client.sendGoal(goal,
                             std::bind(&RobotAdmittanceControl::done_cb, this, std::placeholders::_1, std::placeholders::_2),
                             std::bind(&RobotAdmittanceControl::active_cb, this),
@@ -1001,16 +907,37 @@ int RobotAdmittanceControl::pure_passive_model(){
             ros::spinOnce(); //处理回调信息，更改screw_execute_status
         }
         else if ((screw_execute_result == 0) && (screw_execute_status == 0)){
-            cout << "执行成功" << endl;
+            cout << "达到目标宽度，执行成功" << endl;
+            ros::param::get("present_width", present_width); //更新最新的宽度
+            e_eef_pos = eef_rotm.inverse() * (eef_pos - init_eef_pos);
+                x = e_eef_pos[0] * 1000;
+                y = e_eef_pos[1] * 1000;
+                z = e_eef_pos[2] * 1000;
+                cout << "try_time =" << try_time - 1 << 
+                " final real excuted xyz:" << x << ", " << y << ", " << z << endl; //记录的是上一次的实际到达位置
+                cout<< "end width = " << present_width << endl;
+
+                logFile << "try_time = " << try_time - 1 <<  //保存到log
+                " final real excuted xyz:" << x << ", " << y << ", " << z << endl;
+                logFile << "end width = " << present_width << endl;
             break;
+
         }
         else if ((screw_execute_result == 1) && (screw_execute_status == 0)){
             
-            cout << "执行失败，搜索" << endl;
+            cout << "没有达到目标宽度，继续搜索" << endl;
 
+            //这是程序保护终止条件，防止过度搜索
             if (try_time == max_times ){
-                cout << "搜索失败，重新尝试" << endl;
-                goal.num = 3; //打开旋拧口
+                cout << "已经达到最大搜索次数，搜索失败，退出" << endl;
+                cout << "try_time =" << try_time - 1 << 
+                " final real excuted xyz:" << x << ", " << y << ", " << z << endl; //记录的是上一次的实际到达位置
+                cout<< "end width = " << present_width << endl;
+                logFile << "try_time =" << try_time - 1 << 
+                " [failed] final real excuted xyz:" << x << ", " << y << ", " << z << endl;
+                logFile << "end width = " << present_width << endl;
+
+                goal.num = 3; //完全打开旋拧口
                 client.sendGoal(goal,
                                 std::bind(&RobotAdmittanceControl::done_cb, this, std::placeholders::_1, std::placeholders::_2),
                                 std::bind(&RobotAdmittanceControl::active_cb, this),
@@ -1027,60 +954,68 @@ int RobotAdmittanceControl::pure_passive_model(){
                 break;
             }
 
-            // // 使用随机设备生成随机数种子
+            // 这里生成随机数 *************************
+            // 使用随机设备生成随机数种子
             std::random_device rd;
             std::mt19937 gen(rd()); // Mersenne Twister 随机数生成器
-            // 生成 1.0 到 3.0 之间的浮点数
+            // 生成 0 到 1.0 之间的浮点数
             std::uniform_real_distribution<> dis_real(0, 1);
-
+            std::uniform_real_distribution<> dis_real5(-5.0, 5.0); // 生成 -5 到 5.0 之间的浮点数
             //  // 生成 -1.0 或 1.0 的浮点数
             std::uniform_int_distribution<> dis_int(0, 1);
             double sign_x = dis_int(gen) == 0 ? 1.0 : -1.0;
             double sign_z = dis_int(gen) == 0 ? 1.0 : -1.0;
-
             // 生成一个随机数
-            directionX = (dis_real(gen) * sign_x ); //(-1, 1) 之间的随机数
-            directionZ = (dis_real(gen) * sign_z );
-           
-            // search_distance << x,y,z;
-            // std::cout <<"delta x y z" << x << " " << y << " " << z << std::endl;
             update_robot_state(); 
             get_eef_pose();
+            
+            //此处用于获取状态，保存状态，特指宽度数据
+            if (try_time == 0){ //第一次夹取后，还没有开始搜索
 
-            if ((try_time == 0) || (abs(last_width - present_width)< 200)){ //一次性抓取后，作为搜索的初始点
                 init_eef_pos = eef_pos; //记录作为坐标系原点
-                ros::param::get("present_width", present_width);
-                 // 生成随机方向
-                // directionX = ((double)rand() / RAND_MAX) * 2 - 1;  // (-1, 1) 之间的随机数
-                // directionZ = ((double)rand() / RAND_MAX) * 2 - 1;  // (-1, 1) 之间的随机数
-                if (single){
-                    // 归一化方向向量
-                    double magnitude = std::sqrt(directionZ * directionZ);
-                    directionZ /= magnitude;
-                }
-                else{
-                    double magnitude = std::sqrt(directionX * directionX + directionZ * directionZ);
-                    directionX /= magnitude;
-                    directionZ /= magnitude;
-                }
-            }
+                ros::param::get("present_width", present_width); //获取第一次夹取，初始条件下的宽度
+                cout<< "start width = " << present_width << endl;
+                e_eef_pos = eef_rotm.inverse() * (init_eef_pos - start_init_eef_pos);
+                cout << "first_gripping_xyz =" << e_eef_pos[0] * 1000 << 
+                ", " << e_eef_pos[1] * 1000 << ", " << e_eef_pos[2] * 1000 << endl;
 
+                logFile << "start width = " << present_width << endl;
+                logFile << "first_gripping_xyz =" << e_eef_pos[0] * 1000 << 
+                ", " << e_eef_pos[1] * 1000 << ", " << e_eef_pos[2] * 1000 << endl;
+            }
             else{
                 last_width = present_width; //将上一次的宽度保留,这是一个负数，越小越好
                 ros::param::get("present_width", present_width); //更新最新的宽度
-                cout << "####################" << endl;
-                cout << "last_width = " << last_width << endl;
-                cout << "present_width = " << present_width << endl;
-                cout << "#####################" << endl;
-                Eigen::Vector3d e_eef_pos = eef_rotm.inverse() * (eef_pos - init_eef_pos);
+                // 更新当前位置，本来x,y,z可以由上一次计算后的x,y，z直接获得，但由于进行的导纳控制，导致实际位置与理论位置有差别，
+                // 因此，在每一轮中，都使用当前的实际位置与上一刻的实际位置进行计算梯度
+                e_eef_pos = eef_rotm.inverse() * (eef_pos - init_eef_pos);
                 x = e_eef_pos[0] * 1000;
                 y = e_eef_pos[1] * 1000;
                 z = e_eef_pos[2] * 1000;
-                cout << "present pos:" << x << " "<< y << " "<< z << endl; //机器人当前位置
-                cout << "prevX = " << prevX << " prevZ = " << prevZ << endl;
-            }
+                cout << "try_time =" << try_time - 1 << " new real excuted xyz:" << x << ", " << y << ", " << z << " width = " << present_width << endl; //记录的是上一次的实际到达位置
+                logFile << "try_time =" << try_time - 1 << " new real excuted xyz:" << x << ", " << y << ", " << z << " width = " << present_width << endl;
+                // 为了保证禁忌表的可用性，必须将非搜索方向的状态手动设为0，因为机器人读取的可能会有误差，不能保证是0
+                if (single){
+                    x = 0;
+                    y = 0;
+                }
+                else{
+                    if(x_z){
+                        y = 0;
 
-            goal.num = 6;
+                    }
+                    else{
+                        x = 0;
+                    }
+                }
+                intX = static_cast<int>(std::round(expected_xyz[0]));
+                intY = static_cast<int>(std::round(expected_xyz[1])); //四舍五入
+                intZ = static_cast<int>(std::round(expected_xyz[2]));
+                addToTabuList(intX, intY, intZ); //能再次进入该循环的，当前的位置必然是失败的位置，加入禁忌表
+            }
+            logFile << "----------------------------------------" << std::endl;
+            //既然要继续搜索，那么应该首先打开旋拧口
+            goal.num = 6; //打开旋拧口4mm
             client.sendGoal(goal,
                             std::bind(&RobotAdmittanceControl::done_cb, this, std::placeholders::_1, std::placeholders::_2),
                             std::bind(&RobotAdmittanceControl::active_cb, this),
@@ -1088,191 +1023,234 @@ int RobotAdmittanceControl::pure_passive_model(){
             std::this_thread::sleep_for(std::chrono::milliseconds(2500));
 
             while (true){
-                ros::spinOnce(); //等待打开程序执行完成
+                ros::spinOnce(); //等待打开旋拧口程序执行完成
                 if (screw_execute_status == 0){
                     cout << "screw_execute_status == 0, break" << endl;
                     break;
                 }
             }
+            /////////////////////////////////////////////////
 
-            Eigen::Vector3d search_distance;
-            if ((try_time == 0) || (abs(last_width - present_width)< 200)){ //第一步，使用随机梯度进行更新
-                cout << "第一次，或因为宽度基本没有变化，随机搜索" << endl;
-                if (single){
-                        prevZ = z;
-                        z = stepSize * directionZ;
-                        search_distance << 0, 0, z;
-                }
+            Eigen::Vector3d search_distance; //相对于初始位置的搜索向量
 
-                else{
-                    if(x_z){
-                        prevX = x;
-                        prevZ = z;
-                        x = stepSize * directionX;
-                        z = stepSize * directionZ;
-                        search_distance << x, 0, z;
-                    }
-                    else{
-                        prevX = y;
-                        prevZ = z;
-                        y = stepSize * directionX;
-                        z = stepSize * directionZ;
-                        search_distance << 0, y, z;
-                    }
-                } 
-            }
-            else { //从第二步开始，使用前一步与当前的指标差异进行更新
-                if (single){
-                        // 从第二步开始，利用前后评价指标的差值更新梯度
-                        gradZ = (present_width - last_width) / (z - prevZ);  // 数值梯度的 y 分量
-
-                        prevZ = z;
-
-                        // 计算梯度的大小（模长）
-                        double gradMagnitude = std::sqrt(gradZ * gradZ);
-
-                        // 归一化梯度向量，保持移动距离相同
-                        gradZ /= gradMagnitude;
-
-                        // 更新位置，沿负梯度方向移动，保持固定步长
-                        z = z - stepSize * gradZ;
-                        search_distance << 0, 0, z;
-                }
-                else{
-                    if(x_z){
-                        // 从第二步开始，利用前后评价指标的差值更新梯度
-                        gradX = (present_width - last_width) / (x - prevX);  // 数值梯度的 x 分量
-                        gradZ = (present_width - last_width) / (z - prevZ);  // 数值梯度的 y 分量
-
-                        prevX = x;
-                        prevZ = z;
-
-                        // 计算梯度的大小（模长）
-                        double gradMagnitude = std::sqrt(gradX * gradX + gradZ * gradZ);
-
-                        // 归一化梯度向量，保持移动距离相同
-                        gradX /= gradMagnitude;
-                        gradZ /= gradMagnitude;
-
-                        // 更新位置，沿负梯度方向移动，保持固定步长
-                        x = x - stepSize * gradX;
-                        z = z - stepSize * gradZ;
-                        search_distance << x, 0, z;
-
-                    }
-                    else{
-                        // 从第二步开始，利用前后评价指标的差值更新梯度
-                        gradX = (present_width - last_width) / (y - prevX);  // 数值梯度的 x 分量
-                        gradZ = (present_width - last_width) / (z - prevZ);  // 数值梯度的 y 分量
-
-                        prevX = y;
-                        prevZ = z; //先记录上一次
-
-                        // 计算梯度的大小（模长）
-                        double gradMagnitude = std::sqrt(gradX * gradX + gradZ * gradZ);
-
-                        // 归一化梯度向量，保持移动距离相同
-                        gradX /= gradMagnitude;
-                        gradZ /= gradMagnitude;
-
-                        // 更新位置，沿负梯度方向移动，保持固定步长
-                        y = y - stepSize * gradX;
-                        z = z - stepSize * gradZ;
-                        search_distance << 0, y, z;
-                    }
-                }
-
-            }
-            
-            int intX = static_cast<int>(prevX);  // 将 x 转为整数，简化禁忌表使用
-            int intZ = static_cast<int>(prevZ);  // 将 z 转为整数
-            if(!(isInTabuList(intX, intZ))){ //如果他不在，则加入禁忌表
-                addToTabuList(intX, intZ); //将上一次的加入禁忌表
-            }
-            
-
-            int new_intX = static_cast<int>(x); //检查当前的位置是不是在禁忌表中
-            int new_intZ = static_cast<int>(z);
-            int local_try_time = 0;
-            int multi;
-            // 这里先检查一下在不在禁忌表中，在的话，再执行下面的程序
-            while (local_try_time < 80) { //如果在重新生成随机搜索
-                local_try_time = local_try_time + 1;
-
-                sign_x = dis_int(gen) == 0 ? 1.0 : -1.0;
-                sign_z = dis_int(gen) == 0 ? 1.0 : -1.0;
-                // 生成一个随机数
+            if (try_time == 0){ //第一步，使用随机梯度进行更新
+                cout << "try_time=0 的第一次, 随机搜索" << endl;
+                //计算随机方向
                 directionX = (dis_real(gen) * sign_x ); //(-1, 1) 之间的随机数
                 directionZ = (dis_real(gen) * sign_z );
-                if (single){
-                        // 归一化方向向量
-                        double magnitude = std::sqrt(directionZ * directionZ);
-                        directionZ /= magnitude;
 
-                        x = 0;
-                        z = multi * stepSize * directionZ;
-                        search_distance << 0, 0, z;
-                        cout << "directionZ = " << directionZ << endl;
-                        cout << "stepsize = " << stepSize << endl;
-                        cout << "stepSize * directionZ = " << z << endl;
-                    }
+                if (single){
+                    // 归一化方向向量
+                    prevZ = z; //先记录初始位置
+                    prevX = x;
+
+                    double magnitude = std::sqrt(directionZ * directionZ);
+                    directionX = 0; //都应该赋值
+                    directionZ /= magnitude;
+                    z = 0 - stepSize * directionZ;
+                    search_distance << 0, 0, z; //理论下一步期望位置
+                }
+
                 else{
                     double magnitude = std::sqrt(directionX * directionX + directionZ * directionZ);
                     directionX /= magnitude;
                     directionZ /= magnitude;
+
                     if(x_z){
-                        x = multi*stepSize * directionX;
-                        z = multi*stepSize * directionZ;
+                        prevX = x; //初始位置，都是0
+                        prevZ = z;
+                        x = 0 -  stepSize * directionX;
+                        z = 0 -  stepSize * directionZ;
                         search_distance << x, 0, z;
-                        new_intX = static_cast<int>(x); //检查当前的位置是不是在禁忌表中
-                        new_intZ = static_cast<int>(z);
-                        cout << "stepSize * directionZ = " << x << endl;
-                        cout << "stepSize * directionZ = " << z << endl;
                     }
                     else{
-                        y = multi*stepSize * directionX;
-                        z = multi*stepSize * directionZ;
+                        prevX = y;
+                        prevZ = z;
+                        y = 0 - stepSize * directionX;
+                        z = 0 - stepSize * directionZ;
                         search_distance << 0, y, z;
-                        new_intX = static_cast<int>(y); //检查当前的位置是不是在禁忌表中
-                        new_intZ = static_cast<int>(z);
                     }
-                }
-                if (!(isInTabuList(new_intX, new_intZ))){
-                    if ((abs(search_distance(0)) < 5) && (abs(search_distance(1)) < 5) && abs(search_distance(2)) < 5){
-                        break;
-                    }
-                }
-                else if (local_try_time % 20 == 0){ //每搜索10次，如果都不满足上面的调节，就更改搜索步长
-                    multi = multi + 1;
                 } 
-
             }
 
+            else { //从第二步开始，使用前一步与当前的指标差异进行更新
+                if (single){
+                        // 从第二步开始，利用前后评价指标的差值更新梯度
+                    if(abs(present_width - last_width) > 200){ //宽度没变化，梯度为0，延续上一时刻的方向，此时directionZ还没有被更新
+                        cout << "grident was calculated, not random" <<endl;
+                        gradZ = (present_width - last_width) / (z - prevZ);  // 数值梯度的 y 分量
+                        // 计算梯度的大小（模长）
+                        double gradMagnitude = std::sqrt(gradZ * gradZ);
+                        // 归一化梯度向量，保持移动距离相同
+                        directionX = 0; //都应该赋值
+                        directionZ = gradZ/gradMagnitude;
+                    }
+                    prevZ = z;
+                    // 更新位置，沿负梯度方向移动，保持固定步长
+                    z = prevZ - stepSize * directionZ;
+                    search_distance << 0, 0, z;
+                    
+                }
 
-            if (abs(search_distance(0)) > 5){
-                search_distance(0) = 0;
+                else{
+                    if(x_z){
+                        // 从第二步开始，利用前后评价指标的差值更新梯度，适用于x z 情况
+                        if(abs(present_width - last_width) > 200){ //宽度没变化，梯度为0，延续上一时刻的方向，此时directionZ还没有被更新, 宽度有变化才更新梯度
+                            cout << "grident was calculated, not random" <<endl;
+                            gradX = (present_width - last_width) / (x - prevX);  // 数值梯度的 x 分量
+                            gradZ = (present_width - last_width) / (z - prevZ);  // 数值梯度的 y 分量
+                            // 计算梯度的大小（模长）
+                            double gradMagnitude = std::sqrt(gradX * gradX + gradZ * gradZ);
+
+                            // 归一化梯度向量，保持移动距离相同
+                            directionX = gradX/gradMagnitude;
+                            directionZ = gradZ/gradMagnitude;
+                        }
+                        prevX = x;
+                        prevZ = z;
+                        // 更新位置，沿负梯度方向移动，保持固定步长
+                        x = prevX - stepSize * directionX;
+                        z = prevZ - stepSize * directionZ;
+                        search_distance << x, 0, z;
+
+                    }
+                    else{
+                        if(abs(present_width - last_width) > 200){
+                            cout << "grident was calculated, not random" <<endl;
+                            // 从第二步开始，利用前后评价指标的差值更新梯度，适用于y z 情况
+                            gradX = (present_width - last_width) / (y - prevX);  // 数值梯度的 x 分量
+                            gradZ = (present_width - last_width) / (z - prevZ);  // 数值梯度的 y 分量
+                            // 计算梯度的大小（模长）
+                            double gradMagnitude = std::sqrt(gradX * gradX + gradZ * gradZ);
+                            // 归一化梯度向量，保持移动距离相同
+                            directionX = gradX/gradMagnitude;
+                            directionZ = gradZ/gradMagnitude;
+                        }
+
+                        prevX = y;
+                        prevZ = z; //先记录上一次
+                        // 更新位置，沿负梯度方向移动，保持固定步长
+                        y = prevX - stepSize * directionX;
+                        z = prevZ - stepSize * directionZ;
+                        search_distance << 0, y, z;
+                    }
+                }
             }
-            if (abs(search_distance(1)) > 5){
-                search_distance(1) = 0;
+            
+            intX = static_cast<int>(std::round(x));
+            intY = static_cast<int>(std::round(y)); //四舍五入
+            intZ = static_cast<int>(std::round(z));
+            
+            int local_try_time = 0;
+
+            // 检查在不在禁忌表或者超过边界，如果在，重复随机搜索，如果被禁忌表包围，则随机跳跃，直到跳出禁忌表
+            while (local_try_time < 50) { //如果在重新生成随机搜索
+                if ((isInTabuList(intX, intY, intZ)) || abs(x) > 5 || abs(y) > 5 || abs(z) > 5){
+                    
+                    if (local_try_time < 1){
+                        cout << "local_searching ..." << endl;
+                        
+                        logFile << "local_searching ..." << endl;
+                        logFile << "[expected xyz before tabulist:]" << x << ", " << y << ", "<< z << endl;
+                    }
+                    
+                    sign_x = dis_int(gen) == 0 ? 1.0 : -1.0;
+                    sign_z = dis_int(gen) == 0 ? 1.0 : -1.0;
+                    // 生成一个随机数
+                    directionX = (dis_real(gen) * sign_x ); //(-1, 1) 之间的随机数
+                    directionZ = (dis_real(gen) * sign_z );
+
+                    if (single){
+                            // 归一化方向向量
+                            double magnitude = std::sqrt(directionZ * directionZ);
+                            directionZ /= magnitude;
+                            x = 0;
+                            y = 0;
+                            z = prevZ - stepSize * directionZ;
+                            search_distance << 0, 0, z;
+                        }
+                    else{
+                        double magnitude = std::sqrt(directionX * directionX + directionZ * directionZ);
+                        directionX /= magnitude;
+                        directionZ /= magnitude;
+                        if(x_z){
+                            x = prevX - stepSize * directionX;
+                            y = 0;
+                            z = prevZ - stepSize * directionZ;
+                            search_distance << x, 0, z;
+    
+                        }
+                        else{
+                            x = 0;
+                            y = prevX - stepSize * directionX;
+                            z = prevZ - stepSize * directionZ;
+                            search_distance << 0, y, z;
+                        }
+                    }
+                    intX = static_cast<int>(std::round(x));
+                    intY = static_cast<int>(std::round(y)); //四舍五入
+                    intZ = static_cast<int>(std::round(z));
+                    local_try_time = local_try_time + 1;
+
+                }
+                else{
+                    break;
+                }
             }
-            if (abs(search_distance(2)) > 5){
-                search_distance(2) = 0;
+            //跳跃搜索
+            cout << "medium xyz = " << x << ", " << y << ", " << z << endl;
+
+            if ((isInTabuList(intX, intY, intZ)) || abs(x) > 5 || abs(y) > 5 || abs(z) > 5){
+                cout << "jump search" << endl;
+                logFile << "jump search" << endl;
+                while( (isInTabuList(intX, intY, intZ)) || abs(x) > 5 || abs(y) > 5 || abs(z) > 5){
+                    if (single){
+                        // 归一化方向向量
+                        x = 0; 
+                        y = 0;
+                        z = dis_real5(gen);
+                        search_distance << 0, 0, z;
+                        cout << "jump single" << search_distance[0] << ", " <<search_distance[1] << ", " <<search_distance[2] << endl; 
+                    }
+                    else{
+                        if(x_z){
+                            x = dis_real5(gen); 
+                            y = 0;
+                            z = dis_real5(gen);
+                            search_distance << x, 0, z;
+                            cout << "jump xz = " << x << search_distance[0] << ", " <<search_distance[1] << ", " <<search_distance[2] << endl; 
+                        }
+                        else{
+                            x = 0;
+                            y = dis_real5(gen);
+                            z = dis_real5(gen);
+                            search_distance << 0, y, z;
+                            cout << "jump yz = " << search_distance[0] << ", " <<search_distance[1] << ", " <<search_distance[2] << endl; 
+                        }
+                    }
+                    intX = static_cast<int>(std::round(x));
+                    intY = static_cast<int>(std::round(y)); //四舍五入
+                    intZ = static_cast<int>(std::round(z));
+                }
             }
 
+            expected_xyz << search_distance[0], search_distance[1], search_distance[2]; //mm为单位
 
-            search_distance = search_distance / 1000; //缩放到1000
-            cout << " grad  " <<- stepSize * gradX << - stepSize * gradZ << endl;
-            cout << "new x y z = " << search_distance << endl;
-        
+            // add more information, using printing method to record!
+            cout << " grad  " << - directionX << ", " << - directionZ << endl;
+            cout << "try_time = "<< try_time << " new expected x y z = " << search_distance[0] << ", " <<search_distance[1] << ", " <<search_distance[2] << endl;
+            logFile << " grad  " << - directionX << ", " << - directionZ << endl;
+            logFile << "try_time = "<< try_time << " new expected x y z = " << search_distance[0] << ", " <<search_distance[1] << ", " <<search_distance[2] << endl;
+
+            search_distance = search_distance / 1000; //缩放到m
             update_robot_state(); //robot move
             get_eef_pose();
-            // cout << "old x, y, z = " << link6_pos[0] << link6_pos[1] << link6_pos[2] << endl;
+
             new_linear_eef = init_eef_pos + eef_rotm * search_distance;
             new_rotm_eef = eef_rotm;
             get_new_link6_pose(new_linear_eef, new_rotm_eef);
             new_pos.tran.x = new_linear[0] * 1000; new_pos.tran.y = new_linear[1] * 1000; new_pos.tran.z = new_linear[2] * 1000;
             new_pos.rpy.rx = current_rpy.rx; new_pos.rpy.ry = current_rpy.ry; new_pos.rpy.rz = current_rpy.rz;
-            // cout << "new x, y, z = " << new_pos.tran.x << new_pos.tran.y << new_pos.tran.z << endl;
 
             robot.servo_p(&new_pos, ABS, 100);
             std::this_thread::sleep_for(std::chrono::milliseconds(800));
@@ -1337,7 +1315,7 @@ int RobotAdmittanceControl::pure_passive_model(){
         auto end_time = std::chrono::high_resolution_clock::now();
         auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end_time-start_time);
 
-        if (item % 200 == 0){
+        if (item % 600 == 0){
         cout << "item" << item << " excution time is"<< duration.count()<<"ms" << endl;}
 
         ros::spinOnce();
@@ -1359,7 +1337,9 @@ int RobotAdmittanceControl::pure_passive_model(){
     //         break;
     //     }
     // }
-    cout << "try_time = " << try_time << endl;
+    // cout << "try_time = " << try_time << endl;
+    logFile.close();
+    std::cout << "Log saved to log.txt" << std::endl;
     
     if ((screw_execute_result == 1) && (try_time == max_times)){
         return 1;
@@ -1384,7 +1364,7 @@ void RobotAdmittanceControl::spiral_search(){
 
     robot.servo_move_enable(true);
     adm_m << 3, 4, 3, 0.5, 0.5, 1.0;
-    adm_k << 600.0, 1100.0, 600.0, 10.0, 10.0, 10.0;
+    adm_k << 1000.0, 1100.0, 1000.0, 10.0, 10.0, 10.0;
     for (Eigen::Index i = 0; i < adm_m.size(); ++i) {
         adm_d[i] = 3 * sqrt(adm_m[i] * adm_k[i]);
     }
@@ -1466,7 +1446,7 @@ void RobotAdmittanceControl::spiral_search(){
         eef_rotm_d = eef_rotm;
 
         // 生成平面螺旋曲线
-        theta = (2*PI / 800) * 0.005 * item + theta; //螺旋线的角度
+        theta = (2*PI / 800) * 0.008 * item + theta; //螺旋线的角度
         double radius = a + b * theta;
         double x = radius * cos(theta) * 0.001;
         double y = 0;
@@ -1484,7 +1464,7 @@ void RobotAdmittanceControl::spiral_search(){
             cout << "spiral search stoped" <<endl;
             break;
         }
-        if ((abs(tcp_force[0]) > 4) || (abs(tcp_force[2]) > 4)){
+        if ((abs(tcp_force[0]) > 5) || (abs(tcp_force[2]) > 5)){
             cout << "x_force" <<  tcp_force[0] << ", y_force" <<  tcp_force[1]<< endl;
             cout << "spiral search stoped" <<endl;  //实际实验时进行调试
             break;
@@ -1520,7 +1500,7 @@ void RobotAdmittanceControl::spiral_search(){
     update_robot_state();
     get_tcp_force();
     get_eef_pose();
-    wish_force << 0, 10, 0, 0, 0, 0;  //期望力
+    wish_force << 0, 12, 0, 0, 0, 0;  //期望力
     selection_vector<<1, 1, 1, 0, 0, 0; //选择向量，表示只控制y轴
     eef_pos_d = eef_pos;
     eef_rotm_d = eef_rotm;
@@ -1536,7 +1516,7 @@ void RobotAdmittanceControl::spiral_search(){
         update_robot_state();
         get_tcp_force();
         get_eef_pose();
-        if (tcp_force[1] < -9){
+        if (tcp_force[1] < -11){
             cout << tcp_force[1] << endl;
             cout << "insert stoped" <<endl;
             break;
@@ -1698,11 +1678,11 @@ void RobotAdmittanceControl::move_to_left_insert(){
     update_robot_state();
     get_eef_pose();
 
-    new_pos.tran.x = -209.502; new_pos.tran.y = -547.163; new_pos.tran.z = 273.835; //示教获得
-    new_pos.rpy.rx = -90.012 * PI / 180; new_pos.rpy.ry = 44.959 * PI / 180; new_pos.rpy.rz = -149.972 * PI / 180;
+    new_pos.tran.x = -206.784; new_pos.tran.y = -545.427; new_pos.tran.z = 273.495; //示教获得
+    new_pos.rpy.rx = -90.012 * PI / 180; new_pos.rpy.ry = 45 * PI / 180; new_pos.rpy.rz = -150.395 * PI / 180;
     
     robot.servo_move_enable(false);
-    robot.linear_move(&new_pos, ABS, true, 20);
+    robot.linear_move(&new_pos, ABS, true, 25);
     cout<< "move to the picking position"<<endl;
     joint_states_callback(joint_states_pub); //更新一下机器人状态
 
@@ -1713,11 +1693,11 @@ void RobotAdmittanceControl::move_to_right_insert(){
     update_robot_state();
     get_eef_pose();
 
-    new_pos.tran.x = -221.423; new_pos.tran.y = -554.023; new_pos.tran.z = 275; //示教获得
-    new_pos.rpy.rx = 90.45 * PI / 180; new_pos.rpy.ry = -46.074 * PI / 180; new_pos.rpy.rz = 29.705 * PI / 180;
+    new_pos.tran.x = -223.851; new_pos.tran.y = -554.023; new_pos.tran.z = 274.8; //示教获得
+    new_pos.rpy.rx = 90.324 * PI / 180; new_pos.rpy.ry = -46.231 * PI / 180; new_pos.rpy.rz = 28.993 * PI / 180;
     
     robot.servo_move_enable(false);
-    robot.linear_move(&new_pos, ABS, true, 20);
+    robot.linear_move(&new_pos, ABS, true, 25);
     cout<< "move to the picking position"<<endl;
     joint_states_callback(joint_states_pub); //更新一下机器人状态
 }
@@ -1727,11 +1707,13 @@ void RobotAdmittanceControl::move_to_left_pick(){
     update_robot_state();
     get_eef_pose();
 
-    new_pos.tran.x = -204.283; new_pos.tran.y = -544.799; new_pos.tran.z = 273.835; //示教获得
-    new_pos.rpy.rx = -90.012 * PI / 180; new_pos.rpy.ry = 44.959 * PI / 180; new_pos.rpy.rz = -149.972 * PI / 180;
+    new_pos.tran.x = -191.895; new_pos.tran.y = -538.196; new_pos.tran.z = 273.835; //示教获得
+    new_pos.rpy.rx = -90.012 * PI / 180; new_pos.rpy.ry = 44.2 * PI / 180; new_pos.rpy.rz = -153.56 * PI / 180;
     
     robot.servo_move_enable(false);
-    robot.linear_move(&new_pos, ABS, true, 15);
+    robot.get_joint_position(&cur_joint_pos);
+    robot.kine_inverse(&cur_joint_pos, &new_pos, &next_joint_pos);
+    robot.joint_move(&next_joint_pos, ABS, TRUE, 0.2);
     cout<< "move to the picking position"<<endl;
     joint_states_callback(joint_states_pub); //更新一下机器人状态
 }
@@ -1745,7 +1727,10 @@ void RobotAdmittanceControl::move_to_right_pick(){
     new_pos.rpy.rx = 90.45 * PI / 180; new_pos.rpy.ry = -46.074 * PI / 180; new_pos.rpy.rz = 29.705 * PI / 180;
     
     robot.servo_move_enable(false);
-    robot.linear_move(&new_pos, ABS, true, 15);
+
+    robot.get_joint_position(&cur_joint_pos);
+    robot.kine_inverse(&cur_joint_pos, &new_pos, &next_joint_pos);
+    robot.joint_move(&next_joint_pos, ABS, TRUE, 0.2);
 
     cout<< "move to the picking position"<<endl;
     joint_states_callback(joint_states_pub); //更新一下机器人状态
@@ -1760,7 +1745,12 @@ void RobotAdmittanceControl::move_to_left_middle(){
     new_pos.rpy.rx = -90.012 * PI / 180; new_pos.rpy.ry = 44.959 * PI / 180; new_pos.rpy.rz = -149.972 * PI / 180;
     
     robot.servo_move_enable(false);
-    robot.linear_move(&new_pos, ABS, true, 20);
+
+    robot.get_joint_position(&cur_joint_pos);
+    robot.kine_inverse(&cur_joint_pos, &new_pos, &next_joint_pos);
+    robot.joint_move(&next_joint_pos, ABS, TRUE, 0.2);
+
+    // robot.linear_move(&new_pos, ABS, true, 20);
     cout<< "move to the picking position"<<endl;
     joint_states_callback(joint_states_pub); //更新一下机器人状态
 }
@@ -1774,7 +1764,12 @@ void RobotAdmittanceControl::move_to_right_middle(){
     new_pos.rpy.rx = 90.45 * PI / 180; new_pos.rpy.ry = -46.074 * PI / 180; new_pos.rpy.rz = 29.705 * PI / 180;
     
     robot.servo_move_enable(false);
-    robot.linear_move(&new_pos, ABS, true, 20);
+
+    robot.get_joint_position(&cur_joint_pos);
+    robot.kine_inverse(&cur_joint_pos, &new_pos, &next_joint_pos);
+    robot.joint_move(&next_joint_pos, ABS, TRUE, 0.2);
+
+    // robot.linear_move(&new_pos, ABS, true, 20);
     cout<< "move to the picking position"<<endl;
     joint_states_callback(joint_states_pub); //更新一下机器人状态
 }
@@ -1786,53 +1781,53 @@ void RobotAdmittanceControl::move_to_recycle(int choice, int int_value){
 
     if (int_value == 3){ //left
         if (choice == 0){
-        new_pos.tran.x = -313.032; new_pos.tran.y = -302.817 + 28 * 2; new_pos.tran.z = 54.369; //示教获得
+        new_pos.tran.x = -313.341; new_pos.tran.y = -302.973 + 28 * 2; new_pos.tran.z = 54; //示教获得
         new_pos.rpy.rx = -90 * PI / 180; new_pos.rpy.ry = -45 * PI / 180; new_pos.rpy.rz = -90 * PI / 180;
         }
         else if (choice == 1)
         {
-            new_pos.tran.x = -313.032; new_pos.tran.y = -302.817 + 28; new_pos.tran.z = 54.369; //示教获得
+            new_pos.tran.x = -313.341; new_pos.tran.y = -302.973 + 28; new_pos.tran.z = 54; //示教获得
             new_pos.rpy.rx = -90 * PI / 180; new_pos.rpy.ry = -45 * PI / 180; new_pos.rpy.rz = -90 * PI / 180;
         }
         else if (choice == 2)
         {
-            new_pos.tran.x = -313.032; new_pos.tran.y = -302.817; new_pos.tran.z = 54.369; //示教获得
+            new_pos.tran.x = -313.341; new_pos.tran.y = -302.973; new_pos.tran.z = 54; //示教获得
             new_pos.rpy.rx = -90 * PI / 180; new_pos.rpy.ry = -45 * PI / 180; new_pos.rpy.rz = -90 * PI / 180;
         }
         else if (choice == 3)
         {
-            new_pos.tran.x = -313.032; new_pos.tran.y = -302.817 - 28; new_pos.tran.z = 54.369; //示教获得
+            new_pos.tran.x = -313.341; new_pos.tran.y = -302.973 - 28; new_pos.tran.z = 54; //示教获得
             new_pos.rpy.rx = -90 * PI / 180; new_pos.rpy.ry = -45 * PI / 180; new_pos.rpy.rz = -90 * PI / 180;
         }
         else if (choice == 4)
         {
-            new_pos.tran.x = -313.032; new_pos.tran.y = -302.817 - 28 * 2; new_pos.tran.z = 54.369; //示教获得
+            new_pos.tran.x = -313.341; new_pos.tran.y = -302.973 - 28 * 2; new_pos.tran.z = 54; //示教获得
             new_pos.rpy.rx = -90 * PI / 180; new_pos.rpy.ry = -45 * PI / 180; new_pos.rpy.rz = -90 * PI / 180;
         }
     }
     if (int_value == 4){ //right
         if (choice == 0){
-        new_pos.tran.x = -314.122; new_pos.tran.y = -302.617 + 28 * 2; new_pos.tran.z = 45.632; //示教获得
+        new_pos.tran.x = -312.717; new_pos.tran.y = -302.886 + 28 * 2; new_pos.tran.z = 54; //示教获得
         new_pos.rpy.rx = -90 * PI / 180; new_pos.rpy.ry = -45 * PI / 180; new_pos.rpy.rz = -90 * PI / 180;
         }
         else if (choice == 1)
         {
-            new_pos.tran.x = -314.122; new_pos.tran.y = -302.617 + 28; new_pos.tran.z = 45.632; //示教获得
+            new_pos.tran.x = -312.717; new_pos.tran.y = -302.886 + 28; new_pos.tran.z = 54; //示教获得
             new_pos.rpy.rx = -90 * PI / 180; new_pos.rpy.ry = -45 * PI / 180; new_pos.rpy.rz = -90 * PI / 180;
         }
         else if (choice == 2)
         {
-            new_pos.tran.x = -314.122; new_pos.tran.y = -302.617; new_pos.tran.z = 54; //示教获得
+            new_pos.tran.x = -312.717; new_pos.tran.y = -302.886; new_pos.tran.z = 54; //示教获得
             new_pos.rpy.rx = -90 * PI / 180; new_pos.rpy.ry = -45 * PI / 180; new_pos.rpy.rz = -90 * PI / 180;
         }
         else if (choice == 3)
         {
-            new_pos.tran.x = -314.122; new_pos.tran.y = -302.617 - 28; new_pos.tran.z = 45.632; //示教获得
+            new_pos.tran.x = -312.717; new_pos.tran.y = -302.886 - 28; new_pos.tran.z = 54; //示教获得
             new_pos.rpy.rx = -90 * PI / 180; new_pos.rpy.ry = -45 * PI / 180; new_pos.rpy.rz = -90 * PI / 180;
         }
         else if (choice == 4)
         {
-            new_pos.tran.x = -314.122; new_pos.tran.y = -302.617 - 28 * 2; new_pos.tran.z = 45.632; //示教获得
+            new_pos.tran.x = -312.717; new_pos.tran.y = -302.886 - 28 * 2; new_pos.tran.z = 54; //示教获得
             new_pos.rpy.rx = -90 * PI / 180; new_pos.rpy.ry = -45 * PI / 180; new_pos.rpy.rz = -90 * PI / 180;
         }
     }

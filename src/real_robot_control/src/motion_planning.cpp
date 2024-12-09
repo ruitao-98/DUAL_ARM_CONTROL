@@ -74,7 +74,7 @@ void goalCb(const control_msgs::FollowJointTrajectoryGoalConstPtr& torso_goal, S
         
         int step_num=int (dt * 1/0.008);
 
-        int sdk_res=left_robot.joint_move(&joint_pose, MoveMode::ABS, true, 0.16);  //不拍视频用这个，稳定
+        int sdk_res=left_robot.joint_move(&joint_pose, MoveMode::ABS, true, 0.2);  //不拍视频用这个，稳定
 
         // int sdk_res=left_robot.servo_j(&joint_pose, MoveMode::ABS, step_num);
 

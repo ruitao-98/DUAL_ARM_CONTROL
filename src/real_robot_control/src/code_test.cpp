@@ -255,29 +255,130 @@
 
 // // endeffector ef;
 
-#include <random>
-int main(int argc, char *argv[]){
-    ros::init(argc, argv, "robot_control");
-        // 使用随机设备生成随机数种子
-    std::random_device rd;
-    std::mt19937 gen(rd()); // Mersenne Twister 随机数生成器
-    // 生成 1.0 到 3.0 之间的浮点数
-    std::uniform_real_distribution<> dis_real(2.0, 4.0);
+// #include <random>
+// int main(int argc, char *argv[]){
+//     ros::init(argc, argv, "robot_control");
+//         // 使用随机设备生成随机数种子
+//     std::random_device rd;
+//     std::mt19937 gen(rd()); // Mersenne Twister 随机数生成器
+//     // 生成 1.0 到 3.0 之间的浮点数
+//     std::uniform_real_distribution<> dis_real(-5, 5);
+//     std::uniform_real_distribution<> dis_real5(-5, 5);
+//     // 生成 -1.0 或 1.0 的浮点数
+//     std::uniform_int_distribution<> dis_int(0, 1);
+//     double sign_x = dis_int(gen) == 0 ? 1.0 : -1.0;
+//     double sign_y = dis_int(gen) == 0 ? 1.0 : -1.0;
+//     double sign_z = dis_int(gen) == 0 ? 1.0 : -1.0;
 
-    // 生成 -1.0 或 1.0 的浮点数
-    std::uniform_int_distribution<> dis_int(0, 1);
-    double sign_x = dis_int(gen) == 0 ? 1.0 : -1.0;
-    double sign_y = dis_int(gen) == 0 ? 1.0 : -1.0;
-    double sign_z = dis_int(gen) == 0 ? 1.0 : -1.0;
+//     // // 生成一个随机数
+//     // double x = (dis_real(gen) * sign_x )/ 1000;
+//     // double y = (dis_real(gen) * sign_y )/ 1000;
+//     // double z = (dis_real(gen) * sign_z )/ 1000;
+//     double x = dis_real(gen);
+//     double y = dis_real(gen);
+//     double z = dis_real(gen);
+//     int intX = static_cast<int>(std::round(0.2));
+//     int intY = static_cast<int>(std::round(-0.9));
+//     int intZ = static_cast<int>(std::round(y));
 
-    // 生成一个随机数
-    double x = (dis_real(gen) * sign_x )/ 1000;
-    double y = (dis_real(gen) * sign_y )/ 1000;
-    double z = (dis_real(gen) * sign_z )/ 1000;
+//     Eigen::Vector3d search_distance;
+//     search_distance << x,y,z;
+//     // std::cout << x << " " << y << " " << z << std::endl;
+//     std::cout << intX << " " << intY << " " << intZ << std::endl;
 
-    Eigen::Vector3d search_distance;
-    search_distance << x,y,z;
-    std::cout << x << " " << y << " " << z << std::endl;
+//     x = -6; y = 0; z = 3;
+//     int item = 0;
+//     if (abs(x) > 5 || abs(y) > 5 || abs(z) > 5){
+//        std:: cout << "jump search" << std::endl;
+//         while(item < 30){
+//             item = item + 1;
+//             x = dis_real5(gen); y = 0;
+//             z = dis_real5(gen);
+//             search_distance << x, 0, z;
+//             }
+//         }
+    
+//     std::cout << search_distance[0] << " " << search_distance[1] << " " << search_distance[2] << std::endl;
+
+#include <iostream>
+#include <fstream> // 用于文件操作
+#include <iomanip> // 用于控制输出格式
+
+int main() {
+    int local_N = 0; //六边形大圈 0,1,2... 
+    int local_k = 0; //单元的扇形 0,1,2...5
+    int local_m = 0; //扇形内部点 0,1...N-1 
+    int max_N = 3;
+
+    while (true){
+        std::cout << local_N << ", " << local_k << ", " << local_m << ", " << std::endl;
+        if (local_N == 0){
+                local_N = 1;
+            }
+        else{
+            if (local_m < local_N - 1){
+                local_m++;
+            }
+            else if (local_k < 5){
+                local_m = 0;
+                local_k++;
+            }
+            else if(local_N < max_N){
+                local_k = 0;
+                local_m = 0;
+                local_N++;
+            }
+            else{
+                break;
+            }
+            }
+            
+        }
+    
+    // // 打开文件以追加模式写入（文件不存在时会自动创建）
+    // std::ofstream logFile("log.txt", std::ios::app);
+
+    // // 检查文件是否成功打开
+    // if (!logFile) {
+    //     std::cerr << "Error opening file!" << std::endl;
+    //     return 1;
+    // }
+
+    // // 模拟循环保存信息
+    // for (int try_time = 0; try_time < 10; ++try_time) {
+    //     double present_width = 0.5 + try_time * 0.1;  // 示例变量
+    //     double e_eef_pos[3] = {0.01 * try_time, 0.02 * try_time, 0.03 * try_time};
+    //     double x = 0.1 * try_time, y = 0.2 * try_time, z = 0.3 * try_time;
+    //     double directionX = -0.1 * try_time, directionZ = -0.2 * try_time;
+    //     double search_distance[3] = {x + 0.1, y + 0.1, z + 0.1};
+
+    //     // 写入文件（每个循环信息）
+    //     logFile << "start width = " << present_width << std::endl;
+    //     logFile << "first_gripping_xyz = "
+    //             << e_eef_pos[0] * 1000 << " "
+    //             << e_eef_pos[1] * 1000 << " "
+    //             << e_eef_pos[2] * 1000 << std::endl;
+    //     logFile << "try_time = " << try_time
+    //             << " new real executed xyz: " << x << " " << y << " " << z
+    //             << " width = " << present_width << std::endl;
+    //     logFile << "grad = " << -directionX << ", " << -directionZ << std::endl;
+    //     logFile << "try_time = " << try_time
+    //             << " new expected x y z = " << search_distance[0] << ", "
+    //             << search_distance[1] << ", " << search_distance[2] << std::endl;
+
+    //     // 可选：分隔符，方便日志查看
+    //     logFile << "----------------------------------------" << std::endl;
+    // }
+
+    // // 关闭文件
+    // logFile.close();
+    // std::cout << "Log saved to log.txt" << std::endl;
+
+    return 0;
+}
+
+
+
 //     ros::NodeHandle nh;
 //     Eigen::VectorXd selection_vector;
 //     Eigen::Vector3d _vector;
@@ -362,5 +463,5 @@ int main(int argc, char *argv[]){
     // sleep(3);
     // ef.width_increase(3);
 //     return 0;
-}
+// }
 

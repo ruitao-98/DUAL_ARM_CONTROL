@@ -98,6 +98,7 @@ add_message_files(
   orientation_pub.msg
   force_pos_pub.msg
   width_pub.msg
+  pose_pub.msg
 )
 
 

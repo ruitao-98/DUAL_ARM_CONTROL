@@ -1,0 +1,25 @@
+start width = -69017
+first_gripping_xyz =-0.441106, 0.551546, 0.701341
+----------------------------------------
+ grad  0.880124, 0.474745
+try_time = 0 new expected x y z = 1.4082, 0, 0.759592
+try_time =0 new real excuted xyz:1.3204, -0.0752337, 0.857642 width = -68586
+----------------------------------------
+ grad  -0.544711, -0.838624
+try_time = 1 new expected x y z = 0.448865, 0, -0.484156
+try_time =1 new real excuted xyz:1.19667, -0.0745188, 0.00198384 width = -68757
+----------------------------------------
+ grad  -0.544711, -0.838624
+try_time = 2 new expected x y z = 0.325136, 0, -1.33981
+try_time =2 new real excuted xyz:0.923448, -0.0967251, -0.675317 width = -68822
+----------------------------------------
+ grad  -0.544711, -0.838624
+try_time = 3 new expected x y z = 0.0519096, 0, -2.01711
+try_time =3 new real excuted xyz:0.456739, -0.0152016, -0.783113 width = -69085
+----------------------------------------
+local_searching ...
+[expected xyz before tabulist:]0.0966668, 0, -2.34207
+ grad  -0.798459, -0.60205
+try_time = 4 new expected x y z = -0.820794, 0, -1.74639
+try_time = 4 final real excuted xyz:-3.28381, 0.227585, 0.774708
+end width = -75556

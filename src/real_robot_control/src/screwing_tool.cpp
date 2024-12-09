@@ -272,7 +272,7 @@ int endeffector::width_reduce_or_increase_full(int judge){
 	}
 	float start_current = average_function(base_current, 15);
 	printf("the started current%.3f \n", start_current);
-	int yuzhi = 40;
+	int yuzhi = 45;
 	int present_cu[10] = { 0 };
 	int i = 0;
 	int fin_position;
@@ -642,8 +642,8 @@ int endeffector::screwing_s2(int speed, ros::Publisher &pub, real_robot_control:
 	// for (int m = 0; m < 15; m++) {
 	// 	std::cout << base_current[m] << std::endl;
 	// }
-	int yuzhi = 30;
-	int goal_position = int(start_position - 4095 * 6.238 * 4);
+	int yuzhi = 40;
+	int goal_position = int(start_position - 4095 * 6.238 * 2);
 	int present_cu[10] = { 0 };
 	int i = 0;
   	double ave_current;

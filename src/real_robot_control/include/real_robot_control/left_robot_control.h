@@ -16,11 +16,19 @@
 #include <sensor_msgs/JointState.h>
 #include "real_robot_control/force_pos_pub.h"
 #include <set>
-#include <utility> // for std::pair
+#include <iostream>
+#include <fstream> // 用于文件操作
+#include <iomanip> // 用于控制输出格式
+// #include <utility> // for std::pair
+
+#include <tuple>
+
 
 namespace jaka {
     using Quaternion = ::Quaternion; // 创建别名
 }
+
+
 
 class RobotAdmittanceControl
 {
@@ -70,8 +78,9 @@ public:
     void back_to_middle();
     void joint_states_callback(ros::Publisher joint_states_pub);
 
-    bool isInTabuList(int x, int z);
-    void addToTabuList(int x, int z);
+    bool isInTabuList(int x, int y, int z);
+    void addToTabuList(int x, int y, int z);
+    void printTabuList() const; 
 
     Eigen::VectorXd adm_m;
     Eigen::VectorXd adm_k;
@@ -89,7 +98,10 @@ public:
     ros::Publisher for_pos_pub;
     real_robot_control::force_pos_pub fp;
 
-    std::set<std::pair<int, int>> tabuList;
+    // std::set<std::pair<int, int>> tabuList;
+    // std::unordered_set<std::tuple<int, int, int>> tabuList;
+    std::vector<std::tuple<int, int, int>> tabuList; // 存储禁忌表的向量
+
 
 private:
     // 参数
@@ -112,6 +124,8 @@ private:
 
     Eigen::Vector3d euler_angles;
 
+    JointValue cur_joint_pos;
+    JointValue next_joint_pos;
 
     // std::thread excution_thread;
     // std::thread sensor_thread;
@@ -128,6 +142,8 @@ private:
 
     RotMatrix new_eef_rotm;
     Rpy new_eef_rpy;
+
+
 
 
     

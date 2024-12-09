@@ -498,11 +498,17 @@ if __name__ == '__main__':
     print('choice = ', choice)
 
     if choice == 1:
-        rospy.set_param("goal_width", -56461) #3分螺母
+        rospy.set_param("goal_width", -57065) #3分螺母
+        pos = np.array([-100.887, -749.171, 273.227])  #3 分螺母真值
+        rpy = [120 * np.pi / 180, -88 * np.pi / 180, 0 * np.pi / 180]
+        rotm = from_eular_to_matrix(rpy)
 
 
     elif choice == 2:
-        rospy.set_param("goal_width", -77945) #m8 长螺丝
+        rospy.set_param("goal_width", -79072) #m8 长螺丝
+        pos = np.array([-105.128, -748.407, 244.278])  #m8 长螺丝真值
+        rpy = [-90 * np.pi / 180, -1 * np.pi / 180, -150.518 * np.pi / 180]
+        rotm = from_eular_to_matrix(rpy)
 
 
     elif choice == 3:
@@ -514,26 +520,27 @@ if __name__ == '__main__':
 
 
     elif choice == 5:
-        rospy.set_param("goal_width", -64935) #三通
+        rospy.set_param("goal_width", -66969) #三通-66482
+        pos = np.array([-102.395, -746.266, 275.066])  #三通
+        rpy = [125 * np.pi / 180, -93 * np.pi / 180, 0 * np.pi / 180]
+        rotm = from_eular_to_matrix(rpy)
     
     elif choice == 6:
-        rospy.set_param("goal_width", -74674) #两通
+        rospy.set_param("goal_width", -76066) #两通
+        pos = np.array([-101.214, -747.683, 267.094])  #两通
+        rpy = [125 * np.pi / 180, -93 * np.pi / 180, 0 * np.pi / 180]
+        rotm = from_eular_to_matrix(rpy)
+
 
         # -48859  # 中块 大头
 
-
-
-
-
     # 规划交接动作
 
-    pos = np.array([-100.64, -747.73, 271.613])  #3 分螺母真值
-    rpy = [120 * np.pi / 180, -87 * np.pi / 180, 0 * np.pi / 180]
-    rotm = from_eular_to_matrix(rpy)
-
-    # pos = np.array([-106.41, -745.668, 245.846])  #m8 长螺丝真值
-    # rpy = [-90 * np.pi / 180, -1 * np.pi / 180, -150.518 * np.pi / 180]
+    # pos = np.array([-100.64, -747.73, 271.613])  #3 分螺母真值
+    # rpy = [120 * np.pi / 180, -87 * np.pi / 180, 0 * np.pi / 180]
     # rotm = from_eular_to_matrix(rpy)
+
+
 
     # pos = np.array([-107.076, -747.03, 254.812])  #长螺柱
     # rpy = [-90 * np.pi / 180, 3 * np.pi / 180, -155.23 * np.pi / 180]
@@ -543,20 +550,15 @@ if __name__ == '__main__':
     # rpy = [116.013 * np.pi / 180, -92 * np.pi / 180, 0 * np.pi / 180]
     # rotm = from_eular_to_matrix(rpy)
 
-    # pos = np.array([-101.471, -749.132, 273.407])  #三通
-    # rpy = [120 * np.pi / 180, -93 * np.pi / 180, 0 * np.pi / 180]
-    # rotm = from_eular_to_matrix(rpy)
 
-    # pos = np.array([-103.912, -747.203, 264.654])  #两通
-    # rpy = [120 * np.pi / 180, -87 * np.pi / 180, 0 * np.pi / 180]
-    # rotm = from_eular_to_matrix(rpy)
 
+    
     random_float1 = random.uniform(-4, 4)
     random_float2 = random.uniform(-4, 4)
     random_float3 = random.uniform(-1, 4)
-    pos[0] = pos[0] + random_float1
-    pos[1] = pos[1] - 4
-    pos[2] = pos[2]  +3
+    pos[0] = pos[0] - 2
+    pos[1] = pos[1] + 3.2
+    pos[2] = pos[2] + 4
     print("random_floatxyz:", random_float1, random_float2, random_float3)
         # 规划到测量点
     # planning_grasping_move_up(pos, rotm)

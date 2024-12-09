@@ -15,45 +15,6 @@ real_robot_control::current_pub msg;
 ros::Publisher width_pub;
 real_robot_control::width_pub msg1;
 
-// bool doReq(real_robot_control::screwsrv::Request& req,
-//           real_robot_control::screwsrv::Response& resp){
-
-//     int num = req.num;
-//     ROS_INFO("服务器接收到的请求数据为:num1 = %d, ",num);
-
-//     //逻辑处理
-//     int result;
-//     if (num == 0)
-//     {
-//         std::cout << "screwing" << std::endl;
-//         result = ef.screwing_s1(200, 1, current_pub, msg); // 0表示发生了错误，其他数字表示正常
-//         // sleep(2);
-//         // result = 0;
-//     }
-
-//     else if (num == 1)
-//     {
-//         result = ef.unscrewing_s1(150,80);
-//     }
-
-//     else if (num == 2)
-//     {
-//         result = ef.width_reduce_or_increase_full(1);
-//     }
-
-//     else if (num == 3)
-//     {
-//         result = ef.width_recovery();
-//     }
-//     //设置最终结果
-
-//     ROS_INFO("final results:%d",result);
-
-//     //如果没有异常，那么相加并将结果赋值给 resp
-//     resp.result = result;
-//     return true;
-
-// }
 
 // action 的回调函数
 
@@ -106,7 +67,7 @@ void cb(const real_robot_control::screwGoalConstPtr &goal, Server* server){
         feedback.screw_status = 1; //执行器开始运行
         server->publishFeedback(feedback);
 
-        result = ef.unscrew_to_zero(150);  //return 0;
+        result = ef.unscrew_to_zero(200);  //return 0;
         // sleep(2);
         // result = 0;
 
@@ -149,7 +110,6 @@ void cb(const real_robot_control::screwGoalConstPtr &goal, Server* server){
 
         ef.screw_to_zero();  // 旋拧口复位，才能退出
 
-        // sleep(5);
         result = 4;
 
         feedback.screw_status = 0;  //执行器运行结束
@@ -167,7 +127,7 @@ void cb(const real_robot_control::screwGoalConstPtr &goal, Server* server){
         ros::param::get("goal_width", goal_width);
         std::cout << "goal_width = " << goal_width << std::endl;
         
-        result = ef.width_reduce_full_for_handover(goal_width, current_pub,msg,  width_pub, msg1);  
+        result = ef.width_reduce_full_for_handover(goal_width, current_pub, msg, width_pub, msg1);  //这个函数会设置present_width的参数，反馈当前夹爪的宽度
         //result 1表示没有达到预期位置，0表示达到了
 
         feedback.screw_status = 0;  //执行器运行结束
@@ -181,7 +141,7 @@ void cb(const real_robot_control::screwGoalConstPtr &goal, Server* server){
         feedback.screw_status = 1; //执行器开始运行
         server->publishFeedback(feedback);
 
-        ef.width_increase(4,current_pub,msg, width_pub, msg1);  // 旋拧口复位，才能退出
+        ef.width_increase(6, current_pub,msg, width_pub, msg1);  // 旋拧口复位，才能退出
 
         result = 2; //2，表示又回到了原本的状态了，打开
 
@@ -222,7 +182,9 @@ int main(int argc, char *argv[]){
                 // 执行插入左tip的程序
                 std::cout << "screwing" << std::endl;
                 
-                ef.screwing_s1(200, 1, current_pub, msg);
+                ef.screwing_s1(200, 1.4, current_pub, msg);
+                // ef.unscrew_to_zero(200);
+                
                 break;
 
             case '2':
@@ -243,8 +205,9 @@ int main(int argc, char *argv[]){
             case '4':
                 // 执行插入右tip的程序
                 std::cout << "width_increase 3" << std::endl;
+                ef.screw_to_zero();
                 // ef.width_recovery();
-                ef.width_increase(3,current_pub, msg, width_pub, msg1);  // 旋拧口复位，才能退出
+                // ef.width_increase(3,current_pub, msg, width_pub, msg1);  // 旋拧口复位，才能退出
                 break;
 
             default:

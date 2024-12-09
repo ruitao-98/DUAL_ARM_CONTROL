@@ -13,6 +13,8 @@
    "ORIENTATION_PUB"
    "<POSE>"
    "POSE"
+   "<POSE_PUB>"
+   "POSE_PUB"
    "<ROBOT_POS_PUB>"
    "ROBOT_POS_PUB"
    "<SCREWACTION>"

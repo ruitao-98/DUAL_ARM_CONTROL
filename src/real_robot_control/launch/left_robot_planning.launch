@@ -10,8 +10,12 @@
   <arg name="filename" default="$(arg suffix)_$(arg item)" />
 
   <!-- 输出文件路径，可以根据需要进行修改 -->
-  <arg name="output_dir" default="/home/yanji/dual_arm_control/rosbag_record/random_search" />
-
+  <arg name="output_dir" default="/home/yanji/dual_arm_control/rosbag_record/grad_descent" />
+<!-- grad_descent -->
+<!-- random_search -->
+<!-- tips_compare -->
+  <param name="log_output_dir" value="$(arg output_dir)" />
+  <param name="log_filename" value="$(arg filename)" />
 
   <!-- Run motion planning -->
   <node pkg="real_robot_control" type="motion_planning" name="motion_planning" output="screen" />

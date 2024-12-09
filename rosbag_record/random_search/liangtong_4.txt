@@ -1,0 +1,6 @@
+start width = -67384
+first_gripping_xyz =0.526994, 3.74864, 0.972837
+----------------------------------------
+##try_time0 ## expected x y z-1.40672 0 -1.93027
+try_time =0 final real excuted xyz:-4.27488, 0.217214, 1.74178
+end width = -74453

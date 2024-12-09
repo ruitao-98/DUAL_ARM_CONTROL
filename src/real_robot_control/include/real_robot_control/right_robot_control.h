@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <thread>
 #include "real_robot_control/force_pub.h"
+#include "real_robot_control/pose_pub.h"
 #include "real_robot_control/robot_pos_pub.h"
 #include "Eigen/Dense"
 #include "Eigen/Core"
@@ -16,6 +17,7 @@
 #include "real_robot_control/screwAction.h"
 #include "real_robot_control/force_pos_pub.h"
 #include "real_robot_control/orientation_pub.h"
+
 
 namespace jaka {
     using Quaternion = ::Quaternion; // 创建别名
@@ -31,7 +33,7 @@ public:
     void test();
     void reset();
     void update_robot_state();
-    void go_to_pose();
+    void go_to_pose(char choice_tcp);
     void admittance_control();
     void tcp_admittance_control();
     void get_eef_pose();
@@ -49,14 +51,24 @@ public:
     void excution_calculation_loop();
     void start();
     void screw_assembly_search();
+    void linear_search(char choice_tcp);
+    void pos_ori_search();
+    void pos_search();
+    void ori_fine();
+    bool getParam(const std::string& param_name, std::string& value);
+    void robot_finish();
+    void passive_fine();
+    void print_eef(char choice);
     void screw_assembly_directly();
     void tcp_admittance_run();
+    void jump_to_adjust();
     void done_cb(const actionlib::SimpleClientGoalState &state, const real_robot_control::screwResultConstPtr &result);
     void active_cb();
     void feedback_cb(const real_robot_control::screwFeedbackConstPtr &feedback);
     void do_orien(const real_robot_control::orientation_pub::ConstPtr& orien_p);
 
     std::vector<Eigen::Matrix3d> calculateRotationMatrices(int N, double theta);
+    Eigen::Matrix3d angleaxistoMatrix(double phi, double theta);
 
 
 
@@ -96,9 +108,11 @@ private:
     // ROS相关成员变量
     std::shared_ptr<ros::NodeHandle> nh;
     ros::Publisher for_pub;
-    ros::Publisher pos_pub;
+    ros::Publisher pos_pub_6;
+    ros::Publisher pos_pub; //xyz theta
     ros::Publisher for_pos_pub;
     real_robot_control::force_pub f;
+    real_robot_control::pose_pub pose_p;
     real_robot_control::robot_pos_pub p;
     real_robot_control::force_pos_pub fp;
     ros::Subscriber listener_sub;

@@ -15,6 +15,7 @@ let current_pub = require('./current_pub.js');
 let pose = require('./pose.js');
 let orientation_pub = require('./orientation_pub.js');
 let robot_pos_pub = require('./robot_pos_pub.js');
+let pose_pub = require('./pose_pub.js');
 let gripper = require('./gripper.js');
 
 module.exports = {
@@ -32,5 +33,6 @@ module.exports = {
   pose: pose,
   orientation_pub: orientation_pub,
   robot_pos_pub: robot_pos_pub,
+  pose_pub: pose_pub,
   gripper: gripper,
 };

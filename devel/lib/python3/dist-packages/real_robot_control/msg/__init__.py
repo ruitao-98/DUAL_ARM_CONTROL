@@ -4,6 +4,7 @@ from ._force_pub import *
 from ._gripper import *
 from ._orientation_pub import *
 from ._pose import *
+from ._pose_pub import *
 from ._robot_pos_pub import *
 from ._screwAction import *
 from ._screwActionFeedback import *

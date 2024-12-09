@@ -246,7 +246,7 @@ class Grasp_planning():
         # 规划出轨迹
         planning_result = self.left_arm.plan()
         decition_result = self.wait_for_key_press()
-        for i in range(20):
+        for i in range(28):
             if decition_result == 0:
                 print('replanned!')
                 planning_result = self.left_arm.plan()
@@ -352,8 +352,8 @@ def planning_grasping(pos, rotm, decide):
     rospy.set_param("ry",  float(rpy[1]))
     rospy.set_param("rz",  float(rpy[2]))
     if decide:
-        req.num = 7
-        resp = client.call(req) #执行交接动作
+        req.num = 8
+        resp = client.call(req)
     # robot.login() #登录
     # robot.linear_move(tcp_pos,ABS,True,5)
     # robot.logout() #每次运行完都登出
@@ -426,7 +426,7 @@ def try_planning_handover(T_relatives):
 def planning_handover(T_relative):
 
     # 旋拧点在右侧的位置和姿态
-    delta_p = np.array([0.05, 0, 0])
+    delta_p = np.array([0.07, 0, 0])
     eef_pos_in_right = np.array([-0.07189, 0.3575, 0.2679])
     eef_mat_in_right = np.array([[  -0.5, -0.866,  0],
                                 [ 0.866,   -0.5,  0],
@@ -470,10 +470,10 @@ def planning_handover(T_relative):
 
     # 变换到左侧机器人坐标系下
     gra_pos_in_right = gra_pos_in_right.tolist()
-    # eef_pos_in_left = [float(-28.0 /1000 + gra_pos_in_right[0]), float(-1101.2 /1000 + gra_pos_in_right[1]),
-    #                         float(1.2/1000 + gra_pos_in_right[2])]
-    eef_pos_in_left = [float(-30.0 /1000 + gra_pos_in_right[0]), float(-1101.2 /1000 + gra_pos_in_right[1]),
-                        float(3.8/1000 + gra_pos_in_right[2])]
+    eef_pos_in_left = [float(-28.0 /1000 + gra_pos_in_right[0]), float((-1100 + 1) /1000 + gra_pos_in_right[1]),
+                            float(3.5/1000 + gra_pos_in_right[2])]
+    # eef_pos_in_left = [float(-30.0 /1000 + gra_pos_in_right[0]), float(-1101.2 /1000 + gra_pos_in_right[1]),
+                        # float(3.8/1000 + gra_pos_in_right[2])] #真正好用的数据
     print ("eef_pos_in_left= ", eef_pos_in_left)
 
     eef_mat_in_left = gra_mat_in_right
@@ -504,7 +504,7 @@ def planning_handover(T_relative):
     rospy.set_param("rx",  float(rpy[0]))
     rospy.set_param("ry",  float(rpy[1]))
     rospy.set_param("rz",  float(rpy[2]))
-    req.num = 7
+    req.num = 7 # 8是直线运动
     resp = client.call(req) #执行交接动作
     # robot.login() #登录
     # robot.linear_move(tcp_pos,ABS,True,2)
@@ -542,6 +542,16 @@ def planning_to_right_side():
 
     left_arm.target_pose_planning(position=eef_pos_wait_in_left, quat=eef_quat_wait_in_left)
 
+def is_in_tabu_list(x):
+    return x in tabu_list
+
+def add_to_tabu_list(x):
+    if not is_in_tabu_list(x):
+        tabu_list.add(x)
+        print(f"({x}) added to tabu list.")
+    else:
+        print(f"({x}) is already in tabu list.")
+
 if __name__ == '__main__':
     # gripper_obj = RobotiqGripper()
     # gripper_obj.activate()
@@ -567,24 +577,23 @@ if __name__ == '__main__':
         # 从数据中获取点云
         # src, tar, src_down_o3, tar_down_o3, desk, gripper = rans.get_pointcloud_from_data()
 
-
         print('please press 1-3 select the goal object')
         print("1--> 3分螺母 || 2--> 3分3通 || 3--> m12螺母")
         choice = wait_for_choice()
         print('choice = ', choice)
 
         if choice == 1:
-            rospy.set_param("goal_width", -51144) #3分螺母
+            rospy.set_param("goal_width", -56219) #3分螺母
             file_name = "bolt_3score.pcd"
             num_screw = 6 #随着物体变化，根据物体的对称形确定，圆形可设任意，六边形6个，对称2个
         
         elif choice == 2:
-            rospy.set_param("goal_width", -65352) #3分3通
+            rospy.set_param("goal_width", -66086) #3分3通-66937
             file_name = "three_3score.pcd"
             num_screw = 2 #随着物体变化，根据物体的对称形确定，圆形可设任意，六边形6个，对称2个
         
         elif choice == 3:
-            rospy.set_param("goal_width", -56809) #m12螺母
+            rospy.set_param("goal_width", -56799) #m12螺母
             file_name = "m12_bolt.pcd"
             num_screw = 6 #随着物体变化，根据物体的对称形确定，圆形可设任意，六边形6个，对称2个
 
@@ -594,6 +603,7 @@ if __name__ == '__main__':
 
         aabb, vertices = rans.get_boundingbox(src)
 
+
         s_poss, s_rpys, T_s = ge.screwing_poses(num_screw)
 
         result = rans.get_object_pose(src_down_o3, tar_down_o3)
@@ -601,15 +611,24 @@ if __name__ == '__main__':
         g_poss, g_rpys_trans, T_g, T_g_trans = rans.get_transformed_grasp_poses(num_grasp, vertices, result, gripper, desk)
         print(T_g_trans)
         keys_array = list(T_g_trans.keys())
+        tabu_list = set() #初始化禁忌表
 
         for item in range(20): #总体尝试次数
             #随机采样选择一个抓取点
-            keys_array = list(T_g_trans.keys())
-            index_trans = np.random.choice(keys_array)
+            if item > 0:
+                add_to_tabu_list(index_trans) #把上一时刻的抓取位姿加进去
+            
+            while 1:
+                index_trans = np.random.choice(keys_array) #直到找到不在选集中的抓取点
+                if is_in_tabu_list(index_trans):
+                    continue
+                else:
+                    break
+            
             selected_T_g = T_g[index_trans]
             T_relatives = rans.calculate_relative_matrixs(T_g[index_trans], T_s) 
             print(T_g_trans[index_trans])
-
+            
             index = try_planning_handover(T_relatives)
             print('index = ', index)
             gra_result = try_planning_grasping(T_g_trans[index_trans][:3, 3], T_g_trans[index_trans][:3, :3])
@@ -639,18 +658,6 @@ if __name__ == '__main__':
                 print('planning move up')
                 planning_grasping_move_up(T_g_trans[index_trans][:3, 3], T_g_trans[index_trans][:3, :3])
 
-                # print('please press 1-3 select the goal object')
-                # choice = wait_for_choice()
-                # print('choice = ', choice)
-
-                # if choice == 1:
-                #     rospy.set_param("goal_width", -50338) #3分螺母
-                
-                # elif choice == 2:
-                #     rospy.set_param("goal_width", -65199) #3分3通
-                
-                # elif choice == 3:
-                #     rospy.set_param("goal_width", -56363) #m12螺母
 
                 # 规划交接动作
                 print('planning hand over')

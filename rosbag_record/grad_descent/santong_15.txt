@@ -1,0 +1,11 @@
+start width = -60390
+first_gripping_xyz =-1.07636, -0.719857, 0.59526
+----------------------------------------
+ grad  -0.723468, 0.690358
+try_time = 0 new expected x y z = -1.15755, 0, 1.10457
+try_time =0 new real excuted xyz:-1.26552, 0.0817029, 1.04896 width = -61252
+----------------------------------------
+ grad  -0.638155, 0.769908
+try_time = 1 new expected x y z = -2.28657, 0, 2.28081
+try_time = 1 final real excuted xyz:-2.84906, -0.671693, -1.50706
+end width = -66820

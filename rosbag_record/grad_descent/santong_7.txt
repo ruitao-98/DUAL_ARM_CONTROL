@@ -1,0 +1,2 @@
+try_time = -1 final real excuted xyz:2.98887 -8.08113 1.82652
+end width = -66885

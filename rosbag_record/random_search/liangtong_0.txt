@@ -1,0 +1,12 @@
+start width = -66908
+first_gripping_xyz =-0.403128, -1.74031, -0.419323
+----------------------------------------
+##try_time0 ## expected x y z0.00378951 0 -3.22115
+##try_time =0 new real excuted xyz:-0.0262006, -0.100444, -2.90995 width = -67094
+----------------------------------------
+##try_time1 ## expected x y z-3.00672 0 1.46908
+##try_time =1 new real excuted xyz:-6.30717, 1.33353, 1.88912 width = -83101
+----------------------------------------
+##try_time2 ## expected x y z2.84462 0 -1.4641
+try_time =2 final real excuted xyz:4.21016, -0.829748, -1.59027
+end width = -74351

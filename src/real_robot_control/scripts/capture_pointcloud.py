@@ -32,7 +32,7 @@ class CapturePointCloud(object):
             point_cloud_file))
 
     def get_point_cloud(self):
-        self.camera.connect('192.168.3.2')
+        self.camera.connect('192.168.3.21')
         self.capture_point_cloud()
 
         self.camera.disconnect()

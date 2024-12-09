@@ -5,6 +5,7 @@ real_robot_control/CMakeFiles/RIGHT_ADM_CONTROL.dir/src/right_robot_control.cpp.
 real_robot_control/CMakeFiles/RIGHT_ADM_CONTROL.dir/src/right_robot_control.cpp.o: /home/yanji/dual_arm_control/devel/include/real_robot_control/force_pos_pub.h
 real_robot_control/CMakeFiles/RIGHT_ADM_CONTROL.dir/src/right_robot_control.cpp.o: /home/yanji/dual_arm_control/devel/include/real_robot_control/force_pub.h
 real_robot_control/CMakeFiles/RIGHT_ADM_CONTROL.dir/src/right_robot_control.cpp.o: /home/yanji/dual_arm_control/devel/include/real_robot_control/orientation_pub.h
+real_robot_control/CMakeFiles/RIGHT_ADM_CONTROL.dir/src/right_robot_control.cpp.o: /home/yanji/dual_arm_control/devel/include/real_robot_control/pose_pub.h
 real_robot_control/CMakeFiles/RIGHT_ADM_CONTROL.dir/src/right_robot_control.cpp.o: /home/yanji/dual_arm_control/devel/include/real_robot_control/robot_pos_pub.h
 real_robot_control/CMakeFiles/RIGHT_ADM_CONTROL.dir/src/right_robot_control.cpp.o: /home/yanji/dual_arm_control/devel/include/real_robot_control/screwAction.h
 real_robot_control/CMakeFiles/RIGHT_ADM_CONTROL.dir/src/right_robot_control.cpp.o: /home/yanji/dual_arm_control/devel/include/real_robot_control/screwActionFeedback.h

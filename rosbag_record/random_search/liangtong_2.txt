@@ -1,0 +1,25 @@
+start width = -67295
+first_gripping_xyz =-1.09175, 0.66966, 0.592883
+----------------------------------------
+##try_time0 ## expected x y z-3.96672 0 3.76278
+##try_time =0 new real excuted xyz:-5.35941, -0.197065, 1.51841 width = -82892
+----------------------------------------
+##try_time1 ## expected x y z-2.23242 0 2.80256
+##try_time =1 new real excuted xyz:12.9695, 12.2481, -1.6915 width = -63813
+----------------------------------------
+##try_time2 ## expected x y z-1.72215 0 -3.9193
+##try_time =2 new real excuted xyz:8.76468, 13.6962, -0.438768 width = -63589
+----------------------------------------
+##try_time3 ## expected x y z-1.37868 0 -0.0407067
+start width = -68422
+first_gripping_xyz =1.28175, 1.30319, 0.261672
+----------------------------------------
+##try_time0 ## expected x y z-4.79963 0 -4.95589
+##try_time =0 new real excuted xyz:-8.65219, -0.865384, -4.1291 width = -81916
+----------------------------------------
+##try_time1 ## expected x y z-3.70763 0 -3.34349
+##try_time =1 new real excuted xyz:-8.42476, -0.797079, -3.37635 width = -81991
+----------------------------------------
+##try_time2 ## expected x y z2.6953 0 -2.14787
+try_time =2 final real excuted xyz:2.78642, -0.229808, -2.14804
+end width = -74520

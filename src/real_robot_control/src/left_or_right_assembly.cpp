@@ -77,7 +77,7 @@ bool doReq(real_robot_control::leftrobotsrv::Request& req,
         std::cout << "plug the left tip" << std::endl;
         pRobotControl->move_to_left_pick(); //move to the assembly point
         
-        // 发布闭合夹爪的信息
+        // // 发布闭合夹爪的信息
         gri.open = 0.0;
         item = 0;
         while (item < 2)
@@ -208,11 +208,19 @@ bool doReq(real_robot_control::leftrobotsrv::Request& req,
         ros::param::get("ry", ry);
         ros::param::get("rz", rz);
         std::cout << x  << ", "<< y << ", "<< z << ", "<< (rx / 3.1415926) * 180 << ", "<< (ry/3.1415926) * 180 << ", "<< (rz/3.1415926) * 180 << std::endl;
+
         CartesianPose cart;
+        JointValue cur_joint_pos;
+        JointValue next_joint_pos;
+
         pRobotControl->robot.servo_move_enable(false);
         cart.tran.x = x; cart.tran.y = y; cart.tran.z = z;
         cart.rpy.rx = rx; cart.rpy.ry = ry; cart.rpy.rz = rz;
-        pRobotControl->robot.linear_move(&cart, ABS, TRUE, 18);
+
+        pRobotControl->robot.get_joint_position(&cur_joint_pos);
+        pRobotControl->robot.kine_inverse(&cur_joint_pos, &cart, &next_joint_pos);
+        pRobotControl->robot.joint_move(&next_joint_pos, ABS, TRUE, 0.1);
+        // pRobotControl->robot.linear_move(&cart, ABS, TRUE, 18);
 
         RobotStatus status;
         pRobotControl->robot.get_robot_status(&status);
@@ -232,6 +240,48 @@ bool doReq(real_robot_control::leftrobotsrv::Request& req,
         ros::param::set("present_rz", present_rz);
         pRobotControl->joint_states_callback(pRobotControl->joint_states_pub);
 
+    }
+
+     else if (num == 8) //直线运动
+    {
+        // 执行最后一步运行
+        std::cout << "move" << std::endl;
+        double x; double y; double z; double rx; double ry; double rz;
+        ros::param::get("x", x);
+        ros::param::get("y", y);
+        ros::param::get("z", z);
+        ros::param::get("rx", rx);
+        ros::param::get("ry", ry);
+        ros::param::get("rz", rz);
+        std::cout << x  << ", "<< y << ", "<< z << ", "<< (rx / 3.1415926) * 180 << ", "<< (ry/3.1415926) * 180 << ", "<< (rz/3.1415926) * 180 << std::endl;
+
+        CartesianPose cart;
+        JointValue cur_joint_pos;
+        JointValue next_joint_pos;
+
+        pRobotControl->robot.servo_move_enable(false);
+        cart.tran.x = x; cart.tran.y = y; cart.tran.z = z;
+        cart.rpy.rx = rx; cart.rpy.ry = ry; cart.rpy.rz = rz;
+
+        pRobotControl->robot.linear_move(&cart, ABS, TRUE, 18);
+
+        RobotStatus status;
+        pRobotControl->robot.get_robot_status(&status);
+        double present_x = status.cartesiantran_position[0];
+        double present_y = status.cartesiantran_position[1];
+        double present_z = status.cartesiantran_position[2]; //转化为米单位
+        // 姿态欧拉角赋值
+        double present_rx = status.cartesiantran_position[3];
+        double present_ry = status.cartesiantran_position[4];
+        double present_rz = status.cartesiantran_position[5];
+        std::cout << present_rx << " "<< present_ry << std::endl;
+        ros::param::set("present_x", present_x);
+        ros::param::set("present_y", present_y);
+        ros::param::set("present_z", present_z);
+        ros::param::set("present_rx", present_rx);
+        ros::param::set("present_ry", present_ry);
+        ros::param::set("present_rz", present_rz);
+        pRobotControl->joint_states_callback(pRobotControl->joint_states_pub);
 
     }
     //设置最终结果

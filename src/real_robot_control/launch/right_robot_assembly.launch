@@ -12,7 +12,9 @@
 
   <!-- 输出文件路径，可以根据需要进行修改 -->
   <arg name="output_dir" default="/home/yanji/dual_arm_control/rosbag_record/screwing" />
-
+  
+  <param name="log_output_dir" value="$(arg output_dir)" />
+  <param name="log_filename" value="$(arg filename)" />
 
   <!-- Run task control for screw -->
   <node pkg="real_robot_control" type="task_control_screw" name="task_control_screw" output="screen" />
@@ -28,7 +30,7 @@
   <node pkg="real_robot_control" type="right_robot_control" name="right_robot_control" output="screen" />
 
   <node pkg="rosbag" type="record" name="rosbag_record" output="screen" required="true"
-      args="-O $(arg output_dir)/$(arg filename).bag /for_pos " />
+      args="-O $(arg output_dir)/$(arg filename).bag /robot_force /robot_pose " />
 
 
 </launch>
