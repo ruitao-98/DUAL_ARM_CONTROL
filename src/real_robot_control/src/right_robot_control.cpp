@@ -691,29 +691,7 @@ void RobotAdmittanceControl::screw_assembly_directly(){
         cout << "开始运行" << endl;
         update_robot_state();
         get_eef_pose();
-        eef_pos_d = eef_pos;
-        while (item < 50000)
-        {  
-            if (screw_execute_status == 2)
-            {   // 判断是否达到了期望位姿，如果达到了，并且此时执行器不是在运行的状态，就发布信息让执行器转动，一次循环只发送一次
-                // item_flag = 1; //表示已经开始执行了
-                cout << "\r" <<" start to send message " << flush;
-
-                update_robot_state();
-                get_eef_pose(); 
-                if (flag == 0){
-                    goal.num = 0; // 直接运行后续装配过程
-                }
-                else if(flag == 1){
-                    goal.num = 1; // 运行第一阶段
-                }
-                client.sendGoal(goal,
-                                std::bind(&RobotAdmittanceControl::done_cb, this, std::placeholders::_1, std::placeholders::_2),
-                                std::bind(&RobotAdmittanceControl::active_cb, this),
-                                std::bind(&RobotAdmittanceControl::feedback_cb, this, std::placeholders::_1));  
-            }
-            // ros::spinOnce();
-            if (screw_execute_status == 0){ //screw_execute_status = 0 表示运行结束了
+        eef_pos_d = eef_pos;X0 表示运行结束了
                 // 执行器运行结束了，可以切换了
                 cout << " screw tool excution finish! break! " << endl;
                 end_height = eef_pos; //记录结束的位置
