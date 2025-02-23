@@ -130,3 +130,27 @@
  linear search time is 1968 ms
  pos search time is 30523 ms
  ori search time is 103579 ms
+ linear search time is 3670 ms
+ pos search time is 869 ms
+ ori search time is 24733 ms
+ linear search time is 3762 ms
+ pos search time is 802 ms
+ ori search time is 49068 ms
+ linear search time is 3527 ms
+ pos search time is 752 ms
+ ori search time is 14456 ms
+ linear search time is 4116 ms
+ pos search time is 518 ms
+ ori search time is 31014 ms
+ linear search time is 3932 ms
+ pos search time is 440 ms
+ ori search time is 54851 ms
+ linear search time is 3864 ms
+ pos search time is 789 ms
+ ori search time is 54793 ms
+ linear search time is 3623 ms
+ pos search time is 804 ms
+ ori search time is 54595 ms
+ linear search time is 3745 ms
+ pos search time is 883 ms
+ ori search time is 54798 ms

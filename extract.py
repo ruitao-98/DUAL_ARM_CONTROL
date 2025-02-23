@@ -33,7 +33,8 @@ file_path_save = "/home/yanji/dual_arm_control/rosbag_record/current_obj_trans"
 
 
 file_name = "m12"
-file_name_txt = file_name + "_3_0.bag"
+file_name_txt = file_name + "_5_26.bag"
+# file_name_txt = "default_suffix_1.bag"
 # 设置bag文件路径
 # bag_file_path = "/home/yanji/dual_arm_control/rosbag_record/current_0928/base_new_4.bag"
 bag_file_path = os.path.join(file_path, file_name_txt)

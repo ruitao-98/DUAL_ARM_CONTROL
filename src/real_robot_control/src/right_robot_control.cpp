@@ -691,19 +691,24 @@ void RobotAdmittanceControl::screw_assembly_directly(){
         cout << "开始运行" << endl;
         update_robot_state();
         get_eef_pose();
-        eef_pos_d = eef_pos;X0 表示运行结束了
+        eef_pos_d = eef_pos;
+
+        while (item < 5000)
+        {  
+            if (screw_execute_status == 0){ //screw_execute_status = 0 表示运行结束了
                 // 执行器运行结束了，可以切换了
                 cout << " screw tool excution finish! break! " << endl;
                 end_height = eef_pos; //记录结束的位置
                 break;
             }
 
-            if ((screw_execute_status == 1) && (item == 120)){
+            if ((screw_execute_status == 1) && (item == 180)){
                 init_height = eef_pos; //记录一下一开始的位置
                 // temp_flag = 0;
                 cout << " temp_flag = 0" << endl;
             }
-                
+  
+
             auto start_time = std::chrono::high_resolution_clock::now();
             eef_pos_d[2] = eef_pos[2];
             eef_rotm_d = eef_rotm;
@@ -1096,16 +1101,16 @@ void RobotAdmittanceControl::ori_fine(){
     update_robot_state();
     get_tcp_force();
     get_eef_pose();
-    wish_force << 0, 0, -5, 0, 0, 0;  //期望力
+    wish_force << 0, 0, -6, 0, 0, 0;  //期望力
     selection_vector<<1, 1, 1, 0, 0, 0; //选择向量，表示只控制y轴
-    adm_m << 3, 3, 3, 0.5, 0.5, 0.5;
-    adm_k << 1100.0, 1100.0, 1300.0, 1, 1, 1;
+    adm_m << 3.2, 3.2, 4, 0.5, 0.5, 0.5;
+    adm_k << 1200.0, 1200.0, 1300.0, 1, 1, 1;
     for (Eigen::Index i = 0; i < adm_m.size(); ++i) {
         adm_d[i] = 2.8 * sqrt(adm_m[i] * adm_k[i]);
     }
     adm_d[0] = 3.1 * sqrt(adm_m[0] * adm_k[0]);
     adm_d[1] = 3.1 * sqrt(adm_m[1] * adm_k[1]);
-    adm_d[2] = 3.5 * sqrt(adm_m[2] * adm_k[2]);
+    adm_d[2] = 7.5 * sqrt(adm_m[2] * adm_k[2]);
     eef_pos_d = eef_pos;
     eef_rotm_d = eef_rotm;
     Eigen::Matrix3d init_eef_rotm;
@@ -1126,7 +1131,7 @@ void RobotAdmittanceControl::ori_fine(){
     int local_k = 0; //单元的扇形 0,1,2...5
     int local_m = 0; //扇形内部点 0,1...N-1 
     int max_N = 3;
-    double base_phi = 2.5 * PI / 180; //交叉螺纹角推导出的三角锥的侧面角度 三通 3 m6 5 m12 8.5
+    double base_phi = 3 * PI / 180; //交叉螺纹角推导出的三角锥的侧面角度 三通 3 m6 5 m12 8.5
     int max_rotations = 2;
     int rotation_item = 0;
     double distance_threhold = 0.7;  // 单位 mm 
@@ -2256,15 +2261,16 @@ void RobotAdmittanceControl::go_to_pose(char choice_tcp){
     //         std::cout << "task stoped" << std::endl;
     //     }
     double angle;
-    angle = 2 * PI / 180;
+    angle = 5 * PI / 180;
     switch(input) {  //双臂实验标定结果
 
         case '1':
-            angle = 2 * PI / 180;
+            // angle = 2 * PI / 180;
             // goal_pose.tran.x = -0.26132 ; goal_pose.tran.y = 0.361845 + 0.003; goal_pose.tran.z = -0.0178749 + 0.002;
             // goal_pose.rpy.rx = 0 + angle; goal_pose.rpy.ry = 0; goal_pose.rpy.rz =  3.14159;  // m6 螺丝
-            goal_pose.tran.x = 0.180183; goal_pose.tran.y = 0.471697 - 0.002; goal_pose.tran.z = 0.0414558 + 0.001;
-            goal_pose.rpy.rx = 0 + angle; goal_pose.rpy.ry = 0; goal_pose.rpy.rz =  1.74533;  // 三通
+
+            goal_pose.tran.x = -0.20941; goal_pose.tran.y = 0.370286 + 0.005; goal_pose.tran.z = 0.0429057;
+            goal_pose.rpy.rx = 0 + angle; goal_pose.rpy.ry = 0; goal_pose.rpy.rz =  3.14159;  // 三通
             break;
 
         case '2':
