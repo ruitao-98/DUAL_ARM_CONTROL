@@ -36,8 +36,11 @@ import numpy as np
 # file_path = "/home/yanji/dual_arm_control/rosbag_record/tips_compare"
 # file_path_save = "/home/yanji/dual_arm_control/rosbag_record/tips_compare_transferred"
 
-file_path = "/home/yanji/dual_arm_control/rosbag_record/screwing"
-file_path_save = "/home/yanji/dual_arm_control/rosbag_record/screwing_trans"
+# file_path = "/home/yanji/dual_arm_control/rosbag_record/screwing"
+# file_path_save = "/home/yanji/dual_arm_control/rosbag_record/screwing_trans"
+
+file_path = "/home/yanji/dual_arm_control/rosbag_record/screwing_revised/Method_2"
+file_path_save = "/home/yanji/dual_arm_control/rosbag_record/screwing_revised_trans/Method_2"
 
 # 获取文件夹中所有 .bag 文件
 bag_files = [f for f in os.listdir(file_path) if f.endswith('.bag')]
@@ -60,14 +63,19 @@ for bag_file in bag_files:
     robot_force_data = []
     current_data = []
     pose_force_data = []
+    ori_data = []
 
     # 遍历bag中的消息
     # for topic, msg, t in bag.read_messages(topics=['/for_pos', '/width_p', '/robot_force']):
     # for topic, msg, t in bag.read_messages(topics=['/width_p', '/current_p']): 
-    for topic, msg, t in bag.read_messages(topics=['/robot_pose']):
+    # for topic, msg, t in bag.read_messages(topics=['/robot_pose']):
+    for topic, msg, t in bag.read_messages(topics=['/robot_force', '/robot_pose', '/ori_adj']):
         if topic == '/width_p':
             # 假设消息类型是std_msgs/Float64，存储width
             width_data.append(msg.width)
+
+        elif topic == '/ori_adj':
+            ori_data.append([msg.phi, msg.point_num, msg.record_item, msg.Rx, msg.Ry, msg.Rz])
 
         elif topic == '/current_p':
             # 假设消息类型是包含X, Y, Z, MX, MY, MZ的自定义消息，分别提取数据
@@ -89,14 +97,14 @@ for bag_file in bag_files:
 
     base_file_name = os.path.splitext(bag_file)[0]  # 去掉.bag扩展名
     save_name_pf = os.path.join(file_path_save, base_file_name + "_pos_force.txt")
-
-
-    # pf_data_np = np.array(pose_force_data)
-    # 假设你只想保存前7列的数据 (X, Y, Z, RX, RY, RZ, theta)
     pose_force_data = np.array(pose_force_data)  # 提取前7列
-
     # 保存为 n*7 的格式
     np.savetxt(save_name_pf, pose_force_data, delimiter=" ", fmt="%.6f")
+
+    save_name_pf = os.path.join(file_path_save, base_file_name + "_ori_adj.txt") #更新save_name
+    ori_data = np.array(ori_data)  # 提取前7列
+    # 保存为 n*7 的格式
+    np.savetxt(save_name_pf, ori_data, delimiter=" ", fmt="%.6f")
 
     
 

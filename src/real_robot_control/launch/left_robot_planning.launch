@@ -44,6 +44,6 @@
   <!-- Run gripper open script -->
   <node pkg="real_robot_control" type="gripper_open.py" name="gripper_open" output="screen" />
 
-  <node pkg="rosbag" type="record" name="rosbag_record" output="screen" required="true"
-        args="-O $(arg output_dir)/$(arg filename).bag /width_p /for_pos /robot_force" />
+  <!-- <node pkg="rosbag" type="record" name="rosbag_record" output="screen" required="true"
+        args="-O $(arg output_dir)/$(arg filename).bag /width_p /for_pos /robot_force" /> -->
 </launch>

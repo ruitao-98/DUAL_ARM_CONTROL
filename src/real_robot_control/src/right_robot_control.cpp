@@ -15,6 +15,8 @@ RobotAdmittanceControl::RobotAdmittanceControl()
     pos_pub_6 = nh->advertise<real_robot_control::pose_pub>("robot_pose", 10); //xyz rx ry rz
     pos_pub = nh->advertise<real_robot_control::robot_pos_pub>("robot_pos", 10); //xyz theta
     for_pos_pub = nh->advertise<real_robot_control::force_pos_pub>("for_pos", 10); //xyz fxyz theta
+    ori_adj_pub = nh->advertise<real_robot_control::ori_adj_rec>("ori_adj", 1); //xyz fxyz theta
+    // ori_pub
     listener_sub = nh->subscribe("orientation_phi", 10, &RobotAdmittanceControl::do_orien, this);
     
     // Wait for the action server to start
@@ -337,20 +339,22 @@ void RobotAdmittanceControl::print_eef(char choice){
     switch(choice) {
 
         case '1':
-            object_length << 0, 0, 0.023;   //M12 六角头螺丝
-            break; 
-
+            object_length << 0, 0, 0.025;   //M12 六角头螺丝
+            break;
         case '2':
             object_length << 0, 0, 0.016;   //3分螺母
             break; 
-        
         case '3':
-            
             object_length << 0, 0, 0.021;  //三通，3分
             break;
-
         case '4':
-            object_length << 0, 0, 0.0355;   //m6*35螺丝 30 * 5.5
+            object_length << 0, 0, 0.0355;   //m6*30螺丝 30 * 5.5
+            break;
+        case '5':
+            object_length << 0, 0, 0.0925;   //m6*30螺丝 30 * 5.5
+            break; 
+        case '6':
+            object_length << 0, 0, 0.082;   //m6*30螺丝 30 * 5.5
             break;  
     }
 
@@ -369,168 +373,168 @@ void RobotAdmittanceControl::print_eef(char choice){
 void RobotAdmittanceControl::tcp_admittance_run(){
     robot.servo_move_enable(true);
     //直线搜索***********************************************************************************
-    wish_force << 0, 0, -5, 0, 0, 0;  //期望力
-    selection_vector<< 0, 0, 1, 0, 0, 0; //选择向量
+    wish_force << 0, 0, 0, 0, 0, 0;  //期望力
+    selection_vector<< 1, 1, 1, 0, 0, 0; //选择向量
                 
-    object_length << 0, 0, 0.035;   //m6*35螺丝 30 * 5.5
+    object_length << 0, 0, 0.025;   //m6*35螺丝 30 * 5.5
  
     eef_offset = eef_offset_basic + object_length;
     cout << "eef_offset" << eef_offset << endl;
     eef_offset_to_sensor = eef_offset_to_sensor_basic + object_length; //更新tcp
 
-    int local_N = 1; //六边形大圈 0,1,2... 
-    int local_k = 0; //单元的扇形 0,1,2...5
-    int local_m = 0; //扇形内部点 0,1...N-1 
-    int max_N = 3;
-    double base_phi = 3 * PI / 180; //交叉螺纹角推导出的三角锥的侧面角度 三通 3 m6 5 m12 8.5
-    int max_rotations = 1;
-    int rotation_item = 0;
-    double distance_threhold = 0.6;  // 单位 mm 
-    update_robot_state();
-    get_eef_pose();
-    Eigen::Vector3d init_eef_pos = eef_pos;
-    Eigen::Matrix3d init_eef_rotm = eef_rotm;
-    eef_pos_d = eef_pos;
-    string input;
-    while(ros::ok()){
-        cout << "请输入：";
-        cin >> input;
-
-        if (input == "q" || input == "Q") { // 检测是否输入了 'q' 或 'Q'
-            cout << "程序退出。" << endl;
-            break;
-        }
-        double phi_1 = local_N * base_phi;
-        double phi_2 = local_m * base_phi;
-        Eigen::Matrix3d rot_1 = angleaxistoMatrix(phi_1, local_k * PI / 3);
-        Eigen::Matrix3d rot_2 = angleaxistoMatrix(phi_2, (local_k * PI + 2 * PI) / 3);
-        eef_rotm_d_modified =  init_eef_rotm * (rot_1 * rot_2); //期望的位置是当前位置，期望的位姿是经过旋转变换以后的位姿，围绕固定的初始位姿变化的
-
-        get_new_link6_pose(eef_pos_d, eef_rotm_d_modified); // 转化期望的位姿到link6
-        new_rotm.x.x = new_angular(0,0); new_rotm.y.x = new_angular(1,0); new_rotm.z.x = new_angular(2,0);
-        new_rotm.x.y = new_angular(0,1); new_rotm.y.y = new_angular(1,1); new_rotm.z.y = new_angular(2,1);
-        new_rotm.x.z = new_angular(0,2); new_rotm.y.z = new_angular(1,2); new_rotm.z.z = new_angular(2,2);
-        robot.rot_matrix_to_rpy(&new_rotm, &new_rpy); //转欧拉角
-        cout << "N, k, m =" << local_N << "  " << local_k << "  " << local_m << endl;
-        cout <<"rot_rpy" << (new_rpy.rx / PI) * 180 << "  " << (new_rpy.ry / PI) * 180<< "  " << (new_rpy.rz / PI) * 180 <<endl;
-        cout <<"rot_trans" << new_linear[0] * 1000 << "  " << new_linear[1] * 1000 << "  " << new_linear[2] * 1000 <<endl;
-        new_pos.tran.x = new_linear[0] * 1000; new_pos.tran.y = new_linear[1] * 1000; new_pos.tran.z = new_linear[2] * 1000;
-        new_pos.rpy.rx = new_rpy.rx; new_pos.rpy.ry = new_rpy.ry; new_pos.rpy.rz = new_rpy.rz;
-
-        int local_item = 0;
-        update_robot_state();
-        get_eef_pose();
-        init_eef_pos = eef_pos;
-        wish_force << 0, 0, -5, 0, 0, 0;
-        while (ros::ok()){
-            local_item = local_item + 1;
-            update_robot_state();
-            get_tcp_force();
-            get_eef_pose();
-
-            eef_pos_d = eef_pos;
-            eef_rotm_d = eef_rotm; //经过local_item=1后，这里已经是修改后的eef_rotm了
-            tcp_admittance_control();
-
-            linear_disp_clipped = linear_disp.cwiseMin(0.01).cwiseMax(-0.01);
-            angluer_disp_clipped = angular_disp.cwiseMin(0.01).cwiseMax(-0.01); //此处获取了在tcp坐标系下机器人末端的位移偏量
-            new_linear_eef = eef_pos + eef_rotm * linear_disp_clipped; //最后将总偏移量再加到原始的tcp坐标上面去。
-            //fixed rotation
-            new_rotm_eef = eef_rotm;
-            get_new_link6_pose(new_linear_eef, new_rotm_eef); //这里主要是为了获得new_linear
-            new_pos.tran.x = new_linear[0] * 1000; new_pos.tran.y = new_linear[1] * 1000; new_pos.tran.z = new_linear[2] * 1000;
-            new_pos.rpy.rx = new_rpy.rx; new_pos.rpy.ry = new_rpy.ry; new_pos.rpy.rz = new_rpy.rz; //修改后的角度
-            if (local_item == 1){
-                linear_disp_clipped << 0, 0, 0.001;
-                new_linear_eef = init_eef_pos + eef_rotm_d_modified * linear_disp_clipped; //最后将总偏移量再加到原始的tcp坐标上面去。
-                get_new_link6_pose(new_linear_eef, eef_rotm_d_modified);
-                new_pos.tran.x = new_linear[0] * 1000; new_pos.tran.y = new_linear[1] * 1000; new_pos.tran.z = new_linear[2] * 1000;
-                robot.servo_move_enable(false);
-                robot.linear_move(&new_pos, ABS, true, 10); //抬升到1mm以上的位置
-                robot.servo_move_enable(true);
-
-                robot.set_compliant_type(1, 0);
-                std::this_thread::sleep_for(std::chrono::milliseconds(500)); 
-                robot.set_compliant_type(0,0);
-                cout << "jumped" << endl;
-            }
-            else{
-                robot.servo_p(&new_pos, ABS, 1);
-            }
-            if ((tcp_force[2] > 2) && (local_item>220)){
-                break;
-            }}
-
-        if (local_N == 0){
-            local_N = 1;}
-        else{
-            if (local_m < local_N - 1){
-                local_m++;
-            }
-            else if (local_k < 5){
-                local_m = 0;
-                local_k++;
-            }
-            else if(local_N < max_N){
-                local_k = 0;
-                local_m = 0;
-                local_N++;
-            }
-            else{
-                cout << "达到最大搜索次数" << endl;
-                break;}}
-    }
-  
-
+    // int local_N = 1; //六边形大圈 0,1,2... 
+    // int local_k = 0; //单元的扇形 0,1,2...5
+    // int local_m = 0; //扇形内部点 0,1...N-1 
+    // int max_N = 3;
+    // double base_phi = 3 * PI / 180; //交叉螺纹角推导出的三角锥的侧面角度 三通 3 m6 5 m12 8.5
+    // int max_rotations = 1;
+    // int rotation_item = 0;
+    // double distance_threhold = 0.6;  // 单位 mm 
     // update_robot_state();
-    // get_tcp_force();
     // get_eef_pose();
+    // Eigen::Vector3d init_eef_pos = eef_pos;
+    // Eigen::Matrix3d init_eef_rotm = eef_rotm;
     // eef_pos_d = eef_pos;
-    // eef_rotm_d = eef_rotm;
-    // int item = 0;
-    // while ((item < 7000) &&  (ros::ok()))
-    // {   auto start_time = std::chrono::high_resolution_clock::now();
-    //     update_robot_state();
-    //     get_tcp_force();
-    //     get_eef_pose();  //更新机器人状态
+    // string input;
+    // while(ros::ok()){
+    //     cout << "请输入：";
+    //     cin >> input;
 
-    //     eef_pos_d = eef_pos; 
-    //     eef_rotm_d = eef_rotm;//期望的位置不断更新，始终保持是当前状态，期望的位姿保持不变
-    //     // 
-    //     item = item + 1;
+    //     if (input == "q" || input == "Q") { // 检测是否输入了 'q' 或 'Q'
+    //         cout << "程序退出。" << endl;
+    //         break;
+    //     }
+    //     double phi_1 = local_N * base_phi;
+    //     double phi_2 = local_m * base_phi;
+    //     Eigen::Matrix3d rot_1 = angleaxistoMatrix(phi_1, local_k * PI / 3);
+    //     Eigen::Matrix3d rot_2 = angleaxistoMatrix(phi_2, (local_k * PI + 2 * PI) / 3);
+    //     eef_rotm_d_modified =  init_eef_rotm * (rot_1 * rot_2); //期望的位置是当前位置，期望的位姿是经过旋转变换以后的位姿，围绕固定的初始位姿变化的
 
-    //     // 导纳控制的范畴
-    //     tcp_admittance_control();
-        
-    //     linear_disp_clipped = linear_disp.cwiseMin(0.01).cwiseMax(-0.01);
-    //     angluer_disp_clipped = angular_disp.cwiseMin(0.01).cwiseMax(-0.01); //此处获取了在tcp坐标系下机器人末端的位移偏量
-
-    //     new_linear_eef = eef_pos + eef_rotm * linear_disp_clipped; //最后将总偏移量再加到原始的tcp坐标上面去。
-    //     updata_rotation(eef_rotm, angluer_disp_clipped, new_rotm_eef);
-
-    //     //fixed rotation
-    //     // new_rotm_eef = eef_rotm; 
-    //     get_new_link6_pose(new_linear_eef, new_rotm_eef);
+    //     get_new_link6_pose(eef_pos_d, eef_rotm_d_modified); // 转化期望的位姿到link6
     //     new_rotm.x.x = new_angular(0,0); new_rotm.y.x = new_angular(1,0); new_rotm.z.x = new_angular(2,0);
     //     new_rotm.x.y = new_angular(0,1); new_rotm.y.y = new_angular(1,1); new_rotm.z.y = new_angular(2,1);
     //     new_rotm.x.z = new_angular(0,2); new_rotm.y.z = new_angular(1,2); new_rotm.z.z = new_angular(2,2);
     //     robot.rot_matrix_to_rpy(&new_rotm, &new_rpy); //转欧拉角
-    //     // cout <<"rot_rpy" << (new_rpy.rx / PI) * 180 << "  " << (new_rpy.ry / PI) * 180<< "  " << (new_rpy.rz / PI) * 180 <<endl;
+    //     cout << "N, k, m =" << local_N << "  " << local_k << "  " << local_m << endl;
+    //     cout <<"rot_rpy" << (new_rpy.rx / PI) * 180 << "  " << (new_rpy.ry / PI) * 180<< "  " << (new_rpy.rz / PI) * 180 <<endl;
+    //     cout <<"rot_trans" << new_linear[0] * 1000 << "  " << new_linear[1] * 1000 << "  " << new_linear[2] * 1000 <<endl;
+    //     new_pos.tran.x = new_linear[0] * 1000; new_pos.tran.y = new_linear[1] * 1000; new_pos.tran.z = new_linear[2] * 1000;
     //     new_pos.rpy.rx = new_rpy.rx; new_pos.rpy.ry = new_rpy.ry; new_pos.rpy.rz = new_rpy.rz;
 
-    //     new_pos.tran.x = new_linear[0] * 1000; new_pos.tran.y = new_linear[1] * 1000; new_pos.tran.z = new_linear[2] * 1000;
-    //     // new_pos.rpy.rx = current_rpy.rx; new_pos.rpy.ry = current_rpy.ry; new_pos.rpy.rz = current_rpy.rz;
-    //     // cout<<"new_trans" << new_pos.tran.x << " " << new_pos.tran.y << " "<< new_pos.tran.z << " "<< endl;
-    //     // cout <<"new_rpy" << (new_pos.rpy.rx / PI) * 180 << "  " << (new_pos.rpy.ry / PI) * 180<< "  " << (new_pos.rpy.rz / PI) * 180<<"  " << endl; //new_rpy.rx不受导纳控制输出的影响，一开始就写死了
+    //     int local_item = 0;
+    //     update_robot_state();
+    //     get_eef_pose();
+    //     init_eef_pos = eef_pos;
+    //     wish_force << 0, 0, -5, 0, 0, 0;
+    //     while (ros::ok()){
+    //         local_item = local_item + 1;
+    //         update_robot_state();
+    //         get_tcp_force();
+    //         get_eef_pose();
 
-    //     robot.servo_p(&new_pos, ABS, loop_rate);
-    //     // std::this_thread::sleep_for(std::chrono::milliseconds(8)); 
+    //         eef_pos_d = eef_pos;
+    //         eef_rotm_d = eef_rotm; //经过local_item=1后，这里已经是修改后的eef_rotm了
+    //         tcp_admittance_control();
 
-    //     auto end_time = std::chrono::high_resolution_clock::now();
-    //     auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end_time-start_time);
-    //     if (item % 200 == 0){
-    //         cout << "item" << item << " excution time is"<< duration.count()<<"ms" << endl;}
+    //         linear_disp_clipped = linear_disp.cwiseMin(0.01).cwiseMax(-0.01);
+    //         angluer_disp_clipped = angular_disp.cwiseMin(0.01).cwiseMax(-0.01); //此处获取了在tcp坐标系下机器人末端的位移偏量
+    //         new_linear_eef = eef_pos + eef_rotm * linear_disp_clipped; //最后将总偏移量再加到原始的tcp坐标上面去。
+    //         //fixed rotation
+    //         new_rotm_eef = eef_rotm;
+    //         get_new_link6_pose(new_linear_eef, new_rotm_eef); //这里主要是为了获得new_linear
+    //         new_pos.tran.x = new_linear[0] * 1000; new_pos.tran.y = new_linear[1] * 1000; new_pos.tran.z = new_linear[2] * 1000;
+    //         new_pos.rpy.rx = new_rpy.rx; new_pos.rpy.ry = new_rpy.ry; new_pos.rpy.rz = new_rpy.rz; //修改后的角度
+    //         if (local_item == 1){
+    //             linear_disp_clipped << 0, 0, 0.001;
+    //             new_linear_eef = init_eef_pos + eef_rotm_d_modified * linear_disp_clipped; //最后将总偏移量再加到原始的tcp坐标上面去。
+    //             get_new_link6_pose(new_linear_eef, eef_rotm_d_modified);
+    //             new_pos.tran.x = new_linear[0] * 1000; new_pos.tran.y = new_linear[1] * 1000; new_pos.tran.z = new_linear[2] * 1000;
+    //             robot.servo_move_enable(false);
+    //             robot.linear_move(&new_pos, ABS, true, 10); //抬升到1mm以上的位置
+    //             robot.servo_move_enable(true);
+
+    //             robot.set_compliant_type(1, 0);
+    //             std::this_thread::sleep_for(std::chrono::milliseconds(500)); 
+    //             robot.set_compliant_type(0,0);
+    //             cout << "jumped" << endl;
+    //         }
+    //         else{
+    //             robot.servo_p(&new_pos, ABS, 1);
+    //         }
+    //         if ((tcp_force[2] > 2) && (local_item>220)){
+    //             break;
+    //         }}
+
+    //     if (local_N == 0){
+    //         local_N = 1;}
+    //     else{
+    //         if (local_m < local_N - 1){
+    //             local_m++;
+    //         }
+    //         else if (local_k < 5){
+    //             local_m = 0;
+    //             local_k++;
+    //         }
+    //         else if(local_N < max_N){
+    //             local_k = 0;
+    //             local_m = 0;
+    //             local_N++;
+    //         }
+    //         else{
+    //             cout << "达到最大搜索次数" << endl;
+    //             break;}}
     // }
+  
+
+    update_robot_state();
+    get_tcp_force();
+    get_eef_pose();
+    eef_pos_d = eef_pos;
+    eef_rotm_d = eef_rotm;
+    int item = 0;
+    while ((item < 7000) &&  (ros::ok()))
+    {   auto start_time = std::chrono::high_resolution_clock::now();
+        update_robot_state();
+        get_tcp_force();
+        get_eef_pose();  //更新机器人状态
+
+        eef_pos_d = eef_pos; 
+        eef_rotm_d = eef_rotm;//期望的位置不断更新，始终保持是当前状态，期望的位姿保持不变
+        // 
+        item = item + 1;
+
+        // 导纳控制的范畴
+        tcp_admittance_control();
+        
+        linear_disp_clipped = linear_disp.cwiseMin(0.01).cwiseMax(-0.01);
+        angluer_disp_clipped = angular_disp.cwiseMin(0.01).cwiseMax(-0.01); //此处获取了在tcp坐标系下机器人末端的位移偏量
+
+        new_linear_eef = eef_pos + eef_rotm * linear_disp_clipped; //最后将总偏移量再加到原始的tcp坐标上面去。
+        updata_rotation(eef_rotm, angluer_disp_clipped, new_rotm_eef);
+
+        //fixed rotation
+        // new_rotm_eef = eef_rotm; 
+        get_new_link6_pose(new_linear_eef, new_rotm_eef);
+        new_rotm.x.x = new_angular(0,0); new_rotm.y.x = new_angular(1,0); new_rotm.z.x = new_angular(2,0);
+        new_rotm.x.y = new_angular(0,1); new_rotm.y.y = new_angular(1,1); new_rotm.z.y = new_angular(2,1);
+        new_rotm.x.z = new_angular(0,2); new_rotm.y.z = new_angular(1,2); new_rotm.z.z = new_angular(2,2);
+        robot.rot_matrix_to_rpy(&new_rotm, &new_rpy); //转欧拉角
+        // cout <<"rot_rpy" << (new_rpy.rx / PI) * 180 << "  " << (new_rpy.ry / PI) * 180<< "  " << (new_rpy.rz / PI) * 180 <<endl;
+        new_pos.rpy.rx = new_rpy.rx; new_pos.rpy.ry = new_rpy.ry; new_pos.rpy.rz = new_rpy.rz;
+
+        new_pos.tran.x = new_linear[0] * 1000; new_pos.tran.y = new_linear[1] * 1000; new_pos.tran.z = new_linear[2] * 1000;
+        // new_pos.rpy.rx = current_rpy.rx; new_pos.rpy.ry = current_rpy.ry; new_pos.rpy.rz = current_rpy.rz;
+        // cout<<"new_trans" << new_pos.tran.x << " " << new_pos.tran.y << " "<< new_pos.tran.z << " "<< endl;
+        // cout <<"new_rpy" << (new_pos.rpy.rx / PI) * 180 << "  " << (new_pos.rpy.ry / PI) * 180<< "  " << (new_pos.rpy.rz / PI) * 180<<"  " << endl; //new_rpy.rx不受导纳控制输出的影响，一开始就写死了
+
+        robot.servo_p(&new_pos, ABS, loop_rate);
+        // std::this_thread::sleep_for(std::chrono::milliseconds(8)); 
+
+        auto end_time = std::chrono::high_resolution_clock::now();
+        auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end_time-start_time);
+        if (item % 200 == 0){
+            cout << "item" << item << " excution time is"<< duration.count()<<"ms" << endl;}
+    }
 
 }
 
@@ -839,6 +843,12 @@ void RobotAdmittanceControl::linear_search(char choice_tcp){
 
         case '4':
             object_length << 0, 0, 0.0355;   //m6*30螺丝 30 * 5.5
+            break; 
+        case '5':
+            object_length << 0, 0, 0.0925;   //handle
+            break; 
+        case '6':
+            object_length << 0, 0, 0.082;   //Alan wrench
             break;  
         }
 
@@ -924,8 +934,9 @@ void RobotAdmittanceControl::pos_ori_search(){
     get_tcp_force();
     get_eef_pose();
 
-    wish_force << 0, 0, -6, 0, 0, 0;  //期望力
+    wish_force << 0, 0, -5, 0, 0, 0;  //期望力
     selection_vector<<0, 0, 1, 0, 0, 0; //选择向量，表示只控制z轴
+    float xy_force_thre = 6;
 
     Eigen::Matrix3d init_eef_rotm = eef_rotm;
     Eigen::Vector3d init_eef_pos = eef_pos; //螺旋搜索开始时的tcp位置
@@ -949,7 +960,7 @@ void RobotAdmittanceControl::pos_ori_search(){
     phi_changed = 0; //初始化
 
     int temp_item = 0;
-    int record_item;
+    int record_item = 0;
     int force_min_time = 0;
     while ((item < 12000) &&  (ros::ok()))
     {   
@@ -967,6 +978,13 @@ void RobotAdmittanceControl::pos_ori_search(){
             cout << "---------------phi_changed---------------------" << endl;
             cout <<"rot_rpy" << (new_rpy.rx / PI) * 180 << "  " << (new_rpy.ry / PI) * 180<< "  " << (new_rpy.rz / PI) * 180 <<endl;
             phi_changed = 0;
+            // pub msg
+            
+            oar.phi = adjust_phi; oar.point_num = point_num; oar.record_item = record_item;
+            oar.Rx = new_rpy.rx; oar.Ry = new_rpy.ry; oar.Rz = new_rpy.rz; 
+            ori_adj_pub.publish(oar);  //记录调整过程
+            record_item += 1; //调整次数
+
         }
         auto start_time = std::chrono::high_resolution_clock::now();
         eef_pos_d = eef_pos;
@@ -1047,7 +1065,7 @@ void RobotAdmittanceControl::pos_ori_search(){
                     break; }
                 force_min_time++;
             }
-            if ((abs(tcp_force[0]) > 6) || (abs(tcp_force[1]) > 6)){
+            if ((abs(tcp_force[0]) > xy_force_thre) || (abs(tcp_force[1]) > xy_force_thre)){
                 cout << "x_force = " <<  tcp_force[0] << ", y_force = " <<  tcp_force[1]<< endl;
                 cout << "spiral search stoped" <<endl;  //实际实验时进行调试
                 if (force_min_time >= 0){
@@ -1163,6 +1181,7 @@ void RobotAdmittanceControl::ori_fine(){
             cout << "delta_height[2] = " << delta_height[2] << endl;
             cout << "flag = 1, 对准失败，但是也没有卡住，进入下一个搜索点" << endl;
             flag = 1;
+            rotation_item = 0; //不管有没有拧过后续，只要经历了对准失败，rotation_item应该设置为0，从头开始。
             // 对准失败，但是也没有卡住，进入下一个搜索点
             double phi_1 = local_N * base_phi;
             double phi_2 = local_m * base_phi;
@@ -1350,8 +1369,8 @@ void RobotAdmittanceControl::pos_search(){
     update_robot_state();
     get_tcp_force();
     get_eef_pose();
-
-    wish_force << 0, 0, -6, 0, 0, 0;  //期望力
+    float xy_force_thre = 6;
+    wish_force << 0, 0, -5, 0, 0, 0;  //期望力
     selection_vector<<0, 0, 1, 0, 0, 0; //选择向量，表示只控制z轴
 
     Eigen::Matrix3d init_eef_rotm = eef_rotm;
@@ -1402,7 +1421,7 @@ void RobotAdmittanceControl::pos_search(){
             cout << "spiral search stoped" <<endl;  //实际实验时进行调试
             break;
         }
-        if ((abs(tcp_force[0]) > 6) || (abs(tcp_force[1]) > 6)){
+        if ((abs(tcp_force[0]) > xy_force_thre) || (abs(tcp_force[1]) > xy_force_thre)){
             cout << "x_force" <<  tcp_force[0] << ", y_force" <<  tcp_force[1]<< endl;
             cout << "spiral search stoped" <<endl;  //实际实验时进行调试
             break;
@@ -1424,9 +1443,10 @@ void RobotAdmittanceControl::pos_search(){
         linear_disp_clipped = linear_disp.cwiseMin(0.01).cwiseMax(-0.01);
         angluer_disp_clipped = angular_disp.cwiseMin(0.01).cwiseMax(-0.01); //此处获取了在tcp坐标系下机器人末端的位移偏量
         //我们需要在此处对其进行修改，上述偏量经过选择向量的修改只剩z方向的偏移了，我们再加上x,y方向的偏移。
-        linear_disp_clipped = linear_disp_clipped + traj;
+  
         new_linear_eef = init_eef_pos + eef_rotm * linear_disp_clipped; //最后将总偏移量再加到原始的tcp坐标上面去。
-        
+        new_linear_eef = new_linear_eef + traj; //与末端姿态无关，在基坐标系下的期望位置
+
         new_rotm_eef = eef_rotm;
 
         get_new_link6_pose(new_linear_eef, new_rotm_eef);
@@ -1451,7 +1471,7 @@ void RobotAdmittanceControl::passive_fine(){
     update_robot_state();
     get_tcp_force();
     get_eef_pose();
-    wish_force << 0, 0, -5, 0, 0, 0;  //期望力
+    wish_force << 0, 0, -10, 0, 0, 0;  //期望力
     selection_vector<<1, 1, 1, 0, 0, 0; //选择向量
     adm_m << 3, 3, 3, 0.5, 0.5, 0.5;
     adm_k << 700.0, 700.0, 1300.0, 0.5, 0.5, 0.5;
@@ -1460,7 +1480,7 @@ void RobotAdmittanceControl::passive_fine(){
     }
     adm_d[0] = 3.5 * sqrt(adm_m[0] * adm_k[0]);
     adm_d[1] = 3.5 * sqrt(adm_m[1] * adm_k[1]);
-    adm_d[2] = 3.3 * sqrt(adm_m[2] * adm_k[2]);
+    adm_d[2] = 7.5 * sqrt(adm_m[2] * adm_k[2]);
     eef_pos_d = eef_pos;
     eef_rotm_d = eef_rotm;
     Eigen::Vector3d init_height = {0.0, 0.0, 0.0};
@@ -1471,10 +1491,10 @@ void RobotAdmittanceControl::passive_fine(){
     new_rpy.ry = current_rpy.ry;
     screw_execute_result = 9; //不需要对其进行初始化，一开始他没有结果
     real_robot_control::screwGoal goal;
-    int max_rotations = 1;
+    int max_rotations = 2;
     int rotation_item = 0;
     // int theta_index = 1;
-    double distance_threhold = 1;  // 单位 mm 
+    double distance_threhold = 0.5;  // 单位 mm 
     while (ros::ok()){
         Eigen::Vector3d delta_height = eef_rotm.transpose() * (init_height - end_height);
         // 判断是否要执行下一个期望位姿
@@ -1516,7 +1536,7 @@ void RobotAdmittanceControl::passive_fine(){
         eef_pos_d = eef_pos;
         while ((item < 5000)&&  (ros::ok()))
         {  
-            if ((screw_execute_status == 2) && (item >= 320))
+            if ((screw_execute_status == 2) && (item >= 10))  //直接旋拧一般物体：320 
             {   // item_flag = 1; //表示已经开始执行了
                 cout << "\r" <<" start to send message " << flush;
                 update_robot_state();
@@ -1594,23 +1614,39 @@ void RobotAdmittanceControl::passive_fine(){
     }
 }
 
-void RobotAdmittanceControl::robot_finish(){
+void RobotAdmittanceControl::grasp_obj(){
     real_robot_control::screwGoal goal;
 
-    goal.num = 3; 
+    goal.num = 5; 
     client.sendGoal(goal,
                     std::bind(&RobotAdmittanceControl::done_cb, this, std::placeholders::_1, std::placeholders::_2),
                     std::bind(&RobotAdmittanceControl::active_cb, this),
-                    std::bind(&RobotAdmittanceControl::feedback_cb, this, std::placeholders::_1));  
+                    std::bind(&RobotAdmittanceControl::feedback_cb, this, std::placeholders::_1));
+    std::this_thread::sleep_for(std::chrono::milliseconds(50));
     while (ros::ok()){
         ros::spinOnce(); //处理一下上面的回调函数
-        if (screw_execute_result == 3){
-            break;}}
+        if (screw_execute_status == 0){
+            cout<<"the obj is grasped"<<endl; break;}}
+    }
+
+void RobotAdmittanceControl::robot_finish(){
+    real_robot_control::screwGoal goal;
+
+    // goal.num = 3; 
+    // client.sendGoal(goal,
+    //                 std::bind(&RobotAdmittanceControl::done_cb, this, std::placeholders::_1, std::placeholders::_2),
+    //                 std::bind(&RobotAdmittanceControl::active_cb, this),
+    //                 std::bind(&RobotAdmittanceControl::feedback_cb, this, std::placeholders::_1));  
+    // while (ros::ok()){
+    //     ros::spinOnce(); //处理一下上面的回调函数
+    //     if (screw_execute_result == 3){
+    //         break;}}
+
     // 机器人回退
     robot.servo_move_enable(false);
     update_robot_state();
     get_eef_pose();
-    linear_disp<< 0, 0, 0.06;
+    linear_disp<< 0, 0, 0.04;
     new_linear_eef = eef_pos + eef_rotm * linear_disp;
     new_rotm_eef = eef_rotm;
     get_new_link6_pose(new_linear_eef, new_rotm_eef);
@@ -1803,8 +1839,8 @@ void RobotAdmittanceControl::screw_assembly_search(){
 
     phi_changed = 0; //初始化
 
-    int temp_item = 0;
-    int record_item;
+    // int temp_item = 0;
+    // int record_item;
     while (item < 7000)
     {   
         if (phi_changed){
@@ -2240,6 +2276,12 @@ void RobotAdmittanceControl::go_to_pose(char choice_tcp){
         case '4':
             object_length << 0, 0, 0.0355;   //m6*35螺丝 30 * 5.5
             break;  
+        case '5':
+            object_length << 0, 0, 0.0925;   //手柄
+            break; 
+        case '6':
+            object_length << 0, 0, 0.082;   //手柄
+            break; 
     }
 
     eef_offset = eef_offset_basic + object_length;
@@ -2261,29 +2303,54 @@ void RobotAdmittanceControl::go_to_pose(char choice_tcp){
     //         std::cout << "task stoped" << std::endl;
     //     }
     double angle;
-    angle = 5 * PI / 180;
+    angle = 4.5 * PI / 180;
     switch(input) {  //双臂实验标定结果
 
         case '1':
             // angle = 2 * PI / 180;
-            // goal_pose.tran.x = -0.26132 ; goal_pose.tran.y = 0.361845 + 0.003; goal_pose.tran.z = -0.0178749 + 0.002;
-            // goal_pose.rpy.rx = 0 + angle; goal_pose.rpy.ry = 0; goal_pose.rpy.rz =  3.14159;  // m6 螺丝
+            goal_pose.tran.x = -0.286045; goal_pose.tran.y = 0.337516 + 0.005+0.025; goal_pose.tran.z = -0.0174+0.002;
+            goal_pose.rpy.rx = 0 + angle; goal_pose.rpy.ry = 0; goal_pose.rpy.rz =  3.14159;  // m6 螺丝
 
-            goal_pose.tran.x = -0.20941; goal_pose.tran.y = 0.370286 + 0.005; goal_pose.tran.z = 0.0429057;
-            goal_pose.rpy.rx = 0 + angle; goal_pose.rpy.ry = 0; goal_pose.rpy.rz =  3.14159;  // 三通
+            // goal_pose.tran.x = -0.20941; goal_pose.tran.y = 0.370286 + 0.005; goal_pose.tran.z = 0.0429057;
+            // goal_pose.rpy.rx = 0 + angle; goal_pose.rpy.ry = 0; goal_pose.rpy.rz =  3.14159;  // 三通
             break;
 
         case '2':
-            angle = 2 * PI / 180;
-            goal_pose.tran.x = 0.0235162; goal_pose.tran.y =  0.393017 - 0.002; goal_pose.tran.z = 0.039212 + 0.006;
-            goal_pose.rpy.rx = 0 + angle ; goal_pose.rpy.ry = 0; goal_pose.rpy.rz =  2.0944; //螺母
+            // angle = 1 * PI / 180;
+            goal_pose.tran.x = -0.272948; goal_pose.tran.y =  0.337422 + 0.0036; goal_pose.tran.z = 0.0387647 + 0.0012;
+            goal_pose.rpy.rx = 0 + angle; goal_pose.rpy.ry = 0; goal_pose.rpy.rz = 3.14159; //m12-flat
+
+            // goal_pose.tran.x = -0.285672+0.00; goal_pose.tran.y =  0.387309 + 0.0; goal_pose.tran.z = 0.0342756 + 0.002;
+            // goal_pose.rpy.rx = 0 + angle; goal_pose.rpy.ry = 0; goal_pose.rpy.rz = 3.14159; //m12-nonflat
+   
             break; // 添加break语句
         
         case '3':
-            angle = 1 * PI / 180;
-            goal_pose.tran.x = -0.236702; goal_pose.tran.y =  0.392158 + 0.002; goal_pose.tran.z = 0.0404503 + 0.003;
-            goal_pose.rpy.rx = 0 + angle; goal_pose.rpy.ry = 0; goal_pose.rpy.rz = 2.26893; //m12
-   
+            // angle = 2 * PI / 180;
+            goal_pose.tran.x = -0.285849; goal_pose.tran.y =  0.337506 + 0.0036; goal_pose.tran.z = 0.0488019 + 0.0012;
+            goal_pose.rpy.rx = 0 + angle ; goal_pose.rpy.ry = 0; goal_pose.rpy.rz =  3.14159; //螺母
+            break; // 添加break语句
+        
+        case '4':
+            // angle = 2 * PI / 180;
+            goal_pose.tran.x = -0.220073-0.0005; goal_pose.tran.y =  0.377746; goal_pose.tran.z = 0.00453016;
+            goal_pose.rpy.rx = 0 ; goal_pose.rpy.ry = 0; goal_pose.rpy.rz =  2.0944; //十字螺丝1
+            break; // 添加break语句
+        case '5':
+            // angle = 2 * PI / 180;
+            goal_pose.tran.x = -0.288178; goal_pose.tran.y =  0.378303; goal_pose.tran.z = 0.00225273;
+            goal_pose.rpy.rx = 0; goal_pose.rpy.ry = 0; goal_pose.rpy.rz = 2.0944; //十字螺丝2
+            break; // 添加break语句
+        
+        case '6':
+            // angle = 2 * PI / 180;
+            goal_pose.tran.x = -0.194111; goal_pose.tran.y =  0.324657; goal_pose.tran.z = 0.0131092;
+            goal_pose.rpy.rx = 0 ; goal_pose.rpy.ry = 0; goal_pose.rpy.rz =  2.0944; //内六角1
+            break; // 添加break语句
+        case '7':
+            // angle = 2 * PI / 180;
+            goal_pose.tran.x = -0.288178; goal_pose.tran.y =  0.378303; goal_pose.tran.z = 0.00225273;
+            goal_pose.rpy.rx = 0; goal_pose.rpy.ry = 0; goal_pose.rpy.rz = 2.0944; //内六角2
             break; // 添加break语句
         
         // case '4':
@@ -2384,6 +2451,7 @@ int main(int argc, char** argv){
     while (running) {
         std::cout << "1--> test program || 2--> go to reset pose " << std::endl;
         std::cout << "3--> go to goal pose || 4--> screw action " << std::endl;
+        std::cout << "5--> grasp obj || 6--> get tcp for calibration " << std::endl;
         std::cin >> input;
         switch(input) {
             case '1':
@@ -2426,15 +2494,16 @@ int main(int argc, char** argv){
 
                 start_time = std::chrono::high_resolution_clock::now();
                 // robot_control.pos_search();
-                robot_control.pos_ori_search();
+                // robot_control.pos_ori_search();
                 end_time = std::chrono::high_resolution_clock::now();
                 duration = std::chrono::duration_cast<std::chrono::milliseconds>(end_time-start_time);
                 cout << " pos search time is "<< duration.count()<<" ms" << endl;
                 logFile << " pos search time is "<< duration.count()<<" ms" << endl;
 
                 start_time = std::chrono::high_resolution_clock::now();
-                robot_control.ori_fine();
-                // robot_control.passive_fine();
+                // sleep(2);
+                // robot_control.ori_fine();
+                robot_control.passive_fine();
                 end_time = std::chrono::high_resolution_clock::now();
                 duration = std::chrono::duration_cast<std::chrono::milliseconds>(end_time-start_time);
                 cout << " ori search time is "<< duration.count()<<" ms" << endl;
@@ -2444,6 +2513,10 @@ int main(int argc, char** argv){
                 break;
 
             case '5':
+                robot_control.grasp_obj();
+                break;
+
+            case '6':
                 std::cout << "Enter 1-3 to select the tcp:" << std::endl;
                 std::cout << "1--> M12 六角头 || 2--> 3分螺母 || 3--> 3分三通 || 4--> m6x30" << std::endl;
                 std::cin >> choice_tcp;

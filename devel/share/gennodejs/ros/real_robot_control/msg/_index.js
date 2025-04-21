@@ -10,6 +10,7 @@ let screwActionResult = require('./screwActionResult.js');
 let screwGoal = require('./screwGoal.js');
 let width_pub = require('./width_pub.js');
 let force_pos_pub = require('./force_pos_pub.js');
+let ori_adj_rec = require('./ori_adj_rec.js');
 let force_pub = require('./force_pub.js');
 let current_pub = require('./current_pub.js');
 let pose = require('./pose.js');
@@ -28,6 +29,7 @@ module.exports = {
   screwGoal: screwGoal,
   width_pub: width_pub,
   force_pos_pub: force_pos_pub,
+  ori_adj_rec: ori_adj_rec,
   force_pub: force_pub,
   current_pub: current_pub,
   pose: pose,

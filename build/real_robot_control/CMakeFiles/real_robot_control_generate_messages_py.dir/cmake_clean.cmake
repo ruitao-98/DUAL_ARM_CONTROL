@@ -4,6 +4,7 @@ file(REMOVE_RECURSE
   "/home/yanji/dual_arm_control/devel/lib/python3/dist-packages/real_robot_control/msg/_force_pos_pub.py"
   "/home/yanji/dual_arm_control/devel/lib/python3/dist-packages/real_robot_control/msg/_force_pub.py"
   "/home/yanji/dual_arm_control/devel/lib/python3/dist-packages/real_robot_control/msg/_gripper.py"
+  "/home/yanji/dual_arm_control/devel/lib/python3/dist-packages/real_robot_control/msg/_ori_adj_rec.py"
   "/home/yanji/dual_arm_control/devel/lib/python3/dist-packages/real_robot_control/msg/_orientation_pub.py"
   "/home/yanji/dual_arm_control/devel/lib/python3/dist-packages/real_robot_control/msg/_pose.py"
   "/home/yanji/dual_arm_control/devel/lib/python3/dist-packages/real_robot_control/msg/_pose_pub.py"

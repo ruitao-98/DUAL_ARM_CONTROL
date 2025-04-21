@@ -70,7 +70,7 @@ class cal_pos:
                         max_value = max(temp_array)
                         if done == 0: # 只在第一次发布使用
                             print("done = 0")
-                            if max_value - min_value > 3.5: #卡一个阈值
+                            if max_value - min_value > 3.2: #卡一个阈值
                                 print( "is_periodic=", is_periodic)
                                 # 找到最小值的索引
                                 min_index = temp_array.index(min_value)
@@ -84,7 +84,7 @@ class cal_pos:
 
                         if circle_number >= old_circle_number + 3:
                             print("max=", max_value, "min=", min_value)
-                            if max_value - min_value > 3.5: #卡一个阈值
+                            if max_value - min_value > 3.2: #卡一个阈值
                                 print( "is_periodic=", is_periodic)
                                 # 找到最小值的索引
                                 min_index = temp_array.index(min_value)
@@ -130,7 +130,7 @@ class cal_pos:
             is_periodic = 1
         else:
             is_periodic = 0
-        print("is_periodic", is_periodic)
+        print("[in function] is_periodic", is_periodic)
         # 绘制自相关图
         # plt.plot(autocorr)
         # plt.title('Autocorrelation')

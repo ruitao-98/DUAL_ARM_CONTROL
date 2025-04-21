@@ -19,6 +19,7 @@
 #include <iostream>
 #include <fstream> // 用于文件操作
 #include <iomanip> // 用于控制输出格式
+
 // #include <utility> // for std::pair
 
 #include <tuple>
@@ -97,6 +98,8 @@ public:
 
     ros::Publisher for_pos_pub;
     real_robot_control::force_pos_pub fp;
+
+
 
     // std::set<std::pair<int, int>> tabuList;
     // std::unordered_set<std::tuple<int, int, int>> tabuList;

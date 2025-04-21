@@ -5,6 +5,7 @@ real_robot_control/CMakeFiles/RIGHT_ADM_CONTROL.dir/src/right_robot_control.cpp.
  /home/yanji/dual_arm_control/devel/include/real_robot_control/current_pub.h
  /home/yanji/dual_arm_control/devel/include/real_robot_control/force_pos_pub.h
  /home/yanji/dual_arm_control/devel/include/real_robot_control/force_pub.h
+ /home/yanji/dual_arm_control/devel/include/real_robot_control/ori_adj_rec.h
  /home/yanji/dual_arm_control/devel/include/real_robot_control/orientation_pub.h
  /home/yanji/dual_arm_control/devel/include/real_robot_control/pose_pub.h
  /home/yanji/dual_arm_control/devel/include/real_robot_control/robot_pos_pub.h

@@ -11,7 +11,7 @@
   <arg name="filename" default="$(arg suffix)_$(arg item)" />
 
   <!-- 输出文件路径，可以根据需要进行修改 -->
-  <arg name="output_dir" default="/home/yanji/dual_arm_control/rosbag_record/screwing" />
+  <arg name="output_dir" default="/home/yanji/dual_arm_control/rosbag_record/screwing_revised/Method_1" />
   
   <param name="log_output_dir" value="$(arg output_dir)" />
   <param name="log_filename" value="$(arg filename)" />
@@ -29,8 +29,7 @@
   <!-- Run left or right assembly -->
   <node pkg="real_robot_control" type="right_robot_control" name="right_robot_control" output="screen" />
 
-  <node pkg="rosbag" type="record" name="rosbag_record" output="screen" required="true"
-      args="-O $(arg output_dir)/$(arg filename).bag /robot_force /robot_pose " />
-
+  <!-- <node pkg="rosbag" type="record" name="rosbag_record" output="screen" required="true"
+      args="-O $(arg output_dir)/$(arg filename).bag /robot_force /robot_pose /ori_adj" /> -->
 
 </launch>

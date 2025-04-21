@@ -480,6 +480,32 @@ sensor_msgs_generate_messages_py/fast:
 .PHONY : sensor_msgs_generate_messages_py/fast
 
 #=============================================================================
+# Target rules for targets named right_robot_control
+
+# Build rule for target.
+right_robot_control: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 right_robot_control
+.PHONY : right_robot_control
+
+# fast build rule for target.
+right_robot_control/fast:
+	$(MAKE) -f real_robot_control/CMakeFiles/right_robot_control.dir/build.make real_robot_control/CMakeFiles/right_robot_control.dir/build
+.PHONY : right_robot_control/fast
+
+#=============================================================================
+# Target rules for targets named geometry_msgs_generate_messages_py
+
+# Build rule for target.
+geometry_msgs_generate_messages_py: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 geometry_msgs_generate_messages_py
+.PHONY : geometry_msgs_generate_messages_py
+
+# fast build rule for target.
+geometry_msgs_generate_messages_py/fast:
+	$(MAKE) -f real_robot_control/CMakeFiles/geometry_msgs_generate_messages_py.dir/build.make real_robot_control/CMakeFiles/geometry_msgs_generate_messages_py.dir/build
+.PHONY : geometry_msgs_generate_messages_py/fast
+
+#=============================================================================
 # Target rules for targets named geometry_msgs_generate_messages_nodejs
 
 # Build rule for target.
@@ -1377,45 +1403,6 @@ _real_robot_control_generate_messages_check_deps_current_pub/fast:
 .PHONY : _real_robot_control_generate_messages_check_deps_current_pub/fast
 
 #=============================================================================
-# Target rules for targets named geometry_msgs_generate_messages_py
-
-# Build rule for target.
-geometry_msgs_generate_messages_py: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 geometry_msgs_generate_messages_py
-.PHONY : geometry_msgs_generate_messages_py
-
-# fast build rule for target.
-geometry_msgs_generate_messages_py/fast:
-	$(MAKE) -f real_robot_control/CMakeFiles/geometry_msgs_generate_messages_py.dir/build.make real_robot_control/CMakeFiles/geometry_msgs_generate_messages_py.dir/build
-.PHONY : geometry_msgs_generate_messages_py/fast
-
-#=============================================================================
-# Target rules for targets named right_robot_control
-
-# Build rule for target.
-right_robot_control: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 right_robot_control
-.PHONY : right_robot_control
-
-# fast build rule for target.
-right_robot_control/fast:
-	$(MAKE) -f real_robot_control/CMakeFiles/right_robot_control.dir/build.make real_robot_control/CMakeFiles/right_robot_control.dir/build
-.PHONY : right_robot_control/fast
-
-#=============================================================================
-# Target rules for targets named object_recognition_msgs_generate_messages_lisp
-
-# Build rule for target.
-object_recognition_msgs_generate_messages_lisp: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 object_recognition_msgs_generate_messages_lisp
-.PHONY : object_recognition_msgs_generate_messages_lisp
-
-# fast build rule for target.
-object_recognition_msgs_generate_messages_lisp/fast:
-	$(MAKE) -f real_robot_control/CMakeFiles/object_recognition_msgs_generate_messages_lisp.dir/build.make real_robot_control/CMakeFiles/object_recognition_msgs_generate_messages_lisp.dir/build
-.PHONY : object_recognition_msgs_generate_messages_lisp/fast
-
-#=============================================================================
 # Target rules for targets named _real_robot_control_generate_messages_check_deps_width_pub
 
 # Build rule for target.
@@ -1609,6 +1596,32 @@ dynamic_reconfigure_gencfg: cmake_check_build_system
 dynamic_reconfigure_gencfg/fast:
 	$(MAKE) -f real_robot_control/CMakeFiles/dynamic_reconfigure_gencfg.dir/build.make real_robot_control/CMakeFiles/dynamic_reconfigure_gencfg.dir/build
 .PHONY : dynamic_reconfigure_gencfg/fast
+
+#=============================================================================
+# Target rules for targets named object_recognition_msgs_generate_messages_lisp
+
+# Build rule for target.
+object_recognition_msgs_generate_messages_lisp: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 object_recognition_msgs_generate_messages_lisp
+.PHONY : object_recognition_msgs_generate_messages_lisp
+
+# fast build rule for target.
+object_recognition_msgs_generate_messages_lisp/fast:
+	$(MAKE) -f real_robot_control/CMakeFiles/object_recognition_msgs_generate_messages_lisp.dir/build.make real_robot_control/CMakeFiles/object_recognition_msgs_generate_messages_lisp.dir/build
+.PHONY : object_recognition_msgs_generate_messages_lisp/fast
+
+#=============================================================================
+# Target rules for targets named _real_robot_control_generate_messages_check_deps_ori_adj_rec
+
+# Build rule for target.
+_real_robot_control_generate_messages_check_deps_ori_adj_rec: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 _real_robot_control_generate_messages_check_deps_ori_adj_rec
+.PHONY : _real_robot_control_generate_messages_check_deps_ori_adj_rec
+
+# fast build rule for target.
+_real_robot_control_generate_messages_check_deps_ori_adj_rec/fast:
+	$(MAKE) -f real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_ori_adj_rec.dir/build.make real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_ori_adj_rec.dir/build
+.PHONY : _real_robot_control_generate_messages_check_deps_ori_adj_rec/fast
 
 #=============================================================================
 # Target rules for targets named octomap_msgs_generate_messages_eus
@@ -2219,6 +2232,8 @@ help:
 	@echo "... shape_msgs_generate_messages_lisp"
 	@echo "... left_or_right_assembly"
 	@echo "... sensor_msgs_generate_messages_py"
+	@echo "... right_robot_control"
+	@echo "... geometry_msgs_generate_messages_py"
 	@echo "... geometry_msgs_generate_messages_nodejs"
 	@echo "... dynamic_reconfigure_generate_messages_eus"
 	@echo "... tf2_msgs_generate_messages_eus"
@@ -2288,9 +2303,6 @@ help:
 	@echo "... std_msgs_generate_messages_py"
 	@echo "... object_recognition_msgs_generate_messages_cpp"
 	@echo "... _real_robot_control_generate_messages_check_deps_current_pub"
-	@echo "... geometry_msgs_generate_messages_py"
-	@echo "... right_robot_control"
-	@echo "... object_recognition_msgs_generate_messages_lisp"
 	@echo "... _real_robot_control_generate_messages_check_deps_width_pub"
 	@echo "... actionlib_msgs_generate_messages_eus"
 	@echo "... object_recognition_msgs_generate_messages_nodejs"
@@ -2306,6 +2318,8 @@ help:
 	@echo "... octomap_msgs_generate_messages_py"
 	@echo "... dynamic_reconfigure_generate_messages_cpp"
 	@echo "... dynamic_reconfigure_gencfg"
+	@echo "... object_recognition_msgs_generate_messages_lisp"
+	@echo "... _real_robot_control_generate_messages_check_deps_ori_adj_rec"
 	@echo "... octomap_msgs_generate_messages_eus"
 	@echo "... visualization_msgs_generate_messages_eus"
 	@echo "... visualization_msgs_generate_messages_lisp"

@@ -148,12 +148,12 @@ gtest/googletest/clean: gtest/googletest/CMakeFiles/gtest.dir/clean
 real_robot_control/all: real_robot_control/CMakeFiles/move_out.dir/all
 real_robot_control/all: real_robot_control/CMakeFiles/code_test.dir/all
 real_robot_control/all: real_robot_control/CMakeFiles/left_or_right_assembly.dir/all
+real_robot_control/all: real_robot_control/CMakeFiles/right_robot_control.dir/all
 real_robot_control/all: real_robot_control/CMakeFiles/real_robot_control_generate_messages.dir/all
 real_robot_control/all: real_robot_control/CMakeFiles/LEFT_ADM_CONTROL.dir/all
 real_robot_control/all: real_robot_control/CMakeFiles/SCREWING_TOOL.dir/all
 real_robot_control/all: real_robot_control/CMakeFiles/task_control_screw.dir/all
 real_robot_control/all: real_robot_control/CMakeFiles/RIGHT_ADM_CONTROL.dir/all
-real_robot_control/all: real_robot_control/CMakeFiles/right_robot_control.dir/all
 real_robot_control/all: real_robot_control/CMakeFiles/motion_planning.dir/all
 real_robot_control/all: real_robot_control/CMakeFiles/SERVO_MOTOR.dir/all
 
@@ -179,6 +179,8 @@ real_robot_control/clean: real_robot_control/CMakeFiles/rosgraph_msgs_generate_m
 real_robot_control/clean: real_robot_control/CMakeFiles/shape_msgs_generate_messages_lisp.dir/clean
 real_robot_control/clean: real_robot_control/CMakeFiles/left_or_right_assembly.dir/clean
 real_robot_control/clean: real_robot_control/CMakeFiles/sensor_msgs_generate_messages_py.dir/clean
+real_robot_control/clean: real_robot_control/CMakeFiles/right_robot_control.dir/clean
+real_robot_control/clean: real_robot_control/CMakeFiles/geometry_msgs_generate_messages_py.dir/clean
 real_robot_control/clean: real_robot_control/CMakeFiles/geometry_msgs_generate_messages_nodejs.dir/clean
 real_robot_control/clean: real_robot_control/CMakeFiles/dynamic_reconfigure_generate_messages_eus.dir/clean
 real_robot_control/clean: real_robot_control/CMakeFiles/tf2_msgs_generate_messages_eus.dir/clean
@@ -248,9 +250,6 @@ real_robot_control/clean: real_robot_control/CMakeFiles/shape_msgs_generate_mess
 real_robot_control/clean: real_robot_control/CMakeFiles/std_msgs_generate_messages_py.dir/clean
 real_robot_control/clean: real_robot_control/CMakeFiles/object_recognition_msgs_generate_messages_cpp.dir/clean
 real_robot_control/clean: real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_current_pub.dir/clean
-real_robot_control/clean: real_robot_control/CMakeFiles/geometry_msgs_generate_messages_py.dir/clean
-real_robot_control/clean: real_robot_control/CMakeFiles/right_robot_control.dir/clean
-real_robot_control/clean: real_robot_control/CMakeFiles/object_recognition_msgs_generate_messages_lisp.dir/clean
 real_robot_control/clean: real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_width_pub.dir/clean
 real_robot_control/clean: real_robot_control/CMakeFiles/actionlib_msgs_generate_messages_eus.dir/clean
 real_robot_control/clean: real_robot_control/CMakeFiles/object_recognition_msgs_generate_messages_nodejs.dir/clean
@@ -266,6 +265,8 @@ real_robot_control/clean: real_robot_control/CMakeFiles/tf2_msgs_generate_messag
 real_robot_control/clean: real_robot_control/CMakeFiles/octomap_msgs_generate_messages_py.dir/clean
 real_robot_control/clean: real_robot_control/CMakeFiles/dynamic_reconfigure_generate_messages_cpp.dir/clean
 real_robot_control/clean: real_robot_control/CMakeFiles/dynamic_reconfigure_gencfg.dir/clean
+real_robot_control/clean: real_robot_control/CMakeFiles/object_recognition_msgs_generate_messages_lisp.dir/clean
+real_robot_control/clean: real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_ori_adj_rec.dir/clean
 real_robot_control/clean: real_robot_control/CMakeFiles/octomap_msgs_generate_messages_eus.dir/clean
 real_robot_control/clean: real_robot_control/CMakeFiles/visualization_msgs_generate_messages_eus.dir/clean
 real_robot_control/clean: real_robot_control/CMakeFiles/visualization_msgs_generate_messages_lisp.dir/clean
@@ -562,12 +563,12 @@ gtest/googlemock/CMakeFiles/gmock.dir/clean:
 gtest/googletest/CMakeFiles/gtest_main.dir/all: gtest/googletest/CMakeFiles/gtest.dir/all
 	$(MAKE) -f gtest/googletest/CMakeFiles/gtest_main.dir/build.make gtest/googletest/CMakeFiles/gtest_main.dir/depend
 	$(MAKE) -f gtest/googletest/CMakeFiles/gtest_main.dir/build.make gtest/googletest/CMakeFiles/gtest_main.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/yanji/dual_arm_control/build/CMakeFiles --progress-num=13,14 "Built target gtest_main"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/yanji/dual_arm_control/build/CMakeFiles --progress-num=13 "Built target gtest_main"
 .PHONY : gtest/googletest/CMakeFiles/gtest_main.dir/all
 
 # Build rule for subdir invocation for target.
 gtest/googletest/CMakeFiles/gtest_main.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yanji/dual_arm_control/build/CMakeFiles 4
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/yanji/dual_arm_control/build/CMakeFiles 3
 	$(MAKE) -f CMakeFiles/Makefile2 gtest/googletest/CMakeFiles/gtest_main.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/yanji/dual_arm_control/build/CMakeFiles 0
 .PHONY : gtest/googletest/CMakeFiles/gtest_main.dir/rule
@@ -650,6 +651,7 @@ real_robot_control/CMakeFiles/move_out.dir/all: real_robot_control/CMakeFiles/tr
 real_robot_control/CMakeFiles/move_out.dir/all: real_robot_control/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/all
 real_robot_control/CMakeFiles/move_out.dir/all: real_robot_control/CMakeFiles/shape_msgs_generate_messages_lisp.dir/all
 real_robot_control/CMakeFiles/move_out.dir/all: real_robot_control/CMakeFiles/sensor_msgs_generate_messages_py.dir/all
+real_robot_control/CMakeFiles/move_out.dir/all: real_robot_control/CMakeFiles/geometry_msgs_generate_messages_py.dir/all
 real_robot_control/CMakeFiles/move_out.dir/all: real_robot_control/CMakeFiles/geometry_msgs_generate_messages_nodejs.dir/all
 real_robot_control/CMakeFiles/move_out.dir/all: real_robot_control/CMakeFiles/dynamic_reconfigure_generate_messages_eus.dir/all
 real_robot_control/CMakeFiles/move_out.dir/all: real_robot_control/CMakeFiles/tf2_msgs_generate_messages_eus.dir/all
@@ -709,8 +711,6 @@ real_robot_control/CMakeFiles/move_out.dir/all: real_robot_control/CMakeFiles/tf
 real_robot_control/CMakeFiles/move_out.dir/all: real_robot_control/CMakeFiles/shape_msgs_generate_messages_py.dir/all
 real_robot_control/CMakeFiles/move_out.dir/all: real_robot_control/CMakeFiles/std_msgs_generate_messages_py.dir/all
 real_robot_control/CMakeFiles/move_out.dir/all: real_robot_control/CMakeFiles/object_recognition_msgs_generate_messages_cpp.dir/all
-real_robot_control/CMakeFiles/move_out.dir/all: real_robot_control/CMakeFiles/geometry_msgs_generate_messages_py.dir/all
-real_robot_control/CMakeFiles/move_out.dir/all: real_robot_control/CMakeFiles/object_recognition_msgs_generate_messages_lisp.dir/all
 real_robot_control/CMakeFiles/move_out.dir/all: real_robot_control/CMakeFiles/actionlib_msgs_generate_messages_eus.dir/all
 real_robot_control/CMakeFiles/move_out.dir/all: real_robot_control/CMakeFiles/object_recognition_msgs_generate_messages_nodejs.dir/all
 real_robot_control/CMakeFiles/move_out.dir/all: real_robot_control/CMakeFiles/std_msgs_generate_messages_lisp.dir/all
@@ -723,6 +723,7 @@ real_robot_control/CMakeFiles/move_out.dir/all: real_robot_control/CMakeFiles/tf
 real_robot_control/CMakeFiles/move_out.dir/all: real_robot_control/CMakeFiles/octomap_msgs_generate_messages_py.dir/all
 real_robot_control/CMakeFiles/move_out.dir/all: real_robot_control/CMakeFiles/dynamic_reconfigure_generate_messages_cpp.dir/all
 real_robot_control/CMakeFiles/move_out.dir/all: real_robot_control/CMakeFiles/dynamic_reconfigure_gencfg.dir/all
+real_robot_control/CMakeFiles/move_out.dir/all: real_robot_control/CMakeFiles/object_recognition_msgs_generate_messages_lisp.dir/all
 real_robot_control/CMakeFiles/move_out.dir/all: real_robot_control/CMakeFiles/octomap_msgs_generate_messages_eus.dir/all
 real_robot_control/CMakeFiles/move_out.dir/all: real_robot_control/CMakeFiles/visualization_msgs_generate_messages_eus.dir/all
 real_robot_control/CMakeFiles/move_out.dir/all: real_robot_control/CMakeFiles/visualization_msgs_generate_messages_lisp.dir/all
@@ -742,12 +743,12 @@ real_robot_control/CMakeFiles/move_out.dir/all: real_robot_control/CMakeFiles/tr
 real_robot_control/CMakeFiles/move_out.dir/all: real_robot_control/CMakeFiles/real_robot_control_generate_messages_py.dir/all
 	$(MAKE) -f real_robot_control/CMakeFiles/move_out.dir/build.make real_robot_control/CMakeFiles/move_out.dir/depend
 	$(MAKE) -f real_robot_control/CMakeFiles/move_out.dir/build.make real_robot_control/CMakeFiles/move_out.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/yanji/dual_arm_control/build/CMakeFiles --progress-num=18 "Built target move_out"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/yanji/dual_arm_control/build/CMakeFiles --progress-num=17,18 "Built target move_out"
 .PHONY : real_robot_control/CMakeFiles/move_out.dir/all
 
 # Build rule for subdir invocation for target.
 real_robot_control/CMakeFiles/move_out.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yanji/dual_arm_control/build/CMakeFiles 75
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/yanji/dual_arm_control/build/CMakeFiles 76
 	$(MAKE) -f CMakeFiles/Makefile2 real_robot_control/CMakeFiles/move_out.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/yanji/dual_arm_control/build/CMakeFiles 0
 .PHONY : real_robot_control/CMakeFiles/move_out.dir/rule
@@ -776,6 +777,7 @@ real_robot_control/CMakeFiles/code_test.dir/all: real_robot_control/CMakeFiles/t
 real_robot_control/CMakeFiles/code_test.dir/all: real_robot_control/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/all
 real_robot_control/CMakeFiles/code_test.dir/all: real_robot_control/CMakeFiles/shape_msgs_generate_messages_lisp.dir/all
 real_robot_control/CMakeFiles/code_test.dir/all: real_robot_control/CMakeFiles/sensor_msgs_generate_messages_py.dir/all
+real_robot_control/CMakeFiles/code_test.dir/all: real_robot_control/CMakeFiles/geometry_msgs_generate_messages_py.dir/all
 real_robot_control/CMakeFiles/code_test.dir/all: real_robot_control/CMakeFiles/geometry_msgs_generate_messages_nodejs.dir/all
 real_robot_control/CMakeFiles/code_test.dir/all: real_robot_control/CMakeFiles/dynamic_reconfigure_generate_messages_eus.dir/all
 real_robot_control/CMakeFiles/code_test.dir/all: real_robot_control/CMakeFiles/tf2_msgs_generate_messages_eus.dir/all
@@ -835,8 +837,6 @@ real_robot_control/CMakeFiles/code_test.dir/all: real_robot_control/CMakeFiles/t
 real_robot_control/CMakeFiles/code_test.dir/all: real_robot_control/CMakeFiles/shape_msgs_generate_messages_py.dir/all
 real_robot_control/CMakeFiles/code_test.dir/all: real_robot_control/CMakeFiles/std_msgs_generate_messages_py.dir/all
 real_robot_control/CMakeFiles/code_test.dir/all: real_robot_control/CMakeFiles/object_recognition_msgs_generate_messages_cpp.dir/all
-real_robot_control/CMakeFiles/code_test.dir/all: real_robot_control/CMakeFiles/geometry_msgs_generate_messages_py.dir/all
-real_robot_control/CMakeFiles/code_test.dir/all: real_robot_control/CMakeFiles/object_recognition_msgs_generate_messages_lisp.dir/all
 real_robot_control/CMakeFiles/code_test.dir/all: real_robot_control/CMakeFiles/actionlib_msgs_generate_messages_eus.dir/all
 real_robot_control/CMakeFiles/code_test.dir/all: real_robot_control/CMakeFiles/object_recognition_msgs_generate_messages_nodejs.dir/all
 real_robot_control/CMakeFiles/code_test.dir/all: real_robot_control/CMakeFiles/std_msgs_generate_messages_lisp.dir/all
@@ -849,6 +849,7 @@ real_robot_control/CMakeFiles/code_test.dir/all: real_robot_control/CMakeFiles/t
 real_robot_control/CMakeFiles/code_test.dir/all: real_robot_control/CMakeFiles/octomap_msgs_generate_messages_py.dir/all
 real_robot_control/CMakeFiles/code_test.dir/all: real_robot_control/CMakeFiles/dynamic_reconfigure_generate_messages_cpp.dir/all
 real_robot_control/CMakeFiles/code_test.dir/all: real_robot_control/CMakeFiles/dynamic_reconfigure_gencfg.dir/all
+real_robot_control/CMakeFiles/code_test.dir/all: real_robot_control/CMakeFiles/object_recognition_msgs_generate_messages_lisp.dir/all
 real_robot_control/CMakeFiles/code_test.dir/all: real_robot_control/CMakeFiles/octomap_msgs_generate_messages_eus.dir/all
 real_robot_control/CMakeFiles/code_test.dir/all: real_robot_control/CMakeFiles/visualization_msgs_generate_messages_eus.dir/all
 real_robot_control/CMakeFiles/code_test.dir/all: real_robot_control/CMakeFiles/visualization_msgs_generate_messages_lisp.dir/all
@@ -1173,6 +1174,7 @@ real_robot_control/CMakeFiles/left_or_right_assembly.dir/all: real_robot_control
 real_robot_control/CMakeFiles/left_or_right_assembly.dir/all: real_robot_control/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/all
 real_robot_control/CMakeFiles/left_or_right_assembly.dir/all: real_robot_control/CMakeFiles/shape_msgs_generate_messages_lisp.dir/all
 real_robot_control/CMakeFiles/left_or_right_assembly.dir/all: real_robot_control/CMakeFiles/sensor_msgs_generate_messages_py.dir/all
+real_robot_control/CMakeFiles/left_or_right_assembly.dir/all: real_robot_control/CMakeFiles/geometry_msgs_generate_messages_py.dir/all
 real_robot_control/CMakeFiles/left_or_right_assembly.dir/all: real_robot_control/CMakeFiles/geometry_msgs_generate_messages_nodejs.dir/all
 real_robot_control/CMakeFiles/left_or_right_assembly.dir/all: real_robot_control/CMakeFiles/dynamic_reconfigure_generate_messages_eus.dir/all
 real_robot_control/CMakeFiles/left_or_right_assembly.dir/all: real_robot_control/CMakeFiles/tf2_msgs_generate_messages_eus.dir/all
@@ -1232,8 +1234,6 @@ real_robot_control/CMakeFiles/left_or_right_assembly.dir/all: real_robot_control
 real_robot_control/CMakeFiles/left_or_right_assembly.dir/all: real_robot_control/CMakeFiles/shape_msgs_generate_messages_py.dir/all
 real_robot_control/CMakeFiles/left_or_right_assembly.dir/all: real_robot_control/CMakeFiles/std_msgs_generate_messages_py.dir/all
 real_robot_control/CMakeFiles/left_or_right_assembly.dir/all: real_robot_control/CMakeFiles/object_recognition_msgs_generate_messages_cpp.dir/all
-real_robot_control/CMakeFiles/left_or_right_assembly.dir/all: real_robot_control/CMakeFiles/geometry_msgs_generate_messages_py.dir/all
-real_robot_control/CMakeFiles/left_or_right_assembly.dir/all: real_robot_control/CMakeFiles/object_recognition_msgs_generate_messages_lisp.dir/all
 real_robot_control/CMakeFiles/left_or_right_assembly.dir/all: real_robot_control/CMakeFiles/actionlib_msgs_generate_messages_eus.dir/all
 real_robot_control/CMakeFiles/left_or_right_assembly.dir/all: real_robot_control/CMakeFiles/object_recognition_msgs_generate_messages_nodejs.dir/all
 real_robot_control/CMakeFiles/left_or_right_assembly.dir/all: real_robot_control/CMakeFiles/std_msgs_generate_messages_lisp.dir/all
@@ -1246,6 +1246,7 @@ real_robot_control/CMakeFiles/left_or_right_assembly.dir/all: real_robot_control
 real_robot_control/CMakeFiles/left_or_right_assembly.dir/all: real_robot_control/CMakeFiles/octomap_msgs_generate_messages_py.dir/all
 real_robot_control/CMakeFiles/left_or_right_assembly.dir/all: real_robot_control/CMakeFiles/dynamic_reconfigure_generate_messages_cpp.dir/all
 real_robot_control/CMakeFiles/left_or_right_assembly.dir/all: real_robot_control/CMakeFiles/dynamic_reconfigure_gencfg.dir/all
+real_robot_control/CMakeFiles/left_or_right_assembly.dir/all: real_robot_control/CMakeFiles/object_recognition_msgs_generate_messages_lisp.dir/all
 real_robot_control/CMakeFiles/left_or_right_assembly.dir/all: real_robot_control/CMakeFiles/octomap_msgs_generate_messages_eus.dir/all
 real_robot_control/CMakeFiles/left_or_right_assembly.dir/all: real_robot_control/CMakeFiles/visualization_msgs_generate_messages_eus.dir/all
 real_robot_control/CMakeFiles/left_or_right_assembly.dir/all: real_robot_control/CMakeFiles/visualization_msgs_generate_messages_lisp.dir/all
@@ -1265,12 +1266,12 @@ real_robot_control/CMakeFiles/left_or_right_assembly.dir/all: real_robot_control
 real_robot_control/CMakeFiles/left_or_right_assembly.dir/all: real_robot_control/CMakeFiles/real_robot_control_generate_messages_py.dir/all
 	$(MAKE) -f real_robot_control/CMakeFiles/left_or_right_assembly.dir/build.make real_robot_control/CMakeFiles/left_or_right_assembly.dir/depend
 	$(MAKE) -f real_robot_control/CMakeFiles/left_or_right_assembly.dir/build.make real_robot_control/CMakeFiles/left_or_right_assembly.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/yanji/dual_arm_control/build/CMakeFiles --progress-num=15 "Built target left_or_right_assembly"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/yanji/dual_arm_control/build/CMakeFiles --progress-num=14,15 "Built target left_or_right_assembly"
 .PHONY : real_robot_control/CMakeFiles/left_or_right_assembly.dir/all
 
 # Build rule for subdir invocation for target.
 real_robot_control/CMakeFiles/left_or_right_assembly.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yanji/dual_arm_control/build/CMakeFiles 75
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/yanji/dual_arm_control/build/CMakeFiles 76
 	$(MAKE) -f CMakeFiles/Makefile2 real_robot_control/CMakeFiles/left_or_right_assembly.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/yanji/dual_arm_control/build/CMakeFiles 0
 .PHONY : real_robot_control/CMakeFiles/left_or_right_assembly.dir/rule
@@ -1311,6 +1312,160 @@ sensor_msgs_generate_messages_py: real_robot_control/CMakeFiles/sensor_msgs_gene
 real_robot_control/CMakeFiles/sensor_msgs_generate_messages_py.dir/clean:
 	$(MAKE) -f real_robot_control/CMakeFiles/sensor_msgs_generate_messages_py.dir/build.make real_robot_control/CMakeFiles/sensor_msgs_generate_messages_py.dir/clean
 .PHONY : real_robot_control/CMakeFiles/sensor_msgs_generate_messages_py.dir/clean
+
+#=============================================================================
+# Target rules for target real_robot_control/CMakeFiles/right_robot_control.dir
+
+# All Build rule for target.
+real_robot_control/CMakeFiles/right_robot_control.dir/all: robot_moveit_config_ver2/CMakeFiles/_catkin_empty_exported_target.dir/all
+real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/control_msgs_generate_messages_lisp.dir/all
+real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/sensor_msgs_generate_messages_cpp.dir/all
+real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/tf_generate_messages_lisp.dir/all
+real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/std_srvs_generate_messages_nodejs.dir/all
+real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/std_srvs_generate_messages_eus.dir/all
+real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/trajectory_msgs_generate_messages_py.dir/all
+real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/all
+real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/shape_msgs_generate_messages_lisp.dir/all
+real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/sensor_msgs_generate_messages_py.dir/all
+real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/geometry_msgs_generate_messages_py.dir/all
+real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/geometry_msgs_generate_messages_nodejs.dir/all
+real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/dynamic_reconfigure_generate_messages_eus.dir/all
+real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/tf2_msgs_generate_messages_eus.dir/all
+real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/control_msgs_generate_messages_eus.dir/all
+real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/geometry_msgs_generate_messages_cpp.dir/all
+real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/actionlib_msgs_generate_messages_lisp.dir/all
+real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/actionlib_msgs_generate_messages_nodejs.dir/all
+real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/tf_generate_messages_py.dir/all
+real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/all
+real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/moveit_ros_planning_gencfg.dir/all
+real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/shape_msgs_generate_messages_nodejs.dir/all
+real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/trajectory_msgs_generate_messages_nodejs.dir/all
+real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/sensor_msgs_generate_messages_nodejs.dir/all
+real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/roscpp_generate_messages_py.dir/all
+real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/roscpp_generate_messages_nodejs.dir/all
+real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/std_srvs_generate_messages_py.dir/all
+real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/actionlib_generate_messages_nodejs.dir/all
+real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/trajectory_msgs_generate_messages_cpp.dir/all
+real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/actionlib_generate_messages_py.dir/all
+real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/SCREWING_TOOL.dir/all
+real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/control_msgs_generate_messages_nodejs.dir/all
+real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/dynamic_reconfigure_generate_messages_py.dir/all
+real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/all
+real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/visualization_msgs_generate_messages_cpp.dir/all
+real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/tf_generate_messages_eus.dir/all
+real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/std_srvs_generate_messages_lisp.dir/all
+real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/std_msgs_generate_messages_eus.dir/all
+real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/roscpp_generate_messages_lisp.dir/all
+real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/actionlib_generate_messages_lisp.dir/all
+real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/actionlib_msgs_generate_messages_cpp.dir/all
+real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/tf2_msgs_generate_messages_cpp.dir/all
+real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/dynamic_reconfigure_generate_messages_lisp.dir/all
+real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/trajectory_msgs_generate_messages_eus.dir/all
+real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/std_srvs_generate_messages_cpp.dir/all
+real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/std_msgs_generate_messages_cpp.dir/all
+real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/geometry_msgs_generate_messages_eus.dir/all
+real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/roscpp_generate_messages_cpp.dir/all
+real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/roscpp_generate_messages_eus.dir/all
+real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/moveit_msgs_generate_messages_lisp.dir/all
+real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/control_msgs_generate_messages_py.dir/all
+real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/actionlib_msgs_generate_messages_py.dir/all
+real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/actionlib_generate_messages_cpp.dir/all
+real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/all
+real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/object_recognition_msgs_generate_messages_py.dir/all
+real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/control_msgs_generate_messages_cpp.dir/all
+real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/moveit_msgs_generate_messages_nodejs.dir/all
+real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/tf2_msgs_generate_messages_py.dir/all
+real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/dynamic_reconfigure_generate_messages_nodejs.dir/all
+real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/moveit_msgs_generate_messages_cpp.dir/all
+real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/moveit_msgs_generate_messages_eus.dir/all
+real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/sensor_msgs_generate_messages_eus.dir/all
+real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/shape_msgs_generate_messages_cpp.dir/all
+real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/std_msgs_generate_messages_nodejs.dir/all
+real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/geometry_msgs_generate_messages_lisp.dir/all
+real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/shape_msgs_generate_messages_eus.dir/all
+real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/tf_generate_messages_nodejs.dir/all
+real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/shape_msgs_generate_messages_py.dir/all
+real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/std_msgs_generate_messages_py.dir/all
+real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/object_recognition_msgs_generate_messages_cpp.dir/all
+real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/actionlib_msgs_generate_messages_eus.dir/all
+real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/object_recognition_msgs_generate_messages_nodejs.dir/all
+real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/std_msgs_generate_messages_lisp.dir/all
+real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/octomap_msgs_generate_messages_cpp.dir/all
+real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/octomap_msgs_generate_messages_lisp.dir/all
+real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/actionlib_generate_messages_eus.dir/all
+real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/octomap_msgs_generate_messages_nodejs.dir/all
+real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/real_robot_control_generate_messages_cpp.dir/all
+real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/tf2_msgs_generate_messages_lisp.dir/all
+real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/octomap_msgs_generate_messages_py.dir/all
+real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/dynamic_reconfigure_generate_messages_cpp.dir/all
+real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/dynamic_reconfigure_gencfg.dir/all
+real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/object_recognition_msgs_generate_messages_lisp.dir/all
+real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/octomap_msgs_generate_messages_eus.dir/all
+real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/visualization_msgs_generate_messages_eus.dir/all
+real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/visualization_msgs_generate_messages_lisp.dir/all
+real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/visualization_msgs_generate_messages_py.dir/all
+real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/object_recognition_msgs_generate_messages_eus.dir/all
+real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/moveit_ros_manipulation_gencfg.dir/all
+real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/tf2_msgs_generate_messages_nodejs.dir/all
+real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/sensor_msgs_generate_messages_lisp.dir/all
+real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/rosgraph_msgs_generate_messages_py.dir/all
+real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/visualization_msgs_generate_messages_nodejs.dir/all
+real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/tf_generate_messages_cpp.dir/all
+real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/moveit_msgs_generate_messages_py.dir/all
+real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/real_robot_control_generate_messages_eus.dir/all
+real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/real_robot_control_generate_messages_lisp.dir/all
+real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/real_robot_control_generate_messages_nodejs.dir/all
+real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/trajectory_msgs_generate_messages_lisp.dir/all
+real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/real_robot_control_generate_messages_py.dir/all
+real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/SERVO_MOTOR.dir/all
+	$(MAKE) -f real_robot_control/CMakeFiles/right_robot_control.dir/build.make real_robot_control/CMakeFiles/right_robot_control.dir/depend
+	$(MAKE) -f real_robot_control/CMakeFiles/right_robot_control.dir/build.make real_robot_control/CMakeFiles/right_robot_control.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/yanji/dual_arm_control/build/CMakeFiles --progress-num=92,93 "Built target right_robot_control"
+.PHONY : real_robot_control/CMakeFiles/right_robot_control.dir/all
+
+# Build rule for subdir invocation for target.
+real_robot_control/CMakeFiles/right_robot_control.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/yanji/dual_arm_control/build/CMakeFiles 78
+	$(MAKE) -f CMakeFiles/Makefile2 real_robot_control/CMakeFiles/right_robot_control.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/yanji/dual_arm_control/build/CMakeFiles 0
+.PHONY : real_robot_control/CMakeFiles/right_robot_control.dir/rule
+
+# Convenience name for target.
+right_robot_control: real_robot_control/CMakeFiles/right_robot_control.dir/rule
+
+.PHONY : right_robot_control
+
+# clean rule for target.
+real_robot_control/CMakeFiles/right_robot_control.dir/clean:
+	$(MAKE) -f real_robot_control/CMakeFiles/right_robot_control.dir/build.make real_robot_control/CMakeFiles/right_robot_control.dir/clean
+.PHONY : real_robot_control/CMakeFiles/right_robot_control.dir/clean
+
+#=============================================================================
+# Target rules for target real_robot_control/CMakeFiles/geometry_msgs_generate_messages_py.dir
+
+# All Build rule for target.
+real_robot_control/CMakeFiles/geometry_msgs_generate_messages_py.dir/all:
+	$(MAKE) -f real_robot_control/CMakeFiles/geometry_msgs_generate_messages_py.dir/build.make real_robot_control/CMakeFiles/geometry_msgs_generate_messages_py.dir/depend
+	$(MAKE) -f real_robot_control/CMakeFiles/geometry_msgs_generate_messages_py.dir/build.make real_robot_control/CMakeFiles/geometry_msgs_generate_messages_py.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/yanji/dual_arm_control/build/CMakeFiles --progress-num= "Built target geometry_msgs_generate_messages_py"
+.PHONY : real_robot_control/CMakeFiles/geometry_msgs_generate_messages_py.dir/all
+
+# Build rule for subdir invocation for target.
+real_robot_control/CMakeFiles/geometry_msgs_generate_messages_py.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/yanji/dual_arm_control/build/CMakeFiles 0
+	$(MAKE) -f CMakeFiles/Makefile2 real_robot_control/CMakeFiles/geometry_msgs_generate_messages_py.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/yanji/dual_arm_control/build/CMakeFiles 0
+.PHONY : real_robot_control/CMakeFiles/geometry_msgs_generate_messages_py.dir/rule
+
+# Convenience name for target.
+geometry_msgs_generate_messages_py: real_robot_control/CMakeFiles/geometry_msgs_generate_messages_py.dir/rule
+
+.PHONY : geometry_msgs_generate_messages_py
+
+# clean rule for target.
+real_robot_control/CMakeFiles/geometry_msgs_generate_messages_py.dir/clean:
+	$(MAKE) -f real_robot_control/CMakeFiles/geometry_msgs_generate_messages_py.dir/build.make real_robot_control/CMakeFiles/geometry_msgs_generate_messages_py.dir/clean
+.PHONY : real_robot_control/CMakeFiles/geometry_msgs_generate_messages_py.dir/clean
 
 #=============================================================================
 # Target rules for target real_robot_control/CMakeFiles/geometry_msgs_generate_messages_nodejs.dir
@@ -3181,187 +3336,6 @@ real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_c
 .PHONY : real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_current_pub.dir/clean
 
 #=============================================================================
-# Target rules for target real_robot_control/CMakeFiles/geometry_msgs_generate_messages_py.dir
-
-# All Build rule for target.
-real_robot_control/CMakeFiles/geometry_msgs_generate_messages_py.dir/all:
-	$(MAKE) -f real_robot_control/CMakeFiles/geometry_msgs_generate_messages_py.dir/build.make real_robot_control/CMakeFiles/geometry_msgs_generate_messages_py.dir/depend
-	$(MAKE) -f real_robot_control/CMakeFiles/geometry_msgs_generate_messages_py.dir/build.make real_robot_control/CMakeFiles/geometry_msgs_generate_messages_py.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/yanji/dual_arm_control/build/CMakeFiles --progress-num= "Built target geometry_msgs_generate_messages_py"
-.PHONY : real_robot_control/CMakeFiles/geometry_msgs_generate_messages_py.dir/all
-
-# Build rule for subdir invocation for target.
-real_robot_control/CMakeFiles/geometry_msgs_generate_messages_py.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yanji/dual_arm_control/build/CMakeFiles 0
-	$(MAKE) -f CMakeFiles/Makefile2 real_robot_control/CMakeFiles/geometry_msgs_generate_messages_py.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yanji/dual_arm_control/build/CMakeFiles 0
-.PHONY : real_robot_control/CMakeFiles/geometry_msgs_generate_messages_py.dir/rule
-
-# Convenience name for target.
-geometry_msgs_generate_messages_py: real_robot_control/CMakeFiles/geometry_msgs_generate_messages_py.dir/rule
-
-.PHONY : geometry_msgs_generate_messages_py
-
-# clean rule for target.
-real_robot_control/CMakeFiles/geometry_msgs_generate_messages_py.dir/clean:
-	$(MAKE) -f real_robot_control/CMakeFiles/geometry_msgs_generate_messages_py.dir/build.make real_robot_control/CMakeFiles/geometry_msgs_generate_messages_py.dir/clean
-.PHONY : real_robot_control/CMakeFiles/geometry_msgs_generate_messages_py.dir/clean
-
-#=============================================================================
-# Target rules for target real_robot_control/CMakeFiles/right_robot_control.dir
-
-# All Build rule for target.
-real_robot_control/CMakeFiles/right_robot_control.dir/all: robot_moveit_config_ver2/CMakeFiles/_catkin_empty_exported_target.dir/all
-real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/control_msgs_generate_messages_lisp.dir/all
-real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/sensor_msgs_generate_messages_cpp.dir/all
-real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/tf_generate_messages_lisp.dir/all
-real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/std_srvs_generate_messages_nodejs.dir/all
-real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/std_srvs_generate_messages_eus.dir/all
-real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/trajectory_msgs_generate_messages_py.dir/all
-real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/all
-real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/shape_msgs_generate_messages_lisp.dir/all
-real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/sensor_msgs_generate_messages_py.dir/all
-real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/geometry_msgs_generate_messages_nodejs.dir/all
-real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/dynamic_reconfigure_generate_messages_eus.dir/all
-real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/tf2_msgs_generate_messages_eus.dir/all
-real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/control_msgs_generate_messages_eus.dir/all
-real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/geometry_msgs_generate_messages_cpp.dir/all
-real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/actionlib_msgs_generate_messages_lisp.dir/all
-real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/actionlib_msgs_generate_messages_nodejs.dir/all
-real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/tf_generate_messages_py.dir/all
-real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/all
-real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/moveit_ros_planning_gencfg.dir/all
-real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/shape_msgs_generate_messages_nodejs.dir/all
-real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/trajectory_msgs_generate_messages_nodejs.dir/all
-real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/sensor_msgs_generate_messages_nodejs.dir/all
-real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/roscpp_generate_messages_py.dir/all
-real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/roscpp_generate_messages_nodejs.dir/all
-real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/std_srvs_generate_messages_py.dir/all
-real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/actionlib_generate_messages_nodejs.dir/all
-real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/trajectory_msgs_generate_messages_cpp.dir/all
-real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/actionlib_generate_messages_py.dir/all
-real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/SCREWING_TOOL.dir/all
-real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/control_msgs_generate_messages_nodejs.dir/all
-real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/dynamic_reconfigure_generate_messages_py.dir/all
-real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/all
-real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/visualization_msgs_generate_messages_cpp.dir/all
-real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/tf_generate_messages_eus.dir/all
-real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/std_srvs_generate_messages_lisp.dir/all
-real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/std_msgs_generate_messages_eus.dir/all
-real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/roscpp_generate_messages_lisp.dir/all
-real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/actionlib_generate_messages_lisp.dir/all
-real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/actionlib_msgs_generate_messages_cpp.dir/all
-real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/tf2_msgs_generate_messages_cpp.dir/all
-real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/dynamic_reconfigure_generate_messages_lisp.dir/all
-real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/trajectory_msgs_generate_messages_eus.dir/all
-real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/std_srvs_generate_messages_cpp.dir/all
-real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/std_msgs_generate_messages_cpp.dir/all
-real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/geometry_msgs_generate_messages_eus.dir/all
-real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/roscpp_generate_messages_cpp.dir/all
-real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/roscpp_generate_messages_eus.dir/all
-real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/moveit_msgs_generate_messages_lisp.dir/all
-real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/control_msgs_generate_messages_py.dir/all
-real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/actionlib_msgs_generate_messages_py.dir/all
-real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/actionlib_generate_messages_cpp.dir/all
-real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/all
-real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/object_recognition_msgs_generate_messages_py.dir/all
-real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/control_msgs_generate_messages_cpp.dir/all
-real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/moveit_msgs_generate_messages_nodejs.dir/all
-real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/tf2_msgs_generate_messages_py.dir/all
-real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/dynamic_reconfigure_generate_messages_nodejs.dir/all
-real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/moveit_msgs_generate_messages_cpp.dir/all
-real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/moveit_msgs_generate_messages_eus.dir/all
-real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/sensor_msgs_generate_messages_eus.dir/all
-real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/shape_msgs_generate_messages_cpp.dir/all
-real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/std_msgs_generate_messages_nodejs.dir/all
-real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/geometry_msgs_generate_messages_lisp.dir/all
-real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/shape_msgs_generate_messages_eus.dir/all
-real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/tf_generate_messages_nodejs.dir/all
-real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/shape_msgs_generate_messages_py.dir/all
-real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/std_msgs_generate_messages_py.dir/all
-real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/object_recognition_msgs_generate_messages_cpp.dir/all
-real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/geometry_msgs_generate_messages_py.dir/all
-real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/object_recognition_msgs_generate_messages_lisp.dir/all
-real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/actionlib_msgs_generate_messages_eus.dir/all
-real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/object_recognition_msgs_generate_messages_nodejs.dir/all
-real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/std_msgs_generate_messages_lisp.dir/all
-real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/octomap_msgs_generate_messages_cpp.dir/all
-real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/octomap_msgs_generate_messages_lisp.dir/all
-real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/actionlib_generate_messages_eus.dir/all
-real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/octomap_msgs_generate_messages_nodejs.dir/all
-real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/real_robot_control_generate_messages_cpp.dir/all
-real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/tf2_msgs_generate_messages_lisp.dir/all
-real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/octomap_msgs_generate_messages_py.dir/all
-real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/dynamic_reconfigure_generate_messages_cpp.dir/all
-real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/dynamic_reconfigure_gencfg.dir/all
-real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/octomap_msgs_generate_messages_eus.dir/all
-real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/visualization_msgs_generate_messages_eus.dir/all
-real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/visualization_msgs_generate_messages_lisp.dir/all
-real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/visualization_msgs_generate_messages_py.dir/all
-real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/object_recognition_msgs_generate_messages_eus.dir/all
-real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/moveit_ros_manipulation_gencfg.dir/all
-real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/tf2_msgs_generate_messages_nodejs.dir/all
-real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/sensor_msgs_generate_messages_lisp.dir/all
-real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/rosgraph_msgs_generate_messages_py.dir/all
-real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/visualization_msgs_generate_messages_nodejs.dir/all
-real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/tf_generate_messages_cpp.dir/all
-real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/moveit_msgs_generate_messages_py.dir/all
-real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/real_robot_control_generate_messages_eus.dir/all
-real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/real_robot_control_generate_messages_lisp.dir/all
-real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/real_robot_control_generate_messages_nodejs.dir/all
-real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/trajectory_msgs_generate_messages_lisp.dir/all
-real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/real_robot_control_generate_messages_py.dir/all
-real_robot_control/CMakeFiles/right_robot_control.dir/all: real_robot_control/CMakeFiles/SERVO_MOTOR.dir/all
-	$(MAKE) -f real_robot_control/CMakeFiles/right_robot_control.dir/build.make real_robot_control/CMakeFiles/right_robot_control.dir/depend
-	$(MAKE) -f real_robot_control/CMakeFiles/right_robot_control.dir/build.make real_robot_control/CMakeFiles/right_robot_control.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/yanji/dual_arm_control/build/CMakeFiles --progress-num=92 "Built target right_robot_control"
-.PHONY : real_robot_control/CMakeFiles/right_robot_control.dir/all
-
-# Build rule for subdir invocation for target.
-real_robot_control/CMakeFiles/right_robot_control.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yanji/dual_arm_control/build/CMakeFiles 77
-	$(MAKE) -f CMakeFiles/Makefile2 real_robot_control/CMakeFiles/right_robot_control.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yanji/dual_arm_control/build/CMakeFiles 0
-.PHONY : real_robot_control/CMakeFiles/right_robot_control.dir/rule
-
-# Convenience name for target.
-right_robot_control: real_robot_control/CMakeFiles/right_robot_control.dir/rule
-
-.PHONY : right_robot_control
-
-# clean rule for target.
-real_robot_control/CMakeFiles/right_robot_control.dir/clean:
-	$(MAKE) -f real_robot_control/CMakeFiles/right_robot_control.dir/build.make real_robot_control/CMakeFiles/right_robot_control.dir/clean
-.PHONY : real_robot_control/CMakeFiles/right_robot_control.dir/clean
-
-#=============================================================================
-# Target rules for target real_robot_control/CMakeFiles/object_recognition_msgs_generate_messages_lisp.dir
-
-# All Build rule for target.
-real_robot_control/CMakeFiles/object_recognition_msgs_generate_messages_lisp.dir/all:
-	$(MAKE) -f real_robot_control/CMakeFiles/object_recognition_msgs_generate_messages_lisp.dir/build.make real_robot_control/CMakeFiles/object_recognition_msgs_generate_messages_lisp.dir/depend
-	$(MAKE) -f real_robot_control/CMakeFiles/object_recognition_msgs_generate_messages_lisp.dir/build.make real_robot_control/CMakeFiles/object_recognition_msgs_generate_messages_lisp.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/yanji/dual_arm_control/build/CMakeFiles --progress-num= "Built target object_recognition_msgs_generate_messages_lisp"
-.PHONY : real_robot_control/CMakeFiles/object_recognition_msgs_generate_messages_lisp.dir/all
-
-# Build rule for subdir invocation for target.
-real_robot_control/CMakeFiles/object_recognition_msgs_generate_messages_lisp.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yanji/dual_arm_control/build/CMakeFiles 0
-	$(MAKE) -f CMakeFiles/Makefile2 real_robot_control/CMakeFiles/object_recognition_msgs_generate_messages_lisp.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yanji/dual_arm_control/build/CMakeFiles 0
-.PHONY : real_robot_control/CMakeFiles/object_recognition_msgs_generate_messages_lisp.dir/rule
-
-# Convenience name for target.
-object_recognition_msgs_generate_messages_lisp: real_robot_control/CMakeFiles/object_recognition_msgs_generate_messages_lisp.dir/rule
-
-.PHONY : object_recognition_msgs_generate_messages_lisp
-
-# clean rule for target.
-real_robot_control/CMakeFiles/object_recognition_msgs_generate_messages_lisp.dir/clean:
-	$(MAKE) -f real_robot_control/CMakeFiles/object_recognition_msgs_generate_messages_lisp.dir/build.make real_robot_control/CMakeFiles/object_recognition_msgs_generate_messages_lisp.dir/clean
-.PHONY : real_robot_control/CMakeFiles/object_recognition_msgs_generate_messages_lisp.dir/clean
-
-#=============================================================================
 # Target rules for target real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_width_pub.dir
 
 # All Build rule for target.
@@ -3564,6 +3538,7 @@ real_robot_control/CMakeFiles/motion_planning.dir/all: real_robot_control/CMakeF
 real_robot_control/CMakeFiles/motion_planning.dir/all: real_robot_control/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/all
 real_robot_control/CMakeFiles/motion_planning.dir/all: real_robot_control/CMakeFiles/shape_msgs_generate_messages_lisp.dir/all
 real_robot_control/CMakeFiles/motion_planning.dir/all: real_robot_control/CMakeFiles/sensor_msgs_generate_messages_py.dir/all
+real_robot_control/CMakeFiles/motion_planning.dir/all: real_robot_control/CMakeFiles/geometry_msgs_generate_messages_py.dir/all
 real_robot_control/CMakeFiles/motion_planning.dir/all: real_robot_control/CMakeFiles/geometry_msgs_generate_messages_nodejs.dir/all
 real_robot_control/CMakeFiles/motion_planning.dir/all: real_robot_control/CMakeFiles/dynamic_reconfigure_generate_messages_eus.dir/all
 real_robot_control/CMakeFiles/motion_planning.dir/all: real_robot_control/CMakeFiles/tf2_msgs_generate_messages_eus.dir/all
@@ -3622,8 +3597,6 @@ real_robot_control/CMakeFiles/motion_planning.dir/all: real_robot_control/CMakeF
 real_robot_control/CMakeFiles/motion_planning.dir/all: real_robot_control/CMakeFiles/shape_msgs_generate_messages_py.dir/all
 real_robot_control/CMakeFiles/motion_planning.dir/all: real_robot_control/CMakeFiles/std_msgs_generate_messages_py.dir/all
 real_robot_control/CMakeFiles/motion_planning.dir/all: real_robot_control/CMakeFiles/object_recognition_msgs_generate_messages_cpp.dir/all
-real_robot_control/CMakeFiles/motion_planning.dir/all: real_robot_control/CMakeFiles/geometry_msgs_generate_messages_py.dir/all
-real_robot_control/CMakeFiles/motion_planning.dir/all: real_robot_control/CMakeFiles/object_recognition_msgs_generate_messages_lisp.dir/all
 real_robot_control/CMakeFiles/motion_planning.dir/all: real_robot_control/CMakeFiles/actionlib_msgs_generate_messages_eus.dir/all
 real_robot_control/CMakeFiles/motion_planning.dir/all: real_robot_control/CMakeFiles/object_recognition_msgs_generate_messages_nodejs.dir/all
 real_robot_control/CMakeFiles/motion_planning.dir/all: real_robot_control/CMakeFiles/std_msgs_generate_messages_lisp.dir/all
@@ -3636,6 +3609,7 @@ real_robot_control/CMakeFiles/motion_planning.dir/all: real_robot_control/CMakeF
 real_robot_control/CMakeFiles/motion_planning.dir/all: real_robot_control/CMakeFiles/octomap_msgs_generate_messages_py.dir/all
 real_robot_control/CMakeFiles/motion_planning.dir/all: real_robot_control/CMakeFiles/dynamic_reconfigure_generate_messages_cpp.dir/all
 real_robot_control/CMakeFiles/motion_planning.dir/all: real_robot_control/CMakeFiles/dynamic_reconfigure_gencfg.dir/all
+real_robot_control/CMakeFiles/motion_planning.dir/all: real_robot_control/CMakeFiles/object_recognition_msgs_generate_messages_lisp.dir/all
 real_robot_control/CMakeFiles/motion_planning.dir/all: real_robot_control/CMakeFiles/octomap_msgs_generate_messages_eus.dir/all
 real_robot_control/CMakeFiles/motion_planning.dir/all: real_robot_control/CMakeFiles/visualization_msgs_generate_messages_eus.dir/all
 real_robot_control/CMakeFiles/motion_planning.dir/all: real_robot_control/CMakeFiles/visualization_msgs_generate_messages_lisp.dir/all
@@ -3655,12 +3629,12 @@ real_robot_control/CMakeFiles/motion_planning.dir/all: real_robot_control/CMakeF
 real_robot_control/CMakeFiles/motion_planning.dir/all: real_robot_control/CMakeFiles/real_robot_control_generate_messages_py.dir/all
 	$(MAKE) -f real_robot_control/CMakeFiles/motion_planning.dir/build.make real_robot_control/CMakeFiles/motion_planning.dir/depend
 	$(MAKE) -f real_robot_control/CMakeFiles/motion_planning.dir/build.make real_robot_control/CMakeFiles/motion_planning.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/yanji/dual_arm_control/build/CMakeFiles --progress-num=16,17 "Built target motion_planning"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/yanji/dual_arm_control/build/CMakeFiles --progress-num=16 "Built target motion_planning"
 .PHONY : real_robot_control/CMakeFiles/motion_planning.dir/all
 
 # Build rule for subdir invocation for target.
 real_robot_control/CMakeFiles/motion_planning.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yanji/dual_arm_control/build/CMakeFiles 75
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/yanji/dual_arm_control/build/CMakeFiles 74
 	$(MAKE) -f CMakeFiles/Makefile2 real_robot_control/CMakeFiles/motion_planning.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/yanji/dual_arm_control/build/CMakeFiles 0
 .PHONY : real_robot_control/CMakeFiles/motion_planning.dir/rule
@@ -3744,6 +3718,7 @@ real_robot_control/CMakeFiles/real_robot_control_generate_messages_cpp.dir/all: 
 real_robot_control/CMakeFiles/real_robot_control_generate_messages_cpp.dir/all: real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_current_pub.dir/all
 real_robot_control/CMakeFiles/real_robot_control_generate_messages_cpp.dir/all: real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_width_pub.dir/all
 real_robot_control/CMakeFiles/real_robot_control_generate_messages_cpp.dir/all: real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_robot_pos_pub.dir/all
+real_robot_control/CMakeFiles/real_robot_control_generate_messages_cpp.dir/all: real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_ori_adj_rec.dir/all
 real_robot_control/CMakeFiles/real_robot_control_generate_messages_cpp.dir/all: real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_screwAction.dir/all
 real_robot_control/CMakeFiles/real_robot_control_generate_messages_cpp.dir/all: real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_force_pub.dir/all
 real_robot_control/CMakeFiles/real_robot_control_generate_messages_cpp.dir/all: real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_screwActionResult.dir/all
@@ -3882,6 +3857,60 @@ dynamic_reconfigure_gencfg: real_robot_control/CMakeFiles/dynamic_reconfigure_ge
 real_robot_control/CMakeFiles/dynamic_reconfigure_gencfg.dir/clean:
 	$(MAKE) -f real_robot_control/CMakeFiles/dynamic_reconfigure_gencfg.dir/build.make real_robot_control/CMakeFiles/dynamic_reconfigure_gencfg.dir/clean
 .PHONY : real_robot_control/CMakeFiles/dynamic_reconfigure_gencfg.dir/clean
+
+#=============================================================================
+# Target rules for target real_robot_control/CMakeFiles/object_recognition_msgs_generate_messages_lisp.dir
+
+# All Build rule for target.
+real_robot_control/CMakeFiles/object_recognition_msgs_generate_messages_lisp.dir/all:
+	$(MAKE) -f real_robot_control/CMakeFiles/object_recognition_msgs_generate_messages_lisp.dir/build.make real_robot_control/CMakeFiles/object_recognition_msgs_generate_messages_lisp.dir/depend
+	$(MAKE) -f real_robot_control/CMakeFiles/object_recognition_msgs_generate_messages_lisp.dir/build.make real_robot_control/CMakeFiles/object_recognition_msgs_generate_messages_lisp.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/yanji/dual_arm_control/build/CMakeFiles --progress-num= "Built target object_recognition_msgs_generate_messages_lisp"
+.PHONY : real_robot_control/CMakeFiles/object_recognition_msgs_generate_messages_lisp.dir/all
+
+# Build rule for subdir invocation for target.
+real_robot_control/CMakeFiles/object_recognition_msgs_generate_messages_lisp.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/yanji/dual_arm_control/build/CMakeFiles 0
+	$(MAKE) -f CMakeFiles/Makefile2 real_robot_control/CMakeFiles/object_recognition_msgs_generate_messages_lisp.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/yanji/dual_arm_control/build/CMakeFiles 0
+.PHONY : real_robot_control/CMakeFiles/object_recognition_msgs_generate_messages_lisp.dir/rule
+
+# Convenience name for target.
+object_recognition_msgs_generate_messages_lisp: real_robot_control/CMakeFiles/object_recognition_msgs_generate_messages_lisp.dir/rule
+
+.PHONY : object_recognition_msgs_generate_messages_lisp
+
+# clean rule for target.
+real_robot_control/CMakeFiles/object_recognition_msgs_generate_messages_lisp.dir/clean:
+	$(MAKE) -f real_robot_control/CMakeFiles/object_recognition_msgs_generate_messages_lisp.dir/build.make real_robot_control/CMakeFiles/object_recognition_msgs_generate_messages_lisp.dir/clean
+.PHONY : real_robot_control/CMakeFiles/object_recognition_msgs_generate_messages_lisp.dir/clean
+
+#=============================================================================
+# Target rules for target real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_ori_adj_rec.dir
+
+# All Build rule for target.
+real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_ori_adj_rec.dir/all:
+	$(MAKE) -f real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_ori_adj_rec.dir/build.make real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_ori_adj_rec.dir/depend
+	$(MAKE) -f real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_ori_adj_rec.dir/build.make real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_ori_adj_rec.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/yanji/dual_arm_control/build/CMakeFiles --progress-num= "Built target _real_robot_control_generate_messages_check_deps_ori_adj_rec"
+.PHONY : real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_ori_adj_rec.dir/all
+
+# Build rule for subdir invocation for target.
+real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_ori_adj_rec.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/yanji/dual_arm_control/build/CMakeFiles 0
+	$(MAKE) -f CMakeFiles/Makefile2 real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_ori_adj_rec.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/yanji/dual_arm_control/build/CMakeFiles 0
+.PHONY : real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_ori_adj_rec.dir/rule
+
+# Convenience name for target.
+_real_robot_control_generate_messages_check_deps_ori_adj_rec: real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_ori_adj_rec.dir/rule
+
+.PHONY : _real_robot_control_generate_messages_check_deps_ori_adj_rec
+
+# clean rule for target.
+real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_ori_adj_rec.dir/clean:
+	$(MAKE) -f real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_ori_adj_rec.dir/build.make real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_ori_adj_rec.dir/clean
+.PHONY : real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_ori_adj_rec.dir/clean
 
 #=============================================================================
 # Target rules for target real_robot_control/CMakeFiles/octomap_msgs_generate_messages_eus.dir
@@ -4492,6 +4521,7 @@ real_robot_control/CMakeFiles/real_robot_control_generate_messages_eus.dir/all: 
 real_robot_control/CMakeFiles/real_robot_control_generate_messages_eus.dir/all: real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_width_pub.dir/all
 real_robot_control/CMakeFiles/real_robot_control_generate_messages_eus.dir/all: real_robot_control/CMakeFiles/actionlib_msgs_generate_messages_eus.dir/all
 real_robot_control/CMakeFiles/real_robot_control_generate_messages_eus.dir/all: real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_robot_pos_pub.dir/all
+real_robot_control/CMakeFiles/real_robot_control_generate_messages_eus.dir/all: real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_ori_adj_rec.dir/all
 real_robot_control/CMakeFiles/real_robot_control_generate_messages_eus.dir/all: real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_screwAction.dir/all
 real_robot_control/CMakeFiles/real_robot_control_generate_messages_eus.dir/all: real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_force_pub.dir/all
 real_robot_control/CMakeFiles/real_robot_control_generate_messages_eus.dir/all: real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_screwActionResult.dir/all
@@ -4538,6 +4568,7 @@ real_robot_control/CMakeFiles/real_robot_control_generate_messages_lisp.dir/all:
 real_robot_control/CMakeFiles/real_robot_control_generate_messages_lisp.dir/all: real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_width_pub.dir/all
 real_robot_control/CMakeFiles/real_robot_control_generate_messages_lisp.dir/all: real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_robot_pos_pub.dir/all
 real_robot_control/CMakeFiles/real_robot_control_generate_messages_lisp.dir/all: real_robot_control/CMakeFiles/std_msgs_generate_messages_lisp.dir/all
+real_robot_control/CMakeFiles/real_robot_control_generate_messages_lisp.dir/all: real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_ori_adj_rec.dir/all
 real_robot_control/CMakeFiles/real_robot_control_generate_messages_lisp.dir/all: real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_screwAction.dir/all
 real_robot_control/CMakeFiles/real_robot_control_generate_messages_lisp.dir/all: real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_force_pub.dir/all
 real_robot_control/CMakeFiles/real_robot_control_generate_messages_lisp.dir/all: real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_screwActionResult.dir/all
@@ -4611,6 +4642,7 @@ real_robot_control/CMakeFiles/real_robot_control_generate_messages_nodejs.dir/al
 real_robot_control/CMakeFiles/real_robot_control_generate_messages_nodejs.dir/all: real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_current_pub.dir/all
 real_robot_control/CMakeFiles/real_robot_control_generate_messages_nodejs.dir/all: real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_width_pub.dir/all
 real_robot_control/CMakeFiles/real_robot_control_generate_messages_nodejs.dir/all: real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_robot_pos_pub.dir/all
+real_robot_control/CMakeFiles/real_robot_control_generate_messages_nodejs.dir/all: real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_ori_adj_rec.dir/all
 real_robot_control/CMakeFiles/real_robot_control_generate_messages_nodejs.dir/all: real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_screwAction.dir/all
 real_robot_control/CMakeFiles/real_robot_control_generate_messages_nodejs.dir/all: real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_force_pub.dir/all
 real_robot_control/CMakeFiles/real_robot_control_generate_messages_nodejs.dir/all: real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_screwActionResult.dir/all
@@ -4711,6 +4743,7 @@ real_robot_control/CMakeFiles/real_robot_control_generate_messages_py.dir/all: r
 real_robot_control/CMakeFiles/real_robot_control_generate_messages_py.dir/all: real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_current_pub.dir/all
 real_robot_control/CMakeFiles/real_robot_control_generate_messages_py.dir/all: real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_width_pub.dir/all
 real_robot_control/CMakeFiles/real_robot_control_generate_messages_py.dir/all: real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_robot_pos_pub.dir/all
+real_robot_control/CMakeFiles/real_robot_control_generate_messages_py.dir/all: real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_ori_adj_rec.dir/all
 real_robot_control/CMakeFiles/real_robot_control_generate_messages_py.dir/all: real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_screwAction.dir/all
 real_robot_control/CMakeFiles/real_robot_control_generate_messages_py.dir/all: real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_force_pub.dir/all
 real_robot_control/CMakeFiles/real_robot_control_generate_messages_py.dir/all: real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_screwActionResult.dir/all
@@ -4812,7 +4845,7 @@ robot_planning/CMakeFiles/robot_planning_generate_messages.dir/all: robot_planni
 
 # Build rule for subdir invocation for target.
 robot_planning/CMakeFiles/robot_planning_generate_messages.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yanji/dual_arm_control/build/CMakeFiles 6
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/yanji/dual_arm_control/build/CMakeFiles 5
 	$(MAKE) -f CMakeFiles/Makefile2 robot_planning/CMakeFiles/robot_planning_generate_messages.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/yanji/dual_arm_control/build/CMakeFiles 0
 .PHONY : robot_planning/CMakeFiles/robot_planning_generate_messages.dir/rule
@@ -4889,12 +4922,12 @@ robot_planning/CMakeFiles/robot_planning_generate_messages_cpp.dir/all: real_rob
 robot_planning/CMakeFiles/robot_planning_generate_messages_cpp.dir/all: robot_planning/CMakeFiles/_robot_planning_generate_messages_check_deps_force_pub.dir/all
 	$(MAKE) -f robot_planning/CMakeFiles/robot_planning_generate_messages_cpp.dir/build.make robot_planning/CMakeFiles/robot_planning_generate_messages_cpp.dir/depend
 	$(MAKE) -f robot_planning/CMakeFiles/robot_planning_generate_messages_cpp.dir/build.make robot_planning/CMakeFiles/robot_planning_generate_messages_cpp.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/yanji/dual_arm_control/build/CMakeFiles --progress-num=93 "Built target robot_planning_generate_messages_cpp"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/yanji/dual_arm_control/build/CMakeFiles --progress-num= "Built target robot_planning_generate_messages_cpp"
 .PHONY : robot_planning/CMakeFiles/robot_planning_generate_messages_cpp.dir/all
 
 # Build rule for subdir invocation for target.
 robot_planning/CMakeFiles/robot_planning_generate_messages_cpp.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yanji/dual_arm_control/build/CMakeFiles 1
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/yanji/dual_arm_control/build/CMakeFiles 0
 	$(MAKE) -f CMakeFiles/Makefile2 robot_planning/CMakeFiles/robot_planning_generate_messages_cpp.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/yanji/dual_arm_control/build/CMakeFiles 0
 .PHONY : robot_planning/CMakeFiles/robot_planning_generate_messages_cpp.dir/rule
@@ -4948,7 +4981,7 @@ robot_planning/CMakeFiles/robot_planning_gencpp.dir/all: robot_planning/CMakeFil
 
 # Build rule for subdir invocation for target.
 robot_planning/CMakeFiles/robot_planning_gencpp.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yanji/dual_arm_control/build/CMakeFiles 1
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/yanji/dual_arm_control/build/CMakeFiles 0
 	$(MAKE) -f CMakeFiles/Makefile2 robot_planning/CMakeFiles/robot_planning_gencpp.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/yanji/dual_arm_control/build/CMakeFiles 0
 .PHONY : robot_planning/CMakeFiles/robot_planning_gencpp.dir/rule

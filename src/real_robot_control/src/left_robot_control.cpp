@@ -368,7 +368,7 @@ void RobotAdmittanceControl::back_to_middle(){
 
         e_eef_pos = eef_rotm.transpose() * (eef_pos - init_eef_pos);
 
-        if (abs(e_eef_pos[2]) > 0.07){
+        if (abs(e_eef_pos[2]) > 0.09){
             cout << e_eef_pos[2] << endl;
             cout << "\r" << "final item = " << item << endl;
             break;
@@ -835,11 +835,12 @@ int RobotAdmittanceControl::pure_passive_model(){
     // object_length << 0, -0.032, 0; //m8 长螺丝
     // object_length << 0, -0.019, 0; //螺柱
     // object_length << -0.006, 0, 0; //堵头
-    object_length << 0, 0, 0; //三通和螺母
+    // object_length << 0, 0, 0; //三通和螺母
     // object_length << 0.012, 0, 0; //m12螺栓
     // object_length << 0.008, 0, 0; //两通
+    object_length << 0, 0, 0; //handle
 
-    int x_z = 1; //1:在xz平面内搜索，0：在yz平面内搜索
+    int x_z = 0; //1:在xz平面内搜索，0：在yz平面内搜索
     int single = 1; //1为只在z方向搜索，0，在平面内搜索
 
     eef_offset_rotm = eef_offset_rotm_basic * object_rotm;

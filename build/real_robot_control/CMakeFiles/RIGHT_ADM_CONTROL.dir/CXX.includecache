@@ -54,6 +54,22 @@ ros/builtin_message_traits.h
 ros/message_operations.h
 -
 
+/home/yanji/dual_arm_control/devel/include/real_robot_control/ori_adj_rec.h
+string
+-
+vector
+-
+memory
+-
+ros/types.h
+-
+ros/serialization.h
+-
+ros/builtin_message_traits.h
+-
+ros/message_operations.h
+-
+
 /home/yanji/dual_arm_control/devel/include/real_robot_control/orientation_pub.h
 string
 -
@@ -417,6 +433,8 @@ real_robot_control/force_pos_pub.h
 /home/yanji/dual_arm_control/src/real_robot_control/include/real_robot_control/real_robot_control/force_pos_pub.h
 real_robot_control/orientation_pub.h
 /home/yanji/dual_arm_control/src/real_robot_control/include/real_robot_control/real_robot_control/orientation_pub.h
+real_robot_control/ori_adj_rec.h
+/home/yanji/dual_arm_control/src/real_robot_control/include/real_robot_control/real_robot_control/ori_adj_rec.h
 
 /home/yanji/dual_arm_control/src/real_robot_control/include/real_robot_control/screwing_tool.h
 real_robot_control/servo_motor_function.h

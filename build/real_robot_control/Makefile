@@ -378,6 +378,36 @@ sensor_msgs_generate_messages_py/fast:
 .PHONY : sensor_msgs_generate_messages_py/fast
 
 # Convenience name for target.
+real_robot_control/CMakeFiles/right_robot_control.dir/rule:
+	cd /home/yanji/dual_arm_control/build && $(MAKE) -f CMakeFiles/Makefile2 real_robot_control/CMakeFiles/right_robot_control.dir/rule
+.PHONY : real_robot_control/CMakeFiles/right_robot_control.dir/rule
+
+# Convenience name for target.
+right_robot_control: real_robot_control/CMakeFiles/right_robot_control.dir/rule
+
+.PHONY : right_robot_control
+
+# fast build rule for target.
+right_robot_control/fast:
+	cd /home/yanji/dual_arm_control/build && $(MAKE) -f real_robot_control/CMakeFiles/right_robot_control.dir/build.make real_robot_control/CMakeFiles/right_robot_control.dir/build
+.PHONY : right_robot_control/fast
+
+# Convenience name for target.
+real_robot_control/CMakeFiles/geometry_msgs_generate_messages_py.dir/rule:
+	cd /home/yanji/dual_arm_control/build && $(MAKE) -f CMakeFiles/Makefile2 real_robot_control/CMakeFiles/geometry_msgs_generate_messages_py.dir/rule
+.PHONY : real_robot_control/CMakeFiles/geometry_msgs_generate_messages_py.dir/rule
+
+# Convenience name for target.
+geometry_msgs_generate_messages_py: real_robot_control/CMakeFiles/geometry_msgs_generate_messages_py.dir/rule
+
+.PHONY : geometry_msgs_generate_messages_py
+
+# fast build rule for target.
+geometry_msgs_generate_messages_py/fast:
+	cd /home/yanji/dual_arm_control/build && $(MAKE) -f real_robot_control/CMakeFiles/geometry_msgs_generate_messages_py.dir/build.make real_robot_control/CMakeFiles/geometry_msgs_generate_messages_py.dir/build
+.PHONY : geometry_msgs_generate_messages_py/fast
+
+# Convenience name for target.
 real_robot_control/CMakeFiles/geometry_msgs_generate_messages_nodejs.dir/rule:
 	cd /home/yanji/dual_arm_control/build && $(MAKE) -f CMakeFiles/Makefile2 real_robot_control/CMakeFiles/geometry_msgs_generate_messages_nodejs.dir/rule
 .PHONY : real_robot_control/CMakeFiles/geometry_msgs_generate_messages_nodejs.dir/rule
@@ -1413,51 +1443,6 @@ _real_robot_control_generate_messages_check_deps_current_pub/fast:
 .PHONY : _real_robot_control_generate_messages_check_deps_current_pub/fast
 
 # Convenience name for target.
-real_robot_control/CMakeFiles/geometry_msgs_generate_messages_py.dir/rule:
-	cd /home/yanji/dual_arm_control/build && $(MAKE) -f CMakeFiles/Makefile2 real_robot_control/CMakeFiles/geometry_msgs_generate_messages_py.dir/rule
-.PHONY : real_robot_control/CMakeFiles/geometry_msgs_generate_messages_py.dir/rule
-
-# Convenience name for target.
-geometry_msgs_generate_messages_py: real_robot_control/CMakeFiles/geometry_msgs_generate_messages_py.dir/rule
-
-.PHONY : geometry_msgs_generate_messages_py
-
-# fast build rule for target.
-geometry_msgs_generate_messages_py/fast:
-	cd /home/yanji/dual_arm_control/build && $(MAKE) -f real_robot_control/CMakeFiles/geometry_msgs_generate_messages_py.dir/build.make real_robot_control/CMakeFiles/geometry_msgs_generate_messages_py.dir/build
-.PHONY : geometry_msgs_generate_messages_py/fast
-
-# Convenience name for target.
-real_robot_control/CMakeFiles/right_robot_control.dir/rule:
-	cd /home/yanji/dual_arm_control/build && $(MAKE) -f CMakeFiles/Makefile2 real_robot_control/CMakeFiles/right_robot_control.dir/rule
-.PHONY : real_robot_control/CMakeFiles/right_robot_control.dir/rule
-
-# Convenience name for target.
-right_robot_control: real_robot_control/CMakeFiles/right_robot_control.dir/rule
-
-.PHONY : right_robot_control
-
-# fast build rule for target.
-right_robot_control/fast:
-	cd /home/yanji/dual_arm_control/build && $(MAKE) -f real_robot_control/CMakeFiles/right_robot_control.dir/build.make real_robot_control/CMakeFiles/right_robot_control.dir/build
-.PHONY : right_robot_control/fast
-
-# Convenience name for target.
-real_robot_control/CMakeFiles/object_recognition_msgs_generate_messages_lisp.dir/rule:
-	cd /home/yanji/dual_arm_control/build && $(MAKE) -f CMakeFiles/Makefile2 real_robot_control/CMakeFiles/object_recognition_msgs_generate_messages_lisp.dir/rule
-.PHONY : real_robot_control/CMakeFiles/object_recognition_msgs_generate_messages_lisp.dir/rule
-
-# Convenience name for target.
-object_recognition_msgs_generate_messages_lisp: real_robot_control/CMakeFiles/object_recognition_msgs_generate_messages_lisp.dir/rule
-
-.PHONY : object_recognition_msgs_generate_messages_lisp
-
-# fast build rule for target.
-object_recognition_msgs_generate_messages_lisp/fast:
-	cd /home/yanji/dual_arm_control/build && $(MAKE) -f real_robot_control/CMakeFiles/object_recognition_msgs_generate_messages_lisp.dir/build.make real_robot_control/CMakeFiles/object_recognition_msgs_generate_messages_lisp.dir/build
-.PHONY : object_recognition_msgs_generate_messages_lisp/fast
-
-# Convenience name for target.
 real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_width_pub.dir/rule:
 	cd /home/yanji/dual_arm_control/build && $(MAKE) -f CMakeFiles/Makefile2 real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_width_pub.dir/rule
 .PHONY : real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_width_pub.dir/rule
@@ -1681,6 +1666,36 @@ dynamic_reconfigure_gencfg: real_robot_control/CMakeFiles/dynamic_reconfigure_ge
 dynamic_reconfigure_gencfg/fast:
 	cd /home/yanji/dual_arm_control/build && $(MAKE) -f real_robot_control/CMakeFiles/dynamic_reconfigure_gencfg.dir/build.make real_robot_control/CMakeFiles/dynamic_reconfigure_gencfg.dir/build
 .PHONY : dynamic_reconfigure_gencfg/fast
+
+# Convenience name for target.
+real_robot_control/CMakeFiles/object_recognition_msgs_generate_messages_lisp.dir/rule:
+	cd /home/yanji/dual_arm_control/build && $(MAKE) -f CMakeFiles/Makefile2 real_robot_control/CMakeFiles/object_recognition_msgs_generate_messages_lisp.dir/rule
+.PHONY : real_robot_control/CMakeFiles/object_recognition_msgs_generate_messages_lisp.dir/rule
+
+# Convenience name for target.
+object_recognition_msgs_generate_messages_lisp: real_robot_control/CMakeFiles/object_recognition_msgs_generate_messages_lisp.dir/rule
+
+.PHONY : object_recognition_msgs_generate_messages_lisp
+
+# fast build rule for target.
+object_recognition_msgs_generate_messages_lisp/fast:
+	cd /home/yanji/dual_arm_control/build && $(MAKE) -f real_robot_control/CMakeFiles/object_recognition_msgs_generate_messages_lisp.dir/build.make real_robot_control/CMakeFiles/object_recognition_msgs_generate_messages_lisp.dir/build
+.PHONY : object_recognition_msgs_generate_messages_lisp/fast
+
+# Convenience name for target.
+real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_ori_adj_rec.dir/rule:
+	cd /home/yanji/dual_arm_control/build && $(MAKE) -f CMakeFiles/Makefile2 real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_ori_adj_rec.dir/rule
+.PHONY : real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_ori_adj_rec.dir/rule
+
+# Convenience name for target.
+_real_robot_control_generate_messages_check_deps_ori_adj_rec: real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_ori_adj_rec.dir/rule
+
+.PHONY : _real_robot_control_generate_messages_check_deps_ori_adj_rec
+
+# fast build rule for target.
+_real_robot_control_generate_messages_check_deps_ori_adj_rec/fast:
+	cd /home/yanji/dual_arm_control/build && $(MAKE) -f real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_ori_adj_rec.dir/build.make real_robot_control/CMakeFiles/_real_robot_control_generate_messages_check_deps_ori_adj_rec.dir/build
+.PHONY : _real_robot_control_generate_messages_check_deps_ori_adj_rec/fast
 
 # Convenience name for target.
 real_robot_control/CMakeFiles/octomap_msgs_generate_messages_eus.dir/rule:
@@ -2288,8 +2303,8 @@ src/right_robot_control.o: src/right_robot_control.cpp.o
 
 # target to build an object file
 src/right_robot_control.cpp.o:
-	cd /home/yanji/dual_arm_control/build && $(MAKE) -f real_robot_control/CMakeFiles/RIGHT_ADM_CONTROL.dir/build.make real_robot_control/CMakeFiles/RIGHT_ADM_CONTROL.dir/src/right_robot_control.cpp.o
 	cd /home/yanji/dual_arm_control/build && $(MAKE) -f real_robot_control/CMakeFiles/right_robot_control.dir/build.make real_robot_control/CMakeFiles/right_robot_control.dir/src/right_robot_control.cpp.o
+	cd /home/yanji/dual_arm_control/build && $(MAKE) -f real_robot_control/CMakeFiles/RIGHT_ADM_CONTROL.dir/build.make real_robot_control/CMakeFiles/RIGHT_ADM_CONTROL.dir/src/right_robot_control.cpp.o
 .PHONY : src/right_robot_control.cpp.o
 
 src/right_robot_control.i: src/right_robot_control.cpp.i
@@ -2298,8 +2313,8 @@ src/right_robot_control.i: src/right_robot_control.cpp.i
 
 # target to preprocess a source file
 src/right_robot_control.cpp.i:
-	cd /home/yanji/dual_arm_control/build && $(MAKE) -f real_robot_control/CMakeFiles/RIGHT_ADM_CONTROL.dir/build.make real_robot_control/CMakeFiles/RIGHT_ADM_CONTROL.dir/src/right_robot_control.cpp.i
 	cd /home/yanji/dual_arm_control/build && $(MAKE) -f real_robot_control/CMakeFiles/right_robot_control.dir/build.make real_robot_control/CMakeFiles/right_robot_control.dir/src/right_robot_control.cpp.i
+	cd /home/yanji/dual_arm_control/build && $(MAKE) -f real_robot_control/CMakeFiles/RIGHT_ADM_CONTROL.dir/build.make real_robot_control/CMakeFiles/RIGHT_ADM_CONTROL.dir/src/right_robot_control.cpp.i
 .PHONY : src/right_robot_control.cpp.i
 
 src/right_robot_control.s: src/right_robot_control.cpp.s
@@ -2308,8 +2323,8 @@ src/right_robot_control.s: src/right_robot_control.cpp.s
 
 # target to generate assembly for a file
 src/right_robot_control.cpp.s:
-	cd /home/yanji/dual_arm_control/build && $(MAKE) -f real_robot_control/CMakeFiles/RIGHT_ADM_CONTROL.dir/build.make real_robot_control/CMakeFiles/RIGHT_ADM_CONTROL.dir/src/right_robot_control.cpp.s
 	cd /home/yanji/dual_arm_control/build && $(MAKE) -f real_robot_control/CMakeFiles/right_robot_control.dir/build.make real_robot_control/CMakeFiles/right_robot_control.dir/src/right_robot_control.cpp.s
+	cd /home/yanji/dual_arm_control/build && $(MAKE) -f real_robot_control/CMakeFiles/RIGHT_ADM_CONTROL.dir/build.make real_robot_control/CMakeFiles/RIGHT_ADM_CONTROL.dir/src/right_robot_control.cpp.s
 .PHONY : src/right_robot_control.cpp.s
 
 src/screwing_tool.o: src/screwing_tool.cpp.o
@@ -2418,6 +2433,8 @@ help:
 	@echo "... install/strip"
 	@echo "... left_or_right_assembly"
 	@echo "... sensor_msgs_generate_messages_py"
+	@echo "... right_robot_control"
+	@echo "... geometry_msgs_generate_messages_py"
 	@echo "... geometry_msgs_generate_messages_nodejs"
 	@echo "... dynamic_reconfigure_generate_messages_eus"
 	@echo "... tf2_msgs_generate_messages_eus"
@@ -2489,9 +2506,6 @@ help:
 	@echo "... std_msgs_generate_messages_py"
 	@echo "... object_recognition_msgs_generate_messages_cpp"
 	@echo "... _real_robot_control_generate_messages_check_deps_current_pub"
-	@echo "... geometry_msgs_generate_messages_py"
-	@echo "... right_robot_control"
-	@echo "... object_recognition_msgs_generate_messages_lisp"
 	@echo "... _real_robot_control_generate_messages_check_deps_width_pub"
 	@echo "... actionlib_msgs_generate_messages_eus"
 	@echo "... object_recognition_msgs_generate_messages_nodejs"
@@ -2507,6 +2521,8 @@ help:
 	@echo "... octomap_msgs_generate_messages_py"
 	@echo "... dynamic_reconfigure_generate_messages_cpp"
 	@echo "... dynamic_reconfigure_gencfg"
+	@echo "... object_recognition_msgs_generate_messages_lisp"
+	@echo "... _real_robot_control_generate_messages_check_deps_ori_adj_rec"
 	@echo "... octomap_msgs_generate_messages_eus"
 	@echo "... visualization_msgs_generate_messages_eus"
 	@echo "... visualization_msgs_generate_messages_lisp"

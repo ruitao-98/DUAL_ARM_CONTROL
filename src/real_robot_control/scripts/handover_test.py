@@ -321,7 +321,7 @@ def planning_grasping(pos, rotm):
 
     pos = pos / 1000
     # 加偏执后， 直线运动
-    delta_p = np.array([0, 0, -0.05])
+    delta_p = np.array([0, 0, -0.00])
     grasping_pos = pos + rotm @ delta_p
     grasping_pos = grasping_pos.astype(float)
     grasping_rotm = rotm.astype(float)
@@ -531,6 +531,12 @@ if __name__ == '__main__':
         rpy = [125 * np.pi / 180, -93 * np.pi / 180, 0 * np.pi / 180]
         rotm = from_eular_to_matrix(rpy)
 
+    elif choice == 7:
+        rospy.set_param("goal_width", -77778) #两通
+        pos = np.array([-108.605, -743.777, 229.87])  #两通
+        rpy = [-90 * np.pi / 180, 0 * np.pi / 180, -180 * np.pi / 180]
+        rotm = from_eular_to_matrix(rpy)
+
 
         # -48859  # 中块 大头
 
@@ -552,14 +558,14 @@ if __name__ == '__main__':
 
 
 
-    
-    random_float1 = random.uniform(-4, 4)
-    random_float2 = random.uniform(-4, 4)
-    random_float3 = random.uniform(-1, 4)
-    pos[0] = pos[0] - 2
-    pos[1] = pos[1] + 3.2
-    pos[2] = pos[2] + 4
-    print("random_floatxyz:", random_float1, random_float2, random_float3)
+    # 添加噪声
+    # random_float1 = random.uniform(-4, 4)
+    # random_float2 = random.uniform(-4, 4)
+    # random_float3 = random.uniform(-1, 4)
+    # pos[0] = pos[0] - 2
+    # pos[1] = pos[1] + 3.2
+    # pos[2] = pos[2] + 4
+    # print("random_floatxyz:", random_float1, random_float2, random_float3)
         # 规划到测量点
     # planning_grasping_move_up(pos, rotm)
     planning_grasping(pos, rotm)

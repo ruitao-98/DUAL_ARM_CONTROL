@@ -99,6 +99,7 @@ add_message_files(
   force_pos_pub.msg
   width_pub.msg
   pose_pub.msg
+  ori_adj_rec.msg
 )
 
 

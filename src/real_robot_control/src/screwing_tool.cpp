@@ -373,7 +373,7 @@ int endeffector::width_reduce_full_for_handover(int goal_width, ros::Publisher &
 	}
 	float start_current = average_function(base_current, 20);
 	printf("the started current%.3f \n", start_current);
-	int yuzhi = 45;
+	int yuzhi = 55;
 	int present_cu[16] = { 0 };
 	int i = 0;
 	int fin_position;
@@ -642,7 +642,7 @@ int endeffector::screwing_s2(int speed, ros::Publisher &pub, real_robot_control:
 	// for (int m = 0; m < 15; m++) {
 	// 	std::cout << base_current[m] << std::endl;
 	// }
-	int yuzhi = 40;
+	int yuzhi = 23;
 	int goal_position = int(start_position - 4095 * 6.238 * 2);
 	int present_cu[10] = { 0 };
 	int i = 0;
@@ -671,6 +671,7 @@ int endeffector::screwing_s2(int speed, ros::Publisher &pub, real_robot_control:
 			printf("ֹͣthe final current%.3f\n", ave_current);
 			this->set_goalvelocity(0, 0);
 			this->torque_off(0);
+			// return 1; // 表示卡住了
 			return 2; // 表示所有任务都结束了
 			break;
 		}

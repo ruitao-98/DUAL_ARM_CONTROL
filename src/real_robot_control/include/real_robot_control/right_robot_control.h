@@ -17,7 +17,7 @@
 #include "real_robot_control/screwAction.h"
 #include "real_robot_control/force_pos_pub.h"
 #include "real_robot_control/orientation_pub.h"
-
+#include "real_robot_control/ori_adj_rec.h"
 
 namespace jaka {
     using Quaternion = ::Quaternion; // 创建别名
@@ -57,6 +57,7 @@ public:
     void ori_fine();
     bool getParam(const std::string& param_name, std::string& value);
     void robot_finish();
+    void grasp_obj();
     void passive_fine();
     void print_eef(char choice);
     void screw_assembly_directly();
@@ -115,6 +116,10 @@ private:
     real_robot_control::pose_pub pose_p;
     real_robot_control::robot_pos_pub p;
     real_robot_control::force_pos_pub fp;
+
+    ros::Publisher ori_adj_pub;
+    real_robot_control::ori_adj_rec oar;
+
     ros::Subscriber listener_sub;
     // ros::ServiceClient client;
     real_robot_control::screwsrv scr;

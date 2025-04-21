@@ -374,24 +374,25 @@ def get_pointcloud_from_camera(file_name):
     # 相机采集tar 数据，待更新。。。。
     tar_raw = capture.get_point_cloud()
     tar = trans_to_robot_base(tar_raw)  # 变化到机器人基坐标系下
-    tar = pass_through_filter(tar, axis='z', lower_limit=7, upper_limit=100)
+    tar = pass_through_filter(tar, axis='z', lower_limit=6, upper_limit=100)
     tar = pass_through_filter(tar, axis='y', lower_limit=-200, upper_limit=150)
-    voxel_size2 = 0.6 #指定下采样体素大小
-    voxel_size1 = 0.4
+    voxel_size2 = 0.1 #指定下采样体素大小 0.6
+    voxel_size1 = 0.1 #0.4
     tar_down_o3 = tar.voxel_down_sample(voxel_size2)
     src_down_o3 = src.voxel_down_sample(voxel_size1)
-    clusters = dbscan_point_cloud_segmentation(tar_down_o3, eps=4, min_samples=15)
-    print("clusters,",clusters )
-        # 显示分割结果
-    for i, cluster in enumerate(clusters):
-        print(f"Cluster {i + 1}: {len(cluster.points)} points")
-        if (len(cluster.points) > 100):
-            # o3d.visualization.draw_geometries([cluster])
-            visualize_cluster(cluster, width=800, height=600)
-            decition_result = wait_for_key_press()
-            if decition_result:
-                tar_down_o3 = cluster
-                break
+
+    # clusters = dbscan_point_cloud_segmentation(tar_down_o3, eps=4, min_samples=15)
+    # print("clusters,",clusters )
+    #     # 显示分割结果
+    # for i, cluster in enumerate(clusters):
+    #     print(f"Cluster {i + 1}: {len(cluster.points)} points")
+    #     if (len(cluster.points) > 100):
+    #         # o3d.visualization.draw_geometries([cluster])
+    #         visualize_cluster(cluster, width=800, height=600)
+    #         decition_result = wait_for_key_press()
+    #         if decition_result:
+    #             tar_down_o3 = cluster
+    #             break
         
         
     # src, tar 基本只用于可视化

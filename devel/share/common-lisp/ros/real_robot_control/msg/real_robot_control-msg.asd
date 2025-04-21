@@ -14,6 +14,8 @@
     (:file "_package_force_pub" :depends-on ("_package"))
     (:file "gripper" :depends-on ("_package_gripper"))
     (:file "_package_gripper" :depends-on ("_package"))
+    (:file "ori_adj_rec" :depends-on ("_package_ori_adj_rec"))
+    (:file "_package_ori_adj_rec" :depends-on ("_package"))
     (:file "orientation_pub" :depends-on ("_package_orientation_pub"))
     (:file "_package_orientation_pub" :depends-on ("_package"))
     (:file "pose" :depends-on ("_package_pose"))

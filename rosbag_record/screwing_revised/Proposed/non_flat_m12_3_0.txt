@@ -1,0 +1,16 @@
+ linear search time is 1648 ms
+ pos search time is 3389 ms
+ ori search time is 130494 ms
+ linear search time is 1377 ms
+ pos search time is 1629 ms
+ ori search time is 2495 ms
+ linear search time is 1414 ms
+ pos search time is 14213 ms
+ ori search time is 78847 ms
+ linear search time is 1412 ms
+ pos search time is 7902 ms
+ ori search time is 123094 ms
+ linear search time is 1422 ms
+ pos search time is 5006 ms
+ ori search time is 72826 ms
+ 最近三次都是有用的

@@ -50,7 +50,7 @@ def wait_for_choice():
 
     def on_press(key):
         try:
-            if key.char in ['0', '1', '2', '3', '4', '5', '6']:
+            if key.char in ['0', '1', '2', '3', '4', '5', '6', '7']:
                 print(f"Key {key.char} pressed, returning {key.char}.")
                 key_pressed['value'] = int(key.char)
                 return False  # Stop the listener

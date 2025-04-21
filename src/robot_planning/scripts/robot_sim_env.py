@@ -993,6 +993,7 @@ class Dual_arm_env(gym.Env):
 
 
 if __name__ == '__main__':
+    print("当前 Python 解释器路径:", sys.executable)
     env = Dual_arm_env()
     env.reset()
     time.sleep(5)

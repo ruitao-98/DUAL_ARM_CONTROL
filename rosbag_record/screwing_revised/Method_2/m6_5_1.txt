@@ -1,0 +1,3 @@
+ linear search time is 1840 ms
+ pos search time is 66315 ms
+ ori search time is 66602 ms

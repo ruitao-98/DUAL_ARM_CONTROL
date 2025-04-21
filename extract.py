@@ -25,15 +25,68 @@ import os
 import matplotlib.pyplot as plt
 import numpy as np
 
+def process_and_plot_ori_adj(ori_adj):
+    """
+    处理并可视化 ori_adj 数组，计算误差并绘制折线图。
+    
+    参数:
+        ori_adj: List[List[float]] - 输入数组，例如 [[50, 180, 0, ...], ...]
+    
+    输出:
+        - 打印处理后的数组（索引和误差）
+        - 显示误差的折线图（横坐标为 item，纵坐标为误差）
+    """
+    # 初始化结果列表
+    processed_data = []
+    
+    # 处理每个子列表
+    for item_idx, sublist in enumerate(ori_adj):
+        index = sublist[0]  # 第一个元素，例如 50
+        total = sublist[1]  # 第二个元素，例如 180
+        
+        # 计算角度：(index / total) * 2π
+        angle = (index / total) * 2 * np.pi
+        
+        # 计算误差：角度 - π/2
+        error = (angle - (np.pi / 2)) *180 / np.pi
+        
+        # 存储结果
+        processed_data.append([item_idx, error])
+    
+    # 输出处理后的数组
+    print("处理后的数组（[item_idx, error]）：")
+    for data in processed_data:
+        print(data)
+    
+    # 转换为 numpy 数组便于绘图和计算
+    processed_data = np.array(processed_data)
+    item_indices = processed_data[:, 0]  # 横坐标：item_idx
+    errors = processed_data[:, 1]        # 纵坐标：误差（弧度）
+    
+    # 计算平均误差（弧度转换为度）
+    mean_error_radians = np.mean(errors)
+    mean_error_degrees = mean_error_radians
+    print(f"\n平均误差（度）：{mean_error_degrees:.6f}")
+    
+    # 绘制折线图
+    plt.figure(figsize=(10, 6))
+    plt.plot(item_indices, errors, marker='o', linestyle='-', color='b')
+    plt.xlabel('Item')
+    plt.ylabel('Err')
+    plt.title('ori_adj Err')
+    plt.grid(True)
+    plt.legend()
+    plt.show()
 
-file_path = "/home/yanji/dual_arm_control/rosbag_record/screwing"
+
+file_path = "/home/yanji/dual_arm_control/rosbag_record/screwing_revised/Proposed"
 # file_path = "/home/yanji/dual_arm_control/rosbag_record/grad_descent"
 file_path_save = "/home/yanji/dual_arm_control/rosbag_record/current_obj_trans"
 
 
-
-file_name = "m12"
-file_name_txt = file_name + "_5_26.bag"
+file_name = "santong_5"
+# file_name = "m12_5_flat"
+file_name_txt = file_name + "_0.bag"
 # file_name_txt = "default_suffix_1.bag"
 # 设置bag文件路径
 # bag_file_path = "/home/yanji/dual_arm_control/rosbag_record/current_0928/base_new_4.bag"
@@ -52,14 +105,19 @@ width_data = []
 for_pos_data = []
 robot_force_data = []
 current_data = []
+ori_data = []
 
 # 遍历bag中的消息
 # for topic, msg, t in bag.read_messages(topics=['/width_p', '/for_pos', '/robot_force']):
-for topic, msg, t in bag.read_messages(topics=['/robot_pose']):
+# for topic, msg, t in bag.read_messages(topics=['/robot_pose']):
+for topic, msg, t in bag.read_messages(topics=['/robot_force', '/robot_pose', '/ori_adj']):
 # for topic, msg, t in bag.read_messages(topics=['/width_p', '/current_p']): 
     if topic == '/width_p':
         # 假设消息类型是std_msgs/Float64，存储width
         width_data.append(msg.width)
+    
+    elif topic == '/ori_adj':
+        ori_data.append([msg.phi, msg.point_num, msg.record_item, msg.Rx, msg.Ry, msg.Rz])
 
     # elif topic == '/current_p':
     #     # 假设消息类型是包含X, Y, Z, MX, MY, MZ的自定义消息，分别提取数据
@@ -78,6 +136,8 @@ for topic, msg, t in bag.read_messages(topics=['/robot_pose']):
 
 bag.close()
 
+process_and_plot_ori_adj(ori_data)
+print(ori_data)
 
 # 创建两个子图
 fig, (ax1, ax2, ax3) = plt.subplots(3, 1, figsize=(8, 8))
@@ -133,3 +193,5 @@ plt.show()
 # print("\nRobot Force Data (/for_pos):")
 # for data in for_pos_data:
 #     print(f"X: {data[0]}, Y: {data[1]}, Z: {data[2]}, rx: {data[3]}, ry: {data[4]}, rz: {data[5]}")
+
+

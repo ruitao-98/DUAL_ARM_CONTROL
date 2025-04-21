@@ -86,7 +86,7 @@ void cb(const real_robot_control::screwGoalConstPtr &goal, Server* server){
         //     sleep(1);
         //     if (timesec == 9){
         //         std::cout << "结束" << std::flush; 
-        //     }
+        //     }3
         // }
         
         feedback.screw_status = 1; //执行器开始运行

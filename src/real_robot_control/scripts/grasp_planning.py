@@ -455,7 +455,7 @@ def planning_handover(T_relative):
     # 变换到左侧机器人坐标系下
     gra_wait_pos_in_right = gra_wait_pos_in_right.tolist()
 
-    eef_pos_wait_in_left = [float(-28.0 /1000 + gra_wait_pos_in_right[0]), float(-1101.2 /1000 + gra_wait_pos_in_right[1]),
+    eef_pos_wait_in_left = [float(-31.5 /1000 + gra_wait_pos_in_right[0]), float(-1101.2 /1000 + gra_wait_pos_in_right[1]),
                             float(1.2/1000 + gra_wait_pos_in_right[2])]
     eef_mat_wait_in_left = gra_wait_mat_in_right
     eef_quat_wait_in_left = trans_quat.mat2quat(eef_mat_wait_in_left)
@@ -470,7 +470,7 @@ def planning_handover(T_relative):
 
     # 变换到左侧机器人坐标系下
     gra_pos_in_right = gra_pos_in_right.tolist()
-    eef_pos_in_left = [float(-28.0 /1000 + gra_pos_in_right[0]), float((-1100 + 1) /1000 + gra_pos_in_right[1]),
+    eef_pos_in_left = [float(-31.5 /1000 + gra_pos_in_right[0]), float((-1101 + 1) /1000 + gra_pos_in_right[1]),
                             float(3.5/1000 + gra_pos_in_right[2])]
     # eef_pos_in_left = [float(-30.0 /1000 + gra_pos_in_right[0]), float(-1101.2 /1000 + gra_pos_in_right[1]),
                         # float(3.8/1000 + gra_pos_in_right[2])] #真正好用的数据
@@ -579,6 +579,7 @@ if __name__ == '__main__':
 
         print('please press 1-3 select the goal object')
         print("1--> 3分螺母 || 2--> 3分3通 || 3--> m12螺母")
+        print("4--> 手柄   || 5--> Alan Wrench ")
         choice = wait_for_choice()
         print('choice = ', choice)
 
@@ -596,18 +597,26 @@ if __name__ == '__main__':
             rospy.set_param("goal_width", -56799) #m12螺母
             file_name = "m12_bolt.pcd"
             num_screw = 6 #随着物体变化，根据物体的对称形确定，圆形可设任意，六边形6个，对称2个
+        
+        elif choice == 4:
+            rospy.set_param("goal_width", -33260) #螺丝手柄
+            file_name = "handle.pcd"
+            num_screw = 6 #随着物体变化，根据物体的对称形确定，圆形可设任意，六边形6个，对称2个
+        
+        elif choice == 5:
+            rospy.set_param("goal_width", -77778) #Alan wrench
+            file_name = "Alan_wrench.pcd"
+            num_screw = 6 #随着物体变化，根据物体的对称形确定，圆形可设任意，六边形6个，对称2个
 
-
-        src, tar, src_down_o3, tar_down_o3, desk, gripper = rans.get_pointcloud_from_data(file_name)
-        # src, tar, src_down_o3, tar_down_o3, desk, gripper = rans.get_pointcloud_from_camera(file_name)
+        # src, tar, src_down_o3, tar_down_o3, desk, gripper = rans.get_pointcloud_from_data(file_name)
+        src, tar, src_down_o3, tar_down_o3, desk, gripper = rans.get_pointcloud_from_camera(file_name)
 
         aabb, vertices = rans.get_boundingbox(src)
-
 
         s_poss, s_rpys, T_s = ge.screwing_poses(num_screw)
 
         result = rans.get_object_pose(src_down_o3, tar_down_o3)
-        num_grasp = 26
+        num_grasp = 20
         g_poss, g_rpys_trans, T_g, T_g_trans = rans.get_transformed_grasp_poses(num_grasp, vertices, result, gripper, desk)
         print(T_g_trans)
         keys_array = list(T_g_trans.keys())

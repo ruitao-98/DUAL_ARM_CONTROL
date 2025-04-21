@@ -9,6 +9,8 @@
    "FORCE_PUB"
    "<GRIPPER>"
    "GRIPPER"
+   "<ORI_ADJ_REC>"
+   "ORI_ADJ_REC"
    "<ORIENTATION_PUB>"
    "ORIENTATION_PUB"
    "<POSE>"
