@@ -212,7 +212,7 @@ void RobotAdmittanceControl::get_tcp_force(){
         local_force[i] = status.torq_sensor_monitor_data.actTorque[i];
     }
     tcp_force.head<3>() = eef_offset_rotm_to_sensor.transpose() * local_force.head<3>();
-    tcp_force.tail<3>() = -eef_offset_to_sensor.cross(tcp_force.head<3>()) + eef_offset_rotm_to_sensor.transpose() * local_force.tail<3>();
+    tcp_force.tail<3>() = eef_offset_to_sensor.cross(tcp_force.head<3>()) + eef_offset_rotm_to_sensor.transpose() * local_force.tail<3>();
     f.X = tcp_force[0];
     f.Y = tcp_force[1];
     f.Z = tcp_force[2];
@@ -242,7 +242,6 @@ void RobotAdmittanceControl::tcp_admittance_control(){
     linear_disp = selection_vector.head<3>().cwiseProduct(linear_disp);
     angular_disp = selection_vector.tail<3>().cwiseProduct(angular_disp);
     eef_vel = adm_vel;
-
 }
 
 void RobotAdmittanceControl::admittance_control(){
@@ -368,15 +367,15 @@ void RobotAdmittanceControl::print_eef(char choice){
     cout << "eef_pos"<< eef_pos << endl;
     cout << "eigen_rpy"<<eigen_rpy << endl;
 
-
 }
+
 void RobotAdmittanceControl::tcp_admittance_run(){
     robot.servo_move_enable(true);
     //直线搜索***********************************************************************************
     wish_force << 0, 0, 0, 0, 0, 0;  //期望力
     selection_vector<< 1, 1, 1, 0, 0, 0; //选择向量
                 
-    object_length << 0, 0, 0.025;   //m6*35螺丝 30 * 5.5
+    object_length << 0, 0, 0.021;   //m6*35螺丝 30 * 5.5
  
     eef_offset = eef_offset_basic + object_length;
     cout << "eef_offset" << eef_offset << endl;
@@ -492,7 +491,7 @@ void RobotAdmittanceControl::tcp_admittance_run(){
     eef_pos_d = eef_pos;
     eef_rotm_d = eef_rotm;
     int item = 0;
-    while ((item < 7000) &&  (ros::ok()))
+    while ((item < 20000) &&  (ros::ok()))
     {   auto start_time = std::chrono::high_resolution_clock::now();
         update_robot_state();
         get_tcp_force();
@@ -527,8 +526,8 @@ void RobotAdmittanceControl::tcp_admittance_run(){
         // cout<<"new_trans" << new_pos.tran.x << " " << new_pos.tran.y << " "<< new_pos.tran.z << " "<< endl;
         // cout <<"new_rpy" << (new_pos.rpy.rx / PI) * 180 << "  " << (new_pos.rpy.ry / PI) * 180<< "  " << (new_pos.rpy.rz / PI) * 180<<"  " << endl; //new_rpy.rx不受导纳控制输出的影响，一开始就写死了
 
-        robot.servo_p(&new_pos, ABS, loop_rate);
-        // std::this_thread::sleep_for(std::chrono::milliseconds(8)); 
+        // robot.servo_p(&new_pos, ABS, loop_rate);
+        std::this_thread::sleep_for(std::chrono::milliseconds(8)); 
 
         auto end_time = std::chrono::high_resolution_clock::now();
         auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end_time-start_time);
@@ -773,7 +772,6 @@ void RobotAdmittanceControl::screw_assembly_directly(){
         }
     }
     
-
     // 机器人回退
     item = 0;
     while (item < 300) //100mm
@@ -1091,7 +1089,7 @@ void RobotAdmittanceControl::pos_ori_search(){
         linear_disp_clipped = linear_disp.cwiseMin(0.01).cwiseMax(-0.01);
         angluer_disp_clipped = angular_disp.cwiseMin(0.01).cwiseMax(-0.01); //此处获取了在tcp坐标系下机器人末端的位移偏量
         //我们需要在此处对其进行修改，上述偏量经过选择向量的修改只剩z方向的偏移了，我们再加上x,y方向的偏移。
-        linear_disp_clipped = linear_disp_clipped + traj;
+        linear_disp_clipped = linear_disp_clipped + traj;  //traj 主动增加z方向的补偿，可减少力的波动
         new_linear_eef = init_eef_pos + eef_rotm * linear_disp_clipped; //最后将总偏移量再加到原始的tcp坐标上面去。
         
         new_rotm_eef = eef_rotm;
@@ -1632,15 +1630,15 @@ void RobotAdmittanceControl::grasp_obj(){
 void RobotAdmittanceControl::robot_finish(){
     real_robot_control::screwGoal goal;
 
-    // goal.num = 3; 
-    // client.sendGoal(goal,
-    //                 std::bind(&RobotAdmittanceControl::done_cb, this, std::placeholders::_1, std::placeholders::_2),
-    //                 std::bind(&RobotAdmittanceControl::active_cb, this),
-    //                 std::bind(&RobotAdmittanceControl::feedback_cb, this, std::placeholders::_1));  
-    // while (ros::ok()){
-    //     ros::spinOnce(); //处理一下上面的回调函数
-    //     if (screw_execute_result == 3){
-    //         break;}}
+    goal.num = 3; 
+    client.sendGoal(goal,
+                    std::bind(&RobotAdmittanceControl::done_cb, this, std::placeholders::_1, std::placeholders::_2),
+                    std::bind(&RobotAdmittanceControl::active_cb, this),
+                    std::bind(&RobotAdmittanceControl::feedback_cb, this, std::placeholders::_1));  
+    while (ros::ok()){
+        ros::spinOnce(); //处理一下上面的回调函数
+        if (screw_execute_result == 3){
+            break;}}
 
     // 机器人回退
     robot.servo_move_enable(false);

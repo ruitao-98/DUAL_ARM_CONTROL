@@ -188,7 +188,7 @@ void RobotAdmittanceControl::get_tcp_force(){
     }
 
     tcp_force.head<3>() = eef_offset_rotm_to_sensor.transpose() * local_force.head<3>();
-    tcp_force.tail<3>() = -eef_offset_to_sensor.cross(tcp_force.head<3>()) + eef_offset_rotm_to_sensor.transpose() * local_force.tail<3>();
+    tcp_force.tail<3>() = eef_offset_to_sensor.cross(tcp_force.head<3>()) + eef_offset_rotm_to_sensor.transpose() * local_force.tail<3>();
 
     f.X = tcp_force[0];
     f.Y = tcp_force[1];
